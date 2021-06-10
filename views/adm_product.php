@@ -20,26 +20,37 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 
                     <form action="" id="form-crear-product">
 
-
                         <div id="form_codbar" class="form-group">
-                            <label id="labcodbar" for="codbar">Código de Barras</label>
+                            <label id="labcodbar" for="codbar">Código de producto</label>
                             <input type="number" class="form-control" id="codbar" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prod_tipo">Categoría del producto</label>
+                            <select id="prod_tipo" class="form-control select2" style="width: 100%;" required>
+                            </select>
                         </div>
 
                         <div class="form-group">
                             <label for="nombre">Nombre del producto</label>
                             <input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="nombreHelp" required>
                         </div>
-                        
+
                         <div class="form-group">
-                            <label for="compos">Composición</label>
-                            <input type="text" class="form-control" id="compos" name="compos" aria-describedby="composHelp">
-                            <small id="composHelp" class="form-text text-muted">Ingrese los compuestos químicos del producto.</small>
+                            <label for="prod_pres">Presentación del producto</label>
+                            <select id="prod_pres" class="form-control select2" style="width: 100%;" required>
+                            </select>
                         </div>
                         
                         <div class="form-group">
-                            <label for="adici">Información Adicional</label>
-                            <input type="text" class="form-control" id="adici" name="adici" aria-describedby="adiciHelp">
+                            <label for="compos">Ingredientes</label>
+                            <input type="text" class="form-control" id="compos" name="compos" aria-describedby="composHelp">
+                            <small id="composHelp" class="form-text text-muted">Ingrese los ingredientes del producto o platillo.</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="precio">Precio</label>
+                            <input type="number" step="any" class="form-control" id="precio" name="precio" aria-describedby="precioHelp" required>
                         </div>
 
                         <div class="form-group col-md-12">
@@ -49,30 +60,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                             </div>
                             <small id="tipo_servHelp" class="form-text text-muted">Seleccione si aplica iva</small>
                         </div>
-
-                        <div class="form-group">
-                            <label for="precio">Precio</label>
-                            <input type="number" step="any" class="form-control" id="precio" name="precio" aria-describedby="precioHelp" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="prod_lab">Nombre del laboratorio</label>
-                            <select id="prod_lab" class="form-control select2" style="width: 100%;" required>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="prod_tipo">Tipo de producto</label>
-                            <select id="prod_tipo" class="form-control select2" style="width: 100%;" required>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="prod_present">Presentación del producto</label>
-                            <select id="prod_present" class="form-control select2" style="width: 100%;" required>
-                            </select>
-                        </div>
-
+     
                         <input type="hidden" id="id_edit-prod">
 
 
@@ -186,7 +174,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
         </div>
         <div class="row">
             <button id="btn-crear" type="button" data-toggle="modal" data-target="#crearproduct" class="btn bg-gradient-primary ml-2" title="editar">Crear Producto</button>
-            <button id="btn-reporte" type="button" class="btn bg-gradient-success ml-2">Reporte Productos</button>
+            <!-- <button id="btn-reporte" type="button" class="btn bg-gradient-success ml-2">Reporte Productos</button> -->
         </div>
       </div><!-- /.container-fluid -->
     </section>
@@ -200,20 +188,18 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                     <h3 class="card-title">Inventario de productos</h3>
                 </div>
 
+<!-- funcion,id,codbar,nombre,compos,prod_tipo,prod_pres,precio,iva -->
                 <div class="card-body">
                     <table id="tabla_products" class="display table table-hover text-nowrap" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Acción</th>
-                                <th>Stock</th>
-                                <th>Codigo Barras</th>
+                                <th>Codigo Producto</th>
+                                <th>Categoría</th>
                                 <th>Nombre</th>
-                                <th>Composicion</th>
-                                <th>Precio</th>
-                                <th>Laboratorio</th>
-                                <th>Tipo</th>
                                 <th>Presentacion</th>
-                                <th>Info adicional</th>
+                                <th>Precio</th>
+                                <th>Ingredientes</th>
                             </tr>
                         </thead>
                         <tbody>

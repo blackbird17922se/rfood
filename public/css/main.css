@@ -100,7 +100,30 @@
 
 }
 
-#barrasup{
-    /* background: linear-gradient(360deg, #5f94e4 0%, #346ec8 100%); */
+/* #barrasup{
+    background: linear-gradient(360deg, #5f94e4 0%, #346ec8 100%);
 
+} */
+
+
+/* CONTADOR */
+#tabla_products .input-group.inline-group.forse{
+    width: 135px;
+    margin-right: 0px;
+
+
+}
+.inline-group {
+    max-width: 9rem;
+    padding: .5rem;
+  }
+  
+  .inline-group .form-control {
+    text-align: right;
+  }
+  
+  .form-control[type="number"]::-webkit-inner-spin-button,
+  .form-control[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }

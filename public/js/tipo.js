@@ -6,7 +6,7 @@ $(document).ready(function(){
     var edit = false;   // bandera
 
     /* Formukario crear editar */
-    $('#form-crear-tipo').submit(e=>{
+    $('#form-crear-categ').submit(e=>{
         let nom_tipo = $('#nom_tipo').val();
         let id_editado = $('#id_edit_tipo').val();
 
@@ -23,20 +23,20 @@ $(document).ready(function(){
                 $('#add-tipo').hide('slow');
                 $('#add-tipo').show(1000);
                 $('#add-tipo').hide(2000);
-                $('#form-crear-tipo').trigger('reset');
+                $('#form-crear-categ').trigger('reset');
                 buscar_tipo();
             }
             if(response=='noadd'){
                 $('#noadd-tipo').hide('slow');
                 $('#noadd-tipo').show(1000);
                 $('#noadd-tipo').hide(2000);
-                $('#form-crear-tipo').trigger('reset');
+                $('#form-crear-categ').trigger('reset');
             }
             if(response=='edit'){
                 $('#edit-tipo').hide('slow');
                 $('#edit-tipo').show(1000);
                 $('#edit-tipo').hide(2000);
-                $('#form-crear-tipo').trigger('reset');
+                $('#form-crear-categ').trigger('reset');
                 buscar_tipo();
             }
             edit=false;
@@ -56,7 +56,7 @@ $(document).ready(function(){
                 <tr tipoId="${tipo.id_tipo_prod}" tipoNom="${tipo.nom}">
                     <td>${tipo.nom}</td>
                     <td>
-                        <button class="editar-tipo btn btn-success" title="editar" type="button" data-toggle="modal" data-target="#creartipo">
+                        <button class="editar-tipo btn btn-success" title="editar" type="button" data-toggle="modal" data-target="#crear-categ">
                             <i class="fas fa-pencil-alt"></i>
                         </button>
     
@@ -112,15 +112,15 @@ $(document).ready(function(){
                     edit==false;
                     if(response=='borrado'){
                         swalWithBootstrapButtons.fire(
-                            'Eliminado ' + NOMB,
-                            'El registro ha sido eliminado correctamente',
+                            'Eliminada ' + NOMB,
+                            'Categoría eliminada correctamente',
                             'success'
                         )
                         buscar_tipo();
                     }else{
                         swalWithBootstrapButtons.fire(
-                            'Error!'+NOMB+'!',
-                            'error al eliminar.',
+                            '¡No se pudo eliminar '+NOMB+'!',
+                            'La categoría está siendo usada en algún producto.',
                             'error'
                         )
                     }

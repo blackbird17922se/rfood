@@ -139,22 +139,6 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Gestion Atributos</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Gestion Atributos</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
 
     <!-- Main content -->
     <section class="content">
@@ -164,17 +148,97 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                 <div class="card">
                     <div class="card-header">
                         <ul class="nav nav-pills">
-                            <li class="nav-item"><a href="#categ" class="nav-link active" data-toggle="tab">Categorías de productos</a></li>
-                            <li class="nav-item"><a href="#present" class="nav-link" data-toggle="tab">Presentación del Producto</a></li>
+                     
+                            <li class="nav-item"><a href="#entradas" class="nav-link active" data-toggle="tab">Entradas</a></li>
+                            <li class="nav-item"><a href="#hamburgs" class="nav-link" data-toggle="tab">Hamburguesas</a></li>
+                            <li class="nav-item"><a href="#pizzas" class="nav-link" data-toggle="tab">Pizzas</a></li>
+                            <li class="nav-item"><a href="#hotdogs" class="nav-link" data-toggle="tab">Perros C.</a></li>
+                            <li class="nav-item"><a href="#tortillas" class="nav-link" data-toggle="tab">Tortillas</a></li>
+                            <li class="nav-item"><a href="#lasagna" class="nav-link" data-toggle="tab">Lasagna</a></li>
+                            <li class="nav-item"><a href="#paneck" class="nav-link" data-toggle="tab">Pane Cooks</a></li>
+                            <li class="nav-item"><a href="#bebidas" class="nav-link" data-toggle="tab">Bebidas</a></li>
+                            <li class="nav-item"><a href="#otros" class="nav-link" data-toggle="tab">otros</a></li>
+           
                         </ul>
                     </div>
 
                     <div class="card-body">
-                        <!-- .tab-content>(.tab-pane>.card.card-success>(.card-header>.card-title)+(.card-body)+(.card-footer)) -->
                         <div class="tab-content">
 
+
+                            <!-- ENTRADAS -->
+                            <div class="tab-pane active" id="entradas">
+                                <div class="card card-success">                              
+                                    <div class="card-body p-0 table-responsive">
+                                        <table id="tabla_products" class="display table table-hover text-nowrap" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Nombre</th>
+                                                       
+                                                        
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                </tbody>
+                                            </table> 
+
+                                    </div>
+                                    <div class="card-footer"></div>
+                                </div>
+                            </div>
+
+                            <!-- OPCION VEHICULOS -->
+                            <div class="tab-pane" id="vehiculos">
+                                <div class="card card-success">
+                                    
+                                    <div class="card-body p-0 table-responsive">
+                                    <table id="tabla_veh" class="display table table-hover text-nowrap" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>Matrícula</th>
+                                                    <th>Marca</th>
+                                                    <th>Denominación</th>
+                                                    <th>Modelo</th>
+                                                    <th>Color</th>
+                                                    <th>Tipo de vehículo</th>
+                                                    <th>Cliente</th>
+                                                    <th>Pendientes</th>
+                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="card-footer"></div>
+                                </div>
+                            </div>
+
+                            <!-- panel laboraorio -->
+                            <div class="tab-pane active" id="lab">
+                                <div class="card card-success">
+                                    
+                                    <div class="card-body p-0 table-responsive">
+                                        <table class="table table-hover text-nowrap">
+                                            <thead class="table-success">
+                                                <tr>
+                                                    <th>Laboratorio</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="table-active" id="tbd-labs">
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                    <div class="card-footer"></div>
+                                </div>
+                            </div>
+
                             <!-- panel categoria -->
-                            <div class="tab-pane active" id="categ">
+                            <div class="tab-pane" id="categ">
                                 <div class="card card-success">
                                     <div class="card-header">
                                         <div class="card-title">Buscar Categoría
@@ -201,7 +265,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                                     <div class="card-footer"></div>
                                 </div>
                             </div>
-                            
+
                             <div class="tab-pane" id="present">
                                 <div class="card card-success">
                                     <div class="card-header">

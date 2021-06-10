@@ -1,6 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>AdminLTE 3 | Blank Page</title>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rfood</title>
+
+    <!-- Google Font: Source Sans Pro -->
+    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> -->
+    <!-- selt2 -->
+    <link rel="stylesheet" href="../css/select2.css">
+    <!-- <link rel="stylesheet" href="../public/css/select2.css"> -->
+    <!-- main -->
+    <link rel="stylesheet" href="../public/css/main.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../public/css/css/all.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../public/css/adminlte.min.css">
+    <!-- Alertas style -->
+    <link rel="stylesheet" href="../public/css/sweetalert2.css">
+  
+    <!-- Seccion compras -->
+    <link rel="stylesheet" href="../public/css/compra.css">
+    <!-- Datatable -->
+    <link rel="stylesheet" href="../public/css/datatables.css">
+  </head>

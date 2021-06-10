@@ -9,16 +9,16 @@ class Producto{
     }
     
 
-    function crear($codbar,$nombre,$compos,$adici,$iva,$precio,$prod_lab,$prod_tipo,$prod_pres){
+    function crearProducto($codbar,$nombre,$compos,$prod_tipo,$prod_pres,$precio,$iva){
         $sql = "SELECT id_prod FROM producto WHERE codbar = :codbar";
 
-// nombre = :nombre
-// AND codbar = :codbar 
-// AND compos = :compos 
-// AND adici = :adici
-// AND prod_lab = :prod_lab 
-// AND prod_tipo = :prod_tipo 
-// AND prod_pres = :prod_pres
+        // nombre = :nombre
+        // AND codbar = :codbar 
+        // AND compos = :compos 
+        // AND adici = :adici
+        // AND prod_lab = :prod_lab 
+        // AND prod_tipo = :prod_tipo 
+        // AND prod_pres = :prod_pres
 
 
         $query = $this->acceso->prepare($sql);
@@ -36,19 +36,18 @@ class Producto{
         if(!empty($this->objetos)){
             echo 'noadd';
         }else{
-            $sql = "INSERT INTO producto(codbar, nombre, compos, adici, iva, precio, prod_lab, prod_tipo, prod_pres) 
-            VALUES (:codbar, :nombre, :compos, :adici, :iva, :precio, :prod_lab, :prod_tipo, :prod_pres)";
+            /* codbar,$nombre,$compos,$prod_tipo,$prod_present,$precio,$iva */
+            $sql = "INSERT INTO producto(codbar, nombre, compos, prod_tipo, prod_pres, precio, iva) 
+            VALUES (:codbar, :nombre, :compos, :prod_tipo, :prod_pres, :precio, :iva)";
             $query = $this->acceso->prepare($sql);
             $query->execute(array(
                 ':codbar'       => $codbar,
                 ':nombre'       => $nombre,
                 ':compos'       => $compos,
-                ':adici'        => $adici,
-                ':iva'          => $iva,
-                ':precio'       => $precio,
-                ':prod_lab'     => $prod_lab,
                 ':prod_tipo'    => $prod_tipo,
-                ':prod_pres'    => $prod_pres
+                ':prod_pres'    => $prod_pres,
+                ':precio'       => $precio,
+                ':iva'          => $iva
             ));
             echo 'add';
         }
@@ -57,10 +56,8 @@ class Producto{
 
     function listarProducts(){
 
-        // $sql = "SELECT id_prod, producto.nombre as nombre, compos, adici, precio, laboratorio.nom_lab AS laboratorio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_pres, prod_lab, prod_tipo, prod_pres
-        $sql = "SELECT id_prod, codbar, producto.nombre as nombre, compos, adici, iva, precio, laboratorio.nom_lab AS laboratorio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_lab, prod_tipo, prod_pres
+        $sql = "SELECT id_prod, codbar, producto.nombre as nombre, compos, iva, precio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_tipo, prod_pres
         FROM producto
-        JOIN laboratorio ON prod_lab = id_lab
         JOIN tipo_prod ON prod_tipo = id_tipo_prod
         JOIN present ON prod_pres = id_present AND producto.nombre NOT LIKE ''
         ORDER BY producto.nombre
@@ -72,70 +69,39 @@ class Producto{
         
     }
 
+    /* Listar productos recibiendo la categoria de producto a listar.
+    Usada en la toma de la orden */
+    function listarProductsCateg($idCat){
 
-    // /* LISTA TABLA */
-    // function listarProducts(){
-    //     $sql="SELECT * FROM producto 
-    //     -- JOIN usuario ON vendedor = id_usu";
-    //     $query = $this->acceso->prepare($sql);
-    //     $query->execute();
-    //     $this->objetos=$query->fetchall();
-    //     return $this->objetos;
-    // }
+        $sql = "SELECT * FROM producto WHERE prod_tipo = :idCat";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([':idCat' => $idCat]);
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+        
+    }
 
 
-    function editar($id,$nombre,$compos,$adici,$iva,$precio,$prod_lab,$prod_tipo,$prod_pres){
-        $sql = "SELECT id_prod FROM producto WHERE id_prod != :id
-        -- $nombre,$compos,$adici,$precio,$prod_lab,$prod_tipo,$prod_pres
-            AND nombre = :nombre 
-            AND compos = :compos 
-            AND adici = :adici 
-            -- AND precio = :precio 
-            AND prod_lab = :prod_lab 
-            AND prod_tipo = :prod_tipo 
-            AND prod_pres = :prod_pres
-        ";
+    function editar($id,$nombre,$compos,$prod_tipo,$prod_pres,$precio,$iva){
+        $sql = "UPDATE producto SET
+                nombre = :nombre, 
+                prod_tipo = :prod_tipo, 
+                prod_pres = :prod_pres,
+                precio = :precio, 
+                iva = :iva,
+                compos = :compos
+            WHERE id_prod = :id";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(
             ':id'           => $id,
             ':nombre'       => $nombre,
-            ':compos'       => $compos,
-            ':adici'        => $adici,
-            // ':precio'       => $precio,
-            ':prod_lab'     => $prod_lab,
             ':prod_tipo'    => $prod_tipo,
-            ':prod_pres' => $prod_pres
-            // 'nom_lab' => $nom_lab,
+            ':prod_pres'    => $prod_pres,
+            ':precio'       => $precio,
+            ':iva'          => $iva,
+            ':compos'       => $compos
         ));
-        $this->objetos=$query->fetchall();
-        /* Si encuentra el producto entonces no agregarlo */
-        if(!empty($this->objetos)){
-            echo 'noedit';
-        }else{
-            $sql = "UPDATE producto SET
-                 nombre = :nombre, 
-                 compos = :compos, 
-                 adici = :adici,
-                 iva = :iva,
-                 precio = :precio, 
-                 prod_lab = :prod_lab, 
-                 prod_tipo = :prod_tipo, 
-                 prod_pres = :prod_pres
-                WHERE id_prod = :id";
-            $query = $this->acceso->prepare($sql);
-            $query->execute(array(
-                ':id'           => $id,
-                ':nombre'       => $nombre,
-                ':compos'       => $compos,
-                ':adici'        => $adici,
-                ':iva'        => $iva,
-                ':precio'       => $precio,
-                ':prod_lab'     => $prod_lab,
-                ':prod_tipo'    => $prod_tipo,
-                ':prod_pres'    => $prod_pres
-            ));
-            echo 'edit';
-        }
+        echo 'edit';
     }
 
 
@@ -166,9 +132,8 @@ class Producto{
     /* para cuando se actualiza un precio o el stock del producto, 
     la ctualizacion se mostrada en tiempo real (por ejemplo en e carr de compras) */
     function buscar_id($id){
-        $sql="SELECT id_prod, producto.nombre as nombre, compos, adici, iva, precio, laboratorio.nom_lab AS laboratorio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_lab, prod_tipo, prod_pres
+        $sql="SELECT id_prod, producto.nombre as nombre, compos, precio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_tipo, prod_pres
         FROM producto
-        JOIN laboratorio ON prod_lab = id_lab
         JOIN tipo_prod ON prod_tipo = id_tipo_prod
         JOIN present ON prod_pres = id_present WHERE id_prod = :id
         ";

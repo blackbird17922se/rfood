@@ -13,6 +13,8 @@ $(document).ready(function(){
     let datatable = $('#tabla_products').DataTable( {
 
         "scrollX": true,
+        "order": [[ 2, "asc" ]],
+
 
 
         ajax: "data.json",
@@ -32,50 +34,36 @@ $(document).ready(function(){
                     <i class="fas fa-pencil-alt"></i>
                 </button>
 
-                <button class="lote btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#crearlote">
-                    <i class="fas fa-plus-square"></i>
-                </button>
-
                 <button class="borrar btn btn-sm btn-danger">
                     <i class="fas fa-trash-alt"></i>
                 </button>
 
             `},
-            { "data": "stock" },
             { "data": "codbar" },
-            { "data": "nombre" },
-            { "data": "compos" },
-            { "data": "precio" },
-            { "data": "laboratorio" },
             { "data": "tipo" },
+            { "data": "nombre" },
             { "data": "presentacion" },
-            { "data": "adici" }
+            { "data": "precio" },
+            { "data": "compos" }
         ],
         language: espanol,
     } );
+
+
+    // listarProdCons();
+    // function listarProdCons(){
+    //     funcion = "listarProducts";
+    //     $.post('../controllers/productoController.php',{funcion},(response)=>{
+    //         console.log(response);
+   
+    //     })
+    // }
 
 
     /******************************************************************************/
     /* Estas funciones carga los datos a las listas desplegables del formulario   */
     /* de registrar y editar                                                      */
     /******************************************************************************/
-
-    listar_labs();
-    function listar_labs(){
-        funcion = "listar_labs";
-        $.post('../controllers/laboratorioController.php',{funcion},(response)=>{
-            // console.log(response);
-            const LABS = JSON.parse(response);
-            let template = '';
-            LABS.forEach(lab=>{
-                template+=`
-                    <option value="${lab.id_lab}">${lab.nom_lab}</option>
-                `;
-            });
-            /* id del campo que contiene el listado */
-            $('#prod_lab').html(template);
-        })
-    }
 
     listar_tipos();
     function listar_tipos(){
@@ -94,6 +82,8 @@ $(document).ready(function(){
         })
     }
 
+
+
     listar_presents();
     function listar_presents(){
         funcion = "listar_presents";
@@ -107,26 +97,10 @@ $(document).ready(function(){
                 `;
             });
             /* id del campo que contiene el listado */
-            $('#prod_present').html(template);
+            $('#prod_pres').html(template);
         })
     }
 
-    listar_proveeds();
-    function listar_proveeds(){
-        funcion = "listar_proveeds";
-        $.post('../controllers/proveedController.php',{funcion},(response)=>{
-            // console.log(response);
-            const PROVEEDS = JSON.parse(response);
-            let template = '';
-            PROVEEDS.forEach(proveed=>{
-                template+=`
-                    <option value="${proveed.id_proveed}">${proveed.nom_proveed}</option>
-                `;
-            });
-            /* id del campo que contiene el listado */
-            $('#lote_id_prov').html(template);
-        })
-    }
 
 
     /******************************************************************************/
@@ -145,7 +119,6 @@ $(document).ready(function(){
     $(document).on('click','#btn-crear',(e)=>{
         // console.log("click en br crear");
         $('#codbar').attr("type","number");
-        $('#labcodbar').show();
         // $('#form-crear-product').trigger('reset');
 
         edit = false;   // bandera
@@ -159,22 +132,19 @@ $(document).ready(function(){
         let id = $('#id_edit-prod').val()
         let codbar = $('#codbar').val();
         let nombre = $('#nombre').val();
-        let compos = $('#compos').val();
-        let adici = $('#adici').val();
+        let compos = $('#compos').val();    //Ingredientes
+        let prod_tipo = $('#prod_tipo').val();  // Categoria
+        let prod_pres = $('#prod_pres').val();
+        let precio = $('#precio').val();
 
         if($('#iva').is(':checked')){
             $('#iva').prop("value","1");
         }else{
             $('#iva').prop("value","0");
         }
-
         let iva = $('#iva').val();
-        let precio = $('#precio').val();
-       
-        let prod_lab = $('#prod_lab').val();
-        let prod_tipo = $('#prod_tipo').val();
-        let prod_present = $('#prod_present').val();
 
+       
         if(edit==true){
             funcion="editar";
             console.log("editar");
@@ -183,7 +153,7 @@ $(document).ready(function(){
             console.log("crear");
         }
         
-        $.post('../controllers/productoController.php',{funcion,id,codbar,nombre,compos,adici,iva,precio,prod_lab,prod_tipo,prod_present},(response)=>{
+        $.post('../controllers/productoController.php',{funcion,id,codbar,nombre,compos,prod_tipo,prod_pres,precio,iva},(response)=>{
 
             console.log(response);
             if(response=='add'){
@@ -199,14 +169,14 @@ $(document).ready(function(){
                 $('#adici').val('');
                 $('#precio').val('');
 
-                $('#crearproduct').modal('hide');    //Desplegar el modal de "lote"
+                $('#crearproduct').modal('hide');    //cerrar el modal prod"
 
                 datatable.ajax.reload();
 
-                $('#crearlote').modal();    //Desplegar el modal de "lote"
-                // $('#form-crear-product').trigger('reset');
+                // $('#crearlote').modal();    //Desplegar el modal de "lote"
+                // // $('#form-crear-product').trigger('reset');
 
-                asignarLoteAutomatic(); // Ejecutar asignacion de lote al prod. creado
+                // asignarLoteAutomatic(); // Ejecutar asignacion de lote al prod. creado
   
             }
             if(response=='edit'){
@@ -252,10 +222,10 @@ $(document).ready(function(){
         let codbad= datos.codbad;
         let nombre= datos.nombre;
         let compos= datos.compos;
-        let adici= datos.adici;
+        // let adici= datos.adici;
         let iva= datos.iva;
         let precio= datos.precio;
-        let prod_lab= datos.prod_lab;
+        // let prod_lab= datos.prod_lab;
         let prod_tipo= datos.prod_tipo;
         let prod_pres= datos.prod_pres;
 
@@ -272,7 +242,7 @@ $(document).ready(function(){
         $('#nombre').val(nombre);
         $('#codbad').val(codbad);
         $('#compos').val(compos);
-        $('#adici').val(adici);
+        // $('#adici').val(adici);
 
         let nval = 0;   // nval: nuevo valor del iva
 
@@ -287,7 +257,7 @@ $(document).ready(function(){
         }
 
         $('#precio').val(precio);
-        $('#prod_lab').val(prod_lab).trigger('change');
+        // $('#prod_lab').val(prod_lab).trigger('change');
         $('#prod_tipo').val(prod_tipo).trigger('change');
         $('#prod_pres').val(prod_pres).trigger('change');
         $('#codbar').attr("type","hidden");
@@ -347,79 +317,6 @@ $(document).ready(function(){
             } else if (result.dismiss === Swal.DismissReason.cancel) {
             }
         });
-    });
-
-
-    /******************************************************************************/
-    /* Estas funciones proveen la asignacion de lotes a los productos             */
-    /******************************************************************************/
-
-    /*************Asignar automaticamente lotes al crear el producto***************/
-
-    function asignarLoteAutomatic() {
-        
-        var ultRegistro = 0;    //Ultimo Registro
-
-        funcion = "ultimoReg";
-        $.post('../controllers/productoController.php',{funcion},(response)=>{
-
-            const RESP_ULT_REG = JSON.parse(response);
-
-            RESP_ULT_REG.forEach(resp =>{
-                ultRegistro = resp.ultprodm;
-            });
-
-            $('#lote_id_prod').val(ultRegistro);
-            $('#nom_product_lote').html(nomProd);
-    
-            edit = true;   // bandera
-
-        });        
-    }
-
-    /**Trae los datos id y nombre producto de la fila al hacer clic en asignar lote**/
-
-    $('#tabla_products tbody').on('click','.lote',function(){
-        let datos = datatable.row($(this).parents()).data();
-
-        let id= datos.id_prod;
-        let nombre= datos.nombre;
-
-        $('#lote_id_prod').val(id);
-        $('#nom_product_lote').html(nombre);
-        edit = true;   // bandera
-    });
-
-    /******************************************************************************/
-
-    $('#form-crear-lote').submit(e=>{
-
-        let lote_id_prod = $('#lote_id_prod').val();
-        // console.log("lote_id_prod:" + lote_id_prod);
-        let lote_id_prov = $('#lote_id_prov').val();
-        let stock = $('#stock').val();
-        let vencim = $('#vencim').val();
-        funcion="crear";
-
-        $.post('../controllers/loteController.php',{funcion,lote_id_prod,lote_id_prov,stock,vencim},(response)=>{
-            // console.log("mau " + response);
-
-            if(response=='add'){
-                $('#add-lote').hide('slow');
-                $('#add-lote').show(1000);
-                $('#add-lote').hide(2000);
-
-                $('#stock').val('');
-                $('#vencim').val('');
-
-                // $('#form-crear-lote').trigger('reset');
-                datatable.ajax.reload();
-            }
-            
-            edit = true;
-            // edit = false;
-        })
-        e.preventDefault();
     });
 
 

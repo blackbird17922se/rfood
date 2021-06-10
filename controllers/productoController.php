@@ -10,12 +10,6 @@ if($_POST['funcion'] == 'listarProducts'){
     $product->listarProducts();
     $json=array();
     foreach($product->objetos as $objeto){
-        /* Funcion que busca en los lotes, los productos con id X, a medida que los va sumando, suma su cantidad */
-        $product->obtenerStock($objeto->id_prod);
-        foreach($product->objetos as $obj){
-            /* $obj->total: el total viene del alias total en el modelo >> "SELECT SUM(stock) as >>total<< ...*/
-            $total = $obj->total;
-        }
 
         $json[]=array(
             /* '' =>$objeto->ALIAS ASIGNADO */
@@ -23,17 +17,12 @@ if($_POST['funcion'] == 'listarProducts'){
             'codbar'=>$objeto->codbar,
             'nombre'=>$objeto->nombre,
             'compos'=>$objeto->compos,
-            'adici'=>$objeto->adici,
-            'iva'=>$objeto->iva,
-            'precio'=>$objeto->precio,
-            'stock'=>$total,
-          
-            'prod_lab'=>$objeto->prod_lab,
             'prod_tipo'=>$objeto->prod_tipo,
             'prod_pres'=>$objeto->prod_pres,
+            'precio'=>$objeto->precio,
+            // 'iva'=>$objeto->iva,    
 
             /* Para cargar los nombres en lugar de los id */
-            'laboratorio'=>$objeto->laboratorio,
             'tipo'=>$objeto->tipo,
             'presentacion'=>$objeto->presentacion
         );
@@ -43,22 +32,19 @@ if($_POST['funcion'] == 'listarProducts'){
 }
 
 
-
 /* CREAR */
 if($_POST['funcion']=='crear'){
     /* datos recibidos desde producto.js >>> $.post('../controllers/productoController.php',{fu... */
-    // nombre,compos,adici,precio,prod_lab,prod_tipo,prod_present
     $codbar = $_POST['codbar'];
     $nombre = $_POST['nombre'];
     $compos = $_POST['compos'];
-    $adici = $_POST['adici'];
-    $iva = $_POST['iva'];
-    $precio = $_POST['precio'];
-    $prod_lab = $_POST['prod_lab'];
     $prod_tipo = $_POST['prod_tipo'];
-    $prod_present = $_POST['prod_present'];
-    // $nombre = $_POST['nombre'];
-    $product->crear($codbar,$nombre,$compos,$adici,$iva,$precio,$prod_lab,$prod_tipo,$prod_present);
+    $prod_pres = $_POST['prod_pres'];
+    $precio = $_POST['precio'];
+    $iva = $_POST['iva'];
+    // $adici = $_POST['adici'];
+    // $prod_lab = $_POST['prod_lab'];
+    $product->crearProducto($codbar,$nombre,$compos,$prod_tipo,$prod_pres,$precio,$iva);
 
 
 }
@@ -89,14 +75,14 @@ if($_POST['funcion']=='editar'){
     $id = $_POST['id'];
     $nombre = $_POST['nombre'];
     $compos = $_POST['compos'];
-    $adici = $_POST['adici'];
+    // $adici = $_POST['adici'];
     $iva = $_POST['iva'];
     $precio = $_POST['precio'];
-    $prod_lab = $_POST['prod_lab'];
+    // $prod_lab = $_POST['prod_lab'];
     $prod_tipo = $_POST['prod_tipo'];
-    $prod_present = $_POST['prod_present'];
+    $prod_pres = $_POST['prod_pres'];
     // $nombre = $_POST['nombre'];
-    $product->editar($id,$nombre,$compos,$adici,$iva,$precio,$prod_lab,$prod_tipo,$prod_present);
+    $product->editar($id,$nombre,$compos,$prod_tipo,$prod_pres,$precio,$iva);
 }
 
 if($_POST['funcion'] =='borrar'){
@@ -127,28 +113,23 @@ if($_POST['funcion']=='buscar_id'){
     $product->buscar_id($id);
     $json=array();
     foreach($product->objetos as $objeto){
-        /* Funcion que busca en los lotes, los productos con id X, a medida que los va sumando, suma su cantidad */
-        $product->obtenerStock($objeto->id_prod);
-        foreach($product->objetos as $obj){
-            /* $obj->total: el total viene del alias total en el modelo >> "SELECT SUM(stock) as >>total<< ...*/
-            $total = $obj->total;
-        }
+        // /* Funcion que busca en los lotes, los productos con id X, a medida que los va sumando, suma su cantidad */
+        // $product->obtenerStock($objeto->id_prod);
+        // foreach($product->objetos as $obj){
+        //     /* $obj->total: el total viene del alias total en el modelo >> "SELECT SUM(stock) as >>total<< ...*/
+        //     $total = $obj->total;
+        // }
 
         $json[]=array(
             /* '' =>$objeto->ALIAS ASIGNADO */
             'id_prod'=>$objeto->id_prod,
             'nombre'=>$objeto->nombre,
             'compos'=>$objeto->compos,
-            'adici'=>$objeto->adici,
-            'iva'=>$objeto->iva,
             'precio'=>$objeto->precio,
-            'stock'=>$total,
-            'laboratorio'=>$objeto->laboratorio,
             'tipo'=>$objeto->tipo,
             'presentacion'=>$objeto->presentacion,
-            'lab_id'=>$objeto->prod_lab,
-            'tipo_id'=>$objeto->prod_tipo,
-            'pres_id'=>$objeto->prod_pres
+            // 'tipo_id'=>$objeto->prod_tipo,
+            // 'pres_id'=>$objeto->prod_pres
         );
     }
     /* los corchetes y elcero es porque se le van a enviar los valores UNO POR UNO */
