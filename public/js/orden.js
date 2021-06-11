@@ -25,6 +25,23 @@ $(document).ready(function(){
         })
     }
 
+    listarMesas();
+    function listarMesas(){
+        funcion = "listarMesas";
+        $.post('../controllers/mesaController.php',{funcion},(response)=>{
+            // console.log(response);
+            const MESAS = JSON.parse(response);
+            let template = '';
+            MESAS.forEach(mesa=>{
+                template+=`
+                    <option value="${mesa.id_mesa}">${mesa.nom_mesa}</option>
+                `;
+            });
+            /* id del campo que contiene el listado */
+            $('#mesa').html(template);
+        })
+    }
+
     var datatable="";
 
     // $('.btn-plus, .btn-minus').on('click', function(e) {
@@ -255,6 +272,12 @@ $(document).ready(function(){
         contarProductos();
         // calcularTotal()
     });
+
+
+    /* Click en procesar pedido */
+    $(document).on('click','#procesar-pedido',(e)=>{
+        procesarPedido();
+    })
 
 
 });

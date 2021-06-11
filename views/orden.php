@@ -17,6 +17,13 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
     <div class="container-fluid">
 
     <div class="form-group">
+        <label for="mesa">Mesa</label>
+        <select id="mesa" class="form-control select2" style="width: 100%;" required>
+
+        </select>
+    </div>
+
+    <div class="form-group">
         <label for="prod_tipo">Categoría del producto</label>
         <select id="prod_tipo" class="form-control select2" style="width: 100%;" required>
 
