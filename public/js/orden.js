@@ -119,6 +119,7 @@ $(document).ready(function(){
         localStorage.clear();
     }
 
+    /* Agrega el numero de productos que lleva el carrito */
     function contarProductos(){
         let productos;
         let contador = 0;
@@ -161,6 +162,57 @@ $(document).ready(function(){
 
         datatable.columns.adjust().draw();
        
+    }
+
+    function procesarPedido(){
+        let productos;
+        productos = recuperarLS();
+        if(productos.length === 0){
+            Swal.fire({
+                icon: 'error',
+                title: 'Atencion',
+                text: 'El Carrito esta vacio',
+            })
+        }else{
+            funcion = 'nuevoPedido';
+            let id_mesa = $('#mesa').val();
+            let entregado = 0;
+            let terminado = 0;
+
+            
+        // let productos = recuperarLS();
+        // let nomb = "mxpr";
+        /* nviar ese producto al controlador */
+            let json = JSON.stringify(productos);
+            $.post('../controllers/pedidoController.php',{funcion,id_mesa,json,entregado,terminado},(response=>{
+                console.log(response);
+            }));
+
+
+            
+            // productos = JSON.parse(localStorage.getItem('productos'));
+            // productos.forEach(prod => {
+            //     console.log(prod.id_prod);
+
+            //     let id_mesa = $('#mesa').val();
+            //     let id_prod = prod.id_prod;
+            //     let entregado = 0;
+            //     let terminado = 0;
+
+            //     $.post('../controllers/pedidoController.php',{funcion,id_mesa,id_prod,entregado,terminado},(response=>{
+            //         console.log(response);
+            //         $('#tbd-lista').empty();
+            //         eliminarLS();
+            //         contarProductos()
+            //     }));
+
+            // })
+
+
+
+
+            // location.href = '../views/adm_compra.php';
+        }
     }
 
     

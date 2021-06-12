@@ -137,6 +137,15 @@
             </a>
           </li>
 
+          <li class="nav-item">
+            <a href="pedido.php" class="nav-link">
+              <i class="nav-icon fas fa-cash-register"></i>
+              <p>
+                Pedidos
+              </p>
+            </a>
+          </li>
+
        
 
 
