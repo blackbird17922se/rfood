@@ -39,29 +39,32 @@ $(document).ready(function(){
 
             const PEDIDOS = JSON.parse(response);
             let templateS = '';
+            let tempY = '';
             
-            PEDIDOS.forEach(pedido=>{
+            PEDIDOS.forEach(ped=>{
+                arProds = ped.prods;
+                console.log(arProds);
+                console.log(arProds.length);
+                arProds.length;
 
-                let tempProducts = '';
-                pedido.prods.forEach(item=>{
-
-                    /* item[0] = id del platillo
-                    * item[1] = cantidad del platillo
-                    */
-                    tempProducts+=`
-                    <h2 class="lead"><b>Prod: ${item[0]}</b>  ---- Cant: ${item[1]}</h2>
+                let template1 = '';
+                ped.prods.forEach(pedi=>{
+    
+                    template1+=`
+                    <h2 class="lead"><b>PPP${bs=pedi[0]}</b>  ---- ${bs=pedi[1]}</h2>
                     `;
-              
+                    // console.log(pedi[0]);
+                    // bs=pedi[0]
                 });
 
 
                 templateS+=`
         
-                    <div usuId="${pedido.idPedido}" class="col-12 col-sm-6 col-md-4 align-items-stretch">
+                    <div usuId="${ped.idPedido}" class="col-12 col-sm-6 col-md-4 align-items-stretch">
 
                         <div class="card bg-light">
-                            <div class="card-header text-muted border-bottom-0">Orden: ${pedido.idPedido}
-                            <h2 class="lead"><b>id Mesa: ${pedido.idMesa}</b></h2>
+                            <div class="card-header text-muted border-bottom-0">Orden: ${ped.idPedido}
+                            <h2 class="lead"><b>id Mesa: ${ped.idMesa}</b></h2>
                             
                             </div>
 
@@ -70,7 +73,9 @@ $(document).ready(function(){
                                     <div class="col-12">
                                 
                                         <h2 class="lead"><b>Platos...</b></h2>
-                                        <h2 class="lead"><b>${tempProducts}</b></h2>
+                                        <h2 class="lead"><b>${ped.prods}</b></h2>
+                                        <h2 class="lead"><b>${template1}</b></h2>
+                                        <h2 class="lead"><b>............</b></h2>
 
                                     </div>                           
                                 </div>
@@ -78,10 +83,19 @@ $(document).ready(function(){
                         </div>
                     </div>
 
-                `;   
-            });
-            $('#cb-pedidos').html(templateS);
-        });
+
+       `
+            
+       
+    });
+    $('#cb-pedidos').html(templateS);
+           
+
+
+
+
+            
+        })
     }
 
 
