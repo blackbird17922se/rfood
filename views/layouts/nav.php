@@ -148,6 +148,15 @@
             </a>
           </li>
 
+          <li class="nav-item">
+            <a href="pedidoterm.php" class="nav-link">
+              <i class="nav-icon fas fa-cash-register"></i>
+              <p>
+                Por Recoger
+              </p>
+            </a>
+          </li>
+
        
 
 

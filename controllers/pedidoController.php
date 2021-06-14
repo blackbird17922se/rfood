@@ -100,28 +100,62 @@ switch ($_POST['funcion']) {
 
     break;
 
-    // case 'listarPedidos':
-    //     // $pedido->listarPedidos();
-    //     $json=array();
 
-    //     $pedido->listarProdPedido(10);
-
-    //     $xe = $pedido->objetos;
-
-    //     // foreach($pedido->objetos as $objeto){
-    //     //     $json[]=array(
-    //     //         'cant' => $objeto->det_cant,
-    //     //         'idPedido'=>$objeto->id_det_pedido,
-    //     //         'idProd'=>$objeto->id_det_prod,
+    case 'listarPedTerminados':
+        /* pedidos con entrega pendiente */
+        $pedido->listarPedTerminados();
+        $json=array();
+        $jsonC=array();
+        $jsonP=array();
         
-    //     //     );
-    //     // }
+        foreach($pedido->objetos as $objeto){
+            $jsonP=[];
+            $jsonC=[];
+            $idPedido = $objeto->id_pedido;
 
-    //     $jsonstring = json_encode($xe);
-    //     // $jsonstring = json_encode($json);
-    //     echo $jsonstring;
+            $pedido->listarProdPedido($idPedido);
+            foreach($pedido->objetos as $objP){
 
-    // break;
+                /* Consultar nombre platillo */
+                $pedido->ConsultarNomProducts($objP->id_det_prod);
+                foreach($pedido->objetos as $objn){
+
+                    $jsonP[]=array(
+                        $objn->nom,
+                        $objn->presnom,
+                        $objP->det_cant,
+                        // 'idProd' => $objP->id_det_prod,
+                        // 'cant'=>$objP->det_cant,
+                    );
+
+
+
+                }
+                // $nomp = $pedido->nom;
+                
+          
+            }
+
+            $json[]=array(
+                'idPedido' => $objeto->id_pedido,
+                'idMesa'=>$objeto->id_mesa,
+                'prods'=> $jsonP
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+
+    break;
+
+    case 'terminado':
+        $idOrden = $_POST['ID'];
+        $pedido->cambiarEstTerminado($idOrden);
+    break;
+
+    case 'entregado':
+        $idOrden = $_POST['ID'];
+        $pedido->cambiarEstEntregado($idOrden);
+    break;
     
     default:
         # code...

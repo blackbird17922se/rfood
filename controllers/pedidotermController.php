@@ -55,45 +55,54 @@ switch ($_POST['funcion']) {
 
 
     case 'listarPedidos':
-        $pedido->listarPedidos();
+        /* pedidos con entrega pendiente */
+        $pedido->listarPedidosPendEntrega();
         $json=array();
+        $jsonC=array();
+        $jsonP=array();
+        
         foreach($pedido->objetos as $objeto){
-
-            /* Consular los productos de ese pedido */
-            $pedido->listarProdPedido($objeto->id_pedido);
+            $jsonP=[];
+            $jsonC=[];
             $idPedido = $objeto->id_pedido;
-            $idMesa = $objeto->id_mesa;
 
-            // var_dump($pedido);
+            $pedido->listarProdPedido($idPedido);
+            foreach($pedido->objetos as $objP){
 
-            $cant;
-            $idProd;
+                /* Consultar nombre platillo */
+                $pedido->ConsultarNomProducts($objP->id_det_prod);
+                foreach($pedido->objetos as $objn){
 
-            foreach($pedido->objetos as $objProds){
-                $json2[]=array(
-                    'cant' => $objProds->det_cant,
-                    'idProd' => $objProds->id_det_prod,
-                    'idPedido'=>$idPedido,
-                    'idMesa'=>$idMesa
-                );
+                    $jsonP[]=array(
+                        $objn->nom,
+                        $objn->presnom,
+                        $objP->det_cant,
+                        // 'idProd' => $objP->id_det_prod,
+                        // 'cant'=>$objP->det_cant,
+                    );
 
 
-                // $cant = $objProds->det_cant;
-                // $idProd = $objProds->id_det_prod;
+
+                }
+                // $nomp = $pedido->nom;
+                
+          
             }
-    
-            // $json[]=array(
-            //     /* id_pedido, id_mesa */
-            //     /* '' =>$objeto->ALIAS ASIGNADO */
-            //     'idPedido'=>$objeto->id_pedido,
-            //     'idMesa'=>$objeto->id_mesa,
-            //     'cant'=>$cant,
-            //     'idProd'=>$idProd
-            // );
+
+            $json[]=array(
+                'idPedido' => $objeto->id_pedido,
+                'idMesa'=>$objeto->id_mesa,
+                'prods'=> $jsonP
+            );
         }
-        $jsonstring = json_encode($json2);
+        $jsonstring = json_encode($json);
         echo $jsonstring;
 
+    break;
+
+    case 'terminado':
+        $idOrden = $_POST['ID'];
+        $pedido->cambiarEstTerminado($idOrden);
     break;
     
     default:

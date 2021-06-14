@@ -33,7 +33,20 @@ class Pedido{
 
     function listarPedidosPendEntrega(){
 
-        $sql = "SELECT id_pedido, id_mesa FROM pedido WHERE entregado = 0";
+        $sql = "SELECT id_pedido, id_mesa FROM pedido WHERE entregado = 0 AND terminado = 0";
+        $query = $this->acceso->prepare($sql);
+        $query->execute();
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+        
+    }
+
+
+    /* Listar los pedidos que ya fueron terminados por los cocineros
+    pero que falta por ser entregados a los clientes */
+    function listarPedTerminados(){
+
+        $sql = "SELECT id_pedido, id_mesa FROM pedido WHERE terminado = 1 AND entregado = 0";
         $query = $this->acceso->prepare($sql);
         $query->execute();
         $this->objetos=$query->fetchall();
@@ -64,5 +77,19 @@ class Pedido{
         $this->objetos=$query->fetchall();
         return $this->objetos;
         
+    }
+
+    function cambiarEstTerminado($idOrden){
+        $sql = "UPDATE pedido SET terminado = 1 WHERE id_pedido = :idPedido";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([':idPedido'=> $idOrden]);
+        echo 'edit';
+    }
+
+    function cambiarEstEntregado($idOrden){
+        $sql = "UPDATE pedido SET entregado = 1 WHERE id_pedido = :idPedido";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([':idPedido'=> $idOrden]);
+        echo 'edit';
     }
 } 

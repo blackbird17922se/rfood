@@ -3,13 +3,13 @@ $(document).ready(function(){
 
     console.log("ped");
 
-    funcion = "listarPedidos";
+    funcion = "listarPedTerminados";
 
-    listarPedidos()
+    listarPedTerminados()
 
     /* Lista los pedidos para el restaurante */
-    function listarPedidos(){
-        funcion = 'listarPedidos';
+    function listarPedTerminados(){
+        funcion = 'listarPedTerminados';
 
         $.post('../controllers/pedidoController.php',{funcion},(response)=>{
             // console.log(response);
@@ -52,8 +52,8 @@ $(document).ready(function(){
                                     </div>                           
                                 </div>
 
-                                <button class='terminado btn btn-sm btn-primary'>
-                                    <i class='fas fa-plus-square mr-2'></i>Plato Terminado
+                                <button class='entregado btn btn-sm btn-primary'>
+                                    <i class='fas fa-plus-square mr-2'></i>Plato entregado
                                 </button>
 
                             </div>                        
@@ -66,17 +66,17 @@ $(document).ready(function(){
     }
 
 
-    /* AL HACER CLICK EN EL BOTON DE TERMINADO */
-    $(document).on('click','.terminado',(e)=>{
-        funcion = 'terminado';
-        console.log("teminado");
+    /* AL HACER CLICK EN EL BOTON DE entregado */
+    $(document).on('click','.entregado',(e)=>{
+        funcion = 'entregado';
+        console.log("entregado");
         const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
         const ID = $(ELEM).attr('usuId');
         console.log(ID);
 
         $.post('../controllers/pedidoController.php',{funcion,ID},(response)=>{
             console.log(response);
-            listarPedidos()
+            listarPedTerminados()
         })
 
     });
