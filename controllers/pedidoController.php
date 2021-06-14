@@ -68,12 +68,25 @@ switch ($_POST['funcion']) {
 
             $pedido->listarProdPedido($idPedido);
             foreach($pedido->objetos as $objP){
-                $jsonP[]=array(
-                    $objP->id_det_prod,
-                    $objP->det_cant,
-                    // 'idProd' => $objP->id_det_prod,
-                    // 'cant'=>$objP->det_cant,
-                );
+
+                /* Consultar nombre platillo */
+                $pedido->ConsultarNomProducts($objP->id_det_prod);
+                foreach($pedido->objetos as $objn){
+
+                    $jsonP[]=array(
+                        $objn->nom,
+                        $objn->presnom,
+                        $objP->det_cant,
+                        // 'idProd' => $objP->id_det_prod,
+                        // 'cant'=>$objP->det_cant,
+                    );
+
+
+
+                }
+                // $nomp = $pedido->nom;
+                
+          
             }
 
             $json[]=array(

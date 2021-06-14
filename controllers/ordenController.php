@@ -33,20 +33,15 @@ if($_POST['funcion'] == 'listarProducts'){
         ";
 
         $json[]=array(
-            /* '' =>$objeto->ALIAS ASIGNADO */
             'id_prod'=>$objeto->id_prod,
             'codbar'=>$objeto->codbar,
             'nombre'=>$objeto->nombre,
             'compos'=>$objeto->compos,
-            'prod_tipo'=>$objeto->prod_tipo,
-            'prod_pres'=>$objeto->prod_pres,
+            'categ'=>$objeto->categ,    //Categoria
+            'idPres'=>$objeto->prod_pres,   //id de la presentacion
+            'present'=>$objeto->present,   //nombre de la presentaion
             'precio'=>$objeto->precio,
             'cant'=>$cant,
-            // 'iva'=>$objeto->iva,    
-
-            /* Para cargar los nombres en lugar de los id */
-            // 'tipo'=>$objeto->tipo,
-            // 'presentacion'=>$objeto->presentacion
         );
     }
     $jsonstring = json_encode($json);

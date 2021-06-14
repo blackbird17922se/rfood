@@ -31,6 +31,7 @@ $(document).ready(function(){
     // } );
     listarPedidos()
 
+    /* Lista los pedidos para el restaurante */
     function listarPedidos(){
         funcion = 'listarPedidos';
 
@@ -49,7 +50,7 @@ $(document).ready(function(){
                     * item[1] = cantidad del platillo
                     */
                     tempProducts+=`
-                    <h2 class="lead"><b>Prod: ${item[0]}</b>  ---- Cant: ${item[1]}</h2>
+                    <h2 class="lead"><b>${item[0]}</b> ${item[1]}  ---------- ${item[2]}</h2>
                     `;
               
                 });
@@ -57,10 +58,10 @@ $(document).ready(function(){
 
                 templateS+=`
         
-                    <div usuId="${pedido.idPedido}" class="col-12 col-sm-6 col-md-4 align-items-stretch">
+                    <div usuId="${pedido.idPedido}" class="col-12 col-sm-6 col-md-6 align-items-stretch">
 
                         <div class="card bg-light">
-                            <div class="card-header text-muted border-bottom-0">Orden: ${pedido.idPedido}
+                            <div class="card-header text-muted border-bottom-0">Orden Numero: ${pedido.idPedido}
                             <h2 class="lead"><b>id Mesa: ${pedido.idMesa}</b></h2>
                             
                             </div>
@@ -69,7 +70,6 @@ $(document).ready(function(){
                                 <div class="row">
                                     <div class="col-12">
                                 
-                                        <h2 class="lead"><b>Platos...</b></h2>
                                         <h2 class="lead"><b>${tempProducts}</b></h2>
 
                                     </div>                           

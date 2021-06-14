@@ -54,6 +54,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                                                 <th>Acción</th>
                                                 <th>Codigo Producto</th>
                                                 <th>Nombre</th>
+                                                <th>Presentación</th>
                                                 <th>Precio</th>
                                                 <th>Ingredientes</th>
                                             </tr>

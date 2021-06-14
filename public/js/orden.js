@@ -83,6 +83,7 @@ $(document).ready(function(){
                 <tr prodId="${prod.id_prod}">
                     <td>${prod.id_prod}</td>
                     <td>${prod.nombre}</td>
+                    <td>${prod.present}</td>
                     <td>${prod.precio}</td>
                     <td>${prod.cantidad}</td>
                     <td><button class="btn btn-danger borrar-producto" ><i class="fas fa-times-circle"></i></button></td>
@@ -129,9 +130,11 @@ $(document).ready(function(){
         });
         // return contador;
         $('#contador').html(contador);
+
     }
 
-    
+
+    /* Carga los productos en la tabla segun la categoria indicada */
     function mostrarProducts(){
         funcion = "listarProducts";
         datatable = $('#tabla_products').DataTable({
@@ -154,6 +157,7 @@ $(document).ready(function(){
                 { "data": "cant" },
                 { "data": "codbar" },
                 { "data": "nombre" },
+                { "data": "present" },
                 { "data": "precio" },
                 { "data": "compos" }
             ],
@@ -256,21 +260,24 @@ $(document).ready(function(){
 
     $('#tabla_products tbody').off('click','.agregar-carrito').on('click','.agregar-carrito',function(){
         let datos = datatable.row($(this).parents()).data();
-    
 
-        const ID = datos.id_prod;
-        const NOMB = datos.nombre;
-        const PRECIO = datos.precio;
-        let CANT = $('#'+ID).val();
+        const ID      = datos.id_prod;
+        const NOMB    = datos.nombre;
+        const PRESENT = datos.present;
+        const PRECIO  = datos.precio;
+        let CANT      = $('#'+ID).val();
 
-        console.log("id:"+ID+" nom:"+NOMB+" pre:"+PRECIO+" cant:"+CANT);
+        // const CATEG = datos.categ;
+
+        // console.log("id:"+ID+" nom:"+NOMB+" pre:"+PRECIO+" cant:"+CANT);
 
         const PRODUCTO = {
-            id_prod : ID,
-            nombre : NOMB,
-            precio : PRECIO,
-            cantidad : CANT
-
+            id_prod  : ID,
+            nombre   : NOMB,
+            present  : PRESENT,
+            precio   : PRECIO,
+            cantidad : CANT,
+            // categ : CATEG,
         }
 
         /* verificar si el producto existe ya en el carr */
@@ -294,6 +301,7 @@ $(document).ready(function(){
             <tr prodId="${PRODUCTO.id_prod}">
                 <td>${PRODUCTO.id_prod}</td>
                 <td>${PRODUCTO.nombre}</td>
+                <td>${PRODUCTO.present}</td>
                 <td>${PRODUCTO.precio}</td>
                 <td>${PRODUCTO.cantidad}</td>
                 <td><button class="btn btn-danger borrar-producto" ><i class="fas fa-times-circle"></i></button></td>
@@ -329,6 +337,8 @@ $(document).ready(function(){
     /* Click en procesar pedido */
     $(document).on('click','#procesar-pedido',(e)=>{
         procesarPedido();
+        eliminarLS();
+        contarProductos();
     })
 
 

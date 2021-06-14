@@ -51,4 +51,18 @@ class Pedido{
         $this->objetos=$query->fetchall();
         return $this->objetos;
     }
+
+    /* Consulytar el nombre del producto */
+    function ConsultarNomProducts($idProd){
+
+        $sql = "SELECT producto.nombre as nom, present.nom AS presnom, prod_pres 
+        FROM producto 
+        JOIN present ON prod_pres = id_present
+        WHERE id_prod = :idProd";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([':idProd' => $idProd]);
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+        
+    }
 } 

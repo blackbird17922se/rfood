@@ -46,9 +46,11 @@
               <tr>
                 <th>Codigo</th>
                 <th>Nombre</th>
+                <th>Presentación</th>
                 <th>Precio</th>
                 <th>Cantidad</th>
                 <th>Eliminar</th>
+                <!-- <th>Categoría</th> -->
 
               </tr>
             </thead>
