@@ -31,10 +31,10 @@ if(!empty($_SESSION['rol'])){
         switch ($_SESSION['rol']) {
             // admin
             case 1:
-                header("Location: ../views/adm_cat.php");
+                header("Location: ../views/orden.php");
             break;
             case 2:
-                header("Location: ../views/adm_cat.php");
+                header("Location: ../views/orden.php");
             break;
         }  
     }else{

@@ -1,35 +1,70 @@
-
-  <!-- Google Font: Source Sans Pro -->
-  <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> -->
-  <!-- selt2 -->
-  <link rel="stylesheet" href="../css/select2.css">
-  <!-- <link rel="stylesheet" href="../public/css/select2.css"> -->
-  <!-- main -->
-  <link rel="stylesheet" href="../public/css/main.css">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="../public/css/css/all.min.css">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="../public/css/adminlte.min.css">
-  <!-- Alertas style -->
-  <link rel="stylesheet" href="../public/css/sweetalert2.css">
- 
-  <!-- Seccion compras -->
-  <link rel="stylesheet" href="../public/css/compra.css">
-  <!-- Datatable -->
-  <link rel="stylesheet" href="../public/css/datatables.css">
-</head>
 <body class="hold-transition sidebar-mini">
 <!-- Site wrapper -->
 <div class="wrapper">
 
+
+<!-- --- -->
+<!-- Navbar -->
+<!-- <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="../../index3.html" class="nav-link">Home</a>
+      </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="#" class="nav-link">Contact</a>
+      </li>
+
+      <li id="cat-carrito" class="nav-item dropdown" style="display:none">
+        <a class="tx-carrito nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Carrito
+        </a> -->
+        <!-- --- -->
+
 <!-- **************************************************** -->
   <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav id="barrasup" class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
+      <li class="nav-item d-none d-sm-inline-block">
+        <a href="../../index3.html" class="nav-link">Home</a>
+      </li>
+
+      <li id="cat-carrito" class="nav-item dropdown" style="display:none">
+        <a class="tx-carrito nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Carrito
+        </a>
+        <span id="contador" class="contador badge badge-danger"></span>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <table class="carro table table-over text-nowrap p-0">
+            <thead class="table-success">
+              <tr>
+                <th>Codigo</th>
+                <th>Nombre</th>
+                <th>Presentación</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Eliminar</th>
+                <!-- <th>Categoría</th> -->
+
+              </tr>
+            </thead>
+            <tbody id="tbd-lista"></tbody>
+          </table>
+          <a href="#" id="procesar-pedido" class="btn btn-danger btn-block">Procesar Pedido</a>
+          <a href="#" id="vaciar-carrito" class="btn btn-primary btn-block">Vaciar Carrito</a>
+
+        </div>
+      </li>
+
+
+
+      
 
       <!-- Menus barra  superior, desabilitados momentaneamente -->
 
@@ -40,31 +75,7 @@
         <a href="#" class="nav-link">Contact</a>
       </li> -->
 
-      <li id="cat-carrito" class="nav-item dropdown" style="display:none">
-        <a class="tx-carrito nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Carrito
-        </a>
-        <span id="contador" class="contador badge badge-danger"></span>
-        <!-- <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <table class="carro table table-over text-nowrap p-0">
-            <thead class="table-success">
-              <tr>
-                <th>Codigo</th>
-                <th>Nombre</th>
-                <th>Concentración</th>
-                <th>Adicional</th>
-                <th>Precio</th>
-                <th>Eliminar</th>
-
-              </tr>
-            </thead>
-            <tbody id="tbd-lista"></tbody>
-          </table>
-          <a href="#" id="procesar-pedido" class="btn btn-danger btn-block">Procesar compra</a>
-          <a href="#" id="vaciar-carrito" class="btn btn-primary btn-block">Vaciar Carrito</a>
-
-        </div> -->
-      </li>
+     
 
     </ul>
 
@@ -87,32 +98,20 @@
 
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+  <!-- <div class="image">
+          <img src="../public/img/logo.png" class="logosf d-block" alt="User Image">
+        </div> -->
     <!-- Brand Logo -->
-    <a href="../../index3.html" class="brand-link">
+    <a href="#" class="brand-link">
       <!-- <img src="../public/img/logo.png" alt="AdminLTE Logo" class="brand-image" > -->
-      <!-- <span class="brand-text font-weight-light">Software Xime28</span> -->
+      <span class="brand-text font-weight-light">Codename Rfood</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
       <!-- Sidebar user (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="../public/img/logo.png" class="img-circle elevation-2" alt="User Image">
-        </div>
-        
 
-        <!-- <a href="../../index3.html" class="brand-link">
-      <img src="../public/img/logo.png" alt="AdminLTE Logo" class="brand-image" >
-      <!-- <span class="brand-text font-weight-light">Software Xime28</span> -->
-    <!-- </a>  -->
-
-
-        <div class="info">
-          <!-- <a href="adm_cat.php" class="d-block"><?php echo $_SESSION['nom'];?></a> -->
-          <a href="adm_cat.php" class="d-block">Nueva Venta</a>
-        </div>
-      </div>
 
      
 
@@ -121,6 +120,46 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+
+          <li class="nav-item">
+            <a href="adm_cat.php" class="nav-link">
+              <i class="nav-icon fas fa-cash-register"></i>
+              <p>
+                Nueva Venta
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="orden.php" class="nav-link">
+              <i class="nav-icon fas fa-cash-register"></i>
+              <p>
+                Nueva Orden
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="pedido.php" class="nav-link">
+              <i class="nav-icon fas fa-cash-register"></i>
+              <p>
+                Pedidos
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="pedidoterm.php" class="nav-link">
+              <i class="nav-icon fas fa-cash-register"></i>
+              <p>
+                Por Recoger
+              </p>
+            </a>
+          </li>
+
+       
+
+
 
           <li class="nav-header">Usuario</li>
           <!-- items que contiene la seccion Ventas -->
@@ -165,25 +204,25 @@
             </a>
           </li>
 
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="adm_lote.php" class="nav-link">
               <i class="nav-icon fas fa-cubes"></i>
               <p>
                 Gestión de Lotes
               </p>
             </a>
-          </li>
+          </li> -->
 
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="adm_riesgo.php" class="nav-link">
               <i class="nav-icon fas fa-cubes"></i>
               <p>
                 Lotes en Riesgo
               </p>
             </a>
-          </li>
+          </li> -->
 
-          <li class="nav-header">Compras</li>
+          <!-- <li class="nav-header">Compras</li>
           <li class="nav-item">
             <a href="adm_proveed.php" class="nav-link">
               <i class="nav-icon fas fa-truck"></i>
@@ -191,7 +230,7 @@
                 Compras a proveedores
               </p>
             </a>
-          </li>
+          </li> -->
 
           <?php if($_SESSION['rol'] == 1){?>
           <li class="nav-header">Ventas</li>

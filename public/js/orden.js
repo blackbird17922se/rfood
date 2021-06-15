@@ -1,8 +1,12 @@
 $(document).ready(function(){
 
-    var funcion, idCat=16;
+    var funcion, idCat="";
 
-    $('.select2').select2();
+    
+    $(".select2").select2({
+        placeholder: "Seleccione una opcion",
+    });
+
     $('#cat-carrito').show()
 
 
@@ -17,6 +21,7 @@ $(document).ready(function(){
             let template = '';
             TIPOS.forEach(tipo=>{
                 template+=`
+                    <option value=""></option>
                     <option value="${tipo.id_tipo}">${tipo.nom_tipo}</option>
                 `;
             });
@@ -34,7 +39,8 @@ $(document).ready(function(){
             let template = '';
             MESAS.forEach(mesa=>{
                 template+=`
-                    <option value="${mesa.id_mesa}">${mesa.nom_mesa}</option>
+                <option value=""></option>
+                <option value="${mesa.id_mesa}">${mesa.nom_mesa}</option>
                 `;
             });
             /* id del campo que contiene el listado */
@@ -43,14 +49,6 @@ $(document).ready(function(){
     }
 
     var datatable="";
-
-    // $('.btn-plus, .btn-minus').on('click', function(e) {
-    //     const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
-    //     const input = $(e.target).closest('.input-group').find('input');
-    //     if (input.is('input')) {
-    //       input[0][isNegative ? 'stepDown' : 'stepUp']()
-    //     }
-    //   })
 
     mostrarProducts()
     contarProductos();
@@ -267,6 +265,8 @@ $(document).ready(function(){
         const PRECIO  = datos.precio;
         let CANT      = $('#'+ID).val();
 
+  
+
         // const CATEG = datos.categ;
 
         // console.log("id:"+ID+" nom:"+NOMB+" pre:"+PRECIO+" cant:"+CANT);
@@ -295,6 +295,12 @@ $(document).ready(function(){
                 icon: 'error',
                 title: 'Error',
                 text: 'Ya ingresaste este producto al carrito',
+            })
+        }else if(PRODUCTO.cantidad == 0){
+            Swal.fire({
+                icon: 'error',
+                title: 'Atención',
+                text: 'Debe ingresar una cantidad diferente a cero',
             })
         }else{
             template=`
@@ -336,9 +342,25 @@ $(document).ready(function(){
 
     /* Click en procesar pedido */
     $(document).on('click','#procesar-pedido',(e)=>{
-        procesarPedido();
-        eliminarLS();
-        contarProductos();
+        let mesa = $('#mesa').val();
+        if(mesa == 0){
+            Swal.fire({
+                icon: 'warning',
+                title: 'Atencion',
+                text: 'Debe seleccionar una mesa',
+            })
+        }else{
+            $("#mesa").select2("val", "");
+            $('#prod_tipo').select2("val","");
+
+            procesarPedido();
+            eliminarLS();
+            contarProductos();
+            // $("#prod_tipo").val("");
+            // $("#customers_select").select2("val", "");
+
+        }
+    
     })
 
 

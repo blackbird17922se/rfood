@@ -6,6 +6,7 @@ include_once '../models/conexion.php';
 $pedido = new Pedido();
 
 switch ($_POST['funcion']) {
+    
     case 'nuevoPedido':
 
         $id_mesa   = $_POST['id_mesa'];

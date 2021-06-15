@@ -18,7 +18,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">gestión de Pedidos</li>
+              <li class="breadcrumb-item active">Pedidos Terminados</li>
             </ol>
           </div>
         </div>
@@ -38,10 +38,6 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 
                 <div class="card-body">
                     <div id="cb-pedidos" class="row d-flex align-items-stretch">
-
-                      
-
-                        
 
                     </div>              
                 </div>

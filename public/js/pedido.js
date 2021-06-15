@@ -1,10 +1,6 @@
 $(document).ready(function(){
     var funcion;
 
-    console.log("ped");
-
-    funcion = "listarPedidos";
-
     listarPedidos()
 
     /* Lista los pedidos para el restaurante */
@@ -22,9 +18,10 @@ $(document).ready(function(){
                 let tempProducts = '';
                 pedido.prods.forEach(item=>{
 
-                    /* item[0] = nombre del platillo
-                    /* item[1] = presentacion del platillo
-                    * item[2] = cantidad del platillo
+                    /* 
+                     * item[0] = nombre del platillo
+                     * item[1] = presentacion del platillo
+                     * item[2] = cantidad del platillo
                     */
                     tempProducts+=`
                     <h2 class="lead"><b>${item[0]}</b> ${item[1]}  ---------- ${item[2]}</h2>
@@ -35,7 +32,7 @@ $(document).ready(function(){
 
                 templateS+=`
         
-                    <div usuId="${pedido.idPedido}" class="col-12 col-sm-6 col-md-6 align-items-stretch">
+                    <div idPedido="${pedido.idPedido}" class="col-12 col-sm-6 col-md-6 align-items-stretch">
 
                         <div class="card bg-light">
                             <div class="card-header text-muted border-bottom-0">Orden Numero: ${pedido.idPedido}
@@ -71,7 +68,7 @@ $(document).ready(function(){
         funcion = 'terminado';
         console.log("teminado");
         const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID = $(ELEM).attr('usuId');
+        const ID = $(ELEM).attr('idPedido');
         console.log(ID);
 
         $.post('../controllers/pedidoController.php',{funcion,ID},(response)=>{

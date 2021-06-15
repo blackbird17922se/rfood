@@ -1,96 +1,163 @@
 $(document).ready(function(){
     var funcion;
 
-    console.log("ped");
+    listarPedidosCaja()
 
-    funcion = "listarPedidos";
-    // let datatable = $('#tabla_pedidos').DataTable( {
+    /* Lista los pedidos para el restaurante */
+    function listarPedidosCaja(){
+        funcion = 'listarPedidosCaja';
 
-    //     "scrollX": true,
-    //     "order": [[ 0, "asc" ]],
-
-
-
-    //     ajax: "data.json",
-        
-    //     "ajax": {
-            
-    //         "url":"../controllers/pedidoController.php",
-    //         "method":"POST",
-    //         "data":{funcion:funcion},
-    //         "dataSrc":""
-    //     },
-    //     "columns": [
-
-    //         { "data": "idPedido" },
-    //         { "data": "idMesa" },
-    //         { "data": "cant" },
-    //         { "data": "idProd" }
-    //     ],
-    //     language: espanol,
-    // } );
-    listarPedidos()
-
-    function listarPedidos(){
-        funcion = 'listarPedidos';
-
-        $.post('../controllers/pedidoController.php',{funcion},(response)=>{
-            console.log(response);
+        $.post('../controllers/cajaController.php',{funcion},(response)=>{
+            // console.log(response);
 
             const PEDIDOS = JSON.parse(response);
             let template = '';
+            
             PEDIDOS.forEach(pedido=>{
 
                 template+=`
-                    <div usuId="${pedido.idPedido}" class="col-12 col-sm-6 col-md-4 align-items-stretch">
+        
+                    <div idPedido="${pedido.idPedido}" idMesa="${pedido.idMesa}" class="col-2 col-sm-2 col-md-2 align-items-stretch">
 
                         <div class="card bg-light">
-                        <h2 class="lead"><b>id product: ${pedido.idPedido}</b></h2>
-
-                            <div class="card-header text-muted border-bottom-0">Mesa:
-                            ${pedido.idMesa}
-                        </div>
-
-                        <div class="card-body pt-0">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h2 class="lead"><b>id product: ${pedido.idProd} -cantidad: ${pedido.cant}</b></h2>
-                                    <ul class="ml-4 mb-0 fa-ul text-muted">
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-
-                        
-                        <div class="card-footer">
-                            <div class="text-right">
+                            <div class="card-header text-muted border-bottom-0">Orden: ${pedido.idPedido}
                             
-                                <button class="borrar btn btn-sm btn-danger">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                            
                             </div>
+
+                            <div class="card-body pt-0">
+                                <div class="row">
+                                    <div class="col-12">
+                                
+                                    <h2 class="lead"><b>Mesa: ${pedido.idMesa}</b></h2>
+
+                                    </div>                           
+                                </div>
+
+                                <button class='selItem btn btn-sm btn-primary'>
+                                    <i class='fas fa-plus-square mr-2'></i>Seleccionar
+                                </button>
+
+                            </div>                        
                         </div>
                     </div>
-                </div>
-             
-                `;
+                `;   
             });
-
-            $('#cb-pedidos').html(template);
-        })
+            $('#cb-mesas').html(template);
+        });
     }
 
 
-    listarProdCons();
-    function listarProdCons(){
-        funcion = "listarPedidos";
-        $.post('../controllers/pedidoController.php',{funcion},(response)=>{
+    /* AL HACER CLICK EN EL BOTON DE TERMINADO */
+    $(document).on('click','.selItem',(e)=>{
+        funcion = 'cargarDatosPedido';
+        console.log("cargarDatosPedido");
+        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
+        const ID = $(ELEM).attr('idPedido');
+        const IDMESA = $(ELEM).attr('idMesa');
+        console.log(ID);
+
+        $.post('../controllers/cajaController.php',{funcion,ID,IDMESA},(response)=>{
             console.log(response);
-   
+
+
+            const PEDIDOS = JSON.parse(response);
+            let templateS = '';
+            
+            PEDIDOS.forEach(pedido=>{
+
+                let tempProducts = '';
+                pedido.prods.forEach(item=>{
+
+                    /* 
+                     * item[0] = nombre del platillo
+                     * item[1] = presentacion del platillo
+                     * item[2] = cantidad del platillo
+                    */
+                    tempProducts+=`
+                    <h2 class="lead"><b>${item[0]}</b> ${item[1]}  ---------- ${item[2]}</h2>
+                    `;
+              
+                });
+
+
+                templateS+=`
+        
+                    <div idPedido="${pedido.idPedido}" class="col-12 col-sm-6 col-md-6 align-items-stretch">
+
+                        <div class="card bg-light">
+                            <div class="card-header text-muted border-bottom-0">Orden Numero: ${pedido.idPedido}
+                            <h2 class="lead"><b>id Mesa: ${pedido.idMesa}</b></h2>
+                            
+                            </div>
+
+                            <div class="card-body pt-0">
+                                <div class="row">
+                                    <div class="col-12">
+                                
+                                        <h2 class="lead"><b>${tempProducts}</b></h2>
+
+                                    </div>                           
+                                </div>
+
+                                <button class='terminado btn btn-sm btn-primary'>
+                                    <i class='fas fa-plus-square mr-2'></i>Plato Terminado
+                                </button>
+
+                            </div>                        
+                        </div>
+                    </div>
+                `;   
+            });
+            $('#cb-pedidos').html(templateS);
+
+
+            // listarPedidos()
         })
-    }
+
+    });
+
+
+    // listarProdCons();
+    // function listarProdCons(){
+    //     funcion = "listarPedidos";
+    //     $.post('../controllers/pedidoController.php',{funcion},(response)=>{
+    //         // console.log(response);
+   
+    //     })
+    // }
 
 })
+
+
+/* USAR SI EL CLIENTE QUIERE UNA DATATABLE: */
+// let datatable = $('#tabla_pedidos').DataTable( {
+
+//     "scrollX": true,
+//     "order": [[ 0, "asc" ]],
+
+
+
+//     ajax: "data.json",
+    
+//     "ajax": {
+        
+//         "url":"../controllers/pedidoController.php",
+//         "method":"POST",
+//         "data":{funcion:funcion},
+//         "dataSrc":""
+//     },
+//     "columns": [
+
+//         { "data": "idPedido" },
+//         { "data": "idMesa" },
+//         { "data": "cant" },
+//         { "data": "idProd" }
+//     ],
+//     language: espanol,
+// } );
+
+
 
 /* DATATABLE A ESPAÑOL */
 let espanol = {

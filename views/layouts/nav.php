@@ -121,14 +121,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-          <li class="nav-item">
-            <a href="adm_cat.php" class="nav-link">
-              <i class="nav-icon fas fa-cash-register"></i>
-              <p>
-                Nueva Venta
-              </p>
-            </a>
-          </li>
+     
 
           <li class="nav-item">
             <a href="orden.php" class="nav-link">
@@ -153,6 +146,15 @@
               <i class="nav-icon fas fa-cash-register"></i>
               <p>
                 Por Recoger
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="caja.php" class="nav-link">
+              <i class="nav-icon fas fa-cash-register"></i>
+              <p>
+                Caja
               </p>
             </a>
           </li>
@@ -204,25 +206,25 @@
             </a>
           </li>
 
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="adm_lote.php" class="nav-link">
               <i class="nav-icon fas fa-cubes"></i>
               <p>
                 Gestión de Lotes
               </p>
             </a>
-          </li>
+          </li> -->
 
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="adm_riesgo.php" class="nav-link">
               <i class="nav-icon fas fa-cubes"></i>
               <p>
                 Lotes en Riesgo
               </p>
             </a>
-          </li>
+          </li> -->
 
-          <li class="nav-header">Compras</li>
+          <!-- <li class="nav-header">Compras</li>
           <li class="nav-item">
             <a href="adm_proveed.php" class="nav-link">
               <i class="nav-icon fas fa-truck"></i>
@@ -230,41 +232,9 @@
                 Compras a proveedores
               </p>
             </a>
-          </li>
+          </li> -->
 
-          <?php if($_SESSION['rol'] == 1){?>
-          <li class="nav-header">Ventas</li>
-          <!-- items que contiene la seccion Ventas -->
-          <li class="nav-item">
-            <a href="adm_venta.php" class="nav-link">
-              <i class="nav-icon fas fa-notes-medical"></i>
-              <p>
-                Gestión de Ventas
-              </p>
-            </a>
-          </li>
-          <?php } ?>
-          <li class="nav-item">
-            <a href="adm_venta_dia.php" class="nav-link">
-              <i class="nav-icon fas fa-notes-medical"></i>
-              <p>
-                Ventas del Dia
-              </p>
-            </a>
-          </li>
-          <?php if($_SESSION['rol'] == 2){?>
-            <!-- MOMENTANEO: REDIRIGIR A OTRA VISTA QUE NO TIENE EL BOTON ELIMINAR VENTA -->
-            <li class="nav-header">Ventas</li>
-          <!-- items que contiene la seccion Ventas -->
-          <li class="nav-item">
-            <a href="adm_venta2.php" class="nav-link">
-              <i class="nav-icon fas fa-notes-medical"></i>
-              <p>
-                Gestión de Ventas2
-              </p>
-            </a>
-          </li>
-          <?php } ?>
+          <!-- aqui va la gestion de ventas -->
 
 
 

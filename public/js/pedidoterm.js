@@ -7,7 +7,7 @@ $(document).ready(function(){
 
     listarPedTerminados()
 
-    /* Lista los pedidos para el restaurante */
+    /* Lista los pedidos Terminados */
     function listarPedTerminados(){
         funcion = 'listarPedTerminados';
 
@@ -35,7 +35,7 @@ $(document).ready(function(){
 
                 templateS+=`
         
-                    <div usuId="${pedido.idPedido}" class="col-12 col-sm-6 col-md-6 align-items-stretch">
+                    <div idPedido="${pedido.idPedido}" class="col-12 col-sm-6 col-md-6 align-items-stretch">
 
                         <div class="card bg-light">
                             <div class="card-header text-muted border-bottom-0">Orden Numero: ${pedido.idPedido}
@@ -71,7 +71,7 @@ $(document).ready(function(){
         funcion = 'entregado';
         console.log("entregado");
         const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID = $(ELEM).attr('usuId');
+        const ID = $(ELEM).attr('idPedido');
         console.log(ID);
 
         $.post('../controllers/pedidoController.php',{funcion,ID},(response)=>{
