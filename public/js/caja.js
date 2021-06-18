@@ -1,6 +1,7 @@
 $(document).ready(function(){
     var funcion;
     var totalS = 0;
+    var idOrdenSel=0;
 
     listarPedidosCaja()
     calcularVuelto()
@@ -50,14 +51,15 @@ $(document).ready(function(){
     }
 
 
-    /* AL HACER CLICK EN EL BOTON DE TERMINADO */
+    /*  */
     $(document).on('click','.selItem',(e)=>{
         funcion = 'cargarDatosPedido';
         console.log("cargarDatosPedido");
         const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
         const ID = $(ELEM).attr('idPedido');
         const IDMESA = $(ELEM).attr('idMesa');
-        console.log(ID);
+        idOrdenSel = ID;
+        // console.log(ID);
 
         $.post('../controllers/cajaController.php',{funcion,ID,IDMESA},(response)=>{
             // console.log(response);
@@ -95,9 +97,55 @@ $(document).ready(function(){
         $('#vuelto').html(vuelto);
     }
 
+
+
     $('#pago').keyup((e)=>{
         calcularVuelto()
     })
 
 
-})
+
+    $(document).on('click','#procesar-compra',(e)=>{
+        procesarCompra();
+    })
+
+    /* ´------------------ */
+    function procesarCompra(){
+
+        registrarVenta();
+        Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Compra Exitosa',
+            showConfirmButton: false,
+            timer: 1500
+        }).then(function(){
+            // eliminarLS();
+            // location.href = '../views/adm_cat.php'
+        });
+
+    }
+
+
+    
+    function registrarVenta(){
+        funcion = 'registrarVenta';
+        let total = $('#total').get(0).textContent;
+        let idOrdSel = idOrdenSel;
+
+        console.log("ord sel: " + idOrdenSel);
+
+        $.post('../controllers/cajaController.php',{funcion,total,idOrdSel},(response)=>{
+            console.log(response);
+        })
+
+    }
+
+
+
+
+
+
+
+});
+ 

@@ -83,7 +83,6 @@ $(document).ready(function () {
 
             { "data": "id_venta" },
             { "data": "fecha" },
-            { "data": "cliente" },
             { "data": "total" },
             { "data": "vendedor" },
             { "defaultContent": `
@@ -161,11 +160,11 @@ $(document).ready(function () {
         let id= datos.id_venta;
         // let id= datos.id_venta;
         funcion = 'ver';
-        // console.log(id);
+        console.log(id);
 
         $('#codigo_venta').html(datos.id_venta);
         $('#fecha').html(datos.fecha);
-        $('#cliente').html(datos.cliente);
+        // $('#cliente').html(datos.cliente);
         $('#vendedor').html(datos.vendedor);
         $('#total').html(datos.total);
         $.post('../controllers/ventaProductoController.php',{funcion,id},(response)=>{
@@ -179,9 +178,6 @@ $(document).ready(function () {
                     <td>${registro.cant}</td>
                     <td>${registro.precio}</td>
                     <td>${registro.producto}</td>
-                    <td>${registro.compos}</td>
-                    <td>${registro.adici}</td>
-                    <td>${registro.laboratorio}</td>
                     <td>${registro.presentacion}</td>
                     <td>${registro.tipo}</td>
                     <td>${registro.subtotal}</td>

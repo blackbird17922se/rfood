@@ -108,62 +108,52 @@ switch ($_POST['funcion']) {
         $fecha = date('Y-m-d H:i:s');
         $caja->crearVenta($total,$fecha,$vendedor=1);
 
-        /* obtener id de la venta */
-        $caja->ultimaVenta();
-        foreach($caja->objetos as $objeto){
-            $idVenta = $objeto->ultima_venta;
-            // echo $idVenta;
-        }
 
         /* +++ */
+
+        $caja->cargarDatosPedido($idPedido);
+        $json=array();
+        $jsonC=array();
+        $jsonP=array();
+
+        $nomProduct = "";
+        $nomPresent = "";
+        $cantidad = "";
+        $precio = "";
+        // $total="";
+        
+        foreach($caja->objetos as $objeto){
+            $jsonP=[];
+            $jsonC=[];
+            $idDetProd = $objeto->id_det_prod;
+
+            /* Consultar nombre platillo */
+            $caja->ConsultarNomProducts($idDetProd);
+            foreach($caja->objetos as $objn){
+
+                $jsonP[]=array(
+                    $nomProduct = $objn->nom,
+                    $nomPresent = $objn->presnom,
+                    $cantidad = $objeto->det_cant,
+                    $precio = $objn->precio,
+                
+                );
+            }
+                
+            $subtotal = $precio*$cantidad;
+
+            $jsonstring = json_encode($jsonP);
+            echo $jsonstring;
+
+
+        }
 
         try {
             $db = new Conexion();
             $conexion = $db->pdo;
             $conexion->beginTransaction();
-
-            $caja->cargarDatosPedido($idPedido);        
-            
-            foreach($caja->objetos as $obj){
-
-                $cantidad = $obj->det_cant;
-                $cantidad2 = $obj->det_cant;
-                $idProd = $obj->id_det_prod;
-
-                /* consultar precio prod */
-                
-                while ($cantidad != 0) {
-                    
-                    $caja->agregarDetVenta($cantidad, $idProd, $idVenta);
-                    
-                    // echo 'add';
-                    // echo "-cant: ".$cantidad;
-                    // echo "-idprod: ".$obj->id_det_prod;
-                    // echo "-idVenta: ".$idVenta;
-                    $cantidad = 0;
-                }
-
-                $precio=0;
-                // $caja->consultarDatosProducto($idProd);
-                $caja->consultarPrecio($idProd);
-                foreach($caja->objetos as $objPr){
-                    $precio = $objPr->precio;           
-                }
-                $subtotal = $cantidad2 * $precio;
-                $caja->insertRegVenta($precio, $cantidad2, $subtotal, $idProd, $idVenta);
-                /* venta_prod(precio,cant,subtotal,prod_id_prod,venta_id_venta)  */
-
-
-
-
-            }
-
-            $conexion->commit();
-
-        } catch (Exception $error) {
-            $conexion->rollBack();
-            // $caja->borrar($idVenta);
-            echo $error->getMessage();
+        } catch (\Throwable $th) {
+            //throw $th;
         }
 
 

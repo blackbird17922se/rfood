@@ -180,13 +180,15 @@ $(document).ready(function(){
             let id_mesa = $('#mesa').val();
             let entregado = 0;
             let terminado = 0;
+            let pagado    = 0;
 
             
         // let productos = recuperarLS();
         // let nomb = "mxpr";
         /* nviar ese producto al controlador */
             let json = JSON.stringify(productos);
-            $.post('../controllers/pedidoController.php',{funcion,id_mesa,json,entregado,terminado},(response=>{
+            console.log(json);
+            $.post('../controllers/pedidoController.php',{funcion,id_mesa,json,entregado,terminado,pagado},(response=>{
                 console.log(response);
             }));
 

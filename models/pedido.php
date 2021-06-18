@@ -11,13 +11,14 @@ class Pedido{
         $this->acceso = $bd->pdo;
     }
 
-    function nuevoPedido($id_mesa,$entregado,$terminado){
-        $sql = "INSERT INTO pedido (id_mesa, entregado, terminado) VALUES (:id_mesa,:entregado,:terminado)";
+    function nuevoPedido($id_mesa,$entregado,$terminado, $pagado){
+        $sql = "INSERT INTO pedido (id_mesa, entregado, terminado, pagado) VALUES (:id_mesa,:entregado,:terminado, :pagado)";
         $query = $this->acceso->prepare($sql);
         $query->execute([      
             ':id_mesa'   => $id_mesa,
             ':entregado' => $entregado,
-            ':terminado' => $terminado
+            ':terminado' => $terminado,
+            ':pagado'    => $pagado
         ]);
         echo 'add';
     }

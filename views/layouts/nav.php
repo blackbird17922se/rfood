@@ -235,6 +235,15 @@
           </li> -->
 
           <!-- aqui va la gestion de ventas -->
+          <li class="nav-item">
+            <a href="adm_venta.php" class="nav-link">
+              <i class="nav-icon fas fa-notes-medical"></i>
+              <p>
+                Gestión de Ventas
+              </p>
+            </a>
+          </li>
+
 
 
 

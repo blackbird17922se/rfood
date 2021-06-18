@@ -25,10 +25,7 @@ if(!empty($_SESSION['rol']==1)){
                         <label for="fecha">Fecha: </label>
                         <span id="fecha"></span>
                     </div>
-                    <div class="form-group">
-                        <label for="cliente">Cliente: </label>
-                        <span id="cliente"></span>
-                    </div>
+                 
                     <div class="form-group">
                         <label for="vendedor">Vendedor: </label>
                         <span id="vendedor"></span>
@@ -40,9 +37,6 @@ if(!empty($_SESSION['rol']==1)){
                                 <th>Cantidad</th>
                                 <th>Precio Unidad</th>
                                 <th>Producto</th>
-                                <th>Concentracion</th>
-                                <th>Adicional</th>
-                                <th>Laboratorio</th>
                                 <th>Presentacion</th>
                                 <th>Tipo</th>
                                 <th>Subtotal</th>
@@ -103,7 +97,6 @@ if(!empty($_SESSION['rol']==1)){
                             <tr>
                                 <th>Codigo</th>
                                 <th>Fecha</th>
-                                <th>Cliente</th>
                                 <th>Total</th>
                                 <th>Vendedor</th>
                                 <th>Acción</th>

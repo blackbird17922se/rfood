@@ -12,10 +12,11 @@ switch ($_POST['funcion']) {
         $id_mesa   = $_POST['id_mesa'];
         $entregado = $_POST['entregado'];
         $terminado = $_POST['terminado'];
+        $pagado    = $_POST['pagado'];
         $productos = json_decode($_POST['json']);
         $fecha = date('Y-m-d H:i:s');
         
-        $pedido->nuevoPedido($id_mesa,$entregado,$terminado);
+        $pedido->nuevoPedido($id_mesa,$entregado,$terminado,$pagado);
 
         /* obtener id de la venta */
         $pedido->ultimoPedido();

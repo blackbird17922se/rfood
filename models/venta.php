@@ -47,7 +47,7 @@ class Venta{
     }
 
     function buscar(){
-        $sql="SELECT id_venta,fecha,cliente,total, CONCAT(usuario.nom,' ',usuario.ape) AS vendedor FROM venta 
+        $sql="SELECT id_venta, fecha, total, CONCAT(usuario.nom,' ',usuario.ape) AS vendedor FROM venta 
         JOIN usuario ON vendedor = id_usu";
         $query = $this->acceso->prepare($sql);
         $query->execute();
