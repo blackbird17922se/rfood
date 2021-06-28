@@ -158,6 +158,11 @@ switch ($_POST['funcion']) {
         $idOrden = $_POST['ID'];
         $pedido->cambiarEstEntregado($idOrden);
     break;
+
+    case 'pagado':
+        $idOrden = $_POST['idOrdenSel'];
+        $pedido->cambiarEstPagado($idOrden);
+    break;
     
     default:
         # code...

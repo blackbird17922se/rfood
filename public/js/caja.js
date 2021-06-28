@@ -52,7 +52,7 @@ $(document).ready(function(){
 
 
     /*  */
-    $(document).on('click','.selItem',(e)=>{
+    $(document).off('click','.selItem').on('click','.selItem',(e)=>{
         funcion = 'cargarDatosPedido';
         console.log("cargarDatosPedido");
         const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
@@ -137,7 +137,22 @@ $(document).ready(function(){
 
         $.post('../controllers/cajaController.php',{funcion,total,idOrdSel},(response)=>{
             console.log(response);
+
+            funcion = 'pagado';
+            console.log("pagado");
+    
+            $.post('../controllers/pedidoController.php',{funcion,idOrdenSel},(response)=>{
+                console.log(response);
+                idOrdenSel=0;
+                listarPedidosCaja()
+
+
+                /* ----------- */
+                
+            })
+
         })
+
 
     }
 
