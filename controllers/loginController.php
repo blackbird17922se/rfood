@@ -29,11 +29,29 @@ if(!empty($_SESSION['rol'])){
             $_SESSION['nom'] = $objeto->nom;
         }
         switch ($_SESSION['rol']) {
+            
             // admin
             case 1:
                 header("Location: ../views/orden.php");
             break;
+
+            // SubAdmin
             case 2:
+                header("Location: ../views/orden.php");
+            break;
+
+            // Cajero
+            case 3:
+                header("Location: ../views/caja.php");
+            break;
+
+            // Cocinero Lider
+            case 4:
+                header("Location: ../views/pedido.php");
+            break;
+
+            // Mesero
+            case 5:
                 header("Location: ../views/orden.php");
             break;
         }  

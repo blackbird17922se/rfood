@@ -1,3 +1,11 @@
+/* 
+
+* GESTION USUARIO
+* Controla el CRUD de los usuarios, contiene el listado de los roles de usuarios
+
+
+*/
+
 $(document).ready(function(){
     var funcion;
     var edit = false;
