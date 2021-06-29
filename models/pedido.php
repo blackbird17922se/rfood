@@ -11,11 +11,13 @@ class Pedido{
         $this->acceso = $bd->pdo;
     }
 
-    function nuevoPedido($id_mesa,$entregado,$terminado, $pagado){
-        $sql = "INSERT INTO pedido (id_mesa, entregado, terminado, pagado) VALUES (:id_mesa,:entregado,:terminado,:pagado)";
+    function nuevoPedido($id_mesa, $id_mesero, $entregado,$terminado, $pagado){
+        $sql = "INSERT INTO pedido (id_mesa, id_mesero, entregado, terminado, pagado) 
+        VALUES (:id_mesa, :id_mesero, :entregado, :terminado, :pagado)";
         $query = $this->acceso->prepare($sql);
         $query->execute([      
             ':id_mesa'   => $id_mesa,
+            ':id_mesero' => $id_mesero,
             ':entregado' => $entregado,
             ':terminado' => $terminado,
             ':pagado'    => $pagado
@@ -80,10 +82,14 @@ class Pedido{
         
     }
 
-    function cambiarEstTerminado($idOrden){
-        $sql = "UPDATE pedido SET terminado = 1 WHERE id_pedido = :idPedido";
+    function cambiarEstTerminado($idOrden, $id_coc_lider){
+        $sql = "UPDATE pedido SET terminado = 1, id_coc_lider = :id_coc_lider 
+        WHERE id_pedido = :idPedido";
         $query = $this->acceso->prepare($sql);
-        $query->execute([':idPedido'=> $idOrden]);
+        $query->execute([
+            ':idPedido'=> $idOrden,
+            ':id_coc_lider'=> $id_coc_lider
+        ]);
         echo 'edit';
     }
 
@@ -94,10 +100,14 @@ class Pedido{
         echo 'edit';
     }
 
-    function cambiarEstPagado($idOrden){
-        $sql = "UPDATE pedido SET pagado = 1 WHERE id_pedido = :idPedido";
+    function cambiarEstPagado($idOrden, $id_cajero){
+        $sql = "UPDATE pedido SET pagado = 1, id_cajero = :id_cajero
+        WHERE id_pedido = :idPedido";
         $query = $this->acceso->prepare($sql);
-        $query->execute([':idPedido'=> $idOrden]);
+        $query->execute([
+            ':idPedido'=> $idOrden,
+            ':id_cajero'=> $id_cajero
+        ]);
         echo 'edit';
     }
 } 

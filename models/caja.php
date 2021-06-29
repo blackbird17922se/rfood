@@ -47,15 +47,17 @@ class Caja{
     }
 
 
-    function crearVenta($total,$fecha,$vendedor){
+    function crearVenta($total,$fecha,$vendedor, $idMesero, $idCocineroLider){
 
-    $sql = "INSERT INTO venta(total, fecha, vendedor) 
-    VALUES (:total, :fecha, :vendedor)";
+    $sql = "INSERT INTO venta(total, fecha, vendedor, id_mesero, id_coc_lider) 
+    VALUES (:total, :fecha, :vendedor, :id_mesero, :id_coc_lider)";
     $query = $this->acceso->prepare($sql);
     $query->execute(array(
-        ':fecha'       => $fecha,
+        ':fecha'        => $fecha,
         ':total'        => $total,
-        ':vendedor'  => $vendedor
+        ':vendedor'     => $vendedor,
+        ':id_mesero'    => $idMesero,
+        ':id_coc_lider' => $idCocineroLider
     ));
     echo 'add';
     }
@@ -119,6 +121,17 @@ class Caja{
             ':venta_id_venta'  => $idVenta
         ));
         echo 'add';
+
+    }
+
+
+    /* cargar los id del mesero y coninero encargados de ese pedido */
+    function cargarMeseroCocinero($idPedido){
+        $sql = "SELECT id_mesero, id_coc_lider FROM pedido WHERE id_pedido = :idPedido";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([':idPedido'=>$idPedido]);
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
 
     }
 

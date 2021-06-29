@@ -15,7 +15,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==3)){
             <div class="col-md-12">
                 <div class="card card-success">
                     <div class="card-header">
-                    gjhgjgjh
+                        Pedidos sin cancelar
                     </div>
 
                     <div class="card-body">

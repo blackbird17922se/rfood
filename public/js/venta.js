@@ -153,11 +153,33 @@ $(document).ready(function () {
     }); //Fin eliminar
 
 
+    /* DETALLE DE LA VENTA */
     /* seleccionar elid de esa fila para consultar sus valores */
     $('#tabla_venta tbody').on('click','.ver',function(){
 
         let datos = datatable.row($(this).parents()).data();
         let id= datos.id_venta;
+        let mesero = "";
+        let cocineroLider = "";
+
+        /* consultar mesero y cocinero lider */
+        funcion = "consultarResponsables"
+        $.post('../controllers/ventaController.php',{funcion,id},(response)=>{
+            console.log(response);
+            const encargados = JSON.parse(response);
+
+            encargados.forEach(encargado=>{
+                $('#mesero').html(encargado.mesero);
+                $('#coc_lider').html(encargado.cocineroLider);
+
+            })
+            /*   'mesero'        => $objeto->id_mesero,
+            'cocineroLider' => $objeto->id_coc_lider, */
+
+
+        });
+
+
         // let id= datos.id_venta;
         funcion = 'ver';
         console.log(id);
@@ -165,7 +187,7 @@ $(document).ready(function () {
         $('#codigo_venta').html(datos.id_venta);
         $('#fecha').html(datos.fecha);
         // $('#cliente').html(datos.cliente);
-        $('#vendedor').html(datos.vendedor);
+        $('#cajero').html(datos.vendedor);
         $('#total').html(datos.total);
         $.post('../controllers/ventaProductoController.php',{funcion,id},(response)=>{
             let registros = JSON.parse(response);

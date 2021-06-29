@@ -81,21 +81,14 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
   <!-- /.content-wrapper -->
 
 
-
-
-
-  
-
-
 <?php
 include_once "layouts/footer.php";
 
 }else{
-    // session_destroy();
+    session_destroy();
     header("Location: ../index.php");
 }
 ?>
 
 <script src="../public/js/datatables.js"></script>
 <script src="../public/js/orden.js"></script>
-<!-- <script src="../public/js/carrito.js"></script> -->

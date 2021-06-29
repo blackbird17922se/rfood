@@ -94,19 +94,29 @@ switch ($_POST['funcion']) {
 
 
     case 'registrarVenta':
-        /* funcion,total,idOrdSel */
+        session_start();
+        
         $total = $_POST['total'];
         $idOrd = $_POST['idOrdSel'];
 
         $idPedido = $idOrd;
+        $idMesero = "";
+        $idCocineroLider = "";
+        $vendedor = $_SESSION['usuario'];
 
-        
+        /* Cargar id mesero y cocinero */
+        $caja->cargarMeseroCocinero($idPedido);
+
+        foreach($caja->objetos as $objId){
+            $idMesero= $objId->id_mesero;
+            $idCocineroLider= $objId->id_coc_lider;
+        }        
 
 
         /* integra sfarma */
         date_default_timezone_set('America/Bogota');
         $fecha = date('Y-m-d H:i:s');
-        $caja->crearVenta($total,$fecha,$vendedor=1);
+        $caja->crearVenta($total,$fecha, $vendedor, $idMesero, $idCocineroLider);
 
         /* obtener id de la venta */
         $caja->ultimaVenta();

@@ -196,7 +196,7 @@ class Venta{
 
     /* Calcular el total de la venta diaria */
     function totalVentas(){
-         $sql="SELECT SUM(total) as venta_dia_vendor FROM `venta` WHERE DATE(fecha) = DATE(curdate())";
+        $sql="SELECT SUM(total) as venta_dia_vendor FROM `venta` WHERE DATE(fecha) = DATE(curdate())";
 
         $query = $this->acceso->prepare($sql);
         $query->execute();
@@ -210,5 +210,36 @@ class Venta{
         // return $this->objetos;
 
     }
+
+    function consultarResponsables($idOrden){
+        $sql = "SELECT id_mesero, id_coc_lider FROM venta
+        WHERE id_venta = :id_venta";
+    
+        $query = $this->acceso->prepare($sql);
+        $query->execute([':id_venta' => $idOrden]);
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
+
+    function consultarMesero($id){
+        $sql = "SELECT CONCAT(usuario.nom,' ',usuario.ape) AS mesero FROM usuario
+        WHERE id_usu = :id";
+    
+        $query = $this->acceso->prepare($sql);
+        $query->execute([':id' => $id]);
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
+
+    function consultarCocineroLider($id){
+        $sql = "SELECT CONCAT(usuario.nom,' ',usuario.ape) AS cocinerolider FROM usuario
+        WHERE id_usu = :id";
+    
+        $query = $this->acceso->prepare($sql);
+        $query->execute([':id' => $id]);
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
+
 
 }

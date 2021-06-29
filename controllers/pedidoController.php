@@ -9,14 +9,17 @@ switch ($_POST['funcion']) {
     
     case 'nuevoPedido':
 
+        session_start();
+
         $id_mesa   = $_POST['id_mesa'];
         $entregado = $_POST['entregado'];
         $terminado = $_POST['terminado'];
         $pagado    = $_POST['pagado'];
+        $id_mesero = $_SESSION['usuario'];
         $productos = json_decode($_POST['json']);
         $fecha = date('Y-m-d H:i:s');
         
-        $pedido->nuevoPedido($id_mesa,$entregado,$terminado,$pagado);
+        $pedido->nuevoPedido($id_mesa, $id_mesero, $entregado,$terminado,$pagado);
 
         /* obtener id de la venta */
         $pedido->ultimoPedido();
@@ -150,8 +153,11 @@ switch ($_POST['funcion']) {
     break;
 
     case 'terminado':
+        session_start();
+        $id_coc_lider = $_SESSION['usuario'];
+
         $idOrden = $_POST['ID'];
-        $pedido->cambiarEstTerminado($idOrden);
+        $pedido->cambiarEstTerminado($idOrden, $id_coc_lider);
     break;
 
     case 'entregado':
@@ -160,8 +166,11 @@ switch ($_POST['funcion']) {
     break;
 
     case 'pagado':
+        session_start();
+        $id_cajero = $_SESSION['usuario'];
+
         $idOrden = $_POST['idOrdenSel'];
-        $pedido->cambiarEstPagado($idOrden);
+        $pedido->cambiarEstPagado($idOrden, $id_cajero);
     break;
     
     default:

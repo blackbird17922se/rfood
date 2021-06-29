@@ -17,6 +17,7 @@ if($_POST['funcion']=='listar'){
 }
 
 
+
 /* Venta Dia */
 if($_POST['funcion']=='mostrar_consultas'){
 
@@ -232,4 +233,35 @@ if($_POST['funcion']=='rep_cierre'){
     $jsonstring = json_encode($json);
     echo $jsonstring;
     
+}
+
+if($_POST['funcion']=='consultarResponsables'){
+    $idOrden = $_POST['id'];
+    $venta->consultarResponsables($idOrden);
+    $json=array();
+    $mesero = "";
+    $cocineroLider = "";
+    foreach ($venta->objetos as $objeto) {
+
+        $id_mesero        = $objeto->id_mesero;
+        $id_coc_lider = $objeto->id_coc_lider;
+     
+        $venta->consultarMesero($id_mesero);
+        foreach ($venta->objetos as $objMesero) {
+            $mesero = $objMesero->mesero;
+        }
+
+        $venta->consultarCocineroLider($id_coc_lider);
+        foreach ($venta->objetos as $objCocinero) {
+            $cocineroLider = $objCocinero->cocinerolider;
+        }
+
+        $json[] = array(
+            "mesero" => $mesero,
+            "cocineroLider" => $cocineroLider
+
+        );
+    }
+    $jsonstring = json_encode($json);
+    echo $jsonstring;
 }

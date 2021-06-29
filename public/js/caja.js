@@ -51,7 +51,7 @@ $(document).ready(function(){
     }
 
 
-    /*  */
+    /* Cargar los datos y costos de ese pedido */
     $(document).off('click','.selItem').on('click','.selItem',(e)=>{
         funcion = 'cargarDatosPedido';
         console.log("cargarDatosPedido");
@@ -127,7 +127,6 @@ $(document).ready(function(){
     }
 
 
-    
     function registrarVenta(){
         funcion = 'registrarVenta';
         let total = $('#total').get(0).textContent;
@@ -138,6 +137,7 @@ $(document).ready(function(){
         $.post('../controllers/cajaController.php',{funcion,total,idOrdSel},(response)=>{
             console.log(response);
 
+            // Modificar estado del pedido
             funcion = 'pagado';
             console.log("pagado");
     

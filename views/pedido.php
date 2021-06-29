@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
+if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==4)){
     include_once "layouts/header.php";
     include_once "layouts/nav.php";
 ?>
@@ -59,7 +59,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 include_once "layouts/footer.php";
 
 }else{
-    // session_destroy();
+    session_destroy();
     header("Location: ../index.php");
 }
 ?>

@@ -1,3 +1,8 @@
+/* 
+ * ORDEN
+ * Controla las ordenes de Mesero
+*/
+
 $(document).ready(function(){
 
     var funcion, idCat="";

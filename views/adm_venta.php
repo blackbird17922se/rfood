@@ -5,13 +5,13 @@ if(!empty($_SESSION['rol']==1)){
     include_once "layouts/nav.php";
 ?>
 
-<!-- modal lote -->
+<!-- modal Detalle de la venta -->
 <div class="modal fade" id="vista-venta" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="card card-success">
                 <div class="card-header">
-                    <h3 class="card-title">Registros de venta</h3>
+                    <h3 class="card-title">Detalle de la venta</h3>
                     <button data-dismiss="modal" aria-label="close" class="close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -27,8 +27,18 @@ if(!empty($_SESSION['rol']==1)){
                     </div>
                  
                     <div class="form-group">
-                        <label for="vendedor">Vendedor: </label>
-                        <span id="vendedor"></span>
+                        <label for="mesero">Mesero: </label>
+                        <span id="mesero"></span>
+                    </div>
+                 
+                    <div class="form-group">
+                        <label for="coc_lider">Cocinero Líder: </label>
+                        <span id="coc_lider"></span>
+                    </div>
+                 
+                    <div class="form-group">
+                        <label for="cajero">Cajero: </label>
+                        <span id="cajero"></span>
                     </div>
 
                     <table class="table table-hover text-nowrap">
