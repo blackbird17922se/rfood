@@ -127,3 +127,8 @@
     -webkit-appearance: none;
     margin: 0;
 }
+
+input[type=radio] {
+    width: 20px;
+    height: 20px;
+}

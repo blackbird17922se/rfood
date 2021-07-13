@@ -113,28 +113,114 @@ $(document).ready(function(){
     function procesarCompra(){
 
         registrarVenta();
+
+        /* Implementacion recibo */
+
         Swal.fire({
-            position: 'center',
+            title: 'Venta Realizada',
+            text: "¿Desea imprimir recibo?",
             icon: 'success',
-            title: 'Compra Exitosa',
-            showConfirmButton: false,
-            timer: 1500
-        }).then(function(){
-            // eliminarLS();
-            // location.href = '../views/adm_cat.php'
+            showCancelButton: true,
+            confirmButtonText: 'Imprimir',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+
+                let funcion = "ultimaVenta";
+                $.post('../controllers/cajaController.php',{funcion},(response)=>{
+                    console.log(response);
+                
+
+                    $.ajax({
+                        url: 'ticket.php',
+                        type: 'POST',
+                        success: function(resp){
+                            if(resp==1){
+                                alert('imprime..');
+                                    //  eliminarLS();
+                                location.href = '../views/caja.php'
+                            }else{
+                                alert('error..');
+                                // eliminarLS();
+                                location.href = '../views/caja.php'
+                            }
+                        }
+                    })                   
+                });
+
+       
+                console.log("yes");
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                console.log("no");
+
+                $.ajax({
+                    url: 'ticketc.php',
+                    type: 'POST',
+                    success: function(resp){
+                        if(resp==1){
+                            alert('abre..');
+                                //  eliminarLS();
+                    location.href = '../views/caja.php'
+
+                        }else{
+                            // alert('error..');
+                            // eliminarLS();
+                            location.href = '../views/caja.php'
+
+                        }
+                    }
+                })
+
+
+                // eliminarLS();
+                location.href = '../views/caja.php'
+            }
         });
+
+
+        /* END */
+
+
+        // Swal.fire({
+        //     position: 'center',
+        //     icon: 'success',
+        //     title: 'Compra Exitosa',
+        //     showConfirmButton: false,
+        //     timer: 1500
+        // }).then(function(){
+        //     // eliminarLS();
+        //     // location.href = '../views/adm_cat.php'
+        // });
 
     }
 
 
+
+    /* Radio buttons de forma de pago. la opcion por default es efectivo (0) */
+    var formaPago = $("input[name='fpago']:checked").val();
+    console.log(formaPago);
+
+
+    $("input[name='fpago']").click(function () {    
+        // alert("La edad seleccionada es: " + $('input:radio[name=fpago]:checked').val());
+        // // alert("La edad seleccionada es: " + $(this).val());
+        formaPago =$('input:radio[name=fpago]:checked').val()
+        console.log(formaPago);
+    });
+
+
+
     function registrarVenta(){
+      
         funcion = 'registrarVenta';
+
         let total = $('#total').get(0).textContent;
         let idOrdSel = idOrdenSel;
 
         console.log("ord sel: " + idOrdenSel);
 
-        $.post('../controllers/cajaController.php',{funcion,total,idOrdSel},(response)=>{
+        $.post('../controllers/cajaController.php',{funcion,total,idOrdSel,formaPago},(response)=>{
             console.log(response);
 
             // Modificar estado del pedido

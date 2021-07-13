@@ -206,6 +206,25 @@
             </a>
           </li>
 
+          <li class="nav-header">Inventario</li>
+          <li class="nav-item">
+            <a href="inv_product.php" class="nav-link">
+              <i class="nav-icon fas fa-pills"></i>
+              <p>
+                Gestión de productos Inv
+              </p>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a href="inv_atr.php" class="nav-link">
+              <i class="nav-icon fas fa-vials"></i>
+              <p>
+                Gestión de Atributos inv
+              </p>
+            </a>
+          </li>
+
           <!-- <li class="nav-item">
             <a href="adm_lote.php" class="nav-link">
               <i class="nav-icon fas fa-cubes"></i>

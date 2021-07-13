@@ -50,6 +50,22 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==3)){
                     </div>
 
 
+                        <h3>Forma de pago</h3>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="fpago" id="efectivo" value="0" checked>
+                            <label class="form-check-label" for="inlineRadio1">Efectivo</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="fpago" id="tarjeta" value="1">
+                            <label class="form-check-label" for="inlineRadio2">Tarjeta</label>
+                        </div>
+                        
+                    <div id="cpago">
+                    </div>
+                  
+                
+
+
                             <div class="row mt-4">
 
                                 <div class="col-md-4">
