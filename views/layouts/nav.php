@@ -225,23 +225,23 @@
             </a>
           </li>
 
-          <!-- <li class="nav-item">
-            <a href="adm_lote.php" class="nav-link">
+          <li class="nav-item">
+            <a href="inv_lote.php" class="nav-link">
               <i class="nav-icon fas fa-cubes"></i>
               <p>
                 Gestión de Lotes
               </p>
             </a>
-          </li> -->
+          </li>
 
-          <!-- <li class="nav-item">
-            <a href="adm_riesgo.php" class="nav-link">
+          <li class="nav-item">
+            <a href="inv_riesgo.php" class="nav-link">
               <i class="nav-icon fas fa-cubes"></i>
               <p>
                 Lotes en Riesgo
               </p>
             </a>
-          </li> -->
+          </li>
 
           <!-- <li class="nav-header">Compras</li>
           <li class="nav-item">

@@ -46,8 +46,6 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                             <input type="number" step="any" class="form-control" id="precio" name="precio" aria-describedby="precioHelp" required>
                         </div>
 
-              
-
                         <div class="form-group">
                             <label for="prod_tipo">Tipo de producto</label>
                             <select id="prod_tipo" class="form-control select2" style="width: 100%;" required>
@@ -60,7 +58,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                             </select>
                         </div>
 
-                        <input type="hidden" id="id_edit-prod">
+                        <input type="text" id="idEditProd">
 
 
                         <!-- ALERTAS -->

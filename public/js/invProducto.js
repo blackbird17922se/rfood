@@ -146,10 +146,9 @@ $(document).ready(function(){
     $('#form-crear-product').submit(e=>{
         /* recibir los datos del formulario al hacer click en el boton submit */
         /* val(): obtiene el valor en el imput */
-        let id = $('#id_edit-prod').val()
-        let codbar = $('#codbar').val();
-        let nombre = $('#nombre').val();
-
+        let id      = $('#idEditProd').val()
+        let codbar  = $('#codbar').val();
+        let nombre  = $('#nombre').val();
 
         if($('#iva').is(':checked')){
             $('#iva').prop("value","1");
@@ -157,21 +156,20 @@ $(document).ready(function(){
             $('#iva').prop("value","0");
         }
 
-        let iva = $('#iva').val();
-        let precio = $('#precio').val();
-       
+        let iva       = $('#iva').val();
+        let precio    = $('#precio').val(); 
         let prod_tipo = $('#prod_tipo').val();
-        let medida = $('#medida').val();
+        let un_medida = $('#medida').val();
 
         if(edit==true){
             funcion="editar";
-            console.log("editar");
         }else{
             funcion="crear";
-            console.log("crear");
         }
-        
-        $.post('../controllers/invProductoController.php',{funcion,id,codbar,nombre,iva,precio,prod_tipo,medida},(response)=>{
+
+        // funcion = edit == true ? "editar" : "crear";
+        console.log(funcion+"-id:"+id+"-cb:"+codbar+"-nom:"+nombre+"-"+iva+"-"+precio+"-"+prod_tipo+"-"+un_medida);
+        $.post('../controllers/invProductoController.php',{funcion,id,codbar,nombre,iva,precio,prod_tipo,un_medida},(response)=>{
 
             console.log(response);
             if(response=='add'){
@@ -236,16 +234,15 @@ $(document).ready(function(){
     $('#tabla_inv_products tbody').on('click','.editar',function(){
         let datos = datatable.row($(this).parents()).data();
 
-        let id= datos.id_prod;
-        let codbad= datos.codbad;
-        let nombre= datos.nombre;
-        let compos= datos.compos;
-        let adici= datos.adici;
-        let iva= datos.iva;
-        let precio= datos.precio;
-        let prod_lab= datos.prod_lab;
-        let prod_tipo= datos.prod_tipo;
-        let prod_pres= datos.prod_pres;
+        let id          = datos.id_inv_prod;
+        let codbar      = datos.codbar;
+        let nombre      = datos.nombre;
+        let iva         = datos.iva;
+        let precio      = datos.precio;
+        let prod_tipo   = datos.prod_tipo; // Lacteos...
+        let un_medida   = datos.un_medida; // gr, lt...
+
+        let nval = 0;   // nval: nuevo valor del iva
 
         /* Si el valor de iva proveniente de la bd es true (1) entonces añadir o no la */
         /* propiedad checked al input de iva, de esa manera aparece o no chequeado.    */
@@ -256,13 +253,9 @@ $(document).ready(function(){
         }
 
         /* Los $(#...) Son los identificadores del formulario */
-        $('#id_edit-prod').val(id);
+        $('#idEditProd').val(id);
+        $('#codbar').val(codbar);
         $('#nombre').val(nombre);
-        $('#codbad').val(codbad);
-        $('#compos').val(compos);
-        $('#adici').val(adici);
-
-        let nval = 0;   // nval: nuevo valor del iva
 
         if($('#iva').is(':checked')){
             $('#iva').prop("value","1");
@@ -275,11 +268,9 @@ $(document).ready(function(){
         }
 
         $('#precio').val(precio);
-        $('#prod_lab').val(prod_lab).trigger('change');
         $('#prod_tipo').val(prod_tipo).trigger('change');
-        $('#prod_pres').val(prod_pres).trigger('change');
-        $('#codbar').attr("type","hidden");
-        $('#labcodbar').hide();
+        $('#medida').val(un_medida).trigger('change');
+        // $('#codbar').attr("type","hidden");
 
         edit = true;   // bandera
     });
@@ -289,7 +280,7 @@ $(document).ready(function(){
 
     $('#tabla_inv_products tbody').on('click','.borrar',function(){
         let datos = datatable.row($(this).parents()).data();
-        let id= datos.id_prod;
+        let id= datos.id_inv_prod;
         let nom= datos.nombre;
         var funcion = "borrar";
         /* Alerta */

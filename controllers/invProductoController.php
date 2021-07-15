@@ -19,21 +19,20 @@ if($_POST['funcion'] == 'listarProducts'){
 
         $json[]=array(
             /* '' =>$objeto->ALIAS ASIGNADO */
-            'id_inv_prod'=>$objeto->id_inv_prod,
-            'codbar'=>$objeto->codbar,
-            'nombre'=>$objeto->nombre,
-            'iva'=>$objeto->iva,
-            'precio'=>$objeto->precio,
-            'stock'=>$total,
-          
-            
-            'prod_tipo'=>$objeto->prod_tipo,
-            'un_medida'=>$objeto->un_medida,
+            'id_inv_prod' => $objeto->id_inv_prod,
+            'codbar'      => $objeto->codbar,
+            'nombre'      => $objeto->nombre,
+            'precio'      => $objeto->precio,
+            'stock'       => $total,
+            'iva'         => $objeto->iva,
 
-            /* Para cargar los nombres en lugar de los id */
-            
-            'tipo'=>$objeto->tipo,
-            'medida'=>$objeto->medida
+            // carga los id
+            'prod_tipo'   => $objeto->prod_tipo,
+            'un_medida'   => $objeto->un_medida,
+
+            // Para cargar los nombres en lugar de los id    
+            'tipo'        => $objeto->tipo,
+            'medida'      => $objeto->medida
         );
     }
     $jsonstring = json_encode($json);
@@ -41,21 +40,16 @@ if($_POST['funcion'] == 'listarProducts'){
 }
 
 
-
 /* CREAR */
 if($_POST['funcion']=='crear'){
     /* datos recibidos desde producto.js >>> $.post('../controllers/productoController.php',{fu... */
-    // nombre,compos,adici,precio,prod_lab,prod_tipo,medida
-    $codbar = $_POST['codbar'];
-    $nombre = $_POST['nombre'];
-    $iva = $_POST['iva'];
-    $precio = $_POST['precio'];
+    $codbar    = $_POST['codbar'];
+    $nombre    = $_POST['nombre'];
+    $iva       = $_POST['iva'];
+    $precio    = $_POST['precio'];
     $prod_tipo = $_POST['prod_tipo'];
-    $medida = $_POST['medida'];
-    // $nombre = $_POST['nombre'];
+    $medida    = $_POST['un_medida'];
     $product->crear($codbar,$nombre,$iva,$precio,$prod_tipo,$medida);
-
-
 }
 
 
@@ -74,38 +68,23 @@ if($_POST['funcion'] == 'ultimoReg'){
 
 
 /* **************************** EDITAR **************************** */
-if($_POST['funcion']=='editar'){
-    /* datos recibidos desde producto.js >>> $.post('../controllers/productoController.php',{fu... */
-    // nombre,compos,adici,precio,prod_lab,prod_tipo,medida
-    $id = $_POST['id'];
-    $nombre = $_POST['nombre'];
+if($_POST['funcion'] =='editar'){
 
-    $iva = $_POST['iva'];
-    $precio = $_POST['precio'];
-    $prod_lab = $_POST['prod_lab'];
+    $id        = $_POST['id'];
+    $nombre    = $_POST['nombre'];
+    $iva       = $_POST['iva'];
+    $precio    = $_POST['precio'];
     $prod_tipo = $_POST['prod_tipo'];
-    $medida = $_POST['medida'];
-    // $nombre = $_POST['nombre'];
+    $medida    = $_POST['un_medida'];
+    
     $product->editar($id,$nombre,$iva,$precio,$prod_tipo,$medida);
+
 }
 
 if($_POST['funcion'] =='borrar'){
     /* OJO: $_POST['ID'] viene desde labratorio.js en la const ID = $(ELEM).attr('labId'); */
     $id = $_POST['id'];
     $product->borrar($id);
-}
-
-if($_POST['funcion'] =='listar_labs'){
-    $lab->listar_labs();
-    $json=array();
-    foreach($lab->objetos as $objeto){
-        $json[]=array(
-            'id_lab'=>$objeto->id_lab,
-            'nom_lab'=>$objeto->nom_lab
-        );
-    }
-    $jsonstring = json_encode($json);
-    echo $jsonstring;
 }
 
 /* para cuando se actualiza un precio o el stock del producto, 
@@ -134,7 +113,6 @@ if($_POST['funcion']=='buscar_id'){
             
             'tipo'=>$objeto->tipo,
             'medida'=>$objeto->medida,
-            'lab_id'=>$objeto->prod_lab,
             'tipo_id'=>$objeto->prod_tipo,
             'pres_id'=>$objeto->un_medida
         );

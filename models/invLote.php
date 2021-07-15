@@ -23,31 +23,30 @@ class InvLote{
     }
 
 
-    function buscar(){
+    function cargarLotes(){
         if(!empty($_POST['consulta'])){
             /* si el imput de bsiqueda esta lleno entonces */
             $consulta = $_POST['consulta'];
-            $sql="SELECT id_lote, stock, vencim, producto.nombre as prod_nom, compos, adici, 
-            laboratorio.nom_lab AS lab_nom, tipo_prod.nom AS tipo_nom, present.nom AS pre_nom, proveed.nom AS prov_nom
-            FROM lote
+            $sql="SELECT id_lote, stock, vencim, inv_producto.nombre as prod_nom, 
+             inv_tipo_prod.nom AS tipo_nom, un_medida.nom AS medida_nom, proveed.nom AS prov_nom
+            FROM inv_lote
             JOIN proveed ON lote_id_prov = id_prov
-            JOIN producto ON lote_id_prod = id_prod
-            JOIN laboratorio ON prod_lab = id_lab
-            JOIN tipo_prod ON prod_tipo = id_tipo_prod
-            JOIN present ON prod_pres = id_present AND producto.nombre LIKE :consulta ORDER BY producto.nombre";
+            JOIN inv_producto ON lote_id_prod = id_inv_prod
+            JOIN inv_tipo_prod ON prod_tipo = id_inv_tipo
+            JOIN un_medida ON un_medida = id_medida AND inv_producto.nombre LIKE :consulta ORDER BY inv_producto.nombre";
             $query = $this->acceso->prepare($sql);
             $query->execute(array(':consulta'=>"%$consulta%"));
             $this->objetos=$query->fetchall();
             return $this->objetos;
         }else{
-            $sql="SELECT id_lote, stock, vencim, producto.nombre as prod_nom, compos, adici, 
-            laboratorio.nom_lab AS lab_nom, tipo_prod.nom AS tipo_nom, present.nom AS pre_nom, proveed.nom AS prov_nom
-            FROM lote
+            $sql="SELECT id_lote, stock, vencim, inv_producto.nombre as prod_nom, 
+             inv_tipo_prod.nom AS tipo_nom, un_medida.nom AS medida_nom, proveed.nom AS prov_nom
+            FROM inv_lote
+            /* Nombr tabla ON llave foranea = llave primaria de la tabla JOIN */
             JOIN proveed ON lote_id_prov = id_prov
-            JOIN producto ON lote_id_prod = id_prod
-            JOIN laboratorio ON prod_lab = id_lab
-            JOIN tipo_prod ON prod_tipo = id_tipo_prod
-            JOIN present ON prod_pres = id_present AND producto.nombre NOT LIKE '' ORDER BY producto.nombre";
+            JOIN inv_producto ON lote_id_prod = id_inv_prod
+            JOIN inv_tipo_prod ON prod_tipo = id_inv_tipo
+            JOIN un_medida ON un_medida = id_medida AND inv_producto.nombre NOT LIKE '' ORDER BY inv_producto.nombre";
             $query = $this->acceso->prepare($sql);
             $query->execute();
             $this->objetos=$query->fetchall();
@@ -56,7 +55,7 @@ class InvLote{
     }
 
     function editar($lote_id_prod,$stock){
-        $sql = "UPDATE lote SET
+        $sql = "UPDATE inv_lote SET
             stock = :stock
 
         WHERE id_lote = :id_lote";
@@ -71,7 +70,7 @@ class InvLote{
 
 
     function borrar($id){
-        $sql = "DELETE FROM lote WHERE id_lote = :id";
+        $sql = "DELETE FROM inv_lote WHERE id_lote = :id";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':id' => $id));
 

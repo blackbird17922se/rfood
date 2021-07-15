@@ -2,8 +2,8 @@
 
 $(document).ready(function(){
 
-    var funcion = 'buscar';
-    $.post('../controllers/loteController.php',{funcion},(response)=>{
+    var funcion = 'cargarLotes';
+    $.post('../controllers/invLoteController.php',{funcion},(response)=>{
 
         const LOTES = JSON.parse(response);
         let template = '';
@@ -15,8 +15,6 @@ $(document).ready(function(){
                     
                         <td>${lote.id_lote}</td>
                         <td>${lote.nombre}</td>
-                        <td>${lote.laboratorio}</td>
-                        <td>${lote.compos}</td>
                         <td>${lote.stock}</td>
                         <td>${lote.prov_nom}</td>
                         <td>${lote.mes}</td>

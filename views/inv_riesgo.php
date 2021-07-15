@@ -41,8 +41,6 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                       <tr>
                         <th>Codigo<br>Lote</th>
                         <th>Producto</th>
-                        <th>Laboratorio</th>
-                        <th>Compos.</th>
                         <th>Stock</th>
                         <th>Proveedor</th>
                         <th>Meses<br>Restantes</th>
