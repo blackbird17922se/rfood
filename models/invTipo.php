@@ -63,7 +63,6 @@ class InvTipo{
     }
 
     function listarInvTipos(){
-        // $consulta = $_POST['consulta'];
         $sql="SELECT * FROM inv_tipo_prod ORDER BY nom ASC";
         $query = $this->acceso->prepare($sql);
         $query->execute();

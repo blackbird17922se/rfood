@@ -63,6 +63,33 @@
       </li>
 
 
+      <li id="ing-carrito" class="nav-item dropdown" style="display:none">
+        <a class="tx-carrito nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Ing
+        </a>
+        <span id="contador" class="contador badge badge-danger"></span>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <table class="carro table table-over text-nowrap p-0">
+            <thead class="table-success">
+              <tr>
+                <th>id</th>
+                <th>Nombre</th>
+                <th>medida</th>
+                <th>Cantidad</th>
+                <th>Eliminar</th>
+                <!-- <th>Categoría</th> -->
+
+              </tr>
+            </thead>
+            <tbody id="tbd-lista-ing"></tbody>
+          </table>
+          <a href="#" id="procesar-ing" class="btn btn-danger btn-block">Procesar ing</a>
+          <a href="#" id="vaciar-carrito-ing" class="btn btn-primary btn-block">Vaciar Carrito</a>
+
+        </div>
+      </li>
+
+
 
       
 

@@ -37,6 +37,10 @@ $(document).ready(function(){
                 <button class="borrar btn btn-sm btn-danger">
                     <i class="fas fa-trash-alt"></i>
                 </button>
+                
+                <button class="ingreds btn btn-sm btn-warning">
+                    <a href="#">Agregar Ing</a>
+                </button>
 
             `},
             { "data": "codbar" },
@@ -330,7 +334,18 @@ $(document).ready(function(){
             /* Blanc es para que abra una estaña nueva */
             window.open('../pdf/pdf-'+funcion+'.pdf','_blank');
         });
-    })  
+    }) 
+
+    $('#tabla_products tbody').on( 'click', '.ingreds', function () {
+
+       /* Obtener los datos de la fila seleccionada */
+    //    let datos = dtVehiculos.row(this).data();
+    let datos = datatable.row($(this).parents()).data();
+
+       let id_prod= datos.id_prod;
+   
+       window.location.href ='ingrediente.php' + "?id=" + id_prod; 
+    });
 });
 
 
