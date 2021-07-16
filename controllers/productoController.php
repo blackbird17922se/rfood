@@ -337,3 +337,55 @@ if($_POST['funcion']=='buscaCodbar'){
     $jsonstring = json_encode($json);
     echo $jsonstring;
 }
+
+
+if($_POST['funcion'] == 'registrarProduct'){
+    // funcion, codbar, prod_tipo, nombre, prod_pres, precio, iva, json
+
+    $codbar     = $_POST['codbar'];
+    $prod_tipo  = $_POST['prod_tipo'];
+    $nombre     = $_POST['nombre'];
+    $prod_pres  = $_POST['prod_pres'];
+    $precio     = $_POST['precio'];
+    $iva        = $_POST['iva'];
+
+
+    $ingreds = json_decode($_POST['jsonIngreds']);
+
+    $product->crearProducto($codbar,$nombre,$prod_tipo,$prod_pres,$precio,$iva);
+
+    /* obtener ultimo producto registrado */
+    $product->cargarUltimoProdReg();
+    foreach($product->objetos as $objeto){
+        $idProduct = $objeto->ultimoreg;
+        echo $idProduct;
+    }
+
+    try {
+        $db = new Conexion();
+        $conexion = $db->pdo;
+        $conexion->beginTransaction();
+        foreach ($ingreds as $ingred) {
+            $cantidad = $ingred->cantidad;
+
+            while($cantidad != 0){
+                $sql = "INSERT INTO ingrediente(cant,id_ing_prod,id_prod) 
+                    VALUES(
+                        '$cantidad',
+                        '$ingred->id_prod',
+                        $idProduct
+                    )
+                ";
+                $conexion->exec($sql);
+                $cantidad = 0;
+            }
+        }
+
+        $conexion->commit();
+
+        } catch (Exception $error) {
+            $conexion->rollBack();
+        echo $error->getMessage();
+    }
+
+}

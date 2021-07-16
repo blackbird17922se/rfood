@@ -39,7 +39,7 @@ switch ($_POST['funcion']) {
         
     break;
 
-    case 'listarInvTipos':
+    case 'listarInvTipos' || 'listarTipoIngred':
         $tipo->listarInvTipos();
         $json=array();
         foreach($tipo->objetos as $objeto){
@@ -51,6 +51,19 @@ switch ($_POST['funcion']) {
         $jsonstring = json_encode($json);
         echo $jsonstring;
     break;
+
+    // case 'listarTipoIngred':
+    //     $tipo->listarInvTipos();
+    //     $json=array();
+    //     foreach($tipo->objetos as $objeto){
+    //         $json[]=array(
+    //             'id_tipo'=>$objeto->id_inv_tipo,
+    //             'nom_tipo'=>$objeto->nom
+    //         );
+    //     }
+    //     $jsonstring = json_encode($json);
+    //     echo $jsonstring;
+    // break;
 
     
     default:

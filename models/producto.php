@@ -9,41 +9,24 @@ class Producto{
     }
     
 
-    function crearProducto($codbar,$nombre,$compos,$prod_tipo,$prod_pres,$precio,$iva){
+    function crearProducto($codbar,$nombre,$prod_tipo,$prod_pres,$precio,$iva){
         $sql = "SELECT id_prod FROM producto WHERE codbar = :codbar";
-
-        // nombre = :nombre
-        // AND codbar = :codbar 
-        // AND compos = :compos 
-        // AND adici = :adici
-        // AND prod_lab = :prod_lab 
-        // AND prod_tipo = :prod_tipo 
-        // AND prod_pres = :prod_pres
-
 
         $query = $this->acceso->prepare($sql);
         $query->execute(array(
             ':codbar'       => $codbar
-            // ':nombre'       => $nombre,
-            // ':compos'       => $compos,
-            // ':adici'        => $adici,
-            // ':prod_lab'     => $prod_lab,
-            // ':prod_tipo'    => $prod_tipo,
-            // ':prod_pres' => $prod_pres
         ));
         $this->objetos=$query->fetchall();
         /* Si encuentra el producto entonces no agregarlo */
         if(!empty($this->objetos)){
             echo 'noadd';
         }else{
-            /* codbar,$nombre,$compos,$prod_tipo,$prod_present,$precio,$iva */
-            $sql = "INSERT INTO producto(codbar, nombre, compos, prod_tipo, prod_pres, precio, iva) 
-            VALUES (:codbar, :nombre, :compos, :prod_tipo, :prod_pres, :precio, :iva)";
+            $sql = "INSERT INTO producto(codbar, nombre, prod_tipo, prod_pres, precio, iva) 
+            VALUES (:codbar, :nombre, :prod_tipo, :prod_pres, :precio, :iva)";
             $query = $this->acceso->prepare($sql);
             $query->execute(array(
                 ':codbar'       => $codbar,
                 ':nombre'       => $nombre,
-                ':compos'       => $compos,
                 ':prod_tipo'    => $prod_tipo,
                 ':prod_pres'    => $prod_pres,
                 ':precio'       => $precio,
@@ -221,19 +204,13 @@ class Producto{
         // }
     }
 
-    function ultimoProd(){
-        // $sql="SELECT * FROM producto";
-        // $sql="SELECT MAX(id_prod) FROM producto";
-        $sql="SELECT MAX(id_prod) AS ultProdM FROM producto";
+    function cargarUltimoProdReg(){
+
+        $sql="SELECT MAX(id_prod) AS ultimoreg FROM producto";
         $query = $this->acceso->prepare($sql);
         $query->execute();
         $this->objetos=$query->fetchall();
         return $this->objetos;
 
-        // $sql = "SELECT MAX(`id_prod`) FROM `producto`";
-        // $query = $this->acceso->prepare($sql);
-        // $query->execute();
-        // $this->objetos=$query->fetchall();
-        // return $this->objetos;
     }
 }
