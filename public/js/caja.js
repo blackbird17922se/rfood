@@ -101,8 +101,17 @@ $(document).ready(function(){
 
     $('#pago').keyup((e)=>{
         calcularVuelto()
-    })
+    });
 
+    /* Vaciar la tabla y demas campos */
+    function vaciarTabla(){
+        $('#lista-compra').empty();
+        $('#pago').val('');
+        // eliminarLS();
+        // contarProductos();
+        // calcularTotal();
+        // datatable.ajax.reload();
+    }
 
 
     $(document).on('click','#procesar-compra',(e)=>{
@@ -138,12 +147,12 @@ $(document).ready(function(){
                         success: function(resp){
                             if(resp==1){
                                 alert('imprime..');
-                                    //  eliminarLS();
-                                location.href = '../views/caja.php'
+                                    vaciarTabla();
+                                // location.href = '../views/caja.php'
                             }else{
                                 alert('error..');
-                                // eliminarLS();
-                                location.href = '../views/caja.php'
+                                vaciarTabla()
+                                // location.href = '../views/caja.php'
                             }
                         }
                     })                   
@@ -160,21 +169,21 @@ $(document).ready(function(){
                     success: function(resp){
                         if(resp==1){
                             alert('abre..');
-                                //  eliminarLS();
-                    location.href = '../views/caja.php'
+                                vaciarTabla();
+                    // location.href = '../views/caja.php'
 
                         }else{
                             // alert('error..');
-                            // eliminarLS();
-                            location.href = '../views/caja.php'
+                            vaciarTabla()
+                            // location.href = '../views/caja.php'
 
                         }
                     }
                 })
 
 
-                // eliminarLS();
-                location.href = '../views/caja.php'
+                vaciarTabla()
+                // location.href = '../views/caja.php'
             }
         });
 

@@ -143,15 +143,62 @@ switch ($_POST['funcion']) {
                 /* consultar precio prod */
                 
                 while ($cantidad != 0) {
+
+                    $caja->cargarIngreds($idProd);
+                    foreach($caja->objetos as $ingred){
+                        $ih = $ingred->id_ing_prod;
+                        echo "inged:". $ih;
+                        echo "cant:". $ingred->cant;
+                        echo "-------";
+                        $totalIngCant = 0;
+
+                        $ingCant = $ingred->cant;   //Cantidad del ingrediente
+                        echo $cantidad * $ingCant;
+                        $totalIngCant = $cantidad * $ingCant;
+
+                        /* Descontar productos */
+                        /* seleccionael lote mas proximo a vencer */
+                        $sql="SELECT * FROM inv_lote WHERE vencim = (SELECT MIN(vencim) FROM inv_lote WHERE lote_id_prod = :id) AND lote_id_prod = :id";
+                        $query = $conexion->prepare($sql);
+                        $query->execute(array(
+                            ':id'=>$ingred->id_ing_prod
+                        ));
+
+
+
+                        $lote = $query->fetchall();
+                        foreach ($lote as $lote) {
+                            if($totalIngCant < $lote->stock){
+                            
+                                $conexion->exec("UPDATE inv_lote SET stock = stock - '$totalIngCant' WHERE id_lote = '$lote->id_lote'");
+                                $totalIngCant = 0;
+                            }
+
+                            /* ingred->cant pedida es igual a la ingred->cant en el stock */
+                            if($totalIngCant == $lote->stock){
+                            
+                                $conexion->exec("DELETE FROM lote WHERE id_lote = '$lote->id_lote'");
+                                $totalIngCant = 0;
+                            }
+
+                            /* Cuaando la ingred->cant pedida es superior a la ingred->cant del stock de un lote
+                                y debe eliminar ese lote y consumir los productos del siguiente lote*/
+                            if($totalIngCant > $lote->stock){
+                        
+
+                                $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
+                                $totalIngCant -= $lote->stock;
+                            }
+                        }
+
+                    }
                     
                     $caja->agregarDetVenta($cantidad, $idProd, $idVenta);
-                    
-                    // echo 'add';
-                    // echo "-cant: ".$cantidad;
-                    // echo "-idprod: ".$obj->id_det_prod;
-                    // echo "-idVenta: ".$idVenta;
                     $cantidad = 0;
                 }
+
+                /* pp */
+
 
                 $precio=0;
                 // $caja->consultarDatosProducto($idProd);
@@ -169,6 +216,7 @@ switch ($_POST['funcion']) {
             }
 
             $conexion->commit();
+            // echo "oK";
 
         } catch (Exception $error) {
             $conexion->rollBack();
