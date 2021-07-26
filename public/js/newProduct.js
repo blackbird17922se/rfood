@@ -427,64 +427,14 @@ $(document).ready(function(){
         }else{
             registrarProduct();
 
-                    /* INSERT */
-                    Swal.fire({
-                        title: 'Venta Realizada',
-                        text: "¿Desea imprimir recibo?",
-                        icon: 'success',
-                        showCancelButton: true,
-                        confirmButtonText: 'Imprimir',
-                        cancelButtonText: 'Cancelar',
-                        reverseButtons: true
-                    }).then((result) => {
+            Swal.fire(
+                'Exito',
+                'Producto registrado',
+                'success'
+            );
+            eliminarLS();
+            location.href = '../views/adm_product.php'
 
-                        /* Si desea imprimir... */
-                        if (result.value) {
-
-                            funcion = "ultimaVenta";
-                            $.post('../controllers/compraController.php',{funcion},(response)=>{
-                                // console.log(response);
-                                $.ajax({
-                                    url: 'ticket.php',
-                                    type: 'POST',
-                                    success: function(resp){
-
-                                        if(resp == 1){
-                                            console.log('imprime...');
-                                            vaciarTabla();
-                                        }else{
-                                            console.log("error impresion");
-                                            vaciarTabla();
-                                        }
-
-                                    }
-                                })
-                            });
-
-                        /* Si no desea impresion... */
-                        } else if (result.dismiss === Swal.DismissReason.cancel) {
-
-                            $.ajax({
-                                url: 'ticketc.php',
-                                type: 'POST',
-                                success: function(resp){
-                                    console.log("no imprime");
-                                    
-                                    if(resp==1){
-                                        console.log("abrio registradora");
-                                        vaciarTabla();
-                                    }else{
-                                        console.log("error al abrir registradora");
-                                        vaciarTabla();
-                                    }
-                                }
-                            })
-
-                            console.log("otra");
-                            vaciarTabla();
-                        }
-                    });
-            
         }
     }
 
