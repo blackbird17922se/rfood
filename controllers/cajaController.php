@@ -177,17 +177,18 @@ switch ($_POST['funcion']) {
                             /* ingred->cant pedida es igual a la ingred->cant en el stock */
                             if($totalIngCant == $lote->stock){
                             
-                                $conexion->exec("DELETE FROM lote WHERE id_lote = '$lote->id_lote'");
+                                $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
                                 $totalIngCant = 0;
                             }
 
                             /* Cuaando la ingred->cant pedida es superior a la ingred->cant del stock de un lote
                                 y debe eliminar ese lote y consumir los productos del siguiente lote*/
                             if($totalIngCant > $lote->stock){
-                        
-
                                 $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
                                 $totalIngCant -= $lote->stock;
+
+                        
+
                             }
                         }
 
@@ -237,6 +238,64 @@ switch ($_POST['funcion']) {
             $_SESSION['idUltimaVenta'] = $idVenta;
             echo $idVenta;
         }
+    break;
+
+    case 'verificarStock':
+        $cantPedido = 0;
+        $cantIngred = 0;
+        $totalStock=0;
+        $response = 0;
+        $totalIngred = 0;
+
+        $idOrdSel = $_POST['idOrdSel'];
+
+        /* Consultar los detalles de ese pedido para conocer la cantidad */
+        $caja->cargarDatosPedido($idOrdSel);
+
+        foreach ($caja->objetos as $detalle){
+
+            $cantPedido = $detalle->det_cant;
+
+            /* Consultar ingredientes */
+            $caja -> cargarIngreds($detalle->id_det_prod);
+
+            foreach($caja->objetos as $ingred){
+
+                $idIngProduct = $ingred->id_ing_prod;
+ 
+                $cantIngred = $ingred->cant;
+
+                /* multiplica la cantidad de materia prima que requiere ese plato por
+                    la cantidad de platos solicitados 
+                */
+                $totalIngred = $cantIngred * $cantPedido;
+
+                $caja->obtenerStock($idIngProduct);
+
+                foreach($caja->objetos as $cantStock){
+                    // echo ' Total en STOCK:'.$cantStock->total;
+                    $totalStock = $cantStock->total;
+                }
+
+                /**
+                 * Si la cantidad en el stock es mayor al total de ingredientes
+                 * que se va a consumir por plato, retornar 0 para indicar que 
+                 * hay stock, sino, sumara 1 por cada producto cuya materia prima
+                 * esta escasa. 
+                **/
+                if($totalStock >= $totalIngred && $totalIngred > 0){
+                    $response += 0;
+                }else{
+                    $response++;
+                }
+            }
+            
+
+        }
+        echo $response;
+
+
+
     break;
 
 

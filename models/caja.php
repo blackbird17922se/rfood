@@ -146,6 +146,22 @@ class Caja{
 
     }
 
+    function obtenerStock($id_inv_prod){
+        $sql = "SELECT SUM(stock) as total FROM inv_lote WHERE lote_id_prod = :id_inv_prod";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':id_inv_prod' => $id_inv_prod));
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+    }
+
+    // function consultarIngredsProd($idProd){
+    //     $sql = "SELECT * FROM ingrediente WHERE id_prod = :idProd";
+    //     $query = $this->acceso->prepare($sql);
+    //     $query->execute([':idProd' => $idProd]);
+    //     $this->objetos = $query->fetchall();
+    //     return $this->objetos;
+    // }
+
 
 
 

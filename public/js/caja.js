@@ -2,6 +2,7 @@ $(document).ready(function(){
     var funcion;
     var totalS = 0;
     var idOrdenSel=0;
+    var respStock = 2;
 
     listarPedidosCaja()
     calcularVuelto()
@@ -11,7 +12,7 @@ $(document).ready(function(){
         funcion = 'listarPedidosCaja';
 
         $.post('../controllers/cajaController.php',{funcion},(response)=>{
-            // console.log(response);
+            console.log(response);
 
             const PEDIDOS = JSON.parse(response);
             let template = '';
@@ -120,87 +121,108 @@ $(document).ready(function(){
 
     /* ´------------------ */
     function procesarCompra(){
+    var respuesta = 1;
 
-        registrarVenta();
+        // verificarStock()
 
-        /* Implementacion recibo */
+        /* &&&& incrpora verstock */
+        console.log('verificarStock ejecutada');
+        funcion = 'verificarStock';
 
-        Swal.fire({
-            title: 'Venta Realizada',
-            text: "¿Desea imprimir recibo?",
-            icon: 'success',
-            showCancelButton: true,
-            confirmButtonText: 'Imprimir',
-            cancelButtonText: 'Cancelar',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.value) {
+        let idOrdSel = idOrdenSel;
 
-                let funcion = "ultimaVenta";
-                $.post('../controllers/cajaController.php',{funcion},(response)=>{
-                    console.log(response);
-                
+        console.log("ord selec para consulta stock: " + idOrdenSel);
 
-                    $.ajax({
-                        url: 'ticket.php',
-                        type: 'POST',
-                        success: function(resp){
-                            if(resp==1){
-                                alert('imprime..');
-                                    vaciarTabla();
-                                // location.href = '../views/caja.php'
-                            }else{
-                                alert('error..');
-                                vaciarTabla()
-                                // location.href = '../views/caja.php'
-                            }
-                        }
-                    })                   
-                });
+        $.post('../controllers/cajaController.php',{funcion,idOrdSel},(response)=>{
+            console.log("Ha respondido: "+response);
+            // respStock = response;
+            respuesta = response;
+        
 
-       
-                console.log("yes");
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                console.log("no");
 
-                $.ajax({
-                    url: 'ticketc.php',
-                    type: 'POST',
-                    success: function(resp){
-                        if(resp==1){
-                            alert('abre..');
-                                vaciarTabla();
-                    // location.href = '../views/caja.php'
+        /* $$ fon ver sitock */
 
-                        }else{
-                            // alert('error..');
-                            vaciarTabla()
+
+        // .then(respuesta=>{
+            console.log("Respuesta a enviar: " + respuesta);
+
+            if(respuesta == 0){
+
+                registrarVenta();
+
+                /* Implementacion recibo */
+
+                Swal.fire({
+                    title: 'Venta Realizada',
+                    text: "¿Desea imprimir recibo?",
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonText: 'Imprimir',
+                    cancelButtonText: 'Cancelar',
+                    reverseButtons: true
+                }).then((result) => {
+                    if (result.value) {
+
+                        let funcion = "ultimaVenta";
+                        $.post('../controllers/cajaController.php',{funcion},(response)=>{
+                            console.log(response);
+                        
+
+                            $.ajax({
+                                url: 'ticket.php',
+                                type: 'POST',
+                                success: function(resp){
+                                    if(resp==1){
+                                        alert('imprime..');
+                                            vaciarTabla();
+                                        // location.href = '../views/caja.php'
+                                    }else{
+                                        alert('error..');
+                                        vaciarTabla()
+                                        // location.href = '../views/caja.php'
+                                    }
+                                }
+                            })                   
+                        });
+
+            
+                        console.log("selecciono imprimir");
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        console.log("selecciono no imprimir");
+
+                        $.ajax({
+                            url: 'ticketc.php',
+                            type: 'POST',
+                            success: function(resp){
+                                if(resp==1){
+                                    alert('abre..');
+                                        vaciarTabla();
                             // location.href = '../views/caja.php'
 
-                        }
+                                }else{
+                                    // alert('error..');
+                                    vaciarTabla()
+                                    // location.href = '../views/caja.php'
+
+                                }
+                            }
+                        })
+
+
+                        vaciarTabla()
+                        // location.href = '../views/caja.php'
                     }
+                });
+                /* END */
+            }else{
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Atencion',
+                    text: 'Escasea materia prima en algun plato',
                 })
-
-
-                vaciarTabla()
-                // location.href = '../views/caja.php'
             }
-        });
-
-
-        /* END */
-
-
-        // Swal.fire({
-        //     position: 'center',
-        //     icon: 'success',
-        //     title: 'Compra Exitosa',
-        //     showConfirmButton: false,
-        //     timer: 1500
-        // }).then(function(){
-        //     // eliminarLS();
-        //     // location.href = '../views/adm_cat.php'
-        // });
+        // });  //Cierre then
+    });
 
     }
 
@@ -239,23 +261,26 @@ $(document).ready(function(){
             $.post('../controllers/pedidoController.php',{funcion,idOrdenSel},(response)=>{
                 console.log(response);
                 idOrdenSel=0;
-                listarPedidosCaja()
-
-
-                /* ----------- */
-                
+                listarPedidosCaja() 
             })
-
         })
-
-
     }
 
 
 
+    function verificarStock(){
+      console.log('verificarStock ejecutada');
+        funcion = 'verificarStock';
 
+        let idOrdSel = idOrdenSel;
 
+        console.log("ord selec para consulta stock: " + idOrdenSel);
 
+        $.post('../controllers/cajaController.php',{funcion,idOrdSel},(response)=>{
+            console.log("Ha respondido: "+response);
+            respStock = response;
+        });
+    }
 
 });
  

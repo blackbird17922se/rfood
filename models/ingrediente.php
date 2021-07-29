@@ -236,4 +236,12 @@ class Ingrediente{
         // $this->objetos=$query->fetchall();
         // return $this->objetos;
     }
+
+    // function consultarIngredsProd($idProd){
+    //     $sql = "SELECT * FROM ingrediente WHERE id_prod = :idProd";
+    //     $query = $this->acceso->prepare($sql);
+    //     $query->execute([':idProd' => $idProd]);
+    //     $this->objetos = $query->fetchall();
+    //     return $this->objetos;
+    // }
 }
