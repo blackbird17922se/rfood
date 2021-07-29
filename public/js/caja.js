@@ -163,53 +163,53 @@ $(document).ready(function(){
                 }).then((result) => {
                     if (result.value) {
 
-                        let funcion = "ultimaVenta";
-                        $.post('../controllers/cajaController.php',{funcion},(response)=>{
-                            console.log(response);
+                        // let funcion = "ultimaVenta";
+                        // $.post('../controllers/cajaController.php',{funcion},(response)=>{
+                        //     console.log(response);
                         
 
-                            $.ajax({
-                                url: 'ticket.php',
-                                type: 'POST',
-                                success: function(resp){
-                                    if(resp==1){
-                                        alert('imprime..');
-                                            vaciarTabla();
-                                        // location.href = '../views/caja.php'
-                                    }else{
-                                        alert('error..');
-                                        vaciarTabla()
-                                        // location.href = '../views/caja.php'
-                                    }
-                                }
-                            })                   
-                        });
+                        //     $.ajax({
+                        //         url: 'ticket.php',
+                        //         type: 'POST',
+                        //         success: function(resp){
+                        //             if(resp==1){
+                        //                 alert('imprime..');
+                        //                     vaciarTabla();
+                        //                 // location.href = '../views/caja.php'
+                        //             }else{
+                        //                 alert('error..');
+                        //                 vaciarTabla()
+                        //                 // location.href = '../views/caja.php'
+                        //             }
+                        //         }
+                        //     })                   
+                        // });
 
             
                         console.log("selecciono imprimir");
                     } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        console.log("selecciono no imprimir");
+                        // console.log("selecciono no imprimir");
 
-                        $.ajax({
-                            url: 'ticketc.php',
-                            type: 'POST',
-                            success: function(resp){
-                                if(resp==1){
-                                    alert('abre..');
-                                        vaciarTabla();
-                            // location.href = '../views/caja.php'
+                        // $.ajax({
+                        //     url: 'ticketc.php',
+                        //     type: 'POST',
+                        //     success: function(resp){
+                        //         if(resp==1){
+                        //             alert('abre..');
+                        //                 vaciarTabla();
+                        //     // location.href = '../views/caja.php'
 
-                                }else{
-                                    // alert('error..');
-                                    vaciarTabla()
-                                    // location.href = '../views/caja.php'
+                        //         }else{
+                        //             // alert('error..');
+                        //             vaciarTabla()
+                        //             // location.href = '../views/caja.php'
 
-                                }
-                            }
-                        })
+                        //         }
+                        //     }
+                        // })
 
 
-                        vaciarTabla()
+                        // vaciarTabla()
                         // location.href = '../views/caja.php'
                     }
                 });
@@ -255,14 +255,14 @@ $(document).ready(function(){
             console.log(response);
 
             // Modificar estado del pedido
-            funcion = 'pagado';
-            console.log("pagado");
+            // funcion = 'pagado';
+            // console.log("pagado");
     
-            $.post('../controllers/pedidoController.php',{funcion,idOrdenSel},(response)=>{
-                console.log(response);
-                idOrdenSel=0;
-                listarPedidosCaja() 
-            })
+            // $.post('../controllers/pedidoController.php',{funcion,idOrdenSel},(response)=>{
+            //     console.log(response);
+            //     idOrdenSel=0;
+            //     listarPedidosCaja() 
+            // })
         })
     }
 
