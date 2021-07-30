@@ -204,22 +204,22 @@ switch ($_POST['funcion']) {
 
                    
                     
-                    // $caja->agregarDetVenta($cantidad, $idProd, $idVenta);
+                    $caja->agregarDetVenta($cantidad, $idProd, $idVenta);
                     // $cantidad = 0;
                 }
-
+                
                 /* pp */
 
             }   //fin cargIngr
-                // $precio=0;
-                // // $caja->consultarDatosProducto($idProd);
-                // $caja->consultarPrecio($idProd);
-                // foreach($caja->objetos as $objPr){
-                //     $precio = $objPr->precio;           
-                // }
-                // $subtotal = $cantidad2 * $precio;
-                // $caja->insertRegVenta($precio, $cantidad2, $subtotal, $idProd, $idVenta);
-                // /* venta_prod(precio,cant,subtotal,prod_id_prod,venta_id_venta)  */
+                $precio=0;
+                // $caja->consultarDatosProducto($idProd);
+                $caja->consultarPrecio($idProd);
+                foreach($caja->objetos as $objPr){
+                    $precio = $objPr->precio;           
+                }
+                $subtotal = $cantidad2 * $precio;
+                $caja->insertRegVenta($precio, $cantidad2, $subtotal, $idProd, $idVenta);
+                /* venta_prod(precio,cant,subtotal,prod_id_prod,venta_id_venta)  */
 
 
 
