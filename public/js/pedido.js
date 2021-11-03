@@ -37,6 +37,7 @@ $(document).ready(function(){
                         <div class="card bg-light">
                             <div class="card-header text-muted border-bottom-0">Orden Numero: ${pedido.idPedido}
                             <h2 class="lead"><b>id Mesa: ${pedido.idMesa}</b></h2>
+                          
                             
                             </div>
 
@@ -45,6 +46,11 @@ $(document).ready(function(){
                                     <div class="col-12">
                                 
                                         <h2 class="lead"><b>${tempProducts}</b></h2>
+
+                                        <div class="form-group">
+                                            <label for="observ">Observaciones</label>
+                                            <p class="" id="observ" rows="3">${pedido.observ}</p>
+                                        </div>
 
                                     </div>                           
                                 </div>

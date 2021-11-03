@@ -28,6 +28,11 @@ if(!empty($_SESSION['rol'])){
             $_SESSION['rol'] = $objeto->rol;
             $_SESSION['nom'] = $objeto->nom;
         }
+
+        $token = sha1(uniqid(rand(), true));
+        $_SESSION['token'] = $token;
+
+
         switch ($_SESSION['rol']) {
             
             // admin

@@ -211,12 +211,12 @@ class Venta{
 
     }
 
-    function consultarResponsables($idOrden){
-        $sql = "SELECT id_mesero, id_coc_lider FROM venta
+    function consultarResponsables($idVenta){
+        $sql = "SELECT id_mesero, id_coc_lider, id_orden FROM venta
         WHERE id_venta = :id_venta";
     
         $query = $this->acceso->prepare($sql);
-        $query->execute([':id_venta' => $idOrden]);
+        $query->execute([':id_venta' => $idVenta]);
         $this->objetos = $query->fetchall();
         return $this->objetos;
     }
@@ -237,6 +237,16 @@ class Venta{
     
         $query = $this->acceso->prepare($sql);
         $query->execute([':id' => $id]);
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
+
+    function consultarObservaciones($idOrden){
+        $sql = "SELECT observ FROM pedido
+        WHERE id_pedido = :idOrden";
+    
+        $query = $this->acceso->prepare($sql);
+        $query->execute([':idOrden' => $idOrden]);
         $this->objetos = $query->fetchall();
         return $this->objetos;
     }

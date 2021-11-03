@@ -236,15 +236,18 @@ if($_POST['funcion']=='rep_cierre'){
 }
 
 if($_POST['funcion']=='consultarResponsables'){
-    $idOrden = $_POST['id'];
-    $venta->consultarResponsables($idOrden);
+    $idVenta = $_POST['id'];
+    $venta->consultarResponsables($idVenta);
     $json=array();
     $mesero = "";
     $cocineroLider = "";
+    $idOrden = 0;
+    $observ = "";
     foreach ($venta->objetos as $objeto) {
 
         $id_mesero        = $objeto->id_mesero;
         $id_coc_lider = $objeto->id_coc_lider;
+        $idOrden = $objeto->id_orden;
      
         $venta->consultarMesero($id_mesero);
         foreach ($venta->objetos as $objMesero) {
@@ -256,9 +259,15 @@ if($_POST['funcion']=='consultarResponsables'){
             $cocineroLider = $objCocinero->cocinerolider;
         }
 
+        $venta->consultarObservaciones($idOrden);
+        foreach ($venta->objetos as $objObs) {
+            $observ = $objObs->observ;
+        }
+
         $json[] = array(
             "mesero" => $mesero,
-            "cocineroLider" => $cocineroLider
+            "cocineroLider" => $cocineroLider,
+            "observ" => $observ
 
         );
     }

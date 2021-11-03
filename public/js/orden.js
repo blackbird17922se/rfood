@@ -183,6 +183,7 @@ $(document).ready(function(){
         }else{
             funcion = 'nuevoPedido';
             let id_mesa = $('#mesa').val();
+            let observ = $('#observ').val();
             let entregado = 0;
             let terminado = 0;
             let pagado    = 0;
@@ -193,9 +194,13 @@ $(document).ready(function(){
         /* nviar ese producto al controlador */
             let json = JSON.stringify(productos);
             console.log(json);
-            $.post('../controllers/pedidoController.php',{funcion,id_mesa,json,entregado,terminado,pagado},(response=>{
+            $.post('../controllers/pedidoController.php',{funcion,id_mesa,json,observ,entregado,terminado,pagado},(response=>{
                 console.log(response);
+                console.log(`val observ: ${observ}`);
+
             }));
+
+            datatable.ajax.reload();
 
 
             
@@ -264,6 +269,8 @@ $(document).ready(function(){
     /* CARRITO DE COMPRAS AL HACER CLICK EN EL BOTON DE CADA PRODUCTO "AGREGAR AL CARRITO"*/
 
     $('#tabla_products tbody').off('click','.agregar-carrito').on('click','.agregar-carrito',function(){
+        //$('.agregar-carrito').addClass('.vettttttttt');
+
         let datos = datatable.row($(this).parents()).data();
 
         const ID      = datos.id_prod;
@@ -343,7 +350,8 @@ $(document).ready(function(){
         $('#tbd-lista').empty();
         eliminarLS();
         contarProductos();
-        // calcularTotal()
+        datatable.ajax.reload();
+        $("#prod_tipo").val('').trigger('change');
     });
 
 
@@ -357,14 +365,12 @@ $(document).ready(function(){
                 text: 'Debe seleccionar una mesa',
             })
         }else{
-            $("#mesa").select2("val", "");
-            $('#prod_tipo').select2("val","");
 
             procesarPedido();
             eliminarLS();
             contarProductos();
-            // $("#prod_tipo").val("");
-            // $("#customers_select").select2("val", "");
+            $('#tbd-lista').empty();
+            $(".select2").val('').trigger('change');
 
         }
     

@@ -2,7 +2,7 @@
 class Conexion{
    private $servidor = "localhost";
    private $db = "rfood";
-//    private $puerto = 3306;
+   private $puerto = 3310;
    private $charset = "utf8";
    private $usuario="root";
    private $password="";
@@ -21,7 +21,7 @@ class Conexion{
     ];
 
     function __construct(){
-        $this->pdo = new PDO("mysql:dbname={$this->db};host={$this->servidor};charset={$this->charset}",$this->usuario,$this->password,$this->atributos);
-        // $this->pdo = new PDO("mysql:dbname={$this->db};host={$this->servidor};port={$this->puerto};charset={$this->charset}",$this->usuario,$this->password,$this->atributos);
+      //   $this->pdo = new PDO("mysql:dbname={$this->db};host={$this->servidor};charset={$this->charset}",$this->usuario,$this->password,$this->atributos);
+        $this->pdo = new PDO("mysql:dbname={$this->db};host={$this->servidor};port={$this->puerto};charset={$this->charset}",$this->usuario,$this->password,$this->atributos);
     }
 }

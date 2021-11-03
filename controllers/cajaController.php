@@ -116,7 +116,7 @@ switch ($_POST['funcion']) {
         /* integra sfarma */
         date_default_timezone_set('America/Bogota');
         $fecha = date('Y-m-d H:i:s');
-        $caja->crearVenta($total, $formaPago, $fecha, $vendedor, $idMesero, $idCocineroLider);
+        $caja->crearVenta($total, $formaPago, $fecha, $vendedor, $idMesero, $idCocineroLider, $idOrd);
 
         /* obtener id de la venta */
         $caja->ultimaVenta();

@@ -165,28 +165,23 @@ $(document).ready(function () {
         /* consultar mesero y cocinero lider */
         funcion = "consultarResponsables"
         $.post('../controllers/ventaController.php',{funcion,id},(response)=>{
-            console.log(response);
+            // console.log(response);
             const encargados = JSON.parse(response);
 
             encargados.forEach(encargado=>{
+                // console.log(encargado.observ);
                 $('#mesero').html(encargado.mesero);
                 $('#coc_lider').html(encargado.cocineroLider);
+                $('#observCli').html(encargado.observ);
 
             })
-            /*   'mesero'        => $objeto->id_mesero,
-            'cocineroLider' => $objeto->id_coc_lider, */
-
-
         });
 
-
-        // let id= datos.id_venta;
         funcion = 'ver';
-        console.log(id);
+        // console.log(id);
 
         $('#codigo_venta').html(datos.id_venta);
         $('#fecha').html(datos.fecha);
-        // $('#cliente').html(datos.cliente);
         $('#cajero').html(datos.vendedor);
         $('#total').html(datos.total);
         $.post('../controllers/ventaProductoController.php',{funcion,id},(response)=>{
@@ -208,7 +203,7 @@ $(document).ready(function () {
                 $('#registros').html(template);
                 
             });
-            console.log(response);   
+            // console.log(response);   
         })
     });
 });

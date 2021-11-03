@@ -47,10 +47,10 @@ class Caja{
     }
 
 
-    function crearVenta($total, $formaPago, $fecha,$vendedor, $idMesero, $idCocineroLider){
+    function crearVenta($total, $formaPago, $fecha,$vendedor, $idMesero, $idCocineroLider,$id_orden){
 
-        $sql = "INSERT INTO venta(total, formpago, fecha, vendedor, id_mesero, id_coc_lider) 
-        VALUES (:total, :formaPago, :fecha, :vendedor, :id_mesero, :id_coc_lider)";
+        $sql = "INSERT INTO venta(total, formpago, fecha, vendedor, id_mesero, id_coc_lider, id_orden) 
+        VALUES (:total, :formaPago, :fecha, :vendedor, :id_mesero, :id_coc_lider, :id_orden)";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(
             ':fecha'        => $fecha,
@@ -58,7 +58,8 @@ class Caja{
             ':formaPago'   => $formaPago,
             ':vendedor'     => $vendedor,
             ':id_mesero'    => $idMesero,
-            ':id_coc_lider' => $idCocineroLider
+            ':id_coc_lider' => $idCocineroLider,
+            ':id_orden' => $id_orden
         ));
         echo 'add';
     }

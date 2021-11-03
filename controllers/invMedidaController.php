@@ -1,5 +1,5 @@
 <?php
-include '../models/invmedida.php';
+include '../models/invMedida.php';
 $medida = new InvMedida();
 
 switch ($_POST['funcion']) {

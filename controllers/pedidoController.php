@@ -12,6 +12,7 @@ switch ($_POST['funcion']) {
         session_start();
 
         $id_mesa   = $_POST['id_mesa'];
+        $observ = $_POST['observ'];
         $entregado = $_POST['entregado'];
         $terminado = $_POST['terminado'];
         $pagado    = $_POST['pagado'];
@@ -19,7 +20,7 @@ switch ($_POST['funcion']) {
         $productos = json_decode($_POST['json']);
         $fecha = date('Y-m-d H:i:s');
         
-        $pedido->nuevoPedido($id_mesa, $id_mesero, $entregado,$terminado,$pagado);
+        $pedido->nuevoPedido($id_mesa, $id_mesero, $observ, $entregado,$terminado,$pagado);
 
         /* obtener id de la venta */
         $pedido->ultimoPedido();
@@ -97,6 +98,7 @@ switch ($_POST['funcion']) {
             $json[]=array(
                 'idPedido' => $objeto->id_pedido,
                 'idMesa'=>$objeto->id_mesa,
+                'observ'=>$objeto->observ,
                 'prods'=> $jsonP
             );
         }

@@ -99,7 +99,7 @@ if(!empty($_SESSION['rol'])){
                         <div class="card-body box-profile">
                             <div class="text-center">
 
-                                <input type="hidden" id="id_usu" value="<?php echo $_SESSION['usuario'];?>">
+                                <input type="text" id="id_usu" value="<?php echo $_SESSION['usuario'];?>">
                                 
                                 <h3 id="nom" class="profile-username text-center text-success"></h3>
                                 <p id="ape" class="text-muted text-center"></p>

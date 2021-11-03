@@ -11,16 +11,17 @@ class Pedido{
         $this->acceso = $bd->pdo;
     }
 
-    function nuevoPedido($id_mesa, $id_mesero, $entregado,$terminado, $pagado){
-        $sql = "INSERT INTO pedido (id_mesa, id_mesero, entregado, terminado, pagado) 
-        VALUES (:id_mesa, :id_mesero, :entregado, :terminado, :pagado)";
+    function nuevoPedido($id_mesa, $id_mesero, $observ, $entregado,$terminado, $pagado){
+        $sql = "INSERT INTO pedido (id_mesa, id_mesero, entregado, terminado, pagado, observ) 
+        VALUES (:id_mesa, :id_mesero, :entregado, :terminado, :pagado, :observ)";
         $query = $this->acceso->prepare($sql);
         $query->execute([      
             ':id_mesa'   => $id_mesa,
             ':id_mesero' => $id_mesero,
             ':entregado' => $entregado,
             ':terminado' => $terminado,
-            ':pagado'    => $pagado
+            ':pagado'    => $pagado,
+            ':observ'    => $observ
         ]);
         echo 'add';
     }
@@ -36,7 +37,7 @@ class Pedido{
 
     function listarPedidosPendEntrega(){
 
-        $sql = "SELECT id_pedido, id_mesa FROM pedido WHERE entregado = 0 AND terminado = 0";
+        $sql = "SELECT id_pedido, id_mesa, observ FROM pedido WHERE entregado = 0 AND terminado = 0";
         $query = $this->acceso->prepare($sql);
         $query->execute();
         $this->objetos=$query->fetchall();

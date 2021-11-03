@@ -12,11 +12,6 @@ body{
 
 }
 
-#body-login{
-    background: url("../img/bg_login.jpg") no-repeat;
-    width: 100%;
-    background-size: cover;
-}
 
 .input-div >div >input{
     /* position: absolute;

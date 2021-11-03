@@ -27,6 +27,13 @@
   <!-- Navbar -->
   <nav id="barrasup" class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
+    <!-- <p>kjhkjhjkhkjhkjhkjh: <?php echo $_SESSION['token'] ?></p> -->
+
+    <p><?php
+    // session_start();
+     echo $_SESSION['token'];
+    //  echo $_SESSION["newsession"];
+      ?></p>
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -56,6 +63,12 @@
             </thead>
             <tbody id="tbd-lista"></tbody>
           </table>
+          <div class="form-group">
+            <label for="observ">Observaciones</label>
+            <textarea class="form-control" id="observ" rows="3"></textarea>
+          </div>
+
+          <!-- <textarea name="" id="" cols="30" rows="10"></textarea> -->
           <a href="#" id="procesar-pedido" class="btn btn-danger btn-block">Procesar Pedido</a>
           <a href="#" id="vaciar-carrito" class="btn btn-primary btn-block">Vaciar Carrito</a>
 

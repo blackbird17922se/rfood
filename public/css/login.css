@@ -1,0 +1,58 @@
+/* LOG-IN */
+
+#body-login{
+    background: url("../img/bg_login.jpg") no-repeat;
+    width: 100%;
+    background-size: cover;
+}
+
+#row-login{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    padding: 30px;
+    margin-top: 50px; 
+}
+
+.logo-login{
+    color: rgb(255 255 255 / 58%);
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: bolder;
+    font-style: italic;
+}
+
+.box-login{
+    background: #a0b4cb52;
+    backdrop-filter: blur(20px);
+    padding: 30px 30px 10px;
+    border-radius: 7px;
+    text-align: center;
+    /* offset-x | offset-y | blur-radius | color */
+    box-shadow: -2px 2px 5px #303030;
+}
+
+.box-form{
+    background: #ffffffeb;
+    backdrop-filter: blur(20px);
+    padding: 30px;
+    border-radius: 5px;
+    border-color: #d9d9d9;
+    border-width: 2px;
+    border-style: solid;
+}
+
+#btn-log{
+    background: none;
+    color: #ffffffeb;
+    border: none;
+    padding: 30px;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+}
+
+#btn-log:hover{
+    color: #ffffff;
+}

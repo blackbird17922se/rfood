@@ -56,6 +56,12 @@ if(!empty($_SESSION['rol']==1)){
 
                         </tbody>
                     </table>
+
+                    <div class="form-group">
+                        <label for="observCli">Observaciones del Pedido: </label>
+                        <p id="observCli"></p>
+                    </div>
+
                     <div class="float-right input-group-append">
                         <h3 class="m-3">Total: </h3>
                         <h3 class="m-3" id="total"></h3>

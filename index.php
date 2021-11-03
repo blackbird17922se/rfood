@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <title>Login RFood</title>
+    <!-- <link rel="preconnect" href="https://fonts.gstatic.com"> -->
     <!-- <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet"> -->
-    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="public/css/login.css">
     <!-- font awess -->
-    <link rel="stylesheet" href="public/css/css/all.min.css">
+    <!-- <link rel="stylesheet" href="public/css/css/all.min.css"> -->
+    <link rel="stylesheet" href="public/css/adminlte.min.css">
 </head>
 <?php
 session_start();
@@ -21,33 +22,28 @@ if(!empty($_SESSION['rol'])){
 
 ?>
 <body id="body-login">
-<div class="contenedor-login">
-    <form action="controllers/loginController.php" method="POST">
-    <h2>Farmacia</h2>
-        <div class="input-div correo">
-            <div class="i">
-                <i class="fas fa-user"></i>
-            </div>
-            <div class="div">
-                <h5>Número Identificador de Usuario</h5>
-                <input type="number" name="user" class="input">
-            </div>
-        </div>
+    <div class="container">
+        <div class="row" id="row-login">
+            <div class="col-lg-4 col-lg-offset-7 col-md-offset-2  col-sm-12">
+                <h1 class="logo-login">RFood</h1>
+                <div class="box-login">
 
-        <div class="input-div pass">
-            <div class="i">
-                <i class="fas fa-lock"></i>
-            </div>
-            <div class="div">
-                <h5>Contraseña</h5>
-                <input type="password" name="pass" class="input">
-            </div>
-        </div>
-        <input type="submit" class="btn" value="iniciar sesion">
-    
-    </form>
-</div>
+                    <div class="box-form">
 
+                        <form action="controllers/loginController.php" method="POST">
+                            <div class="form-group">
+                                <input type="number" placeholder="Identificación del Usuario" title="Escriba el numero de identificación con el cual se registró en RFood" name="user" class="form-control input" required>               
+                            </div>
+                            <div class="form-group">
+                                <input type="password" title="Ingrese su contraseña" placeholder="Contraseña" name="pass" class="form-control input" required>
+                            </div>                            
+                        </div>
+                        <input type="submit" id="btn-log" value="Ingresar">
+                    </form>
+                </div>
+            </div>
+        </div> 
+    </div>
 </body>
 </html>
 <?php
