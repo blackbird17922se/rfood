@@ -30,6 +30,8 @@ if(!empty($_SESSION['rol'])){
         }
 
         $token = sha1(uniqid(rand(), true));
+
+        setcookie("tk",$token,time()+(60*60*24*31),"/");
         $_SESSION['token'] = $token;
 
 

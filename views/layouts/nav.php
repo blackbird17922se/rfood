@@ -27,13 +27,8 @@
   <!-- Navbar -->
   <nav id="barrasup" class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
-    <!-- <p>kjhkjhjkhkjhkjhkjh: <?php echo $_SESSION['token'] ?></p> -->
 
-    <p><?php
-    // session_start();
-     echo $_SESSION['token'];
-    //  echo $_SESSION["newsession"];
-      ?></p>
+    <p><?php echo $_COOKIE['tk'] ?></p>
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -145,7 +140,8 @@
     <!-- Brand Logo -->
     <a href="#" class="brand-link">
       <!-- <img src="../public/img/logo.png" alt="AdminLTE Logo" class="brand-image" > -->
-      <span class="brand-text font-weight-light">Codename Rfood</span>
+      <!-- <span class="brand-text font-weight-light">Codename Rfood</span> -->
+      <h1 id="logo">RFood</h1>
     </a>
 
     <!-- Sidebar -->

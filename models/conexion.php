@@ -1,11 +1,19 @@
 <?php
 class Conexion{
    private $servidor = "localhost";
+
+   // private $db = "id12935461_rfood";
    private $db = "rfood";
+
    private $puerto = 3310;
    private $charset = "utf8";
+
+   // private $usuario="id12935461_root";
    private $usuario="root";
+
+   // private $password="Blackbird92!";
    private $password="";
+
    public $pdo = null;
 //    private $atributos=[
     //    PDO::ATTR_CASE =>PDO::CASE_LOWER,PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,PDO::ATTR_ORACLE_NULLS => PDO::NULL_EMPTY_STRING,PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ];
