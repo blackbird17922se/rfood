@@ -1,7 +1,17 @@
+/**
+ * ingred.js
+ * 
+ * Continene las funciones para el modulo Ingredientes el cual 
+ * permite añadir ingredintes para la creacion de los items
+ * (o platos) del menu de la carta.
+ */
+
 $(document).ready(function(){
     var funcion;
     var edit = false;   // bandera
     var nomProd =""; // Contiene el nombre del producto al ser creado, usada al asignar lote auto
+
+    const URL_INGRED_CONTROL = '../controllers/ingredController.php';
 
     /* buscara los campos de lista desplegable con la clase select2 + la funcion interna select2*/
     $('.select2').select2();
@@ -10,7 +20,7 @@ $(document).ready(function(){
     /* lee los datos de la BD y los distribuye en sus filas y columnas */
 
     funcion = "listarProducts";
-    let datatable = $('#tabla_inv_products').DataTable( {
+    let datatable = $('#tb_ingreds').DataTable( {
 
         "scrollX": true,
 
@@ -19,7 +29,7 @@ $(document).ready(function(){
         
         "ajax": {
             
-            "url":"../controllers/invProductoController.php",
+            "url": URL_INGRED_CONTROL,
             "method":"POST",
             "data":{funcion:funcion},
             "dataSrc":""
@@ -41,12 +51,12 @@ $(document).ready(function(){
                 </button>
 
             `},
-            { "data": "stock" },
-            { "data": "codbar" },
             { "data": "nombre" },
+            { "data": "stock" },
+            { "data": "medida" },
             { "data": "precio" },
             { "data": "tipo" },
-            { "data": "medida" },
+            { "data": "codbar" },
         ],
         language: espanol,
     } );
@@ -231,7 +241,7 @@ $(document).ready(function(){
 
     /******************************************************************************/
 
-    $('#tabla_inv_products tbody').on('click','.editar',function(){
+    $('#tb_ingreds tbody').on('click','.editar',function(){
         let datos = datatable.row($(this).parents()).data();
 
         let id          = datos.id_inv_prod;
@@ -278,7 +288,7 @@ $(document).ready(function(){
     /******************************************************************************/
     /* FUNCION BORRAR */
 
-    $('#tabla_inv_products tbody').on('click','.borrar',function(){
+    $('#tb_ingreds tbody').on('click','.borrar',function(){
         let datos = datatable.row($(this).parents()).data();
         let id= datos.id_inv_prod;
         let nom= datos.nombre;
@@ -361,7 +371,7 @@ $(document).ready(function(){
 
     /**Trae los datos id y nombre producto de la fila al hacer clic en asignar lote**/
 
-    $('#tabla_inv_products tbody').on('click','.lote',function(){
+    $('#tb_ingreds tbody').on('click','.lote',function(){
         console.log("asignar lote");
 
         let datos = datatable.row($(this).parents()).data();

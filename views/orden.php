@@ -49,7 +49,7 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
                                         <thead>
                                             <tr>
                                                 <th>Acción</th>
-                                                <th>Codigo Producto</th>
+                                                <!-- <th hidden>Codigo Producto</th> -->
                                                 <th>Nombre</th>
                                                 <th>Presentación</th>
                                                 <th>Precio</th>

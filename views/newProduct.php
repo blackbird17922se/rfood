@@ -13,24 +13,24 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
     <section class="content">
 
         <div id="form_codbar" class="form-group">
-            <label id="labcodbar" for="codbar">Código de producto</label>
+            <label for="codbar">Código del Ítem</label>
             <input type="number" class="form-control" id="codbar" required>
         </div>
 
         <div class="form-group">
-            <label for="prod_tipo">Categoría del producto</label>
-            <select id="prod_tipo" class="form-control select2" style="width: 100%;" required>
+            <label for="cat_item">Categoría</label>
+            <select id="cat_item" class="form-control select2" style="width: 100%;" required>
             </select>
         </div>
 
         <div class="form-group">
-            <label for="nombre">Nombre del producto</label>
+            <label for="nombre">Nombre</label>
             <input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="nombreHelp" required>
         </div>
 
         <div class="form-group">
-            <label for="prod_pres">Presentación del producto</label>
-            <select id="prod_pres" class="form-control select2" style="width: 100%;" required>
+            <label for="pres_item">Presentación</label>
+            <select id="pres_item" class="form-control select2" style="width: 100%;" required>
             </select>
         </div>
 
@@ -54,7 +54,7 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
 
 
             <div class="form-group">
-                <label for="tipo_ing">Categoría del producto</label>
+                <label for="tipo_ing">Categoría del Ingrediente</label>
                 <select id="tipo_ing" class="form-control select2" style="width: 100%;" required>
 
                 </select>
@@ -100,11 +100,27 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
                                 
                             </div>
                         </div>
+
+                        <div class="container">
+                            <h1>Ingredientes Asignados al Ítem</h1>
+                            <a href="#" id="vaciar-carrito-ing" class="btn btn-danger btn-small">Vaciar Tabla</a>
+                            <table class="table mt-4">
+                                <thead class="table-success">
+                                <tr>
+                                    <th>id</th>
+                                    <th>Nombre</th>
+                                    <th>medida</th>
+                                    <th>Cantidad</th>
+                                    <th>Eliminar</th>
+                                </tr>
+                                </thead>
+                                <tbody id="tbd-lista-ing"></tbody>
+                            </table>
+
+                        </div>
+
                         <div class="card-footer">
-                            <li id=""  class="nav-item">
-                                <a href="#" class="btn btn-warning btn-block" id="procesarProd">Crear pp</a>
-                            </li>
-                            <button type="button" data-dismiss="modal" class="btn btn-outline-secondary float-right m-1">Cerrar</button>
+                            <a href="#" id="procesarProd" class="btn btn-success btn-small">Guardar Ítem</a>
                         </div>
                     </div>
                 </div>
@@ -127,4 +143,4 @@ include_once "layouts/footer.php";
 ?>
 
 <script src="../public/js/datatables.js"></script>
-<script src="../public/js/newProduct.js"></script>
+<script src="../public/js/newItemMenu.js"></script>

@@ -9,7 +9,9 @@ class Producto{
     }
     
 
-    function crearProducto($codbar,$nombre,$prod_tipo,$prod_pres,$precio,$iva){
+    //15-11
+    function crearProducto($codbar, $cat_item, $nombreItem, $pres_item, $precio, $iva){
+
         $sql = "SELECT id_prod FROM producto WHERE codbar = :codbar";
 
         $query = $this->acceso->prepare($sql);
@@ -26,14 +28,19 @@ class Producto{
             $query = $this->acceso->prepare($sql);
             $query->execute(array(
                 ':codbar'       => $codbar,
-                ':nombre'       => $nombre,
-                ':prod_tipo'    => $prod_tipo,
-                ':prod_pres'    => $prod_pres,
+                ':nombre'       => $nombreItem,
+                ':prod_tipo'    => $cat_item,
+                ':prod_pres'    => $pres_item,
                 ':precio'       => $precio,
                 ':iva'          => $iva
             ));
-            echo 'add';
+
+            echo 'add_Item_Menu';
+            return true;
         }
+
+
+        
     }
 
 
@@ -211,6 +218,27 @@ class Producto{
         $query->execute();
         $this->objetos=$query->fetchall();
         return $this->objetos;
+
+    }
+
+    function crearItemMenu($codbar, $idIngred, $nomIngred, $medida, $cantidad){
+        /* Agregar a la tabla ingredintes */
+        $sql = "INSERT INTO ITEMENUINGR(CODBAR_ITEM, ID_INGR, NOM_INGR,
+        MEDIDA_INGR, CANT_INGR)
+        VALUES(
+            :codbar, :idIngred, :nomIngred, :medida, :cantidad
+        )              
+    ";
+    $query = $this->acceso->prepare($sql);
+    $query->execute(array(
+        ':codbar'    => $codbar,
+        ':idIngred'  => $idIngred,
+        ':nomIngred' => $nomIngred,
+        ':medida'    => $medida,
+        ':cantidad'  => $cantidad,
+    ));
+    echo 'add_Ingred_item / ';
+
 
     }
 }

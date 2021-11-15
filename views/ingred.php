@@ -20,38 +20,18 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 
                     <form action="" id="form-crear-product">
 
-                        <div id="form_codbar" class="form-group">
-                            <label id="labcodbar" for="codbar">Código de producto</label>
-                            <input type="number" class="form-control" id="codbar" required>
-                        </div>
 
-                        <div class="form-group">
-                            <label for="prod_tipo">Categoría del producto</label>
-                            <select id="prod_tipo" class="form-control select2" style="width: 100%;" required>
-                            </select>
+                        <div id="form_codbar" class="form-group">
+                            <label id="labcodbar" for="codbar">Código de Barras</label>
+                            <input type="number" class="form-control" id="codbar" required>
                         </div>
 
                         <div class="form-group">
                             <label for="nombre">Nombre del producto</label>
                             <input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="nombreHelp" required>
                         </div>
-
-                        <div class="form-group">
-                            <label for="prod_pres">Presentación del producto</label>
-                            <select id="prod_pres" class="form-control select2" style="width: 100%;" required>
-                            </select>
-                        </div>
                         
-                        <div class="form-group">
-                            <label for="compos">Ingredientes</label>
-                            <input type="text" class="form-control" id="compos" name="compos" aria-describedby="composHelp">
-                            <small id="composHelp" class="form-text text-muted">Ingrese los ingredientes del producto o platillo.</small>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="precio">Precio</label>
-                            <input type="number" step="any" class="form-control" id="precio" name="precio" aria-describedby="precioHelp" required>
-                        </div>
+                       
 
                         <div class="form-group col-md-12">
                             <label >APLICAR IVA</label><br>
@@ -60,8 +40,25 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                             </div>
                             <small id="tipo_servHelp" class="form-text text-muted">Seleccione si aplica iva</small>
                         </div>
-     
-                        <input type="hidden" id="id_edit-prod">
+
+                        <div class="form-group">
+                            <label for="precio">Precio</label>
+                            <input type="number" step="any" class="form-control" id="precio" name="precio" aria-describedby="precioHelp" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="prod_tipo">Tipo de producto</label>
+                            <select id="prod_tipo" class="form-control select2" style="width: 100%;" required>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="medida">Medida del producto</label>
+                            <select id="medida" class="form-control select2" style="width: 100%;" required>
+                            </select>
+                        </div>
+
+                        <input type="text" id="idEditProd">
 
 
                         <!-- ALERTAS -->
@@ -140,7 +137,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                             <input type="date" class="form-control" id="vencim" name="vencim" aria-describedby="vencimHelp">
                         </div>
     
-                        <input type="hidden" id="lote_id_prod">
+                        <input type="text" id="lote_id_prod">
 
                 </div>
                 <div class="card-footer">
@@ -163,7 +160,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Gestión de productos</h1>
+            <h1>Gestión de productos INV</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -174,9 +171,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
         </div>
         <div class="row">
             <button id="btn-crear" type="button" data-toggle="modal" data-target="#crearproduct" class="btn bg-gradient-primary ml-2" title="editar">Crear Producto</button>
-            <!-- <button id="btn-reporte" type="button" class="btn bg-gradient-success ml-2">Reporte Productos</button> -->
-            <a href="newProduct.php">Nuevo PP</a>
-
+            <button id="btn-reporte" type="button" class="btn bg-gradient-success ml-2">Reporte Productos</button>
         </div>
       </div><!-- /.container-fluid -->
     </section>
@@ -190,18 +185,17 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                     <h3 class="card-title">Inventario de productos</h3>
                 </div>
 
-<!-- funcion,id,codbar,nombre,compos,prod_tipo,prod_pres,precio,iva -->
                 <div class="card-body">
-                    <table id="tabla_products" class="display table table-hover text-nowrap" style="width:100%">
+                    <table id="tb_ingreds" class="display table table-hover text-nowrap" style="width:100%">
                         <thead>
                             <tr>
                                 <th>Acción</th>
-                                <th>Codigo Producto</th>
-                                <th>Categoría</th>
+                                <th>Stock</th>
+                                <th>Codigo Barras</th>
                                 <th>Nombre</th>
-                                <th>Presentacion</th>
                                 <th>Precio</th>
-                                <th>Ingredientes</th>
+                                <th>Tipo</th>
+                                <th>Unidad</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -227,4 +221,4 @@ include_once "layouts/footer.php";
 }
 ?>
 <script src="../public/js/datatables.js"></script>
-<script src="../public/js/producto.js"></script>
+<script src="../public/js/ingred.js"></script>

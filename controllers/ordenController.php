@@ -28,13 +28,13 @@ if($_POST['funcion'] == 'listarProducts'){
             </div>
 
             <button class='agregar-carrito lote btn btn-sm btn-primary'>
-                <i class='fas fa-plus-square mr-2'></i>Agregar al carrito
+                <i class='fas fa-plus-square mr-2'></i>Agregar al pedido
             </button>
         ";
 
         $json[]=array(
             'id_prod'=>$objeto->id_prod,
-            'codbar'=>$objeto->codbar,
+            // 'codbar'=>$objeto->codbar,
             'nombre'=>$objeto->nombre,
             'compos'=>$objeto->compos,
             'categ'=>$objeto->categ,    //Categoria

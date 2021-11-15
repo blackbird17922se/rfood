@@ -158,7 +158,7 @@ $(document).ready(function(){
 
            
                 { "data": "cant" },
-                { "data": "codbar" },
+                
                 { "data": "nombre" },
                 { "data": "present" },
                 { "data": "precio" },
@@ -177,8 +177,8 @@ $(document).ready(function(){
         if(productos.length === 0){
             Swal.fire({
                 icon: 'error',
-                title: 'Atencion',
-                text: 'El Carrito esta vacio',
+                title: 'Atención',
+                text: 'Debes agregar algún producto al pedido',
             })
         }else{
             funcion = 'nuevoPedido';
@@ -308,7 +308,7 @@ $(document).ready(function(){
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Ya ingresaste este producto al carrito',
+                text: 'Ya ingresaste este producto al pedido',
             })
         }else if(PRODUCTO.cantidad == 0){
             Swal.fire({
@@ -361,7 +361,7 @@ $(document).ready(function(){
         if(mesa == 0){
             Swal.fire({
                 icon: 'warning',
-                title: 'Atencion',
+                title: 'Atención',
                 text: 'Debe seleccionar una mesa',
             })
         }else{

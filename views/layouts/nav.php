@@ -39,7 +39,7 @@
 
       <li id="cat-carrito" class="nav-item dropdown" style="display:none">
         <a class="tx-carrito nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Carrito
+          Pedido
         </a>
         <span id="contador" class="contador badge badge-danger"></span>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -65,52 +65,13 @@
 
           <!-- <textarea name="" id="" cols="30" rows="10"></textarea> -->
           <a href="#" id="procesar-pedido" class="btn btn-danger btn-block">Procesar Pedido</a>
-          <a href="#" id="vaciar-carrito" class="btn btn-primary btn-block">Vaciar Carrito</a>
-
-        </div>
-      </li>
-
-
-      <li id="ing-carrito" class="nav-item dropdown" style="display:none">
-        <a class="tx-carrito nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Ing
-        </a>
-        <span id="contador" class="contador badge badge-danger"></span>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <table class="carro table table-over text-nowrap p-0">
-            <thead class="table-success">
-              <tr>
-                <th>id</th>
-                <th>Nombre</th>
-                <th>medida</th>
-                <th>Cantidad</th>
-                <th>Eliminar</th>
-                <!-- <th>Categoría</th> -->
-
-              </tr>
-            </thead>
-            <tbody id="tbd-lista-ing"></tbody>
-          </table>
-          <a href="#" id="procesar-ing" class="btn btn-danger btn-block">Procesar ing</a>
-          <a href="#" id="vaciar-carrito-ing" class="btn btn-primary btn-block">Vaciar Carrito</a>
+          <a href="#" id="vaciar-carrito" class="btn btn-primary btn-block">Vaciar Pedido</a>
 
         </div>
       </li>
 
 
 
-      
-
-      <!-- Menus barra  superior, desabilitados momentaneamente -->
-
-      <!-- <li class="nav-item d-none d-sm-inline-block">
-        <a href="../../index3.html" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
-      </li> -->
-
-     
 
     </ul>
 
@@ -154,10 +115,6 @@
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-
-     
 
           <li class="nav-item">
             <a href="orden.php" class="nav-link">
@@ -223,31 +180,31 @@
           <?php }?>
 
        
-          <li class="nav-header">Almacen</li>
+          <li class="nav-header">Menú y Carta</li>
           <li class="nav-item">
-            <a href="adm_product.php" class="nav-link">
-              <i class="nav-icon fas fa-pills"></i>
+            <a href="adm_menu.php" class="nav-link">
+              <i class="nav-icon fas fa-hamburger"></i>
               <p>
-                Gestión de productos
+                Menú
               </p>
             </a>
           </li>
 
           <li class="nav-item">
             <a href="adm_atr.php" class="nav-link">
-              <i class="nav-icon fas fa-vials"></i>
+              <i class="nav-icon fas fa-toolbox"></i>
               <p>
-                Gestión de Atributos
+                Atributos Menú
               </p>
             </a>
           </li>
 
           <li class="nav-header">Inventario</li>
           <li class="nav-item">
-            <a href="inv_product.php" class="nav-link">
+            <a href="ingred.php" class="nav-link">
               <i class="nav-icon fas fa-pills"></i>
               <p>
-                Gestión de productos Inv
+                Ingredientes
               </p>
             </a>
           </li>
@@ -256,7 +213,7 @@
             <a href="inv_atr.php" class="nav-link">
               <i class="nav-icon fas fa-vials"></i>
               <p>
-                Gestión de Atributos inv
+                Atributos Ingredientes
               </p>
             </a>
           </li>
@@ -265,7 +222,7 @@
             <a href="inv_lote.php" class="nav-link">
               <i class="nav-icon fas fa-cubes"></i>
               <p>
-                Gestión de Lotes
+                Lotes Ingredientes
               </p>
             </a>
           </li>

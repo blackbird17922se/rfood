@@ -94,7 +94,7 @@ $(document).ready(function(){
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Ya ingresaste este producto al carrito',
+                text: 'Ya ingresaste este producto al pedido',
             })
         }else{
             template=`
@@ -188,7 +188,7 @@ $(document).ready(function(){
                     Swal.fire({
                         icon: 'error',
                         title: 'Error',
-                        text: 'Ya ingresaste este producto al carrito',
+                        text: 'Ya ingresaste este producto al pedido',
                     })
                 }else{
                     template=`
@@ -339,8 +339,8 @@ $(document).ready(function(){
         if(productos.length === 0){
             Swal.fire({
                 icon: 'error',
-                title: 'Atencion',
-                text: 'El Carrito esta vacio',
+                title: 'Atención',
+                text: '¡Debes agregar algún producto al pedido!',
             })
         }else{
             location.href = '../views/adm_cat.php';
@@ -499,8 +499,8 @@ $(document).ready(function(){
         if(recuperarLS().length == 0){
             Swal.fire({
                 icon: 'error',
-                title: 'Atencion',
-                text: 'El Carrito esta vacio',
+                title: 'Atención',
+                text: '¡Debes agregar algún producto al pedido!',
             }).then(function(){
                 location.href = '../views/adm_cat.php'
             })

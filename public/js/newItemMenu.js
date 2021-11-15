@@ -1,11 +1,12 @@
 /* 
- * ORDEN
- * Controla las ordenes de Mesero
+
 */
 
 $(document).ready(function(){
 
     var funcion, idCat="";
+
+    const URL_CONTR_PROD = '../controllers/productoController.php';
 
     
     $(".select2").select2({
@@ -22,7 +23,7 @@ $(document).ready(function(){
     function listar_tipos(){
         funcion = "listar_tipos";
         $.post('../controllers/tipoController.php',{funcion},(response)=>{
-            // console.log(response);
+            // console.log("tipos" + response);
             const TIPOS = JSON.parse(response);
             let template = '';
             TIPOS.forEach(tipo=>{
@@ -31,7 +32,7 @@ $(document).ready(function(){
                 `;
             });
             /* id del campo que contiene el listado */
-            $('#prod_tipo').html(template);
+            $('#cat_item').html(template);
         })
     }
      
@@ -48,7 +49,7 @@ $(document).ready(function(){
                 `;
             });
             /* id del campo que contiene el listado */
-            $('#prod_pres').html(template);
+            $('#pres_item').html(template);
         })
     }
 
@@ -80,7 +81,6 @@ $(document).ready(function(){
     var datatable="";
 
     mostrarProducts()
-    contarProductos();
     recuperarLSRecarga()
 
 
@@ -90,9 +90,10 @@ $(document).ready(function(){
         let ingreds;
         if(localStorage.getItem('ingreds')===null){
             ingreds=[];
+            console.log("ingrds: "+ingreds);
         }else{
             ingreds = JSON.parse(localStorage.getItem('ingreds'));
-
+            console.log("ingrds: "+ingreds);
         }
         return ingreds;
     }
@@ -144,19 +145,6 @@ $(document).ready(function(){
 
     function eliminarLS(){
         localStorage.clear();
-    }
-
-    /* Agrega el numero de productos que lleva el carrito */
-    function contarProductos(){
-        let ingreds;
-        let contador = 0;
-        ingreds = recuperarLS();
-        ingreds.forEach(ingred=>{
-            contador++;
-        });
-        // return contador;
-        $('#contador').html(contador);
-
     }
 
 
@@ -212,30 +200,6 @@ $(document).ready(function(){
                 console.log(response);
             }));
 
-
-            
-            // productos = JSON.parse(localStorage.getItem('productos'));
-            // productos.forEach(prod => {
-            //     console.log(prod.id_prod);
-
-            //     let id_mesa = $('#mesa').val();
-            //     let id_prod = prod.id_prod;
-            //     let entregado = 0;
-            //     let terminado = 0;
-
-            //     $.post('../controllers/pedidoController.php',{funcion,id_mesa,id_prod,entregado,terminado},(response=>{
-            //         console.log(response);
-            //         $('#tbd-lista-ing').empty();
-            //         eliminarLS();
-            //         contarProductos()
-            //     }));
-
-            // })
-
-
-
-
-            // location.href = '../views/adm_compra.php';
         }
     }
 
@@ -338,7 +302,7 @@ $(document).ready(function(){
             `;
             $('#tbd-lista-ing').append(template);
             agregarLS(PRODUCTO);
-            contarProductos();
+            
         }   
     });
 
@@ -349,7 +313,7 @@ $(document).ready(function(){
         const ID = $(ELEM).attr('prodId');
         ELEM.remove();
         eliminarProdLS(ID);
-        contarProductos();
+        
         // calcularTotal()
     })
 
@@ -358,7 +322,7 @@ $(document).ready(function(){
         /* borra todos los elementos del tbody */
         $('#tbd-lista-ing').empty();
         eliminarLS();
-        contarProductos();
+        
         // calcularTotal()
     });
 
@@ -369,7 +333,7 @@ $(document).ready(function(){
 
             procesarPedido();
             eliminarLS();
-            contarProductos();
+            
   
     
     })
@@ -407,40 +371,116 @@ $(document).ready(function(){
 
         /* nviar ese producto al controlador */
         let jsonIngreds = JSON.stringify(producto);
-        $.post('../controllers/productoController.php',{funcion, codbar, prod_tipo, nombre, prod_pres, precio, iva, jsonIngreds},(response)=>{
+        $.post(URL_CONTR_PROD,{funcion, codbar, prod_tipo, nombre, prod_pres, precio, iva, jsonIngreds},(response)=>{
             console.log(response);
         })
 
     }
 
 
-    function procesarProduct(){
+    function procesarItemCarta(){
 
-        if(recuperarLS().length == 0){
+        let ingreds   = [];
+        let json      = '';
+
+        let codbar    = 0;
+        let cat_item  = '';
+        let nombre    = '';
+        let pres_item = '';
+        let precio    = 0;
+        let iva       = 0;
+
+        ingreds = recuperarLS();
+        if(ingreds.length === 0){
             Swal.fire({
                 icon: 'error',
                 title: 'Atencion',
-                text: 'El Carrito esta vacio',
-            }).then(function(){
-                location.href = '../views/caja.php'
+                text: 'No Asignaste Ingredientes Al Ítem',
             })
         }else{
-            registrarProduct();
 
-            Swal.fire(
-                'Exito',
-                'Producto registrado',
-                'success'
-            );
-            eliminarLS();
-            location.href = '../views/adm_product.php'
+            // Verificar check del IVA
+            if($('#iva').is(':checked')){
+                $('#iva').prop("value","1");
+            }else{
+                $('#iva').prop("value","0");
+            }
 
+            funcion   = 'nuevoItem';
+
+            codbar    = $('#codbar').val();
+            cat_item  = $('#cat_item').val();
+            nombre    = $('#nombre').val();
+            pres_item = $('#pres_item').val();
+            precio    = $('#precio').val();
+            iva       = $('#iva').val();
+
+
+        /* nviar ese producto al controlador */
+            json = JSON.stringify(ingreds);
+            console.log(json);
+            $.post('../controllers/productoController.php',{funcion,codbar,cat_item,nombre,pres_item,precio,iva,json},(response=>{
+                console.log("RESP MEN: "+response);
+            }));
+
+            // datatable.ajax.reload();
+
+
+            
+            // productos = JSON.parse(localStorage.getItem('productos'));
+            // productos.forEach(prod => {
+            //     console.log(prod.id_prod);
+
+            //     let id_mesa = $('#mesa').val();
+            //     let id_prod = prod.id_prod;
+            //     let entregado = 0;
+            //     let terminado = 0;
+
+            //     $.post('../controllers/pedidoController.php',{funcion,id_mesa,id_prod,entregado,terminado},(response=>{
+            //         console.log(response);
+            //         $('#tbd-lista').empty();
+            //         eliminarLS();
+            //         contarProductos()
+            //     }));
+
+            // })
+
+
+
+
+            // location.href = '../views/adm_compra.php';
         }
+
+
+
+
+
+        // if(recuperarLS().length == 0){
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Atencion',
+        //         text: 'No Asignaste Ingredientes Al Ítem',
+        //     })
+        // }else{
+        //     registrarProduct();
+
+        //     Swal.fire(
+        //         'Exito',
+        //         'Ítem registrado',
+        //         'success'
+        //     );
+        //     eliminarLS();
+        //     location.href = '../views/adm_menu.php'
+
+        // }
     }
 
     $(document).on('click','#procesarProd',(e)=>{
         console.log("procesarProd");
-        procesarProduct();
+        procesarItemCarta();
+        eliminarLS();
+        $('#tbd-lista-ing').empty();
+        $(".select2").val('').trigger('change');
     })
 
 

@@ -29,7 +29,7 @@ if($_POST['funcion'] == 'listarProducts'){
             </div>
 
             <button class='agregar-carrito lote btn btn-sm btn-primary'>
-                <i class='fas fa-plus-square mr-2'></i>Agregar al carrito
+                <i class='fas fa-plus-square mr-2'></i>Asignar al Ítem
             </button>
         ";
 

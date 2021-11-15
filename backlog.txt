@@ -1,0 +1,7 @@
+- MENU/
+
+    -NUEVO ITEM:
+        - No esta almacenando los ingredientes suministrados en el front
+        - Permite agregar el item sin haber agregado ingredientes
+
+    - EDITAR ITEM
