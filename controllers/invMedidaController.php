@@ -52,6 +52,22 @@ switch ($_POST['funcion']) {
         echo $jsonstring;
     break;
 
+
+    case 'consultarDatosMedida':
+        $idMedida = $_POST['un_medida'];
+
+        $medida->consultarDatosMedida($idMedida);
+
+        foreach($medida->objetos as $objeto){
+            $json[]=array(
+                'idMedida'=>$objeto->id_medida,
+                'nomMedida'=>$objeto->nom
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    break;
+
     
     default:
         echo "ERROR, OPCION INVALIDA";

@@ -70,4 +70,13 @@ class InvMedida{
         $this->objetos=$query->fetchall();
         return $this->objetos;
     }
+
+    function consultarDatosMedida($idMedida){
+
+        $sql="SELECT * FROM un_medida WHERE ID_MEDIDA = :idMedida";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':idMedida' => $idMedida));
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+    }
 }

@@ -7,11 +7,12 @@
  */
 
 $(document).ready(function(){
-    var funcion;
-    var edit = false;   // bandera
-    var nomProd =""; // Contiene el nombre del producto al ser creado, usada al asignar lote auto
+
+    var funcion = '';
+    var edit    = false;   // bandera
 
     const URL_INGRED_CONTROL = '../controllers/ingredController.php';
+
 
     /* buscara los campos de lista desplegable con la clase select2 + la funcion interna select2*/
     $('.select2').select2();
@@ -19,7 +20,7 @@ $(document).ready(function(){
     /* Variable que almacena la DataTable.                             */
     /* lee los datos de la BD y los distribuye en sus filas y columnas */
 
-    funcion = "listarProducts";
+    funcion = "listarIngreds";
     let datatable = $('#tb_ingreds').DataTable( {
 
         "scrollX": true,
@@ -54,7 +55,6 @@ $(document).ready(function(){
             { "data": "nombre" },
             { "data": "stock" },
             { "data": "medida" },
-            { "data": "precio" },
             { "data": "tipo" },
             { "data": "codbar" },
         ],
@@ -62,14 +62,14 @@ $(document).ready(function(){
     } );
 
 
-    listarProdCons();
-        function listarProdCons(){
-        funcion = "listarProducts";
-        $.post('../controllers/invProductoController.php',{funcion},(response)=>{
-            console.log(response);
-   
-        })
-    }
+    // listarProdCons();
+    // function listarProdCons(){
+    // funcion = "listarProducts";
+    // $.post(URL_INGRED_CONTROL,{funcion},(response)=>{
+    //     console.log(response);
+
+    // })
+    // }
 
 
     /******************************************************************************/
@@ -143,12 +143,12 @@ $(document).ready(function(){
     })
 
     $(document).on('click','#btn-crear',(e)=>{
-        // console.log("click en br crear");
+        edit = false;   // bandera
+        console.log("click en br crear");
         $('#codbar').attr("type","number");
         $('#labcodbar').show();
+        vaciarCampos();
         // $('#form-crear-product').trigger('reset');
-
-        edit = false;   // bandera
     });
 
     /******************************************************************************/
@@ -159,15 +159,6 @@ $(document).ready(function(){
         let id      = $('#idEditProd').val()
         let codbar  = $('#codbar').val();
         let nombre  = $('#nombre').val();
-
-        if($('#iva').is(':checked')){
-            $('#iva').prop("value","1");
-        }else{
-            $('#iva').prop("value","0");
-        }
-
-        let iva       = $('#iva').val();
-        let precio    = $('#precio').val(); 
         let prod_tipo = $('#prod_tipo').val();
         let un_medida = $('#medida').val();
 
@@ -178,29 +169,35 @@ $(document).ready(function(){
         }
 
         // funcion = edit == true ? "editar" : "crear";
-        console.log(funcion+"-id:"+id+"-cb:"+codbar+"-nom:"+nombre+"-"+iva+"-"+precio+"-"+prod_tipo+"-"+un_medida);
-        $.post('../controllers/invProductoController.php',{funcion,id,codbar,nombre,iva,precio,prod_tipo,un_medida},(response)=>{
+        // console.log(funcion+"-id:"+id+"-cb:"+codbar+"-nom:"+nombre+"-"+iva+"-"+precio+"-"+prod_tipo+"-"+un_medida);
+        $.post(URL_INGRED_CONTROL,{funcion,id,codbar,nombre,prod_tipo,un_medida},(response)=>{
 
             console.log(response);
             if(response=='add'){
-                nomProd = nombre;
+
+                funcion = "consultarDatosMedida";
+                $.post('../controllers/invMedidaController.php', {funcion, un_medida}, (response) =>{
+                    console.log(response);
+
+                    const MEDIDAS = JSON.parse(response);
+                    medIngred = '';
+                    MEDIDAS.forEach(medida=>{
+                        medIngred = medida.nomMedida
+                    });
+                });
+
                 $('#add-product').hide('slow');
                 $('#add-product').show(1000);
                 $('#add-product').hide(2000);
 
                 /* Vaciar campos */
-                $('#codbar').val('');
-                $('#nombre').val('');
-                $('#compos').val('');
-                $('#adici').val('');
-                $('#precio').val('');
+                vaciarCampos();
 
-                $('#crearproduct').modal('hide');    //Desplegar el modal de "lote"
+                $('#crearproduct').modal('hide');
 
                 datatable.ajax.reload();
 
                 $('#crearlote').modal();    //Desplegar el modal de "lote"
-                // $('#form-crear-product').trigger('reset');
 
                 asignarLoteAutomatic(); // Ejecutar asignacion de lote al prod. creado
   
@@ -210,14 +207,8 @@ $(document).ready(function(){
                 $('#edit-product').show(1000);
                 $('#edit-product').hide(2000);
 
-                /* Vaciar campos */
-                $('#codbar').val('');
-                $('#nombre').val('');
-                $('#compos').val('');
-                $('#adici').val('');
-                $('#precio').val('');
+                vaciarCampos();
 
-                // $('#form-crear-product').trigger('reset');
                 datatable.ajax.reload();
             }
             if(response=='noadd'){
@@ -247,40 +238,15 @@ $(document).ready(function(){
         let id          = datos.id_inv_prod;
         let codbar      = datos.codbar;
         let nombre      = datos.nombre;
-        let iva         = datos.iva;
-        let precio      = datos.precio;
         let prod_tipo   = datos.prod_tipo; // Lacteos...
         let un_medida   = datos.un_medida; // gr, lt...
-
-        let nval = 0;   // nval: nuevo valor del iva
-
-        /* Si el valor de iva proveniente de la bd es true (1) entonces añadir o no la */
-        /* propiedad checked al input de iva, de esa manera aparece o no chequeado.    */
-        if(iva == 1){
-            $('#iva').prop("checked",true);
-        }else{
-            $('#iva').prop("checked",false);
-        }
 
         /* Los $(#...) Son los identificadores del formulario */
         $('#idEditProd').val(id);
         $('#codbar').val(codbar);
         $('#nombre').val(nombre);
-
-        if($('#iva').is(':checked')){
-            $('#iva').prop("value","1");
-            nval = 1;
-            $('#iva').val(nval).trigger('change');
-        }else{
-            $('#iva').prop("value","0");
-            nval = 0;
-            $('#iva').val(nval).trigger('change');
-        }
-
-        $('#precio').val(precio);
         $('#prod_tipo').val(prod_tipo).trigger('change');
         $('#medida').val(un_medida).trigger('change');
-        // $('#codbar').attr("type","hidden");
 
         edit = true;   // bandera
     });
@@ -313,7 +279,7 @@ $(document).ready(function(){
         }).then((result) => {
             if (result.value) {
                 console.log(id);
-                $.post('../controllers/invProductoController.php',{id,funcion},(response)=>{
+                $.post(URL_INGRED_CONTROL,{id,funcion},(response)=>{
                     datatable;
                     if(response=='borrado'){
 
@@ -346,26 +312,45 @@ $(document).ready(function(){
     /*************Asignar automaticamente lotes al crear el producto***************/
 
     function asignarLoteAutomatic() {
-        console.log("asignarLoteAutomatic");
 
-        var ultRegistro = 0;    //Ultimo Registro
+        let nomProd     = '';
+        let medIngred   = '';
+        let idIngred = 0;
+
 
         funcion = "ultimoReg";
-        $.post('../controllers/invProductoController.php',{funcion},(response)=>{
+        $.post(URL_INGRED_CONTROL, {funcion},(response)=>{
 
             const ULT_REG = JSON.parse(response);
+            console.log(response);
 
             ULT_REG.forEach(registro =>{
-                ultRegistro = registro.ultimo_prod;            
-
+                idIngred = registro.ultimo_prod;  
+                // console.log("idIngred" + idIngred);          
             });
 
-            $('#lote_id_prod').val(ultRegistro);
-            $('#nom_product_lote').html(nomProd);
-    
             edit = true;   // bandera
 
-        });        
+            //implmentar una consulta a x ingredinte y
+            //cargar nom medida y nom ingred
+            funcion = "buscar_id";
+
+            // console.log("envio a lote: func: " +  funcion +" id: " + idIngred);
+            $.post(URL_INGRED_CONTROL, {funcion, idIngred},(response)=>{
+
+                const INGREDATOS = JSON.parse(response);
+
+                INGREDATOS.forEach(ingreDato =>{
+                    nomProd = ingreDato.nombre;
+                    medIngred = ingreDato.medida;
+                });
+
+                $('#lote_id_prod').val(idIngred);
+                $('#nom_product_lote').html(nomProd);
+                $('#med_Ingr_lote').html(medIngred);
+
+            })
+        });   
     }
 
 
@@ -378,9 +363,12 @@ $(document).ready(function(){
 
         let id= datos.id_inv_prod;
         let nombre= datos.nombre;
+        let medida= datos.medida;
 
         $('#lote_id_prod').val(id);
         $('#nom_product_lote').html(nombre);
+        $('#med_Ingr_lote').html(medida);
+
         edit = true;   // bandera
     });
 
@@ -424,12 +412,21 @@ $(document).ready(function(){
     /******************************************************************************/
     $(document).on('click','#btn-reporte',(e)=>{
         funcion = 'rep_prod';
-        $.post('../controllers/invProductoController.php',{funcion},(response)=>{
+        $.post(URL_INGRED_CONTROL,{funcion},(response)=>{
             console.log(response);
             /* Blanc es para que abra una estaña nueva */
             window.open('../pdf/pdf-'+funcion+'.pdf','_blank');
         });
-    })  
+    }) 
+
+    function vaciarCampos(){
+        $('#codbar').val('');
+        $('#nombre').val('');
+        $('#idEditProd').val('');
+        $('#form-crear-product').trigger('reset');
+
+    }
+
 });
 
 

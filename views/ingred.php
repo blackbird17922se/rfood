@@ -5,13 +5,13 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
     include_once "layouts/nav.php";
 ?>
 
-<!-- modal producto -->
+<!-- modal Ingredientes -->
 <div class="modal fade" id="crearproduct" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="card card-success">
                 <div class="card-header">
-                    <h3 class="card-title">Producto</h3>
+                    <h3 class="card-title">Ingrediente</h3>
                     <button data-dismiss="modal" aria-label="close" class="close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -27,38 +27,23 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                         </div>
 
                         <div class="form-group">
-                            <label for="nombre">Nombre del producto</label>
+                            <label for="nombre">Nombre del Ingrediente</label>
                             <input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="nombreHelp" required>
                         </div>
                         
-                       
-
-                        <div class="form-group col-md-12">
-                            <label >APLICAR IVA</label><br>
-                            <div class="col-md-6">
-                                <input type="checkbox" id="iva" class="form-check-input">
-                            </div>
-                            <small id="tipo_servHelp" class="form-text text-muted">Seleccione si aplica iva</small>
-                        </div>
-
                         <div class="form-group">
-                            <label for="precio">Precio</label>
-                            <input type="number" step="any" class="form-control" id="precio" name="precio" aria-describedby="precioHelp" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="prod_tipo">Tipo de producto</label>
+                            <label for="prod_tipo">Tipo de Ingrediente</label>
                             <select id="prod_tipo" class="form-control select2" style="width: 100%;" required>
                             </select>
                         </div>
 
                         <div class="form-group">
-                            <label for="medida">Medida del producto</label>
+                            <label for="medida">Medida del Ingrediente</label>
                             <select id="medida" class="form-control select2" style="width: 100%;" required>
                             </select>
                         </div>
 
-                        <input type="text" id="idEditProd">
+                        <input type="hidden" id="idEditProd">
 
 
                         <!-- ALERTAS -->
@@ -67,11 +52,11 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                         </div>
 
                         <div class="alert alert-danger text-center" id="noadd-product" style="display: none;">
-                            <span><i class="fas fa-times m-1"></i>Ya existe el producto ingresado</span>
+                            <span><i class="fas fa-times m-1"></i>Ya existe el Ingrediente ingresado</span>
                         </div>
 
                         <div class="alert alert-success text-center" id="edit-product" style="display: none;">
-                            <span><i class="fas fa-check m-1"></i>Producto editado</span>
+                            <span><i class="fas fa-check m-1"></i>Ingrediente editado</span>
                         </div>
 
 
@@ -118,8 +103,8 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                     <form id="form-crear-lote">
 
                         <div class="form-group">
-                            <label for="nom_product_lote">Producto:</label>
-                            <label id="nom_product_lote">NombreX</label>
+                            <label for="nom_product_lote">Ingrediente: </label>
+                            <label id="nom_product_lote"></label>
                         </div>
 
                         <div class="form-group">
@@ -128,7 +113,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                         </div>
 
                         <div class="form-group">
-                            <label for="stock">Stock</label>
+                            <label for="stock">Cantidad de <span id="med_Ingr_lote"></span> a ingresar en este lote</label>
                             <input type="text" class="form-control" id="stock" name="stock" aria-describedby="stockHelp" required>
                         </div>
                         
@@ -137,7 +122,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                             <input type="date" class="form-control" id="vencim" name="vencim" aria-describedby="vencimHelp">
                         </div>
     
-                        <input type="text" id="lote_id_prod">
+                        <input type="hidden" id="lote_id_prod">
 
                 </div>
                 <div class="card-footer">
@@ -159,30 +144,26 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
       <div class="container-fluid">
 
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Gestión de productos INV</h1>
+          <div class="col-sm-12">
+            <h1>Gestión de Ingredientes</h1>
+            <p>Gestiona desde aquí los ingredientes o elementos que contiene los  ítems del Menú o Carta</p>
           </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">gestión de productos</li>
-            </ol>
-          </div>
+
         </div>
         <div class="row">
-            <button id="btn-crear" type="button" data-toggle="modal" data-target="#crearproduct" class="btn bg-gradient-primary ml-2" title="editar">Crear Producto</button>
-            <button id="btn-reporte" type="button" class="btn bg-gradient-success ml-2">Reporte Productos</button>
+            <button id="btn-crear" type="button" data-toggle="modal" data-target="#crearproduct" class="btn bg-gradient-primary ml-2" title="editar">Crear Ingrediente</button>
+            <!-- <button id="btn-reporte" type="button" class="btn bg-gradient-success ml-2">Reporte Ingredientes</button> -->
         </div>
       </div><!-- /.container-fluid -->
     </section>
 
-    <!-- ********************** TABLA PRODUCTS ************************* -->
+    <!-- ********************** TABLA Ingredientes ************************* -->
         <!-- Main content -->
         <section>
         <div class="container-fluid">
             <div class="card card-success">
                 <div class="card-header">
-                    <h3 class="card-title">Inventario de productos</h3>
+                    <h3 class="card-title">Inventario de Ingredientes</h3>
                 </div>
 
                 <div class="card-body">
@@ -190,12 +171,11 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                         <thead>
                             <tr>
                                 <th>Acción</th>
-                                <th>Stock</th>
-                                <th>Codigo Barras</th>
                                 <th>Nombre</th>
-                                <th>Precio</th>
-                                <th>Tipo</th>
+                                <th>Stock</th>
                                 <th>Unidad</th>
+                                <th>Tipo</th>
+                                <th>Codigo Barras</th>
                             </tr>
                         </thead>
                         <tbody>
