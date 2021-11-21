@@ -217,6 +217,45 @@ if($_POST['funcion']=='verificar-stock'){
 // }
 
 
+if($_POST['funcion'] == 'listarIngredsCateg'){
+    $idCat = $_POST['idCat'];
+    // echo $idCat;
+    $product->listarIngredsCateg($idCat);
+    $json=array();
+    foreach($product->objetos as $objeto){
+
+        $cant = "       
+            <div class='input-group inline-group forse'>
+                <div class='input-group-prepend'>
+                    <button class='btn btn-outline-secondary btn-minus'>
+                        <i class='fa fa-minus'></i>
+                    </button>
+                </div>
+                <input class='form-control quantity' min='0' id='".$objeto->id_inv_prod."' value='0' type='number'>
+                <div class='input-group-append'>
+                    <button class='btn btn-outline-secondary btn-plus'>
+                        <i class='fa fa-plus'></i>
+                    </button>
+                </div>
+            </div>
+
+            <button class='agregar-carrito lote btn btn-sm btn-primary'>
+                <i class='fas fa-plus-square mr-2'></i>Asignar al Ítem
+            </button>
+        ";
+
+        $json[]=array(
+            'cant'=>$cant,
+            'id_prod'=>$objeto->id_inv_prod,
+            'medida'=>$objeto->medida,
+            'nombre'=>$objeto->nombre,
+        );
+    }
+    $jsonstring = json_encode($json);
+    echo $jsonstring;
+}
+
+
 /* REPORTES EN PDF */
 if($_POST['funcion']=='rep_prod'){
     date_default_timezone_set('America/Bogota');

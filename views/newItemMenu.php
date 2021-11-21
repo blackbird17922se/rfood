@@ -120,7 +120,7 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
                         </div>
 
                         <div class="card-footer">
-                            <a href="#" id="procesarProd" class="btn btn-success btn-small">Guardar Ítem</a>
+                            <a href="#" id="procesarItemMenu" class="btn btn-success btn-small">Guardar Ítem</a>
                         </div>
                     </div>
                 </div>

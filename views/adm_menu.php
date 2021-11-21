@@ -170,7 +170,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
         <div class="row">
             <!-- <button id="btn-crear" type="button" data-toggle="modal" data-target="#crearproduct" class="btn bg-gradient-primary ml-2" title="editar">Crear Producto</button>
             <a href="newProduct.php">Nuevo PP</a> -->
-            <button class="ingreds btn btn-sm btn-warning"><a href="newProduct.php">Nuevo Item o Platillo</a></button>
+            <button class="ingreds btn btn-sm btn-warning"><a href="newItemMenu.php">Nuevo Item o Platillo</a></button>
 
         </div>
       </div><!-- /.container-fluid -->
@@ -220,4 +220,4 @@ include_once "layouts/footer.php";
 }
 ?>
 <script src="../public/js/datatables.js"></script>
-<script src="../public/js/carta.js"></script>
+<script src="../public/js/menu.js"></script>

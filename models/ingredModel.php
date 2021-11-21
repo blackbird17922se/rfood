@@ -143,6 +143,21 @@ class IngredModel{
         
     }
 
+    // Lista los ingredientes dependiendo su categoria (Lacteos, carnes, etc)
+    function listarIngredsCateg($idCat){
+
+        $sql = "SELECT id_inv_prod, codbar, inv_tipo_prod.nom AS categ, nombre, un_medida, un_medida.nom AS medida 
+        FROM ingred 
+        JOIN inv_tipo_prod ON prod_tipo = id_inv_tipo
+        JOIN un_medida ON un_medida = id_medida
+        WHERE prod_tipo = :idCat";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([':idCat' => $idCat]);
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+        
+    }
+
 
 
 

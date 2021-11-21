@@ -235,6 +235,79 @@ $(document).ready(function(){
         input[0][isNegative ? 'stepDown' : 'stepUp']()
         }
     })
+    // $('.btn-plus, .btn-minus').on('click', function(e) {
+    //     const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
+    //     const input = $(e.target).closest('.input-group').find('input');
+    //     if (input.is('input')) {
+    //     input[0][isNegative ? 'stepDown' : 'stepUp']()
+    //     }
+    // }) 
+
+
+
+    TODO://BASURA
+    /* CARRITO DE COMPRAS AL HACER CLICK EN EL BOTON DE CADA PRODUCTO "AGREGAR AL CARRITO"*/
+
+    // $('#tabla_products tbody').off('click','.agregar-carrito').on('click','.agregar-carrito',function(){
+    //     let datos = datatable.row($(this).parents()).data();
+
+    //     const medida = datos.medida;
+    //     const NOMB    = datos.nombre;
+    //     const ID      = datos.id_prod;
+    //     let CANT      = $('#'+ID).val();
+    //     const PLATO   = $('#id_plato').val();
+
+  
+
+    //     // const CATEG = datos.categ;
+
+    //     console.log("id:"+ID+" nom:"+NOMB+" cant:"+CANT);
+
+    //     const PRODUCTO = {
+    //         id_prod  : ID,
+    //         nombre   : NOMB,
+    //         medida  : medida,
+    //         cantidad : CANT,
+    //         id_plato : PLATO
+    //     }
+
+    //     /* verificar si el producto existe ya en el carr */
+    //     let id_prod;
+    //     let ingreds;
+    //     ingreds = recuperarLS();
+    //     ingreds.forEach(prod=>{
+    //         if(prod.id_prod === PRODUCTO.id_prod){
+    //             id_prod = prod.id_prod
+    //         }
+    //     })
+
+    //     if(id_prod === PRODUCTO.id_prod){
+    //         Swal.fire({
+    //             icon: 'error',
+    //             title: 'Error',
+    //             text: 'Ya ingresaste este producto al carrito',
+    //         })
+    //     }else if(PRODUCTO.cantidad == 0){
+    //         Swal.fire({
+    //             icon: 'error',
+    //             title: 'Atención',
+    //             text: 'Debe ingresar una cantidad diferente a cero',
+    //         })
+    //     }else{
+    //         template=`
+    //         <tr prodId="${PRODUCTO.id_prod}">
+    //             <td>${PRODUCTO.id_prod}</td>
+    //             <td>${PRODUCTO.nombre}</td>
+    //             <td>${PRODUCTO.medida}</td>
+    //             <td>${PRODUCTO.cantidad}</td>
+    //             <td><button class="btn btn-danger borrar-producto" ><i class="fas fa-times-circle"></i></button></td>
+    //         </tr>
+    //         `;
+    //         $('#tbd-lista-ing').append(template);
+    //         agregarLS(PRODUCTO);
+            
+    //     }   
+    // });
 
 
     /* Borrar Ingrediente de la lista de ingredintes del item */
@@ -257,71 +330,55 @@ $(document).ready(function(){
     });
 
 
-    /**
-     * el contenido de la tabla "tabla_products" y el boton agregar-carrito
-     * vienen desde ingredController.php/listarIngredsCateg
-    */
 
-    $('#tabla_products tbody').off('click','.agregar-carrito').on('click','.agregar-carrito',function(){
-        let datos = datatable.row($(this).parents()).data();
-
-        const medida = datos.medida;
-        const NOMB    = datos.nombre;
-        const ID      = datos.id_prod;
-        let CANT      = $('#'+ID).val();
-        const PLATO   = $('#id_plato').val();
-
-  
-
-        // const CATEG = datos.categ;
-
-        console.log("id:"+ID+" nom:"+NOMB+" cant:"+CANT);
-
-        const PRODUCTO = {
-            id_prod  : ID,
-            nombre   : NOMB,
-            medida  : medida,
-            cantidad : CANT,
-            id_plato : PLATO
-        }
-
-        /* verificar si el producto existe ya en el carr */
-        let id_prod;
-        let ingreds;
-        ingreds = recuperarLS();
-        ingreds.forEach(prod=>{
-            if(prod.id_prod === PRODUCTO.id_prod){
-                id_prod = prod.id_prod
-            }
-        })
-
-        if(id_prod === PRODUCTO.id_prod){
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: 'Ya ingresaste este producto al carrito',
-            })
-        }else if(PRODUCTO.cantidad == 0){
-            Swal.fire({
-                icon: 'error',
-                title: 'Atención',
-                text: 'Debe ingresar una cantidad diferente a cero',
-            })
-        }else{
-            template=`
-            <tr prodId="${PRODUCTO.id_prod}">
-                <td>${PRODUCTO.id_prod}</td>
-                <td>${PRODUCTO.nombre}</td>
-                <td>${PRODUCTO.medida}</td>
-                <td>${PRODUCTO.cantidad}</td>
-                <td><button class="btn btn-danger borrar-producto" ><i class="fas fa-times-circle"></i></button></td>
-            </tr>
-            `;
-            $('#tbd-lista-ing').append(template);
-            agregarLS(PRODUCTO);
+    /* Click en procesar Item menu TODO:BAS*/
+    // $(document).on('click','#procesar-ing',(e)=>{
+    //     $('#tipo_ing').select2("val","");
+    //     procesarPedido();
+    //     eliminarLS();
             
-        }   
-    });
+  
+    
+    // })
+
+
+
+
+
+    /* ************************INTEGRACION****************************************** */
+
+//TODO:BAS
+    // function registrarProduct(){
+
+    //     funcion = 'registrarProduct';
+
+    //     // let id = $('#id_edit-prod').val()
+    //     let codbar = $('#codbar').val();
+    //     let prod_tipo = $('#prod_tipo').val();  // Categoria
+    //     let nombre = $('#nombre').val();
+    //     let prod_pres = $('#prod_pres').val();
+    //     let precio = $('#precio').val();
+
+    //     if($('#iva').is(':checked')){
+    //         $('#iva').prop("value","1");
+    //     }else{
+    //         $('#iva').prop("value","0");
+    //     }
+    //     let iva = $('#iva').val();
+
+    //     // console.log("-" +codbar + "-" + nombre + "-" + prod_pres);
+
+
+    //     let producto = recuperarLS();
+    //     console.log(producto);
+
+    //     /* nviar ese producto al controlador */
+    //     let jsonIngreds = JSON.stringify(producto);
+    //     $.post(URL_CONTR_PROD,{funcion, codbar, prod_tipo, nombre, prod_pres, precio, iva, jsonIngreds},(response)=>{
+    //         console.log(response);
+    //     })
+
+    // }
 
 
     function procesarItemMenu(){
@@ -396,11 +453,33 @@ $(document).ready(function(){
 
             // location.href = '../views/adm_compra.php';
         }
+
+
+
+
+
+        // if(recuperarLS().length == 0){
+        //     Swal.fire({
+        //         icon: 'error',
+        //         title: 'Atencion',
+        //         text: 'No Asignaste Ingredientes Al Ítem',
+        //     })
+        // }else{
+        //     registrarProduct();
+
+        //     Swal.fire(
+        //         'Exito',
+        //         'Ítem registrado',
+        //         'success'
+        //     );
+        //     eliminarLS();
+        //     location.href = '../views/adm_menu.php'
+
+        // }
     }
 
-
-    $(document).on('click','#procesarItemMenu',(e)=>{
-        console.log("procesarItemMenu");
+    $(document).on('click','#procesarProd',(e)=>{
+        console.log("procesarProd");
         procesarItemMenu();
         eliminarLS();
         $('#tbd-lista-ing').empty();
