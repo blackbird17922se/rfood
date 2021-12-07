@@ -194,7 +194,6 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                                 <th>Nombre</th>
                                 <th>Presentacion</th>
                                 <th>Precio</th>
-                                <th>Ingredientes</th>
                             </tr>
                         </thead>
                         <tbody>

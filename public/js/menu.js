@@ -42,13 +42,16 @@ $(document).ready(function(){
                     <a href="#">Agregar Ing</a>
                 </button>
 
+                <button class="itemDetalle btn btn-sm btn-warning">
+                    <a href="#">Ver detalles</a>
+                </button>
+
             `},
             { "data": "codbar" },
             { "data": "tipo" },
             { "data": "nombre" },
             { "data": "presentacion" },
-            { "data": "precio" },
-            { "data": "compos" }
+            { "data": "precio" }
         ],
         language: espanol,
     } );
@@ -324,6 +327,22 @@ $(document).ready(function(){
     });
 
 
+    /**
+     * DETALLES DEL ITEM
+     * Toma el id del item para cargar los datos de ese plato
+     * en una nueva vista detallada con los ingredinetes
+    */
+    $('#tabla_products tbody').on( 'click', '.itemDetalle', function () {
+
+        /* Obtener los datos de la fila seleccionada */
+        let datos = datatable.row($(this).parents()).data();
+ 
+        let id_prod= datos.id_prod;
+    
+        window.location.href ='itemDetalle.php' + "?id=" + id_prod; 
+    });
+
+
     /******************************************************************************/
     /* Generar un pdf con los productos del inventario                            */
     /******************************************************************************/
@@ -339,8 +358,8 @@ $(document).ready(function(){
     $('#tabla_products tbody').on( 'click', '.ingreds', function () {
 
        /* Obtener los datos de la fila seleccionada */
-    //    let datos = dtVehiculos.row(this).data();
-    let datos = datatable.row($(this).parents()).data();
+        //    let datos = dtVehiculos.row(this).data();
+        let datos = datatable.row($(this).parents()).data();
 
        let id_prod= datos.id_prod;
    

@@ -16,7 +16,6 @@ if($_POST['funcion'] == 'listarProducts'){
             'id_prod'=>$objeto->id_prod,
             'codbar'=>$objeto->codbar,
             'nombre'=>$objeto->nombre,
-            'compos'=>$objeto->compos,
             'prod_tipo'=>$objeto->prod_tipo,
             'prod_pres'=>$objeto->prod_pres,
             'precio'=>$objeto->precio,
@@ -399,12 +398,21 @@ if($_POST['funcion'] == 'nuevoItem'){
     $pres_item  = $_POST['pres_item'];
     $precio     = $_POST['precio'];
     $iva        = $_POST['iva'];
+    $idNuevoItem= 0;
 
     $ingreds    = json_decode($_POST['json']);
 
     $respCrearItemMenu = $product->crearProducto($codbar, $cat_item, $nombreItem, $pres_item, $precio, $iva);
 
     if($respCrearItemMenu){
+
+        /* obtener ultimo producto registrado */
+        $product->cargarUltimoProdReg();
+        foreach($product->objetos as $objeto){
+            $idNuevoItem = $objeto->ultimoreg;
+            // echo $idProduct;
+        }
+
         
         foreach ($ingreds as $ingred) {
             $idIngred  = $ingred->id_prod;
@@ -413,7 +421,7 @@ if($_POST['funcion'] == 'nuevoItem'){
             $cantidad  = $ingred->cantidad;
     
     
-            $product->crearItemMenu($codbar, $idIngred, $nomIngred, $medida, $cantidad);
+            $product->crearItemMenu($idNuevoItem, $idIngred, $nomIngred, $medida, $cantidad);
         }
         echo "amadio e item";
 

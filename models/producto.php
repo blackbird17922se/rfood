@@ -46,7 +46,7 @@ class Producto{
 
     function listarProducts(){
 
-        $sql = "SELECT id_prod, codbar, producto.nombre as nombre, compos, iva, precio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_tipo, prod_pres
+        $sql = "SELECT id_prod, codbar, producto.nombre as nombre,  iva, precio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_tipo, prod_pres
         FROM producto
         JOIN tipo_prod ON prod_tipo = id_tipo_prod
         JOIN present ON prod_pres = id_present AND producto.nombre NOT LIKE ''
@@ -64,7 +64,7 @@ class Producto{
      'id_prod'=>$objeto->id_prod,
             'codbar'=>$objeto->codbar,
             'nombre'=>$objeto->nombre,
-            'compos'=>$objeto->compos,
+            'compos'=>$objeto->
             'categoria'=>$objeto->prod_tipo,    //Categoria
             'prod_pres'=>$objeto->prod_pres,
             'precio'=>$objeto->precio,
@@ -76,7 +76,7 @@ class Producto{
     Usada en la toma de la orden */
     function listarProductsCateg($idCat){
 
-        $sql = "SELECT id_prod, codbar, tipo_prod.nom AS categ, nombre, compos, prod_pres, present.nom AS present, precio 
+        $sql = "SELECT id_prod, codbar, tipo_prod.nom AS categ, nombre,  prod_pres, present.nom AS present, precio 
         FROM producto 
         JOIN tipo_prod ON prod_tipo = id_tipo_prod
         JOIN present ON prod_pres = id_present
@@ -89,14 +89,13 @@ class Producto{
     }
 
 
-    function editar($id,$nombre,$compos,$prod_tipo,$prod_pres,$precio,$iva){
+    function editar($id,$nombre, $prod_tipo,$prod_pres,$precio,$iva){
         $sql = "UPDATE producto SET
                 nombre = :nombre, 
                 prod_tipo = :prod_tipo, 
                 prod_pres = :prod_pres,
                 precio = :precio, 
                 iva = :iva,
-                compos = :compos
             WHERE id_prod = :id";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(
@@ -106,7 +105,6 @@ class Producto{
             ':prod_pres'    => $prod_pres,
             ':precio'       => $precio,
             ':iva'          => $iva,
-            ':compos'       => $compos
         ));
         echo 'edit';
     }
@@ -139,7 +137,7 @@ class Producto{
     /* para cuando se actualiza un precio o el stock del producto, 
     la ctualizacion se mostrada en tiempo real (por ejemplo en e carr de compras) */
     function buscar_id($id){
-        $sql="SELECT id_prod, producto.nombre as nombre, compos, precio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_tipo, prod_pres
+        $sql="SELECT id_prod, producto.nombre as nombre,  precio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_tipo, prod_pres
         FROM producto
         JOIN tipo_prod ON prod_tipo = id_tipo_prod
         JOIN present ON prod_pres = id_present WHERE id_prod = :id
@@ -154,7 +152,7 @@ class Producto{
     /* FUNCION PARA QUE TRAIGA TODOS OS PRODUCTOS PARA EL PDF */
     function reporteProductos(){
 
-        $sql = "SELECT id_prod, producto.nombre as nombre, compos, adici, precio, laboratorio.nom_lab AS laboratorio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_lab, prod_tipo, prod_pres
+        $sql = "SELECT id_prod, producto.nombre as nombre,  adici, precio, laboratorio.nom_lab AS laboratorio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_lab, prod_tipo, prod_pres
         FROM producto
         JOIN laboratorio ON prod_lab = id_lab
         JOIN tipo_prod ON prod_tipo = id_tipo_prod
@@ -184,7 +182,7 @@ class Producto{
         //     /* si el imput de bsiqueda esta lleno entonces */
         //     $consulta = 70707015506093;
         //     // $consulta = $_POST['consulta'];
-        //     $sql="SELECT id_prod, producto.nombre as nombre, compos, adici, precio, laboratorio.nom_lab AS laboratorio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_lab, prod_tipo, prod_pres
+        //     $sql="SELECT id_prod, producto.nombre as nombre,  adici, precio, laboratorio.nom_lab AS laboratorio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_lab, prod_tipo, prod_pres
         //     FROM producto WHERE codbar = :codbar
         //     -- JOIN laboratorio ON prod_lab = id_lab
         //     -- JOIN tipo_prod ON prod_tipo = id_tipo_prod
@@ -195,8 +193,8 @@ class Producto{
         //     $this->objetos=$query->fetchall();
         //     return $this->objetos;
         // }else{
-        //     // $sql = "SELECT id_prod, producto.nombre as nombre, compos, adici, precio, laboratorio.nom_lab AS laboratorio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_pres, prod_lab, prod_tipo, prod_pres
-        //     // $sql = "SELECT id_prod, producto.nombre as nombre, compos, adici, precio, laboratorio.nom_lab AS laboratorio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_lab, prod_tipo, prod_pres
+        //     // $sql = "SELECT id_prod, producto.nombre as nombre,  adici, precio, laboratorio.nom_lab AS laboratorio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_pres, prod_lab, prod_tipo, prod_pres
+        //     // $sql = "SELECT id_prod, producto.nombre as nombre,  adici, precio, laboratorio.nom_lab AS laboratorio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_lab, prod_tipo, prod_pres
         //     // FROM producto
         //     // JOIN laboratorio ON prod_lab = id_lab
         //     // JOIN tipo_prod ON prod_tipo = id_tipo_prod
@@ -221,17 +219,17 @@ class Producto{
 
     }
 
-    function crearItemMenu($codbar, $idIngred, $nomIngred, $medida, $cantidad){
+    function crearItemMenu($idNuevoItem, $idIngred, $nomIngred, $medida, $cantidad){
         /* Agregar a la tabla ingredintes */
-        $sql = "INSERT INTO ITEMENUINGR(CODBAR_ITEM, ID_INGR, NOM_INGR,
+        $sql = "INSERT INTO ITEMENUINGR(ID_ITEM, ID_INGR, NOM_INGR,
         MEDIDA_INGR, CANT_INGR)
         VALUES(
-            :codbar, :idIngred, :nomIngred, :medida, :cantidad
+            :idNuevoItem, :idIngred, :nomIngred, :medida, :cantidad
         )              
     ";
     $query = $this->acceso->prepare($sql);
     $query->execute(array(
-        ':codbar'    => $codbar,
+        ':idNuevoItem'    => $idNuevoItem,
         ':idIngred'  => $idIngred,
         ':nomIngred' => $nomIngred,
         ':medida'    => $medida,
