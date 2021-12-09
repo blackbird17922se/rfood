@@ -16,6 +16,10 @@ $(document).ready(function(){
 
     cargarDatosItem();
 
+    $(document).on('click','.salir',(e)=>{
+        location.href = '../views/adm_menu.php';
+    });
+
 
     function cargarDatosItem(){
 

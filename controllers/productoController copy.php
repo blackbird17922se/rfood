@@ -6,10 +6,48 @@ include_once '../models/conexion.php';
 $product = new Producto();
 
 /* MOSTRAR PRODUCTOS */
+// CONSULTAR ITEMCONTROLER 149
 if($_POST['funcion'] == 'listarProducts'){
-    // CONSULTAR ITEMCONTROLER 149
+    $product->listarProducts();
+    $json=array();
+    foreach($product->objetos as $objeto){
+
+        $json[]=array(
+            /* '' =>$objeto->ALIAS ASIGNADO */
+            'id_prod'=>$objeto->id_prod,
+            'codbar'=>$objeto->codbar,
+            'nombre'=>$objeto->nombre,
+            'prod_tipo'=>$objeto->prod_tipo,
+            'prod_pres'=>$objeto->prod_pres,
+            'precio'=>$objeto->precio,
+            // 'iva'=>$objeto->iva,    
+
+            /* Para cargar los nombres en lugar de los id */
+            'tipo'=>$objeto->tipo,
+            'presentacion'=>$objeto->presentacion
+        );
+    }
+    $jsonstring = json_encode($json);
+    echo $jsonstring;
 }
 
+
+/* CREAR */
+// if($_POST['funcion']=='crear'){
+//     /* datos recibidos desde producto.js >>> $.post('../controllers/productoController.php',{fu... */
+//     $codbar = $_POST['codbar'];
+//     $nombre = $_POST['nombre'];
+//     $compos = $_POST['compos'];
+//     $prod_tipo = $_POST['prod_tipo'];
+//     $prod_pres = $_POST['prod_pres'];
+//     $precio = $_POST['precio'];
+//     $iva = $_POST['iva'];
+//     // $adici = $_POST['adici'];
+//     // $prod_lab = $_POST['prod_lab'];
+//     $product->crearProducto($codbar,$nombre,$compos,$prod_tipo,$prod_pres,$precio,$iva);
+
+
+// }
 
 
 if($_POST['funcion'] == 'ultimoReg'){
@@ -32,12 +70,25 @@ if($_POST['funcion'] == 'ultimoReg'){
 
 /* **************************** EDITAR **************************** */
 if($_POST['funcion']=='editar'){
-    // 146
+    /* datos recibidos desde producto.js >>> $.post('../controllers/productoController.php',{fu... */
+    // nombre,compos,adici,precio,prod_lab,prod_tipo,prod_present
+    $id = $_POST['id'];
+    $nombre = $_POST['nombre'];
+    $compos = $_POST['compos'];
+    // $adici = $_POST['adici'];
+    $iva = $_POST['iva'];
+    $precio = $_POST['precio'];
+    // $prod_lab = $_POST['prod_lab'];
+    $prod_tipo = $_POST['prod_tipo'];
+    $prod_pres = $_POST['prod_pres'];
+    // $nombre = $_POST['nombre'];
+    $product->editar($id,$nombre,$compos,$prod_tipo,$prod_pres,$precio,$iva);
 }
 
 if($_POST['funcion'] =='borrar'){
     /* OJO: $_POST['ID'] viene desde labratorio.js en la const ID = $(ELEM).attr('labId'); */
-
+    $id = $_POST['id'];
+    $product->borrar($id);
 }
 
 if($_POST['funcion'] =='listar_labs'){
@@ -341,5 +392,44 @@ if($_POST['funcion']=='buscaCodbar'){
 
 
 if($_POST['funcion'] == 'nuevoItem'){
-//145
+
+    $codbar     = $_POST['codbar'];
+    $cat_item   = $_POST['cat_item'];
+    $nombreItem = $_POST['nombre'];
+    $pres_item  = $_POST['pres_item'];
+    $precio     = $_POST['precio'];
+    $iva        = $_POST['iva'];
+    $idNuevoItem= 0;
+
+    $ingreds    = json_decode($_POST['json']);
+
+    $respCrearItemMenu = $product->crearProducto($codbar, $cat_item, $nombreItem, $pres_item, $precio, $iva);
+
+    if($respCrearItemMenu){
+
+        /* obtener ultimo producto registrado */
+        $product->cargarUltimoProdReg();
+        foreach($product->objetos as $objeto){
+            $idNuevoItem = $objeto->ultimoreg;
+            // echo $idProduct;
+        }
+
+        
+        foreach ($ingreds as $ingred) {
+            $idIngred  = $ingred->id_prod;
+            $nomIngred = $ingred->nombre;
+            $medida    = $ingred->medida;
+            $cantidad  = $ingred->cantidad;
+    
+    
+            $product->crearItemMenu($idNuevoItem, $idIngred, $nomIngred, $medida, $cantidad);
+        }
+        echo "amadio e item";
+
+    }else{
+        echo "error al add";
+    }
+
+
+
 }

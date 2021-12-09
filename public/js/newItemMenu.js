@@ -6,8 +6,10 @@ $(document).ready(function(){
 
     var funcion, idCat="";
 
-    const URL_CONTR_PROD     = '../controllers/productoController.php';
     const URL_INGRED_CONTROL = '../controllers/ingredController.php';
+    const URL_ITEM_CONTROL   = '../controllers/itemController.php';
+    const URL_CATEG_ITEM_CONTROL = '../controllers/tipoController.php';
+    const URL_PRESENT_ITEM_CONTROL = '../controllers/presentacionController.php';
     
     $(".select2").select2({
         placeholder: "Seleccione una opcion",
@@ -22,7 +24,7 @@ $(document).ready(function(){
     listar_tipos();
     function listar_tipos(){
         funcion = "listar_tipos";
-        $.post('../controllers/tipoController.php',{funcion},(response)=>{
+        $.post(URL_CATEG_ITEM_CONTROL,{funcion},(response)=>{
             // console.log("tipos" + response);
             const TIPOS = JSON.parse(response);
             let template = '';
@@ -39,7 +41,7 @@ $(document).ready(function(){
     listar_presents();
     function listar_presents(){
         funcion = "listar_presents";
-        $.post('../controllers/presentacionController.php',{funcion},(response)=>{
+        $.post(URL_PRESENT_ITEM_CONTROL,{funcion},(response)=>{
             // console.log(response);
             const PRESENTS = JSON.parse(response);
             let template = '';
@@ -322,7 +324,7 @@ $(document).ready(function(){
     });
 
 
-    function procesarItemMenu(){
+    $(document).on('click','#procesarItemMenu',(e)=>{
 
         let ingreds   = [];
         let json      = '';
@@ -343,7 +345,7 @@ $(document).ready(function(){
             $('#iva').prop("value","0");
         }
 
-        funcion   = 'nuevoItem';
+        funcion   = 145;
 
         codbar    = $('#codbar').val();
         cat_item  = $('#cat_item').val();
@@ -356,47 +358,43 @@ $(document).ready(function(){
     /* nviar ese producto al controlador */
         json = JSON.stringify(ingreds);
         console.log(json);
-        $.post('../controllers/productoController.php',{funcion,codbar,cat_item,nombre,pres_item,precio,iva,json},(response=>{
-            console.log("RESP MEN: "+response);
+        $.post(URL_ITEM_CONTROL,{funcion,codbar,cat_item,nombre,pres_item,precio,iva,json},(response=>{
+            // console.log("RESP MEN: "+response);
+            if(response == 'addItem'){
+                Swal.fire({
+                    title: 'Agregado ' + nombre + ' Exitosamente',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar',
+                    reverseButtons: true
+                });
+
+                eliminarLS();
+                $('#codbar').val('');
+                $('#nombre').val('');
+                $('#adici').val('');
+                $('#precio').val('');
+                $('#tbd-lista-ing').empty();
+                $(".select2").val('').trigger('change');
+
+            }else if(response == 'noAddItem'){
+                Swal.fire({
+                    title: 'Error al registrar ' + nombre,
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar',
+                    reverseButtons: true
+                });
+            }
         }));
-
-            // datatable.ajax.reload();
-
-
-            
-            // productos = JSON.parse(localStorage.getItem('productos'));
-            // productos.forEach(prod => {
-            //     console.log(prod.id_prod);
-
-            //     let id_mesa = $('#mesa').val();
-            //     let id_prod = prod.id_prod;
-            //     let entregado = 0;
-            //     let terminado = 0;
-
-            //     $.post('../controllers/pedidoController.php',{funcion,id_mesa,id_prod,entregado,terminado},(response=>{
-            //         console.log(response);
-            //         $('#tbd-lista').empty();
-            //         eliminarLS();
-            //         contarProductos()
-            //     }));
-
-            // })
+    })
 
 
-
-
-            // location.href = '../views/adm_compra.php';
-        
-    }
-
-
-    $(document).on('click','#procesarItemMenu',(e)=>{
+/*     $(document).on('click','#procesarItemMenu',(e)=>{
         console.log("procesarItemMenu");
         procesarItemMenu();
         eliminarLS();
         $('#tbd-lista-ing').empty();
         $(".select2").val('').trigger('change');
-    })
+    }) */
 
 
 
@@ -466,6 +464,10 @@ $(document).ready(function(){
             // location.href = '../views/adm_compra.php';
         }
     }
+
+    $(document).on('click','.salir',(e)=>{
+        location.href = '../views/adm_menu.php';
+    });
 
 
 

@@ -16,6 +16,90 @@ class ItemModel{
         $this->acceso=$db->pdo;
     }
 
+
+    function crearItem($codbar, $cat_item, $nombreItem, $pres_item, $precio, $iva){
+
+        $sql = "SELECT id_prod FROM producto WHERE codbar = :codbar";
+
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(
+            ':codbar'       => $codbar
+        ));
+        $this->objetos=$query->fetchall();
+        /* Si encuentra el producto entonces no agregarlo */
+        if(!empty($this->objetos)){
+            return false;
+        }else{
+            $sql = "INSERT INTO producto(codbar, nombre, prod_tipo, prod_pres, precio, iva) 
+            VALUES (:codbar, :nombre, :prod_tipo, :prod_pres, :precio, :iva)";
+            $query = $this->acceso->prepare($sql);
+            $query->execute(array(
+                ':codbar'       => $codbar,
+                ':nombre'       => $nombreItem,
+                ':prod_tipo'    => $cat_item,
+                ':prod_pres'    => $pres_item,
+                ':precio'       => $precio,
+                ':iva'          => $iva
+            ));
+
+            return true;
+        }
+
+
+        
+    }
+
+
+    function listarItems(){
+
+        $sql = "SELECT id_prod, codbar, producto.nombre as nombre,  iva, precio, tipo_prod.nom AS tipo, present.nom AS presentacion, prod_tipo, prod_pres
+        FROM producto
+        JOIN tipo_prod ON prod_tipo = id_tipo_prod
+        JOIN present ON prod_pres = id_present AND producto.nombre NOT LIKE ''
+        ORDER BY producto.nombre
+        ";
+        $query = $this->acceso->prepare($sql);
+        $query->execute();
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+        
+    }
+
+
+    function editarItem($id,$nombre, $prod_tipo,$prod_pres,$precio,$iva){
+        $sql = "UPDATE producto SET
+                nombre    = :nombre, 
+                prod_tipo = :prod_tipo, 
+                prod_pres = :prod_pres,
+                precio    = :precio, 
+                iva       = :iva
+            WHERE id_prod = :id";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(
+            ':id'        => $id,
+            ':nombre'    => $nombre,
+            ':prod_tipo' => $prod_tipo,
+            ':prod_pres' => $prod_pres,
+            ':precio'    => $precio,
+            ':iva'       => $iva,
+        ));
+        echo 'edit';
+    }
+
+
+    function borrarItem($id){
+        $sql = "DELETE FROM producto WHERE id_prod = :id";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':id' => $id));
+
+        if(!empty($query->execute(array(':id' => $id)))){
+            echo 'borrado';
+        }else{
+            echo 'noborrado';
+        }
+    }
+
+
     public function listarDatosItem($idItem){
         $sql = "SELECT codbar, nombre, iva, precio
         FROM producto
@@ -29,6 +113,22 @@ class ItemModel{
 
     }
 
+
+    function cargarUltimoItemReg(){
+
+        $sql="SELECT MAX(id_prod) AS ultimoreg FROM producto";
+        $query = $this->acceso->prepare($sql);
+        $query->execute();
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+
+    }
+
+
+
+    /* *************************************************************************************************************** */
+    /* ************************************** FUNCIONES MANEJO INGREDS ITEM ****************************************** */
+    /* *************************************************************************************************************** */
 
     public function listarIngredsItem($idItem){
         $sql = "SELECT * FROM ITEMENUINGR WHERE ID_ITEM = :idItem";

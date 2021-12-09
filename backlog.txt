@@ -5,6 +5,10 @@ TO_DO:
 - Debe permitir no agregar ningun ingrediente al item (Por ejemplo
     una cerveza no lleva ingredientes del inventario)
 
+-corregir la no lectura si el item tiene iva
+-permitir edicion codbar
+
+- sacar confid del productoControl y Pasarlos al nuevo controlador itemControl
 
 
 ****************************************************************************************************

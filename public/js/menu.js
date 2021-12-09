@@ -2,6 +2,12 @@ $(document).ready(function(){
     var funcion;
     var edit = false;   // bandera
     var nomProd =""; // Contiene el nombre del producto al ser creado, usada al asignar lote auto
+    const URL_ITEM_CONTROL   = '../controllers/itemController.php';
+    const URL_CATEG_ITEM_CONTROL = '../controllers/tipoController.php';
+    const URL_PRESENT_ITEM_CONTROL = '../controllers/presentacionController.php';
+
+
+    // const URL_ITEM_CONTROL   = 
 
     /* buscara los campos de lista desplegable con la clase select2 + la funcion interna select2*/
     $('.select2').select2();
@@ -9,19 +15,17 @@ $(document).ready(function(){
     /* Variable que almacena la DataTable.                             */
     /* lee los datos de la BD y los distribuye en sus filas y columnas */
 
-    funcion = "listarProducts";
+    funcion = 140;
     let datatable = $('#tabla_products').DataTable( {
 
         "scrollX": true,
         "order": [[ 2, "asc" ]],
 
-
-
         ajax: "data.json",
         
         "ajax": {
             
-            "url":"../controllers/productoController.php",
+            "url":URL_ITEM_CONTROL,
             "method":"POST",
             "data":{funcion:funcion},
             "dataSrc":""
@@ -30,21 +34,16 @@ $(document).ready(function(){
 
             { "defaultContent": `
 
-                <button class="editar btn btn-sm btn-success" type="button" data-toggle="modal" data-target="#crearproduct">
+                <button class="editar btn btn-sm btn-success" type="button" data-toggle="modal" data-target="#editItem">
                     <i class="fas fa-pencil-alt"></i>
                 </button>
 
                 <button class="borrar btn btn-sm btn-danger">
                     <i class="fas fa-trash-alt"></i>
                 </button>
-                
-                <button class="ingreds btn btn-sm btn-warning">
-                    <a href="#">Agregar Ing</a>
-                </button>
 
-                <button class="itemDetalle btn btn-sm btn-warning">
-                    <a href="#">Ver detalles</a>
-                </button>
+                <button class="ingredientes btn btn-warning">Ingredientes</button>
+
 
             `},
             { "data": "codbar" },
@@ -75,7 +74,7 @@ $(document).ready(function(){
     listar_tipos();
     function listar_tipos(){
         funcion = "listar_tipos";
-        $.post('../controllers/tipoController.php',{funcion},(response)=>{
+        $.post(URL_CATEG_ITEM_CONTROL,{funcion},(response)=>{
             // console.log(response);
             const TIPOS = JSON.parse(response);
             let template = '';
@@ -94,7 +93,7 @@ $(document).ready(function(){
     listar_presents();
     function listar_presents(){
         funcion = "listar_presents";
-        $.post('../controllers/presentacionController.php',{funcion},(response)=>{
+        $.post(URL_PRESENT_ITEM_CONTROL,{funcion},(response)=>{
             // console.log(response);
             const PRESENTS = JSON.parse(response);
             let template = '';
@@ -109,6 +108,11 @@ $(document).ready(function(){
     }
 
 
+    /* Botones */
+    $(document).on('click','#newItemMenu',(e)=>{
+        location.href = '../views/newItemMenu.php';
+    });
+
 
     /******************************************************************************/
     /* Funciones de Crear, generar alertas, Editar y Eliminar.    */
@@ -119,7 +123,8 @@ $(document).ready(function(){
 
     /******************************************************************************/
 
-    $('#crearproduct').on('shown.bs.modal', function(){
+    $('#editItem').on('shown.bs.modal', function(){
+        // $('#edit-product').hide('fast');
         $('#codbar').focus();
     })
 
@@ -131,108 +136,16 @@ $(document).ready(function(){
         edit = false;   // bandera
     });
 
-    /******************************************************************************/
-    /* CREAR Y ALERTAS */
-    $('#form-crear-product').submit(e=>{
-        /* recibir los datos del formulario al hacer click en el boton submit */
-        /* val(): obtiene el valor en el imput */
-        let id = $('#id_edit-prod').val()
-        let codbar = $('#codbar').val();
-        let nombre = $('#nombre').val();
-        let compos = $('#compos').val();    //Ingredientes
-        let prod_tipo = $('#prod_tipo').val();  // Categoria
-        let prod_pres = $('#prod_pres').val();
-        let precio = $('#precio').val();
-
-        if($('#iva').is(':checked')){
-            $('#iva').prop("value","1");
-        }else{
-            $('#iva').prop("value","0");
-        }
-        let iva = $('#iva').val();
-
-       
-        if(edit==true){
-            funcion="editar";
-            console.log("editar");
-        }else{
-            funcion="crear";
-            console.log("crear");
-        }
-        
-        $.post('../controllers/productoController.php',{funcion,id,codbar,nombre,compos,prod_tipo,prod_pres,precio,iva},(response)=>{
-
-            console.log(response);
-            if(response=='add'){
-                nomProd = nombre;
-                $('#add-product').hide('slow');
-                $('#add-product').show(1000);
-                $('#add-product').hide(2000);
-
-                /* Vaciar campos */
-                $('#codbar').val('');
-                $('#nombre').val('');
-                $('#compos').val('');
-                $('#adici').val('');
-                $('#precio').val('');
-
-                $('#crearproduct').modal('hide');    //cerrar el modal prod"
-
-                datatable.ajax.reload();
-
-                // $('#crearlote').modal();    //Desplegar el modal de "lote"
-                // // $('#form-crear-product').trigger('reset');
-
-                // asignarLoteAutomatic(); // Ejecutar asignacion de lote al prod. creado
-  
-            }
-            if(response=='edit'){
-                $('#edit-product').hide('slow');
-                $('#edit-product').show(1000);
-                $('#edit-product').hide(2000);
-
-                /* Vaciar campos */
-                $('#codbar').val('');
-                $('#nombre').val('');
-                $('#compos').val('');
-                $('#adici').val('');
-                $('#precio').val('');
-
-                // $('#form-crear-product').trigger('reset');
-                datatable.ajax.reload();
-            }
-            if(response=='noadd'){
-                $('#noadd-product').hide('slow');
-                $('#noadd-product').show(1000);
-                $('#noadd-product').hide(2000);
-                $('#form-crear-product').trigger('reset');
-                datatable.ajax.reload();
-            }
-            if(response=='noedit'){
-                $('#noadd-product').hide('slow');
-                $('#noadd-product').show(1000);
-                $('#noadd-product').hide(2000);
-                $('#form-crear-product').trigger('reset');
-                datatable.ajax.reload();
-            }
-            edit = false;
-        })
-        e.preventDefault();
-    });
 
     /******************************************************************************/
-
     $('#tabla_products tbody').on('click','.editar',function(){
         let datos = datatable.row($(this).parents()).data();
 
         let id= datos.id_prod;
         let codbad= datos.codbad;
         let nombre= datos.nombre;
-        let compos= datos.compos;
-        // let adici= datos.adici;
         let iva= datos.iva;
         let precio= datos.precio;
-        // let prod_lab= datos.prod_lab;
         let prod_tipo= datos.prod_tipo;
         let prod_pres= datos.prod_pres;
 
@@ -248,7 +161,6 @@ $(document).ready(function(){
         $('#id_edit-prod').val(id);
         $('#nombre').val(nombre);
         $('#codbad').val(codbad);
-        $('#compos').val(compos);
         // $('#adici').val(adici);
 
         let nval = 0;   // nval: nuevo valor del iva
@@ -264,13 +176,60 @@ $(document).ready(function(){
         }
 
         $('#precio').val(precio);
-        // $('#prod_lab').val(prod_lab).trigger('change');
         $('#prod_tipo').val(prod_tipo).trigger('change');
         $('#prod_pres').val(prod_pres).trigger('change');
         $('#codbar').attr("type","hidden");
         $('#labcodbar').hide();
+    });
 
-        edit = true;   // bandera
+
+    /******************************************************************************/
+    /* EDITAR SUBMIT */
+    $('#form-edit-product').submit(e=>{
+        /* recibir los datos del formulario al hacer click en el boton submit */
+        /* val(): obtiene el valor en el imput */
+        let id = $('#id_edit-prod').val()
+        let nombre = $('#nombre').val();
+        let prod_tipo = $('#prod_tipo').val();  // Categoria
+        let prod_pres = $('#prod_pres').val();
+        let precio = $('#precio').val();
+
+        if($('#iva').is(':checked')){
+            $('#iva').prop("value","1");
+        }else{
+            $('#iva').prop("value","0");
+        }
+        let iva = $('#iva').val();
+
+        // crear 145, editar 146
+       funcion = 146;
+
+        $.post(URL_ITEM_CONTROL,{funcion,id,nombre,prod_tipo,prod_pres,precio,iva},(response)=>{
+
+            console.log(response);
+
+            if(response=='edit'){
+
+                /* Vaciar campos */
+                $('#nombre').val('');
+                $('#compos').val('');
+                $('#adici').val('');
+                $('#precio').val('');
+                $('#editItem').modal('hide');    //cerrar el modal prod"
+
+                datatable.ajax.reload();
+            }
+
+            if(response=='noedit'){
+                $('#noadd-product').hide('slow');
+                $('#noadd-product').show(1000);
+                $('#noadd-product').hide(2000);
+                $('#form-crear-product').trigger('reset');
+                datatable.ajax.reload();
+            }
+            edit = false;
+        })
+        e.preventDefault();
     });
 
     /******************************************************************************/
@@ -280,7 +239,7 @@ $(document).ready(function(){
         let datos = datatable.row($(this).parents()).data();
         let id= datos.id_prod;
         let nom= datos.nombre;
-        var funcion = "borrar";
+        var funcion = 147;
         /* Alerta */
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
@@ -291,7 +250,7 @@ $(document).ready(function(){
         })
          
         swalWithBootstrapButtons.fire({
-            title: '¿Está seguro que desea eliminar el producto '+nom+'?',
+            title: '¿Está seguro que desea eliminar el Ítem '+nom+'?',
             text: "Esta acción ya no se podrá deshacer.",
             icon: 'warning',
             showCancelButton: true,
@@ -300,8 +259,8 @@ $(document).ready(function(){
             reverseButtons: true
         }).then((result) => {
             if (result.value) {
-                console.log(id);
-                $.post('../controllers/productoController.php',{id,funcion},(response)=>{
+                // console.log(id);
+                $.post(URL_ITEM_CONTROL,{id,funcion},(response)=>{
                     datatable;
                     if(response=='borrado'){
 
@@ -332,7 +291,7 @@ $(document).ready(function(){
      * Toma el id del item para cargar los datos de ese plato
      * en una nueva vista detallada con los ingredinetes
     */
-    $('#tabla_products tbody').on( 'click', '.itemDetalle', function () {
+    $('#tabla_products tbody').on( 'click', '.ingredientes', function () {
 
         /* Obtener los datos de la fila seleccionada */
         let datos = datatable.row($(this).parents()).data();

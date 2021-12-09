@@ -20,6 +20,12 @@ $(document).ready(function(){
     });
 
 
+    /* Botones */
+    $(document).on('click','.salir',(e)=>{
+        window.location.href ='itemDetalle.php' + "?id=" + ITEM_ID; 
+    });
+
+
     $('#tabla_products tbody').off('click','.agregar-carrito').on('click','.agregar-carrito',function(){
         console.log("add ing");  
         let datos = datatable.row($(this).parents()).data();

@@ -90,37 +90,27 @@ class Producto{
 
 
     function editar($id,$nombre, $prod_tipo,$prod_pres,$precio,$iva){
-        $sql = "UPDATE producto SET
-                nombre = :nombre, 
-                prod_tipo = :prod_tipo, 
-                prod_pres = :prod_pres,
-                precio = :precio, 
-                iva = :iva,
-            WHERE id_prod = :id";
-        $query = $this->acceso->prepare($sql);
-        $query->execute(array(
-            ':id'           => $id,
-            ':nombre'       => $nombre,
-            ':prod_tipo'    => $prod_tipo,
-            ':prod_pres'    => $prod_pres,
-            ':precio'       => $precio,
-            ':iva'          => $iva,
-        ));
-        echo 'edit';
+        // $sql = "UPDATE producto SET
+        //         nombre = :nombre, 
+        //         prod_tipo = :prod_tipo, 
+        //         prod_pres = :prod_pres,
+        //         precio = :precio, 
+        //         iva = :iva,
+        //     WHERE id_prod = :id";
+        // $query = $this->acceso->prepare($sql);
+        // $query->execute(array(
+        //     ':id'           => $id,
+        //     ':nombre'       => $nombre,
+        //     ':prod_tipo'    => $prod_tipo,
+        //     ':prod_pres'    => $prod_pres,
+        //     ':precio'       => $precio,
+        //     ':iva'          => $iva,
+        // ));
+        // echo 'edit';
     }
 
 
-    function borrar($id){
-        $sql = "DELETE FROM producto WHERE id_prod = :id";
-        $query = $this->acceso->prepare($sql);
-        $query->execute(array(':id' => $id));
 
-        if(!empty($query->execute(array(':id' => $id)))){
-            echo 'borrado';
-        }else{
-            echo 'noborrado';
-        }
-    }
 
 
     /* Sumar "sum()" todos los campos stock, esa suma se llamara total, buscara todos lotes con un id producto X

@@ -11,7 +11,10 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-6">
+
+          
+          <div class="col-sm-6 mt-2">
+            <button class="btn btn-danger salir">Salir</button>
             <h1 id="tit-item"></h1>
             <input type="hidden" id="itemId" value="<?php echo $_GET['id']?>">
             <p>Codigo: <span id="codbar"></span></p>

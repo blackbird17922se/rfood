@@ -5,7 +5,93 @@ $items = new ItemModel();
 $json = array();
 
 switch ($_POST['funcion']) {
+
+    // Listar los items
+    case 140:
+        $items->listarItems();
+        $json=array();
+        foreach($items->objetos as $objeto){
+
+            $json[]=array(
+                /* '' =>$objeto->ALIAS ASIGNADO */
+                'id_prod'   =>$objeto->id_prod,
+                'codbar'    =>$objeto->codbar,
+                'nombre'    =>$objeto->nombre,
+                'prod_tipo' =>$objeto->prod_tipo,
+                'prod_pres' =>$objeto->prod_pres,
+                'precio'    =>$objeto->precio,
+                'iva'       =>$objeto->iva,    
+
+                /* Para cargar los nombres en lugar de los id */
+                'tipo'         =>$objeto->tipo,
+                'presentacion' =>$objeto->presentacion
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    break;
+
+
+    // Crear
+    case 145:
+        $codbar     = $_POST['codbar'];
+        $cat_item   = $_POST['cat_item'];
+        $nombreItem = $_POST['nombre'];
+        $pres_item  = $_POST['pres_item'];
+        $precio     = $_POST['precio'];
+        $iva        = $_POST['iva'];
+        $idNuevoItem= 0;
+
+        $ingreds    = json_decode($_POST['json']);
+
+        $respCrearItemMenu = $items->crearItem($codbar, $cat_item, $nombreItem, $pres_item, $precio, $iva);
+
+        if($respCrearItemMenu){
+
+            /* obtener ultimo Item registrado */
+            $items->cargarUltimoItemReg();
+            foreach($items->objetos as $objeto){
+                $idNuevoItem = $objeto->ultimoreg;
+                // echo $idProduct;
+            }
+            
+            foreach ($ingreds as $ingred) {
+                $idIngred  = $ingred->id_prod;
+                $nomIngred = $ingred->nombre;
+                $medida    = $ingred->medida;
+                $cantidad  = $ingred->cantidad;
+        
+                $items->agregarNIngredItem($idNuevoItem, $idIngred, $nomIngred, $medida, $cantidad);
+            }
+            echo "addItem";
+
+        }else{
+            echo "errorAddItem";
+        }
+    break;
+
+
+    // Editar
+    case 146:
+        /* datos recibidos desde producto.js >>> $.post('../controllers/productoController.php',{fu... */
+        $id        = $_POST['id'];
+        $nombre    = $_POST['nombre'];
+        $iva       = $_POST['iva'];
+        $precio    = $_POST['precio'];
+        $prod_tipo = $_POST['prod_tipo'];
+        $prod_pres = $_POST['prod_pres'];
+
+        $items->editarItem($id,$nombre,$prod_tipo,$prod_pres,$precio,$iva);
+    break;
+
+
+    //Borrar
+    case 147:
+        $id = $_POST['id'];
+        $items->borrarItem($id);
+    break;
     
+
     // Listar datos del item
     case 150:
 

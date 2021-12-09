@@ -134,7 +134,8 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
                         </div>
 
                         <div class="card-footer">
-                            <a href="#" id="procesarNIngredItem" class="btn btn-success btn-small">Guardar Ítem</a>
+                            <button id="procesarNIngredItem" class="btn btn-success">Guardar Ítem</button>
+                            <button class="btn btn-danger salir">Salir</button>
                         </div>
                     </div>
                 </div>
