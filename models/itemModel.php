@@ -66,6 +66,23 @@ class ItemModel{
     }
 
 
+    /* Listar productos recibiendo la categoria de producto a listar.
+    Usada en la toma de la orden */
+    function listarItemsCateg($idCat){
+
+        $sql = "SELECT id_prod, codbar, tipo_prod.nom AS categ, nombre,  prod_pres, present.nom AS present, precio 
+        FROM producto 
+        JOIN tipo_prod ON prod_tipo = id_tipo_prod
+        JOIN present ON prod_pres = id_present
+        WHERE prod_tipo = :idCat";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([':idCat' => $idCat]);
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+        
+    }
+
+
     function editarItem($id,$nombre, $prod_tipo,$prod_pres,$precio,$iva){
         $sql = "UPDATE producto SET
                 nombre    = :nombre, 

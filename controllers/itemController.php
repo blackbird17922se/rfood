@@ -32,6 +32,49 @@ switch ($_POST['funcion']) {
     break;
 
 
+    // Listar items por categoria
+    case 141:
+        $idCat = $_POST['idCat'];
+        $items->listarItemsCateg($idCat);
+        $json=array();
+        foreach($items->objetos as $objeto){
+
+            $cant = "       
+                <div class='input-group inline-group forse'>
+                    <div class='input-group-prepend'>
+                        <button class='btn btn-outline-secondary btn-minus'>
+                            <i class='fa fa-minus'></i>
+                        </button>
+                    </div>
+                    <input class='form-control quantity' min='0' id='".$objeto->id_prod."' value='0' type='number'>
+                    <div class='input-group-append'>
+                        <button class='btn btn-outline-secondary btn-plus'>
+                            <i class='fa fa-plus'></i>
+                        </button>
+                    </div>
+                </div>
+
+                <button class='agregar-carrito lote btn btn-sm btn-primary'>
+                    <i class='fas fa-plus-square mr-2'></i>Agregar al pedido
+                </button>
+            ";
+
+            $json[]=array(
+                'id_prod'=>$objeto->id_prod,
+                // 'codbar'=>$objeto->codbar,
+                'nombre'=>$objeto->nombre,
+                'categ'=>$objeto->categ,    //Categoria
+                'idPres'=>$objeto->prod_pres,   //id de la presentacion
+                'present'=>$objeto->present,   //nombre de la presentaion
+                'precio'=>$objeto->precio,
+                'cant'=>$cant,
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    break;
+
+
     // Crear
     case 145:
         $codbar     = $_POST['codbar'];
@@ -114,6 +157,7 @@ switch ($_POST['funcion']) {
     break;
 
 
+    /* SECCION INGREDIENTES */
     // Listar los ingredientes actuales del item
     case 151:
 
@@ -179,7 +223,7 @@ switch ($_POST['funcion']) {
     break;
 
 
-    // Borrar
+    // Borrar Ingrediente del Item
     case 162:
         $id_ingred = $_POST['ID'];
         $items->borrarIngredItem($id_ingred);

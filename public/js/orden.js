@@ -6,6 +6,8 @@
 $(document).ready(function(){
 
     var funcion, idCat="";
+    const URL_ITEM_CONTROL   = '../controllers/itemController.php';
+
 
     
     $(".select2").select2({
@@ -139,7 +141,7 @@ $(document).ready(function(){
 
     /* Carga los productos en la tabla segun la categoria indicada */
     function mostrarProducts(){
-        funcion = "listarProducts";
+        funcion = 141;
         datatable = $('#tabla_products').DataTable({
 
             "scrollX": true,
@@ -149,20 +151,17 @@ $(document).ready(function(){
             
             "ajax": {
                 
-                "url":"../controllers/ordenController.php",
+                "url":URL_ITEM_CONTROL,
                 "method":"POST",
                 "data":{funcion:funcion, idCat:idCat},
                 "dataSrc":""
             },
             "columns": [
 
-           
                 { "data": "cant" },
-                
                 { "data": "nombre" },
                 { "data": "present" },
-                { "data": "precio" },
-                { "data": "compos" }
+                { "data": "precio" }
             ],
             language: espanol,
         });
