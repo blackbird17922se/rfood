@@ -54,9 +54,23 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
 
 
         <div class="container-fluid">
-            <h1>Asignar ingredientes</h1>
+            <h1>Gestión Ingredientes <span id="nombre-item"></span></h1>
+
+            <h3>Ingredientes Actuales</h3>
+            <table class="table table-hover text-nowrap">
+                <thead class="table-success">
+                    <tr>
+                        <th>Nombre Ingrediente</th>
+                        <th>Cantidad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="table-active" id="tb-ingreds-item">
+                </tbody>
+            </table>
 
 
+            <h3>Asignación Ingredientes</h3>
             <div class="form-group">
                 <label for="tipo_ing">Categoría del Ingrediente</label>
                 <select id="tipo_ing" class="form-control select2" style="width: 100%;" required>
@@ -68,12 +82,7 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        <div class="card-header">
-                            <ul class="nav nav-pills">
-                        
-                
-                        </div>
-
+           
                         <div class="card-body">
                             <div class="tab-content">
 
@@ -106,24 +115,8 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
                         </div>
 
                         <div class="container">
-                            <h1>Ingredientes Asignados al Ítem</h1>
-                            <a href="#" id="vaciar-carrito-ing" class="btn btn-danger btn-small">Vaciar Tabla</a>
-             
 
-                            <h1>Ingredientes Actuales</h1>
-                            <table class="table table-hover text-nowrap">
-                                <thead class="table-success">
-                                    <tr>
-                                        <th>Nombre Ingrediente</th>
-                                        <th>Cantidad</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table-active" id="tb-ingreds-item">
-                                </tbody>
-                            </table>
-             
-                            <h1>Ingredientes Nuevos</h1>
+                            <h3>Nuevos Ingredientes Asignados</h3>
                             <table class="table table-hover text-nowrap">
                                 <thead class="table-success">
                                     <tr>
@@ -134,7 +127,9 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
                                 </thead>
                                 <tbody class="table-active" id="tb-nIngr-Item">
                                 </tbody>
+                                
                             </table>
+                            <a href="#" id="vaciar-carrito-ing" class="btn btn-danger btn-small">Vaciar Tabla</a>
 
                         </div>
 

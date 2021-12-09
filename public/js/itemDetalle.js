@@ -56,7 +56,7 @@ $(document).ready(function(){
 
         $.post(ITEM_CTRL,{funcion, idItem},(response)=>{
 
-            console.log(response);
+            // console.log(response);
 
             const INGREDS = JSON.parse(response);
             let template = '';

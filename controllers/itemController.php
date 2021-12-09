@@ -6,6 +6,7 @@ $json = array();
 
 switch ($_POST['funcion']) {
     
+    // Listar datos del item
     case 150:
 
         $idItem = $_POST['ITEM_ID'];
@@ -27,6 +28,7 @@ switch ($_POST['funcion']) {
     break;
 
 
+    // Listar los ingredientes actuales del item
     case 151:
 
         $idItem = $_POST['idItem'];
@@ -47,24 +49,39 @@ switch ($_POST['funcion']) {
     break;
 
 
+    // agregar el nuevo ingrediente para el item
     case 160:
 
         $idItemMenu   = $_POST['idItemMenu'];
         $nIngredsItem = json_decode($_POST['json']);
+        $response     = false;
+        $nomIngredGl  = null;
+        $flag         = false;
+        $insert       = false;
 
         foreach ($nIngredsItem as $ingred) {
             $idIngred  = $ingred->id_prod;
             $nomIngred = $ingred->nombre;
-            $medida    = $ingred->medida;
-            $cantidad  = $ingred->cantidad;
-    
-    
-            $items->agregarNIngredItem($idItemMenu, $idIngred, $nomIngred, $medida, $cantidad);
-        }
-    
-        // $respCrearItemMenu = $items->agregarNIngredItem($codbar, $cat_item, $nombreItem, $pres_item, $precio, $iva);
-    
 
+            if($items->verificarIngredRepetido($idIngred,$idItemMenu)){
+                $response    = true;
+                $nomIngredGl = $nomIngred;
+            }
+        }
+
+        if($response){
+            echo $nomIngredGl;
+        }else{
+            foreach ($nIngredsItem as $ingred) {
+                $idIngred  = $ingred->id_prod;
+                $nomIngred = $ingred->nombre;
+                $medida    = $ingred->medida;
+                $cantidad  = $ingred->cantidad;
+
+                $items->agregarNIngredItem($idItemMenu, $idIngred, $nomIngred, $medida, $cantidad);
+            }
+            echo 'add';
+        }
     break;
 
 

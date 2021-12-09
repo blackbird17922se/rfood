@@ -44,21 +44,19 @@ class ItemModel{
 
         /* Agregar a la tabla ingredintes */
         $sql = "INSERT INTO ITEMENUINGR(ID_ITEM, ID_INGR, NOM_INGR,
-        MEDIDA_INGR, CANT_INGR)
-        VALUES(
-            :idNuevoItem, :idIngred, :nomIngred, :medida, :cantidad
-        )              
+            MEDIDA_INGR, CANT_INGR)
+            VALUES(
+                :idNuevoItem, :idIngred, :nomIngred, :medida, :cantidad
+            )              
         ";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(
-            ':idNuevoItem'    => $idNuevoItem,
-            ':idIngred'  => $idIngred,
-            ':nomIngred' => $nomIngred,
-            ':medida'    => $medida,
-            ':cantidad'  => $cantidad,
+            ':idNuevoItem' => $idNuevoItem,
+            ':idIngred'    => $idIngred,
+            ':nomIngred'   => $nomIngred,
+            ':medida'      => $medida,
+            ':cantidad'    => $cantidad,
         ));
-        echo 'add_Ingred_item / ';
-
     }
 
 
@@ -93,6 +91,24 @@ class ItemModel{
             echo 'noborrado';
         }
 
+    }
+
+
+    //Verificar que ese ingrediente ya no este asignado a ese item
+    function verificarIngredRepetido($idIngred,$idItemMenu){
+        $sql = "SELECT ID_INGR
+            FROM ITEMENUINGR 
+            WHERE ID_ITEM = :idItemMenu
+            AND ID_INGR = :idIngred
+        ";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(
+            'idIngred'   => $idIngred,
+            'idItemMenu' => $idItemMenu
+        ));
+        $this->objetos = $query->fetchall();
+
+        return !empty($this->objetos) ? true : false;
     }
 
 }

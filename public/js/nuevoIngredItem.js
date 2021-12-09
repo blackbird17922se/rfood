@@ -6,11 +6,13 @@ $(document).ready(function(){
     const ITEM_ID   = $('#itemId').val();
     const URL_ITEM_CONTROL   = '../controllers/itemController.php';
     const URL_INGRED_CONTROL = '../controllers/ingredController.php';
+    const URL_TIPOINGRED_CONTROL ='../controllers/invTipoController.php';
 
+    cargarNombreItem()
     listarTipoIngred();
     mostrarProducts()
     listarIngredsItem(ITEM_ID)
-    recuperarLSRecarga()
+    recuperarLSRecarga();
 
 
     $(".select2").select2({
@@ -80,6 +82,18 @@ $(document).ready(function(){
     });
 
 
+    function cargarNombreItem(){
+        funcion = 150;
+
+        $.post(URL_ITEM_CONTROL,{funcion, ITEM_ID},(response)=>{
+            const ITEMS = JSON.parse(response);
+ 
+            ITEMS.forEach(item=>{
+                $('#nombre-item').html(item.nombre); 
+            });
+        })
+    }
+
 
     function listarIngredsItem(idItem){
         // console.log("item: " + idItem);
@@ -114,13 +128,12 @@ $(document).ready(function(){
     }
 
 
+    // Al hacer clic en Guardar cambios de los nuevos ingredientes de item
+    $(document).on('click','#procesarNIngredItem',(e)=>{
 
-    function procesarNIngredItem(){
-
-        let ingreds   = [];
-        let json      = '';
-
-        let idItemMenu    = ITEM_ID;
+        let ingreds    = [];
+        let json       = '';
+        let idItemMenu = ITEM_ID;
   
         ingreds = recuperarLS();
         if(ingreds.length === 0){
@@ -131,26 +144,27 @@ $(document).ready(function(){
             })
         }else{
 
-            funcion   = 160;
+            funcion = 160;
 
-        /* nviar ese producto al controlador */
             json = JSON.stringify(ingreds);
-            console.log(json);
+            // console.log(json);
             $.post(URL_ITEM_CONTROL,{funcion, idItemMenu, json},(response=>{
-                console.log("RESP MEN: "+response);
+                // console.log("RESPONDE: "+response);
+                if(response != 'add'){
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Atencion',
+                        text: response + ' Ya pertenece a los ingredientes del ítem',
+                    })
+                }else{
+                    eliminarLS();
+                    $('#tbd-lista-ing').empty();
+                    $(".select2").val('').trigger('change');
+                    window.location.href ='itemDetalle.php' + "?id=" + ITEM_ID;
+                }
             }));
 
         }
-    }
-
-
-    $(document).on('click','#procesarNIngredItem',(e)=>{
-        console.log("procesarNIngredItem");
-        procesarNIngredItem();
-        eliminarLS();
-        $('#tbd-lista-ing').empty();
-        $(".select2").val('').trigger('change');
-        window.location.href ='itemDetalle.php' + "?id=" + ITEM_ID; 
     })
 
 
@@ -199,7 +213,7 @@ $(document).ready(function(){
         funcion = 161;
 
         $.post(URL_ITEM_CONTROL,{ingred_cant,id_editado,funcion},(response)=>{
-            console.log(response)
+            // console.log(response)
             if(response == 'edit'){
                 $('#edit_ingred').hide('slow');
                 $('#edit_ingred').show(1000);
@@ -225,7 +239,7 @@ $(document).ready(function(){
         const ELEM = $(this)[0].activeElement.parentElement.parentElement;
         const ID = $(ELEM).attr('ingredId');
         const NOMB = $(ELEM).attr('ingredNom');
-        console.log(ID + NOMB);
+        // console.log(ID + NOMB);
 
         // Alerta
         const swalWithBootstrapButtons = Swal.mixin({
@@ -266,7 +280,7 @@ $(document).ready(function(){
                     }
                 })
             }
-          })
+        })
     })
 
 
@@ -288,7 +302,7 @@ $(document).ready(function(){
             console.log("ingrds: "+ingreds);
         }else{
             ingreds = JSON.parse(localStorage.getItem('nIngredsItem'));
-            console.log("ingrds: "+ingreds);
+            // console.log("ingrds: "+ingreds);
         }
         return ingreds;
     }
@@ -303,7 +317,7 @@ $(document).ready(function(){
             ingreds = JSON.parse(localStorage.getItem('nIngredsItem'));
 
             ingreds.forEach(prod => {
-                console.log("ls: "+ prod.nombre);
+                // console.log("ls: "+ prod.nombre);
                 template=`
 
                 <tr prodId="${prod.id_prod}">
@@ -356,8 +370,8 @@ $(document).ready(function(){
     
      function listarTipoIngred(){
         funcion = "listarTipoIngred";
-        $.post('../controllers/invTipoController.php',{funcion},(response)=>{
-            console.log(response);
+        $.post(URL_TIPOINGRED_CONTROL,{funcion},(response)=>{
+            // console.log(response);
             const TIPOS = JSON.parse(response);
             let template = '';
             TIPOS.forEach(tipo=>{
@@ -374,7 +388,7 @@ $(document).ready(function(){
 
     /* Carga los productos en la tabla segun la categoria indicada */
     function mostrarProducts(){
-        console.log('listarIngredsCateg');
+        // console.log('listarIngredsCateg');
         funcion = "listarIngredsCateg";
         datatable = $('#tabla_products').DataTable({
 

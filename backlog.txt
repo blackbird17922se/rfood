@@ -2,11 +2,6 @@ ITEM INGREDIENTES ()
 ****************************************************************************************************
 TO_DO:
 ****************************************************************************************************
-- nuevoIngredItem deberia tener como titulo el nombre del item al cual
-    se le estan asignando ingreds.
-- Al agregar un nuevo ingrediente al item, validar si ese ingrediente
-    ya hace parte de los ingredientes de ese item (No falta el animal
-    que agrege el ingrediente dos veces :-\)
 - Debe permitir no agregar ningun ingrediente al item (Por ejemplo
     una cerveza no lleva ingredientes del inventario)
 
@@ -18,4 +13,11 @@ DONE:
 ITEM INGREDIENTES (06/12)
 - Permitir editar la cantidad de X ingrediente del item.
 - Permitir borrar el ingrediente del item.
+
+(08/12)
+- nuevoIngredItem deberia tener como titulo el nombre del item al cual
+    se le estan asignando ingreds.
+- Al agregar un nuevo ingrediente al item, validar si ese ingrediente
+    ya hace parte de los ingredientes de ese item (No falta el animal
+    que agrege el ingrediente dos veces :-\)
 
