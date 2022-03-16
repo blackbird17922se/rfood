@@ -173,3 +173,8 @@ html{
     background: #333333;
 
 }
+
+.table-hover tbody tr:hover {
+    color: #ffffff;
+    background-color: rgba(0,0,0,.075);
+}
