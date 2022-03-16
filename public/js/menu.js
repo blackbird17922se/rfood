@@ -142,12 +142,14 @@ $(document).ready(function(){
         let datos = datatable.row($(this).parents()).data();
 
         let id= datos.id_prod;
-        let codbad= datos.codbad;
+        let codbar= datos.codbar;
         let nombre= datos.nombre;
         let iva= datos.iva;
         let precio= datos.precio;
         let prod_tipo= datos.prod_tipo;
         let prod_pres= datos.prod_pres;
+
+        console.log(codbar);
 
         /* Si el valor de iva proveniente de la bd es true (1) entonces añadir o no la */
         /* propiedad checked al input de iva, de esa manera aparece o no chequeado.    */
@@ -160,7 +162,7 @@ $(document).ready(function(){
         /* Los $(#...) Son los identificadores del formulario */
         $('#id_edit-prod').val(id);
         $('#nombre').val(nombre);
-        $('#codbad').val(codbad);
+        $('#codbar').val(codbar);
         // $('#adici').val(adici);
 
         let nval = 0;   // nval: nuevo valor del iva
@@ -178,8 +180,8 @@ $(document).ready(function(){
         $('#precio').val(precio);
         $('#prod_tipo').val(prod_tipo).trigger('change');
         $('#prod_pres').val(prod_pres).trigger('change');
-        $('#codbar').attr("type","hidden");
-        $('#labcodbar').hide();
+        //$('#codbar').attr("type","hidden");
+        //$('#labcodbar').hide();
     });
 
 
@@ -188,7 +190,8 @@ $(document).ready(function(){
     $('#form-edit-product').submit(e=>{
         /* recibir los datos del formulario al hacer click en el boton submit */
         /* val(): obtiene el valor en el imput */
-        let id = $('#id_edit-prod').val()
+        let id = $('#id_edit-prod').val();
+        let codbar= $('#codbar').val();
         let nombre = $('#nombre').val();
         let prod_tipo = $('#prod_tipo').val();  // Categoria
         let prod_pres = $('#prod_pres').val();
@@ -204,7 +207,7 @@ $(document).ready(function(){
         // crear 145, editar 146
        funcion = 146;
 
-        $.post(URL_ITEM_CONTROL,{funcion,id,nombre,prod_tipo,prod_pres,precio,iva},(response)=>{
+        $.post(URL_ITEM_CONTROL,{funcion,id,codbar,nombre,prod_tipo,prod_pres,precio,iva},(response)=>{
 
             console.log(response);
 

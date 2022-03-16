@@ -83,9 +83,10 @@ class ItemModel{
     }
 
 
-    function editarItem($id,$nombre, $prod_tipo,$prod_pres,$precio,$iva){
+    function editarItem($id,$codbar,$nombre, $prod_tipo,$prod_pres,$precio,$iva){
         $sql = "UPDATE producto SET
                 nombre    = :nombre, 
+                codbar    = :codbar, 
                 prod_tipo = :prod_tipo, 
                 prod_pres = :prod_pres,
                 precio    = :precio, 
@@ -94,6 +95,7 @@ class ItemModel{
         $query = $this->acceso->prepare($sql);
         $query->execute(array(
             ':id'        => $id,
+            ':codbar'    => $codbar,
             ':nombre'    => $nombre,
             ':prod_tipo' => $prod_tipo,
             ':prod_pres' => $prod_pres,

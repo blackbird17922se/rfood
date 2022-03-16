@@ -118,13 +118,14 @@ switch ($_POST['funcion']) {
     case 146:
         /* datos recibidos desde producto.js >>> $.post('../controllers/productoController.php',{fu... */
         $id        = $_POST['id'];
+        $codbar    = $_POST['codbar'];
         $nombre    = $_POST['nombre'];
         $iva       = $_POST['iva'];
         $precio    = $_POST['precio'];
         $prod_tipo = $_POST['prod_tipo'];
         $prod_pres = $_POST['prod_pres'];
 
-        $items->editarItem($id,$nombre,$prod_tipo,$prod_pres,$precio,$iva);
+        $items->editarItem($id,$codbar,$nombre,$prod_tipo,$prod_pres,$precio,$iva);
     break;
 
 
