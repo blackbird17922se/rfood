@@ -25,16 +25,16 @@
 
 <!-- **************************************************** -->
   <!-- Navbar -->
-  <nav id="barrasup" class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav id="barrasup" class="main-header navbar navbar-expand navbar-dark">
     <!-- Left navbar links -->
 
-    <p><?php echo $_COOKIE['tk'] ?></p>
+    <!-- <p><?php echo $_COOKIE['tk'] ?></p> -->
     <ul class="navbar-nav">
       <li class="nav-item">
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="../../index3.html" class="nav-link">Home</a>
+        <a href="main.php" class="nav-link">Inicio</a>
       </li>
 
       <li id="cat-carrito" class="nav-item dropdown" style="display:none">
@@ -42,7 +42,7 @@
           Pedido
         </a>
         <span id="contador" class="contador badge badge-danger"></span>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+        <div class="dropdown-menu mdl-mdrn dropdown-menu-orden" aria-labelledby="navbarDropdownMenuLink">
           <table class="carro table table-over text-nowrap p-0">
             <thead class="table-success">
               <tr>
@@ -52,8 +52,6 @@
                 <th>Precio</th>
                 <th>Cantidad</th>
                 <th>Eliminar</th>
-                <!-- <th>Categoría</th> -->
-
               </tr>
             </thead>
             <tbody id="tbd-lista"></tbody>
@@ -64,15 +62,11 @@
           </div>
 
           <!-- <textarea name="" id="" cols="30" rows="10"></textarea> -->
-          <a href="#" id="procesar-pedido" class="btn btn-danger btn-block">Procesar Pedido</a>
-          <a href="#" id="vaciar-carrito" class="btn btn-primary btn-block">Vaciar Pedido</a>
+          <a href="#" id="procesar-pedido" class="btn btn-outline-danger btn-block">Procesar Pedido</a>
+          <a href="#" id="vaciar-carrito" class="btn btn-outline-primary btn-block">Vaciar Pedido</a>
 
         </div>
       </li>
-
-
-
-
     </ul>
 
     <!-- Right navbar links -->

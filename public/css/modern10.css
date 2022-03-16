@@ -1,0 +1,175 @@
+html{
+    background-color: #191919;
+}
+/* BARRA */
+.navbar-dark{
+    background-color: #191919;
+}
+
+.main-footer{
+    background-color: #191919;
+}
+
+.cnt-wrp-mdrn{
+    background-color: #202020;
+    color: #FFFFFF;
+}
+
+#content-wrapper-mdr{
+    background-color: #202020;
+    color: #FFFFFF;
+}
+
+.card-mdrn{
+    background-color: #2B2B2B;
+}
+
+#tabla_products tr:hover{
+    background-color: #4D4D4D;
+    color: #FFFFFF;
+}
+
+/* #tipo_ing .select2-container--default .select2-selection--single{
+    background-color: #521eb3;
+}
+#tipo_ing{
+    background-color: #521eb3;
+}
+#tipo_ing.select2{
+    background-color: #521eb3;
+} */
+
+/* imput select */
+.select2-container--default .select2-selection--single {
+    background-color: #373737;
+    /* color: #ffffff; */
+    border: 1px solid #3A3A3A;
+}
+
+.select2-container--default .select2-selection--single:hover {
+    background-color: #3C3C3C;
+    /* color: #ffffff; */
+    /* border: 1px solid #3A3A3A; */
+}
+
+.select2-dropdown {
+    background-color: #272727;
+    color: #FFFFFF;
+}
+
+.select2-container--default .select2-dropdown {
+    border: 1px;
+    box-shadow: 0px 3px 9px 3px #1b1b1b;
+}
+
+/* color de los elementos de la lista al pasar el puntero sobre ellos */
+.select2-container--default .select2-results__option--highlighted[aria-selected], .select2-container--default .select2-results__option--highlighted[aria-selected]:hover {
+    background-color: #383838;
+    color: #fff;
+}
+
+/* input select donde dice "seleccione opcion" cuando se despliega la lista*/
+.select2-container--default.select2-container--open .select2-selection--single {
+    border: 1px solid #3A3A3A;
+
+}
+
+
+/* Cajon de texto del select */
+.select2-search__field{
+    background-color: #222222;
+    color: #ffffff;
+}
+
+.select2-container--default .select2-dropdown .select2-search__field:focus, .select2-container--default .select2-search--inline .select2-search__field:focus {
+    border: 1px solid #3A3A3A; border-bottom: 1px solid #9F9F9F;
+}
+
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    color: #ffffff;
+}
+
+
+
+.custom-select {
+    background-color: #2E2E2E;
+    color: #fff;
+}
+
+.form-control {
+    background-color: #373737;
+    color: #ffffff;
+    /* border: 1px solid #fb0c0c; */
+    border: 1px solid #3A3A3A; border-bottom: 1px solid #9F9F9F;
+}
+.form-control:hover {
+    background-color: #3C3C3C;
+    color: #ffffff;
+}
+.form-control:focus {
+    background-color: #222222;
+    color: #ffffff;
+    border: 1px solid #3A3A3A; border-bottom: 2px solid #9F9F9F;
+}
+
+/* #444240 */
+/* .pagination{
+    background: #444240 ;
+} */
+
+/* ESTOS COLORES SIRVEN PARA LOS BOTONES */
+.page-link{
+    background: #444240;
+    color: #ffffff;
+}
+.page-link:hover{
+    background: #6D6B6A;
+    color: #ffffff;
+}
+
+.page-link:focus{
+    background: #363533;
+    color: #ffffff;
+}
+
+.paginate_button.disabled .page-link{
+    background: #444240;
+}
+.paginate_button.active .page-link{
+    color: #ffffff;
+}
+/* .paginate_button.page-item{
+    background: #444240 ;
+} */
+
+.mdl-mdrn{
+    background: #333333;
+
+}
+
+.dropdown-menu-orden{
+    padding: 12px;
+    color: #ffffff;
+}
+
+.table-success{
+    background: #444444;    
+}
+
+.table-success th{
+    border-color: transparent;
+}
+
+.table-active, .table-active>td, .table-active>th {
+    background-color: rgb(90 90 90);
+}
+
+.card-mdrn .card-footer{
+    background-color: #1b1b1b;
+}
+
+.table-hover-mdr10:hover{
+    background: #333333;
+
+}

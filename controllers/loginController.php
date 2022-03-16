@@ -11,10 +11,10 @@ if(!empty($_SESSION['rol'])){
     switch ($_SESSION['rol']) {
         // enrutar
         case 1:
-            header("Location: ../views/adm_cat.php");
+            header("Location: ../views/main.php");
         break;
         case 2:
-            header("Location: ../views/adm_cat.php");
+            header("Location: ../views/main.php");
         break;
     }  
 

@@ -85,7 +85,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 </div>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper cnt-wrp-mdrn">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -106,7 +106,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
         <!-- Main content -->
         <section>
         <div class="container-fluid">
-            <div class="card card-success">
+            <div class="card card-success card-mdrn">
                 <div class="card-header">
                     <h3 class="card-title">Ítems</h3>
                 </div>

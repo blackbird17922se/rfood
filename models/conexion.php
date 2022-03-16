@@ -5,7 +5,7 @@ class Conexion{
    // private $db = "id12935461_rfood";
    private $db = "rfood";
 
-   private $puerto = 3310;
+   private $puerto = 3306;
    private $charset = "utf8";
 
    // private $usuario="id12935461_root";

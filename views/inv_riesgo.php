@@ -7,7 +7,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 ?>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper cnt-wrp-mdrn">
 
     <!-- SECCION CABECERA -->
     <section class="content-header">
@@ -30,7 +30,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
     <!-- Main content -->
     <section>
         <div class="container-fluid">
-            <div class="card card-danger">
+            <div class="card card-danger card-mdrn">
                 <div class="card-header">
                     <h3 class="card-title">Lotes en riesgo</h3>    
                 </div>

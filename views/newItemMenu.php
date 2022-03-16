@@ -7,7 +7,7 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
 
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper cnt-wrp-mdrn">
 
     <!-- Main content -->
     <section class="content">
@@ -63,8 +63,8 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
 
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card">
-                        <div class="card-header">
+                    <div class="card card-mdrn">
+                        <div class="card-header card-mdrn">
                             <ul class="nav nav-pills">
                         
                 
@@ -76,7 +76,7 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
 
                                 <!-- ENTRADAS -->
                                 <div class="tab-pane active" id="entradas">
-                                    <div class="card card-success">                              
+                                    <div class="card card-success card-mdrn">                              
                                         <div class="card-body p-0 table-responsive">
                                         <table id="tabla_products" class="display table table-hover text-nowrap" style="width:100%">
                                             <thead>

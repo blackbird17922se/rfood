@@ -180,7 +180,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper cnt-wrp-mdrn">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -203,7 +203,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card card-mdrn">
                     <div class="card-header">
                         <ul class="nav nav-pills">
                             <li class="nav-item"><a href="#categ" class="nav-link active" data-toggle="tab">Categorías de productos</a></li>
@@ -218,7 +218,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 
                             <!-- panel categoria -->
                             <div class="tab-pane active" id="categ">
-                                <div class="card card-success">
+                                <div class="card card-success card-mdrn">
                                     <div class="card-header">
                                         <div class="card-title">Buscar Categoría
                                             <button type="button" data-toggle="modal" data-target="#crear-categ" class="btn bg-gradient-primary btn-sm m-2">Crear Categoría</button></div>
@@ -247,7 +247,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
                             
                             <!-- Presentacion del producto -->
                             <div class="tab-pane" id="present">
-                                <div class="card card-success">
+                                <div class="card card-success card-mdrn">
                                     <div class="card-header">
                                         <div class="card-title">Buscar presentación<button type="button" data-toggle="modal" data-target="#crearpresent" class="btn bg-gradient-primary btn-sm m-2">Crear Presentacion</button></div>
                                         <div class="input-group">
@@ -275,7 +275,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 
                             <!-- Mesas -->
                             <div class="tab-pane" id="mesas">
-                                <div class="card card-success">
+                                <div class="card card-success card-mdrn">
                                     <div class="card-header">
                                         <div class="card-title">Buscar mesa
                                         <button type="button" data-toggle="modal" data-target="#crearmesa" class="btn bg-gradient-primary btn-sm m-2">Crear Mesa</button></div>

@@ -148,7 +148,7 @@ class ItemModel{
     /* *************************************************************************************************************** */
 
     public function listarIngredsItem($idItem){
-        $sql = "SELECT * FROM ITEMENUINGR WHERE ID_ITEM = :idItem";
+        $sql = "SELECT * FROM itemenuingr WHERE ID_ITEM = :idItem";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':idItem' => $idItem));
         $this->objetos=$query->fetchall();
@@ -160,7 +160,7 @@ class ItemModel{
     function agregarNIngredItem($idNuevoItem, $idIngred, $nomIngred, $medida, $cantidad){
 
         /* Agregar a la tabla ingredintes */
-        $sql = "INSERT INTO ITEMENUINGR(ID_ITEM, ID_INGR, NOM_INGR,
+        $sql = "INSERT INTO itemenuingr(ID_ITEM, ID_INGR, NOM_INGR,
             MEDIDA_INGR, CANT_INGR)
             VALUES(
                 :idNuevoItem, :idIngred, :nomIngred, :medida, :cantidad
@@ -179,7 +179,7 @@ class ItemModel{
 
     function editarCantIngredItem($ingred_cant, $id_editado){
         $sql = 
-        "UPDATE ITEMENUINGR 
+        "UPDATE itemenuingr 
             SET CANT_INGR = :ingred_cant 
             WHERE ID_IT_MENU_INGR = :id_editado
         ";
@@ -195,7 +195,7 @@ class ItemModel{
     function borrarIngredItem($id_ingred){
 
         $sql = 
-        "DELETE FROM ITEMENUINGR 
+        "DELETE FROM itemenuingr 
             WHERE ID_IT_MENU_INGR = :id_ingred
         ";
 
@@ -214,7 +214,7 @@ class ItemModel{
     //Verificar que ese ingrediente ya no este asignado a ese item
     function verificarIngredRepetido($idIngred,$idItemMenu){
         $sql = "SELECT ID_INGR
-            FROM ITEMENUINGR 
+            FROM itemenuingr 
             WHERE ID_ITEM = :idItemMenu
             AND ID_INGR = :idIngred
         ";

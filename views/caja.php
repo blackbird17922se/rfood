@@ -7,13 +7,13 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==3)){
 ?>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper cnt-wrp-mdrn">
 
     <section>
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-md-12">
-                <div class="card card-success">
+                <div class="card card-success card-mdrn">
                     <div class="card-header">
                         Pedidos sin cancelar
                     </div>

@@ -7,7 +7,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 ?>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper cnt-wrp-mdrn">
     <!-- Content Header (Page header) -->
 
 

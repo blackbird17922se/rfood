@@ -72,7 +72,7 @@ if(!empty($_SESSION['rol'])){
 </div>  <!-- Fin Modal -->
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper cnt-wrp-mdrn">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -95,7 +95,7 @@ if(!empty($_SESSION['rol'])){
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-                    <div class="card card-success card-outline">
+                    <div class="card card-success card-outline card-mdrn">
                         <div class="card-body box-profile">
                             <div class="text-center">
 
@@ -126,7 +126,7 @@ if(!empty($_SESSION['rol'])){
                 </div>
 
                 <div class="col-md-9">
-                    <div class="card card-success">
+                    <div class="card card-success card-mdrn">
                         <div class="card-header">
                             <h3 class="card-title">Editar Perfil</h3>
                         </div>

@@ -118,11 +118,11 @@ $(document).ready(function(){
                     <td>${ingred.nomIngred}</td>
                     <td>${ingred.cantidad} <span> ${ingred.medida}</span></td>
                     <td>
-                        <button class="editar-ingred btn btn-success" title="editar" type="button" data-toggle="modal" data-target="#edit-ingred">
+                        <button class="editar-ingred btn btn-outline-success" title="editar" type="button" data-toggle="modal" data-target="#edit-ingred">
                             <i class="fas fa-pencil-alt"></i>
                         </button>
     
-                        <button class="borrar-ingred btn btn-danger" title="borrar">
+                        <button class="borrar-ingred btn btn-outline-danger" title="borrar">
                             <i class="fas fa-trash"></i>
                         </button>
                     </td>

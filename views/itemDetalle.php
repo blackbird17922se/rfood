@@ -6,7 +6,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 ?>
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+  <div class="content-wrapper cnt-wrp-mdrn">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -36,7 +36,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <div class="card">
+                <div class="card card-mdrn">
                     
 
                     <div class="card-body">
@@ -52,7 +52,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
     
                                     </div>
                                     <div class="card-body p-0 table-responsive">
-                                        <table class="table table-hover text-nowrap">
+                                        <table class="table table-hover-mdr10 text-nowrap">
                                             <thead class="table-success">
                                                 <tr>
                                                     <th>Nombre Ingrediente</th>
