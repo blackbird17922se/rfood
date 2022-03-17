@@ -130,7 +130,7 @@ $(document).ready(function(){
 
     $(document).on('click','#btn-crear',(e)=>{
         // console.log("click en br crear");
-        $('#codbar').attr("type","number");
+        $('.agregar-carrito').attr("disabled","");
         // $('#form-crear-product').trigger('reset');
 
         edit = false;   // bandera

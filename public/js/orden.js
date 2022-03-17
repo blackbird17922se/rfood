@@ -278,6 +278,11 @@ $(document).ready(function(){
         const PRECIO  = datos.precio;
         let CANT      = $('#'+ID).val();
 
+        var btn_item = 'btn-item-'+datos.btn_item
+        
+
+        console.log(btn_item);
+
   
 
         // const CATEG = datos.categ;
@@ -329,6 +334,9 @@ $(document).ready(function(){
             $('#tbd-lista').append(template);
             agregarLS(PRODUCTO);
             contarProductos();
+
+            //Al agregar el item, desabilitar el boton de agregar
+            $("#btn-item-"+datos.btn_item).prop('disabled', true);
         }   
     });
 
@@ -337,8 +345,10 @@ $(document).ready(function(){
     $(document).on('click','.borrar-producto',(e)=>{
         const ELEM = $(this)[0].activeElement.parentElement.parentElement;
         const ID = $(ELEM).attr('prodId');
+        console.log(ID);
         ELEM.remove();
         eliminarProdLS(ID);
+        $("#btn-item-"+ID).prop('disabled', false);
         contarProductos();
         // calcularTotal()
     })

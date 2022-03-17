@@ -54,7 +54,7 @@ switch ($_POST['funcion']) {
                     </div>
                 </div>
 
-                <button class='agregar-carrito lote btn btn-sm btn-primary'>
+                <button class='agregar-carrito lote btn btn-sm btn-primary' id='btn-item-".$objeto->id_prod."'>
                     <i class='fas fa-plus-square mr-2'></i>Agregar al pedido
                 </button>
             ";
@@ -68,6 +68,7 @@ switch ($_POST['funcion']) {
                 'present'=>$objeto->present,   //nombre de la presentaion
                 'precio'=>$objeto->precio,
                 'cant'=>$cant,
+                'btn_item' => $objeto->id_prod
             );
         }
         $jsonstring = json_encode($json);

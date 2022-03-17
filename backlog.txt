@@ -7,7 +7,15 @@ TO_DO:
 - agregar ventas del dia
 -verificar porque no elimina la sesion al salir
 
-
+-----------------------
+menu.js
+itemController.php
+itemModel
+adm_menu
+menu.js
+orden.js
+modern10.css
+----------------------
 
 ****************************************************************************************************
 DONE:
