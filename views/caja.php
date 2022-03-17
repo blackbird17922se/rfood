@@ -10,7 +10,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==3)){
   <div class="content-wrapper cnt-wrp-mdrn">
 
     <section>
-    <div class="container-fluid mt-3">
+    <div class="container-fluid pt-3">
         <div class="row">
             <div class="col-md-12">
                 <div class="card card-success card-mdrn">
@@ -32,7 +32,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==3)){
 
                         <div>
                         <table class="compra table table-hover text-nowrap">
-                                <thead class='table-success'>
+                                <thead>
                                     <tr>
                                         <th scope="col">Mesa</th>
                                         <th scope="col">Nombre</th>

@@ -15,6 +15,8 @@ $(document).ready(function(){
             
             PEDIDOS.forEach(pedido=>{
 
+                pedido.observ = pedido.observ == null ? "Ninguna":pedido.observ;
+
                 let tempProducts = '';
                 pedido.prods.forEach(item=>{
 
@@ -24,7 +26,7 @@ $(document).ready(function(){
                      * item[2] = cantidad del platillo
                     */
                     tempProducts+=`
-                    <h2 class="lead"><b>${item[0]}</b> ${item[1]}  ---------- ${item[2]}</h2>
+                    <h2 class="lead"><span class="card-num-big">${item[2]} </span><b>${item[0]}</b> ${item[1]}</h2>
                     `;
               
                 });
@@ -32,36 +34,29 @@ $(document).ready(function(){
 
                 templateS+=`
         
-                    <div idPedido="${pedido.idPedido}" class="col-12 col-sm-6 col-md-6 align-items-stretch">
-
-                        <div class="card bg-light">
-                            <div class="card-header text-muted border-bottom-0">Orden Numero: ${pedido.idPedido}
+                <div idPedido="${pedido.idPedido}" class="col-12 col-sm-6 col-md-6 align-items-stretch">
+                    <div class="card bg-dark-10">
+                        <div class="card-header border-bottom-0">Orden Numero: ${pedido.idPedido}
                             <h2 class="lead"><b>id Mesa: ${pedido.idMesa}</b></h2>
-                          
-                            
-                            </div>
-
-                            <div class="card-body pt-0">
-                                <div class="row">
-                                    <div class="col-12">
-                                
-                                        <h2 class="lead"><b>${tempProducts}</b></h2>
-
-                                        <div class="form-group">
-                                            <label for="observ">Observaciones</label>
-                                            <p class="" id="observ" rows="3">${pedido.observ}</p>
-                                        </div>
-
-                                    </div>                           
-                                </div>
-
-                                <button class='terminado btn btn-sm btn-primary'>
-                                    <i class='fas fa-plus-square mr-2'></i>Plato Terminado
-                                </button>
-
-                            </div>                        
                         </div>
+                
+                        <div class="card-body pt-0">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h2 class="lead"><b>${tempProducts}</b></h2>
+                                    <div class="card-obs">
+                                        <h5>Observaciones</h5>
+                                        <p>${pedido.observ}</p>
+                                    </div>
+                                </div>                           
+                            </div>
+                
+                            <button class='terminado btn btn-sm btn-primary'>
+                                <i class='fas fa-plus-square mr-2'></i>Plato Terminado
+                            </button>
+                        </div>                        
                     </div>
+                </div>
                 `;   
             });
             $('#cb-pedidos').html(templateS);

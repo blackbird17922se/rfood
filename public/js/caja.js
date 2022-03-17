@@ -23,8 +23,8 @@ $(document).ready(function(){
         
                     <div idPedido="${pedido.idPedido}" idMesa="${pedido.idMesa}" class="col-2 col-sm-2 col-md-2 align-items-stretch">
 
-                        <div class="card bg-light">
-                            <div class="card-header text-muted border-bottom-0">Orden: ${pedido.idPedido}
+                        <div class="card bg-dark-10">
+                            <div class="card-header border-bottom-0">Orden: ${pedido.idPedido}
                             
                             
                             </div>
