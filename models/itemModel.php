@@ -16,38 +16,55 @@ class ItemModel{
         $this->acceso=$db->pdo;
     }
 
-
     function crearItem($codbar, $cat_item, $nombreItem, $pres_item, $precio, $iva){
-
-        $sql = "SELECT id_prod FROM producto WHERE codbar = :codbar";
-
+        $sql = "INSERT INTO producto(codbar, nombre, prod_tipo, prod_pres, precio, iva) 
+        VALUES (:codbar, :nombre, :prod_tipo, :prod_pres, :precio, :iva)";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(
-            ':codbar'       => $codbar
+            ':codbar'       => $codbar,
+            ':nombre'       => $nombreItem,
+            ':prod_tipo'    => $cat_item,
+            ':prod_pres'    => $pres_item,
+            ':precio'       => $precio,
+            ':iva'          => $iva
         ));
-        $this->objetos=$query->fetchall();
-        /* Si encuentra el producto entonces no agregarlo */
-        if(!empty($this->objetos)){
-            return false;
-        }else{
-            $sql = "INSERT INTO producto(codbar, nombre, prod_tipo, prod_pres, precio, iva) 
-            VALUES (:codbar, :nombre, :prod_tipo, :prod_pres, :precio, :iva)";
-            $query = $this->acceso->prepare($sql);
-            $query->execute(array(
-                ':codbar'       => $codbar,
-                ':nombre'       => $nombreItem,
-                ':prod_tipo'    => $cat_item,
-                ':prod_pres'    => $pres_item,
-                ':precio'       => $precio,
-                ':iva'          => $iva
-            ));
 
-            return true;
-        }
+        return true;
+    }
+
+
+    // Este crear busca por el codigo de barra si el item ya existe
+    // function crearItem($codbar, $cat_item, $nombreItem, $pres_item, $precio, $iva){
+
+    //     $sql = "SELECT id_prod FROM producto WHERE codbar = :codbar";
+
+    //     $query = $this->acceso->prepare($sql);
+    //     $query->execute(array(
+    //         ':codbar'       => $codbar
+    //     ));
+    //     $this->objetos=$query->fetchall();
+    //     /* Si encuentra el producto entonces no agregarlo */
+    //     if(!empty($this->objetos)){
+    //         return false;
+    //     }else{
+    //         $sql = "INSERT INTO producto(codbar, nombre, prod_tipo, prod_pres, precio, iva) 
+    //         VALUES (:codbar, :nombre, :prod_tipo, :prod_pres, :precio, :iva)";
+    //         $query = $this->acceso->prepare($sql);
+    //         $query->execute(array(
+    //             ':codbar'       => $codbar,
+    //             ':nombre'       => $nombreItem,
+    //             ':prod_tipo'    => $cat_item,
+    //             ':prod_pres'    => $pres_item,
+    //             ':precio'       => $precio,
+    //             ':iva'          => $iva
+    //         ));
+
+    //         return true;
+    //     }
 
 
         
-    }
+    // }
 
 
     function listarItems(){

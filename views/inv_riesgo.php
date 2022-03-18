@@ -73,7 +73,3 @@ include_once "layouts/footer.php";
 }
 ?>
 <script src="../public/js/riesgo.js"></script>
-<!-- <script src="../public/js/datatables.js"></script>
-
-<script src="../public/js/catalogo.js"></script>
-<script src="../public/js/carrito.js"></script> -->

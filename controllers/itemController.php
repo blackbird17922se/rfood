@@ -117,7 +117,7 @@ switch ($_POST['funcion']) {
 
     // Editar
     case 146:
-        /* datos recibidos desde producto.js >>> $.post('../controllers/productoController.php',{fu... */
+        /* datos recibidos desde menu.js >>> $.post(URL_ITEM_CONTROL,{fu... */
         $id        = $_POST['id'];
         $codbar    = $_POST['codbar'];
         $nombre    = $_POST['nombre'];

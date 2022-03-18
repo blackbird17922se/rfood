@@ -324,6 +324,7 @@ $(document).ready(function(){
     });
 
 
+    /* Clic al Guardar Item */
     $(document).on('click','#procesarItemMenu',(e)=>{
 
         let ingreds   = [];
@@ -359,7 +360,7 @@ $(document).ready(function(){
         json = JSON.stringify(ingreds);
         console.log(json);
         $.post(URL_ITEM_CONTROL,{funcion,codbar,cat_item,nombre,pres_item,precio,iva,json},(response=>{
-            // console.log("RESP MEN: "+response);
+            console.log("RESP MEN: "+response);
             if(response == 'addItem'){
                 Swal.fire({
                     title: 'Agregado ' + nombre + ' Exitosamente',
@@ -434,34 +435,16 @@ $(document).ready(function(){
             console.log(json);
             $.post(URL_ITEM_CONTROL,{funcion,codbar,cat_item,nombre,pres_item,precio,iva,json},(response=>{
                 console.log("RESP MEN: "+response);
+
+                if (response=="errorAddItem") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error Fatal',
+                        text: 'Ha ocurrido un error interno al agregar el ítem.',
+                    })   
+                }
+
             }));
-
-            // datatable.ajax.reload();
-
-
-            
-            // productos = JSON.parse(localStorage.getItem('productos'));
-            // productos.forEach(prod => {
-            //     console.log(prod.id_prod);
-
-            //     let id_mesa = $('#mesa').val();
-            //     let id_prod = prod.id_prod;
-            //     let entregado = 0;
-            //     let terminado = 0;
-
-            //     $.post('../controllers/pedidoController.php',{funcion,id_mesa,id_prod,entregado,terminado},(response=>{
-            //         console.log(response);
-            //         $('#tbd-lista').empty();
-            //         eliminarLS();
-            //         contarProductos()
-            //     }));
-
-            // })
-
-
-
-
-            // location.href = '../views/adm_compra.php';
         }
     }
 

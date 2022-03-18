@@ -40,7 +40,6 @@ if($_POST['funcion'] == 'listarIngreds'){
 
 /* CREAR */
 if($_POST['funcion']=='crear'){
-    /* datos recibidos desde producto.js >>> $.post('../controllers/productoController.php',{fu... */
     $codbar    = $_POST['codbar'];
     $nombre    = $_POST['nombre'];
     $prod_tipo = $_POST['prod_tipo'];
@@ -84,7 +83,6 @@ if($_POST['funcion'] =='borrar'){
 /* para cuando se actualiza un precio o el stock del producto, 
 la ctualizacion se mostrada en tiempo real (por ejemplo en e carr de compras) */
 if($_POST['funcion'] == 'buscar_id'){
-    /* post recibido desde carrito.js : funcion recuperarLS_car ... $.post('../controllers/productoController.php',{funcion,id_inv_producto},(response) */
     $id=$_POST['idIngred'];
 
     $product->buscar_id($id);

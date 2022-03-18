@@ -178,7 +178,7 @@ $(document).ready(function () {
         });
 
         funcion = 'ver';
-        // console.log(id);
+        console.log('detalle vent'+id);
 
         $('#codigo_venta').html(datos.id_venta);
         $('#fecha').html(datos.fecha);

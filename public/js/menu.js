@@ -59,7 +59,7 @@ $(document).ready(function(){
     // listarProdCons();
     // function listarProdCons(){
     //     funcion = "listarProducts";
-    //     $.post('../controllers/productoController.php',{funcion},(response)=>{
+    //     $.post(URL_ITEM_CONTROL,{funcion},(response)=>{
     //         console.log(response);
    
     //     })
@@ -303,19 +303,6 @@ $(document).ready(function(){
     
         window.location.href ='itemDetalle.php' + "?id=" + id_prod; 
     });
-
-
-    /******************************************************************************/
-    /* Generar un pdf con los productos del inventario                            */
-    /******************************************************************************/
-    $(document).on('click','#btn-reporte',(e)=>{
-        funcion = 'rep_prod';
-        $.post('../controllers/productoController.php',{funcion},(response)=>{
-            console.log(response);
-            /* Blanc es para que abra una estaña nueva */
-            window.open('../pdf/pdf-'+funcion+'.pdf','_blank');
-        });
-    }) 
 
     $('#tabla_products tbody').on( 'click', '.ingreds', function () {
 
