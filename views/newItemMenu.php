@@ -50,7 +50,11 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
         <input type="hidden" id="id_edit-prod">
 
         <div class="container-fluid">
-            <h1>Asignar ingredientes</h1>
+            <h1 
+                title="
+                    Te permite asignar ingredientes al ítem si es requerido. Estos ingredientes se irán descontando del inventario al efectuar una venta."
+            >Asignar ingredientes</h1>
+            <p>Asignar ingredientes si el ítem contiene elementos del inventario.</p>
 
 
             <div class="form-group">
