@@ -4,6 +4,9 @@ TO_DO:
 ****************************************************************************************************
 - permitir codbar vacio al crear producto
 - sacar confid del productoControl y Pasarlos al nuevo controlador itemControl
+
+- verificar descuento inventario
+
 - agregar ventas del dia
 -verificar porque no elimina la sesion al salir
 
