@@ -39,7 +39,7 @@ if(!empty($_SESSION['rol'])){
             
             // admin
             case 1:
-                header("Location: ../views/orden.php");
+                header("Location: ../views/main.php");
             break;
 
             // SubAdmin

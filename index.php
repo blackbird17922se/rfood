@@ -46,6 +46,7 @@ if(!empty($_SESSION['rol'])){
     </div>
 </body>
 </html>
+
 <?php
 }
 

@@ -86,6 +86,14 @@ switch ($_POST['funcion']) {
         $iva        = $_POST['iva'];
         $idNuevoItem= 0;
 
+        if ($codbar == "") {
+            $codbar = 0;
+        }
+
+        if ($precio=="") {
+            $precio=0;
+        }
+
         $ingreds    = json_decode($_POST['json']);
 
         $respCrearItemMenu = $items->crearItem($codbar, $cat_item, $nombreItem, $pres_item, $precio, $iva);
@@ -125,6 +133,15 @@ switch ($_POST['funcion']) {
         $precio    = $_POST['precio'];
         $prod_tipo = $_POST['prod_tipo'];
         $prod_pres = $_POST['prod_pres'];
+
+        
+        if ($codbar == "") {
+            $codbar = 0;
+        }
+
+        if ($precio=="") {
+            $precio=0;
+        }
 
         $items->editarItem($id,$codbar,$nombre,$prod_tipo,$prod_pres,$precio,$iva);
     break;

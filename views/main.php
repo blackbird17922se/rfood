@@ -43,7 +43,11 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==4 || $
 
   </div>
   <!-- /.content-wrapper -->
+  <script>
 
+var audio = new Audio('cc.mp3');
+audio.play();
+    </script>
 <?php
 include_once "layouts/footer.php";
 
