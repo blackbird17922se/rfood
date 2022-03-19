@@ -12,28 +12,17 @@ class IngredModel{
     
 
     function crear($codbar,$nombre,$prod_tipo,$un_medida){
-        $sql = "SELECT id_inv_prod FROM ingred WHERE codbar = :codbar";
+
+        $sql = "INSERT INTO ingred(codbar, nombre, prod_tipo, un_medida) 
+        VALUES (:codbar, :nombre, :prod_tipo, :un_medida)";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(
-            ':codbar'       => $codbar
-
+            ':codbar'       => $codbar,
+            ':nombre'       => $nombre,
+            ':prod_tipo'    => $prod_tipo,
+            ':un_medida'    => $un_medida
         ));
-        $this->objetos=$query->fetchall();
-        /* Si encuentra el ingred entonces no agregarlo */
-        if(!empty($this->objetos)){
-            echo 'noadd';
-        }else{
-            $sql = "INSERT INTO ingred(codbar, nombre, prod_tipo, un_medida) 
-            VALUES (:codbar, :nombre, :prod_tipo, :un_medida)";
-            $query = $this->acceso->prepare($sql);
-            $query->execute(array(
-                ':codbar'       => $codbar,
-                ':nombre'       => $nombre,
-                ':prod_tipo'    => $prod_tipo,
-                ':un_medida'    => $un_medida
-            ));
-            echo 'add';
-        }
+        echo 'add';
     }
 
 
@@ -49,42 +38,25 @@ class IngredModel{
         $query->execute();
         $this->objetos=$query->fetchall();
         return $this->objetos;
-        
     }
 
 
-    function editar($id,$nombre,$prod_tipo,$un_medida){
-        $sql = "SELECT id_inv_prod FROM ingred WHERE id_inv_prod != :id
-            AND nombre = :nombre 
-            AND prod_tipo = :prod_tipo 
-            AND un_medida = :un_medida
-        ";
+    function editar($id,$codbar,$nombre,$prod_tipo,$un_medida){
+        $sql = "UPDATE ingred 
+        SET codbar = :codbar,
+            nombre = :nombre,
+            prod_tipo = :prod_tipo, 
+            un_medida = :un_medida
+       WHERE id_inv_prod = :id";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(
             ':id'           => $id,
-            ':nombre'       => $nombre,
+            ':codbar'       => $codbar,
+            ':nombre'       => $nombre,     
             ':prod_tipo'    => $prod_tipo,
-            ':un_medida' => $un_medida
+            ':un_medida'    => $un_medida
         ));
-        $this->objetos=$query->fetchall();
-        /* Si encuentra el producto entonces no agregarlo */
-        if(!empty($this->objetos)){
-            echo 'noedit';
-        }else{
-            $sql = "UPDATE ingred SET
-                 nombre = :nombre,
-                 prod_tipo = :prod_tipo, 
-                 un_medida = :un_medida
-                WHERE id_inv_prod = :id";
-            $query = $this->acceso->prepare($sql);
-            $query->execute(array(
-                ':id'           => $id,
-                ':nombre'       => $nombre,     
-                ':prod_tipo'    => $prod_tipo,
-                ':un_medida'    => $un_medida
-            ));
-            echo 'edit';
-        }
+        echo 'edit';
     }
 
 

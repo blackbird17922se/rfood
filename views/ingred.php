@@ -23,7 +23,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 
                         <div id="form_codbar" class="form-group">
                             <label id="labcodbar" for="codbar">Código de Barras</label>
-                            <input type="number" class="form-control" id="codbar" required>
+                            <input type="number" class="form-control" id="codbar">
                         </div>
 
                         <div class="form-group">

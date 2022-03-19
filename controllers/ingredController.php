@@ -44,6 +44,11 @@ if($_POST['funcion']=='crear'){
     $nombre    = $_POST['nombre'];
     $prod_tipo = $_POST['prod_tipo'];
     $medida    = $_POST['un_medida'];
+
+    if ($codbar == "") {
+        $codbar = 0;
+    }
+
     $product->crear($codbar,$nombre,$prod_tipo,$medida);
 }
 
@@ -66,11 +71,16 @@ if($_POST['funcion'] == 'ultimoReg'){
 if($_POST['funcion'] =='editar'){
 
     $id        = $_POST['id'];
+    $codbar    = $_POST['codbar'];
     $nombre    = $_POST['nombre'];
     $prod_tipo = $_POST['prod_tipo'];
     $medida    = $_POST['un_medida'];
+
+    if ($codbar == "") {
+        $codbar = 0;
+    }
     
-    $product->editar($id,$nombre,$prod_tipo,$medida);
+    $product->editar($id,$codbar,$nombre,$prod_tipo,$medida);
 
 }
 
