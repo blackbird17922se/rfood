@@ -142,35 +142,27 @@ $(document).ready(function(){
         let idItemMenu = ITEM_ID;
   
         ingreds = recuperarLS();
-        if(ingreds.length === 0){
-            Swal.fire({
-                icon: 'error',
-                title: 'Atencion',
-                text: 'No Asignaste Ingredientes Al Ítem',
-            })
-        }else{
 
-            funcion = 160;
+        funcion = 160;
 
-            json = JSON.stringify(ingreds);
-            // console.log(json);
-            $.post(URL_ITEM_CONTROL,{funcion, idItemMenu, json},(response=>{
-                // console.log("RESPONDE: "+response);
-                if(response != 'add'){
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Atencion',
-                        text: response + ' Ya pertenece a los ingredientes del ítem',
-                    })
-                }else{
-                    eliminarLS();
-                    $('#tbd-lista-ing').empty();
-                    $(".select2").val('').trigger('change');
-                    window.location.href ='itemDetalle.php' + "?id=" + ITEM_ID;
-                }
-            }));
+        json = JSON.stringify(ingreds);
+        // console.log(json);
+        $.post(URL_ITEM_CONTROL,{funcion, idItemMenu, json},(response=>{
+            // console.log("RESPONDE: "+response);
+            if(response != 'add'){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Atencion',
+                    text: response + ' Ya pertenece a los ingredientes del ítem',
+                })
+            }else{
+                eliminarLS();
+                $('#tbd-lista-ing').empty();
+                $(".select2").val('').trigger('change');
+                window.location.href ='itemDetalle.php' + "?id=" + ITEM_ID;
+            }
+        }));
 
-        }
     })
 
 

@@ -22,6 +22,8 @@ html{
 
 .card-mdrn{
     background-color: #2B2B2B;
+    padding: 10px;
+    border-radius: 15px;
 }
 
 #tabla_products tr:hover{

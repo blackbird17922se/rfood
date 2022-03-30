@@ -54,20 +54,24 @@ if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 
 
 
         <div class="container-fluid">
+        <button class="btn btn-danger salir">Atras</button>
             <h1>Gestión Ingredientes <span id="nombre-item"></span></h1>
 
-            <h3>Ingredientes Actuales</h3>
-            <table class="table table-hover text-nowrap">
-                <thead class="table-success">
-                    <tr>
-                        <th>Nombre Ingrediente</th>
-                        <th>Cantidad</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody class="table-active" id="tb-ingreds-item">
-                </tbody>
-            </table>
+            <div class="card-mdrn">
+                <h3>Ingredientes Actuales</h3>
+                <table class="table table-hover text-nowrap">
+                    <thead class="table-success">
+                        <tr>
+                            <th>Nombre Ingrediente</th>
+                            <th>Cantidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-active" id="tb-ingreds-item">
+                    </tbody>
+                </table>
+            </div>
+
 
 
             <h3>Asignación Ingredientes</h3>
