@@ -3,11 +3,15 @@ ITEM INGREDIENTES ()
 TO_DO:
 ****************************************************************************************************
 
-- permitir codbar vacio al crear ingrediente
-- verificar descuento ingrediente inventario
+- agregar seccion descuadre de inventario (cuando se realizo una venta
+    pero un ingrediente estaba 0 stock)
+
+- EN VENTA AGREGAR EL ID DE LA ORDEN ENCIMA DE LA TABLA DE PLATOS VENDIDOS O HACER 
+    QUE EL CUADRITO DE LA ORDEN (EL DEL BOTON SELECCIONAR) CAMBIE DE COLOR
 
 - agregar ventas del dia
 -verificar porque no elimina la sesion al salir
+
 
 -----------------------
 
@@ -16,6 +20,9 @@ TO_DO:
 ****************************************************************************************************
 DONE:
 ****************************************************************************************************
+- verificar descuento ingrediente inventario
+- permitir codbar vacio al crear ingrediente
+
 (17/03)
 - permitir codbar vacio al crear item
 - sacar confid del productoControl y Pasarlos al nuevo controlador itemControl

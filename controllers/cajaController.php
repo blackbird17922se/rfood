@@ -2,8 +2,10 @@
 
 include '../models/caja.php';
 include_once '../models/conexion.php';
+//include '../models/itemModel.php';
 
 $caja = new Caja();
+//$items = new ItemModel();
 
 switch ($_POST['funcion']) {
 
@@ -146,7 +148,7 @@ switch ($_POST['funcion']) {
 
                 $caja->cargarIngreds($idProd);
                 foreach($caja->objetos as $ingred){
-                    $ih = $ingred->id_ing_prod;
+                    $ih = $ingred->id_ingr;
                     echo "----> cargarIngreds(): ";
                     echo "inged:". $ih;
                     echo "cant:". $ingred->cant;
@@ -169,7 +171,7 @@ switch ($_POST['funcion']) {
                         $sql="SELECT * FROM inv_lote WHERE vencim = (SELECT MIN(vencim) FROM inv_lote WHERE lote_id_prod = :id) AND lote_id_prod = :id";
                         $query = $conexion->prepare($sql);
                         $query->execute(array(
-                            ':id'=>$ingred->id_ing_prod
+                            ':id'=>$ingred->id_ingr
                         ));
 
 
@@ -250,59 +252,154 @@ switch ($_POST['funcion']) {
         }
     break;
 
+
     case 'verificarStock':
         $cantPedido = 0;
         $cantIngred = 0;
         $totalStock=0;
         $response = 0;
         $totalIngred = 0;
+        $cantidad = 0;
 
         $idOrdSel = $_POST['idOrdSel'];
 
-        /* Consultar los detalles de ese pedido para conocer la cantidad */
-        $caja->cargarDatosPedido($idOrdSel);
+/* nn */
+        try {
+            $db = new Conexion();
+            $conexion = $db->pdo;
+            $conexion->beginTransaction();
 
-        foreach ($caja->objetos as $detalle){
+            /* Consultar los detalles de ese pedido para conocer la cantidad */
+            $caja->cargarDatosPedido($idOrdSel);     
+            
+            foreach($caja->objetos as $detalle){
 
-            $cantPedido = $detalle->det_cant;
+                $cantidad = $detalle->det_cant; //Cantidad del plato solicitado
+                $cantidad2 = $detalle->det_cant;
+                $idProd = $detalle->id_det_prod;
+                $totalIngCant = 0;
+                
+                while ($cantidad2 >= 1) {
 
-            /* Consultar ingredientes */
-            $caja -> cargarIngreds($detalle->id_det_prod);
+                    /* Consultar ingredientes */
+                    $caja->listarIngredsItem($detalle->id_det_prod);
 
-            foreach($caja->objetos as $ingred){
+                    /**
+                     * CUANDO EL PRODUCTO O ITEM DE CARTA TIENE INGREDIENTES
+                     * Procede a descontar los ingredientes del inventario
+                     * se añade esta condicion dado a que hay items que
+                     * no tienen ingredientes del inv (como la cervezaa)
+                    */
+                    if($caja->objetos != null){
 
-                $idIngProduct = $ingred->id_ing_prod;
- 
-                $cantIngred = $ingred->cant;
+                        foreach($caja->objetos as $ingred){
+                            $ih = $ingred->id_ingr;
+    
+                            $ingCant = $ingred->cant_ingr;   //Cantidad del ingrediente
+    
+                            $totalIngCant = $cantidad * $ingCant;
+    
+                            /* Descontar productos */
+                            /* seleccionael lote mas proximo a vencer */
+                            $sql="SELECT * FROM inv_lote WHERE vencim = (SELECT MIN(vencim) FROM inv_lote WHERE lote_id_prod = :id) AND lote_id_prod = :id";
+                            $query = $conexion->prepare($sql);
+                            $query->execute(array(
+                                ':id'=>$ingred->id_ingr
+                            ));
+    
+                            $lote = $query->fetchall();
+    
+                            /**
+                             * CUANDO HAY INGREDIENTES DEL ITEM EN EL INVENTARIO
+                             */
+                            if($lote != null){
+                                foreach ($lote as $lote) {
+                                    if($totalIngCant < $lote->stock){
+                                        $conexion->exec("UPDATE inv_lote SET stock = stock - '$totalIngCant' WHERE id_lote = '$lote->id_lote'");
+                                    }
+        
+                                    /* ingred->cant pedida es igual a la ingred->cant en el stock */
+                                    if($totalIngCant == $lote->stock){
+                                        $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
+                                    }
+        
+                                    /* Cuaando la ingred->cant pedida es superior a la ingred->cant del stock de un lote
+                                        y debe eliminar ese lote y consumir los productos del siguiente lote*/
+                                    if($totalIngCant > $lote->stock){
+                                        $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
+                                        $cantidad -= $lote->stock;
+                                    }
+                                    $cantidad2--;
+                                }
+                            }else{
+                                $cantidad2=0;
+                            }   
+                        }
+                    }else{
+                        $cantidad2=0;
+                    }
 
-                /* multiplica la cantidad de materia prima que requiere ese plato por
-                    la cantidad de platos solicitados 
-                */
-                $totalIngred = $cantIngred * $cantPedido;
-
-                $caja->obtenerStock($idIngProduct);
-
-                foreach($caja->objetos as $cantStock){
-                    // echo ' Total en STOCK:'.$cantStock->total;
-                    $totalStock = $cantStock->total;
-                }
-
-                /**
-                 * Si la cantidad en el stock es mayor al total de ingredientes
-                 * que se va a consumir por plato, retornar 0 para indicar que 
-                 * hay stock, sino, sumara 1 por cada producto cuya materia prima
-                 * esta escasa. 
-                **/
-                if($totalStock >= $totalIngred && $totalIngred > 0){
-                    $response += 0;
-                }else{
-                    $response++;
+                    
                 }
             }
+            echo $response=0;
+
+            $conexion->commit();
+
+        } catch (Exception $error) {
+            $conexion->rollBack();
+            // $caja->borrar($idVenta);
+            echo $error->getMessage();
+        }
+
+        // /* Consultar los detalles de ese pedido para conocer la cantidad */
+        // $caja->cargarDatosPedido($idOrdSel);
+
+        // foreach ($caja->objetos as $detalle){
+
+        //     $cantPedido = $detalle->det_cant;
+
+        //     /* Consultar ingredientes */
+        //     $caja->listarIngredsItem($detalle->id_det_prod);
+
+        //     //TODO: Verificar utilidad de este metodo:
+        //     //$caja -> cargarIngreds($detalle->id_det_prod);
+
+        //     foreach($caja->objetos as $ingred){
+
+        //         //$idIngProduct = $ingred->id_ingr;
+        //         $idIngProduct = $ingred->id_ingr;
+ 
+        //         $cantIngred = $ingred->cant_ingr;
+
+        //         /* multiplica la cantidad de materia prima que requiere ese plato por
+        //             la cantidad de platos solicitados 
+        //         */
+        //         $totalIngred = $cantIngred * $cantPedido;
+
+        //         $caja->obtenerStock($idIngProduct);
+
+        //         foreach($caja->objetos as $cantStock){
+        //             //echo ' Total en STOCK:'.$cantStock->total;
+        //             $totalStock = $cantStock->total;
+        //         }
+
+        //         /**
+        //          * Si la cantidad en el stock es mayor al total de ingredientes
+        //          * que se va a consumir por plato, retornar 0 para indicar que 
+        //          * hay stock, sino, sumara 1 por cada producto cuya materia prima
+        //          * esta escasa. 
+        //         **/
+        //         if($totalStock >= $totalIngred && $totalIngred > 0){
+        //             $response += 0;
+        //         }else{
+        //             $response++;
+        //         }
+        //     }
             
 
-        }
-        echo $response;
+        // }
+        // echo $response;
 
 
 

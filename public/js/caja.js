@@ -4,6 +4,8 @@ $(document).ready(function(){
     var idOrdenSel=0;
     var respStock = 2;
 
+    const CAJA_CONTROLLER = '../controllers/cajaController.php';
+
     listarPedidosCaja()
     calcularVuelto()
 
@@ -123,7 +125,8 @@ $(document).ready(function(){
     function procesarCompra(){
     var respuesta = 1;
 
-        // verificarStock()
+        //verificarStock();
+
 
         /* &&&& incrpora verstock */
         console.log('verificarStock ejecutada');
@@ -139,12 +142,12 @@ $(document).ready(function(){
             respuesta = response;
         
 
-
+/* Cuando respuesta es 0 significa que todos los ingredientes tiene stock */
         /* $$ fon ver sitock */
 
 
         // .then(respuesta=>{
-            console.log("Respuesta a enviar: " + respuesta);
+           // console.log("Respuesta a enviar: " + respuesta);
 
             if(respuesta == 0){
 
@@ -276,7 +279,7 @@ $(document).ready(function(){
 
         console.log("ord selec para consulta stock: " + idOrdenSel);
 
-        $.post('../controllers/cajaController.php',{funcion,idOrdSel},(response)=>{
+        $.post(CAJA_CONTROLLER,{funcion,idOrdSel},(response)=>{
             console.log("Ha respondido: "+response);
             respStock = response;
         });

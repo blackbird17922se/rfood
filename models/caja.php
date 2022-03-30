@@ -137,6 +137,17 @@ class Caja{
 
     }
 
+    public function listarIngredsItem($idItem){
+        $sql = "SELECT * FROM itemenuingr WHERE ID_ITEM = :idItem";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':idItem' => $idItem));
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+
+    }
+
+
+    //TODO: VERIFICAR SI ESTA OBSOLETA
     function cargarIngreds($idProd){
         $sql = "SELECT * FROM ingrediente WHERE id_prod = :idProd";
         $query = $this->acceso->prepare($sql);
