@@ -154,7 +154,8 @@
           <!-- items que contiene la seccion Ventas -->
           <li class="nav-item">
             <a href="editar_perfil.php" class="nav-link">
-              <i class="nav-icon fas fa-user-cog"></i>
+              <!-- <i class="nav-icon fas fa-user-cog"></i> -->
+              <img src="layouts/user-home.png" alt="">
               <p>
                 Mi Perfil
               </p>
@@ -164,7 +165,8 @@
           <?php if($_SESSION['rol'] == 1){?>
           <li class="nav-item">
             <a href="adm_usuario.php" class="nav-link">
-              <i class="nav-icon fas fa-user-cog"></i>
+              <!-- <i class="nav-icon fas fa-user-cog"></i> -->
+              <img src="layouts/cs-user.png" alt="">
               <p>
                 Gestión de Usuarios
               </p>
