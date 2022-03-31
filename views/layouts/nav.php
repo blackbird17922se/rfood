@@ -146,6 +146,16 @@
             </a>
           </li>
 
+        <li class="nav-header">Otros</li>
+        <li class="nav-item">
+          <a href="descuadreInventario.php" class="nav-link">
+            <i class="nav-icon fas fa-pills"></i>
+            <p>
+              Descuadre Inventario
+            </p>
+          </a>
+        </li>
+
        
 
 
@@ -251,6 +261,9 @@
               </p>
             </a>
           </li>
+
+
+
 
 
 

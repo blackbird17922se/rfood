@@ -129,24 +129,18 @@ $(document).ready(function(){
 
 
         /* &&&& incrpora verstock */
-        console.log('verificarStock ejecutada');
+        //console.log('verificarStock ejecutada');
         funcion = 'verificarStock';
 
         let idOrdSel = idOrdenSel;
 
-        console.log("ord selec para consulta stock: " + idOrdenSel);
+        //console.log("ord selec para consulta stock: " + idOrdenSel);
 
         $.post('../controllers/cajaController.php',{funcion,idOrdSel},(response)=>{
             console.log("Ha respondido: "+response);
             // respStock = response;
             respuesta = response;
         
-
-/* Cuando respuesta es 0 significa que todos los ingredientes tiene stock */
-        /* $$ fon ver sitock */
-
-
-        // .then(respuesta=>{
            // console.log("Respuesta a enviar: " + respuesta);
 
             if(respuesta == 0){
