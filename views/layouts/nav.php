@@ -112,7 +112,8 @@
 
           <li class="nav-item">
             <a href="orden.php" class="nav-link">
-              <i class="nav-icon fas fa-cash-register"></i>
+              <!-- <i class="nav-icon fas fa-cash-register"></i> -->
+              <img src="../public/icons/text-editor.png" alt="">
               <p>
                 Nueva Orden
               </p>
@@ -121,7 +122,8 @@
 
           <li class="nav-item">
             <a href="pedido.php" class="nav-link">
-              <i class="nav-icon fas fa-cash-register"></i>
+              <!-- <i class="nav-icon fas fa-cash-register"></i> -->
+              <img src="../public/icons/stack48.ico" alt="Pedidos por recoger">
               <p>
                 Pedidos
               </p>
@@ -130,7 +132,8 @@
 
           <li class="nav-item">
             <a href="pedidoterm.php" class="nav-link">
-              <i class="nav-icon fas fa-cash-register"></i>
+              <!-- <i class="nav-icon fas fa-cash-register"></i> -->
+              <img src="../public/icons/cs-notifications.png" alt="Pedidos por recoger">
               <p>
                 Por Recoger
               </p>

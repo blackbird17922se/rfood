@@ -13,9 +13,9 @@ $(document).ready(function () {
             $('#venta_anual').html(VENTASDIA.venta_anual);
 
         });
+        alert('woooo')
     }
 
-   
     // Tabla Venta Dia
     function mostrar_consultas(){
         let funcion = 'mostrar_consultas';
@@ -86,13 +86,20 @@ $(document).ready(function () {
             { "data": "total" },
             { "data": "vendedor" },
             { "defaultContent": `
-                <button class="imprimir btn btn-secondary"><i class="fas fa-print"></i></button>
-                <button class="ver btn btn-success" type="button" data-toggle="modal" data-target="#vista-venta"><i class="fas fa-search"></i></button>
-                <button class="borrar btn btn-danger"><i class="fas fa-window-close"></i></button>
-            `},
+                <button class=" btn btn-transp-dis"><img src="../public/icons/printx32.png" alt=""></i></button>
+                <button class="ver btn btn-transp" type="button" data-toggle="modal" data-target="#vista-venta"><img src="../public/icons/dprint-prvx32.png" alt=""></button>
+                <button class=" btn btn-transp-dis"><img src="../public/icons/delete_32.png" alt=""></button>
+                
+            `}, 
+
         ],
         language: espanol
     } );
+    /* originales sin disable:
+        <button class="imprimir btn btn-transp"><img src="../public/icons/printx32.png" alt=""></i></button>
+        <button class="ver btn btn-transp" type="button" data-toggle="modal" data-target="#vista-venta"><img src="../public/icons/dprint-prvx32.png" alt=""></button>
+        <button class="borrar btn btn-transp"><img src="../public/icons/delete_32.png" alt=""></button>
+    */
 
     /* CODIGO DE GENERAR PDF */
     $('#tabla_venta tbody').on('click','.imprimir',function(){

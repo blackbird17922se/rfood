@@ -9,69 +9,74 @@ if(!empty($_SESSION['rol']==1)){
 <div class="modal fade" id="vista-venta" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
-            <div class="card card-success">
+
+            <div class="card card-mdrn">
                 <div class="card-header">
-                    <h3 class="card-title">Detalle de la venta</h3>
+                    <div class="card-title">Detalle de la venta</div>
                     <button data-dismiss="modal" aria-label="close" class="close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="codigo_venta">Codigo Venta: </label>
-                        <span id="codigo_venta"></span>
+                    <div class="card-body table-responsive">
+                        <!-- ii -->
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="codigo_venta">Codigo Venta: </label>
+                                    <span id="codigo_venta"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label for="fecha">Fecha: </label>
+                                    <span id="fecha"></span>
+                                </div>
+                            
+                                <div class="form-group">
+                                    <label for="mesero">Mesero: </label>
+                                    <span id="mesero"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label for="coc_lider">Cocinero Líder: </label>
+                                    <span id="coc_lider"></span>
+                                </div>
+                            
+                                <div class="form-group">
+                                    <label for="cajero">Cajero: </label>
+                                    <span id="cajero"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ff -->
+                        <table class="table table-hover-mdr10 text-nowrap">
+                            <thead class="table-success">
+                                <tr>
+                                    <th>Cantidad</th>
+                                    <th>Precio Unidad</th>
+                                    <th>Producto</th>
+                                    <th>Presentacion</th>
+                                    <th>Tipo</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-active" id="registros"></tbody>
+                        </table>
+
+                        <div class="form-group">
+                            <label for="observCli">Observaciones del Pedido: </label>
+                            <p id="observCli"></p>
+                        </div>
+
+                        <div class="float-right input-group-append">
+                            <h3 class="m-3">Total: </h3>
+                            <h3 class="m-3" id="total"></h3>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="fecha">Fecha: </label>
-                        <span id="fecha"></span>
-                    </div>
-                 
-                    <div class="form-group">
-                        <label for="mesero">Mesero: </label>
-                        <span id="mesero"></span>
-                    </div>
-                 
-                    <div class="form-group">
-                        <label for="coc_lider">Cocinero Líder: </label>
-                        <span id="coc_lider"></span>
-                    </div>
-                 
-                    <div class="form-group">
-                        <label for="cajero">Cajero: </label>
-                        <span id="cajero"></span>
+                    <div class="card-footer">
+                        <button type="button" data-dismiss="modal" class="btn btn-outline-secondary float-right m-1">Cerrar</button>
                     </div>
 
-                    <table class="table table-hover text-nowrap">
-                        <thead class="table-success">
-                            <tr>
-                                <th>Cantidad</th>
-                                <th>Precio Unidad</th>
-                                <th>Producto</th>
-                                <th>Presentacion</th>
-                                <th>Tipo</th>
-                                <th>Subtotal</th>
-                            </tr>
-                        </thead>
-                        <tbody id="registros" class="table-warning">
-
-                        </tbody>
-                    </table>
-
-                    <div class="form-group">
-                        <label for="observCli">Observaciones del Pedido: </label>
-                        <p id="observCli"></p>
-                    </div>
-
-                    <div class="float-right input-group-append">
-                        <h3 class="m-3">Total: </h3>
-                        <h3 class="m-3" id="total"></h3>
-                    </div>
-
-                </div>
-                <div class="card-footer">
-                    <button type="button" data-dismiss="modal" class="btn btn-outline-secondary float-right m-1">Cerrar</button>
-                    
-                </div>
             </div>
         </div>
     </div>
@@ -84,16 +89,23 @@ if(!empty($_SESSION['rol']==1)){
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Gestión de Ventas
-                <!-- <button id="btn-crear" type="button" data-toggle="modal" data-target="#crearlote" class="btn bg-gradient-primary ml-2" title="editar">Crear Producto</button> -->
-            </h1>
+            <h1>Gestión de Ventas</h1>
           </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">gestión de Ventas</li>
-            </ol>
-          </div>
+
+          <!-- puede ir el filtrar -->
+<!--           <div class="col-sm-6 form-group">
+              <div class="row">
+
+                <p>Filtrar por: </p>
+                <select class="form-control select2 ml-4" aria-label="Default select example" style="width: 50%;">
+                    <option selected>Open this select menu</option>
+                    <option value="1">One</option>
+                    <option value="2">Two</option>
+                    <option value="3">Three</option>
+                </select>
+              </div>
+          </div> -->
+
         </div>
       </div><!-- /.container-fluid -->
     </section>

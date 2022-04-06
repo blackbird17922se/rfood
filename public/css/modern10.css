@@ -21,9 +21,10 @@ html{
 }
 
 .card-mdrn{
-    background-color: #2B2B2B;
+    background-color: #2b2b2bf2;
     padding: 10px;
     border-radius: 15px;
+    color: #ffffff;
 }
 
 #tabla_products tr:hover{
@@ -204,3 +205,60 @@ html{
     padding-top: 40px;
 }
 
+#tabla_venta .btn {
+    padding: 4px;
+}
+
+.btn-transp {
+    background-color: #3a3a3a00;
+}
+.btn-transp:hover {
+    background-color: #2d2c2f;
+}
+.btn-transp:active {
+    background-color: #2a282a;
+    opacity: 0.5;
+}
+
+.btn-transp-dis {
+    background-color: #3a3a3a00;
+    opacity: 0.5;
+}
+
+
+
+.btn-transp img {
+    padding: 4px;
+}
+
+
+
+.card-body-drk {
+    background-color: #222222;
+    color: #FFFFFF;
+}
+
+#vista-venta .modal-content {
+    background-color: transparent;
+}
+/* 2c2b2c */
+
+#vista-venta .card-mdrn .card-header{
+    background-color: #28a745;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+#vista-venta .card-mdrn .card-footer{
+    background-color: #202020;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+/* #vista-venta .card-mdrn .card-body{
+
+        border-top-left-radius: .25rem;
+    border-top-right-radius: .25rem;
+
+    background-color: #28a745;
+} */

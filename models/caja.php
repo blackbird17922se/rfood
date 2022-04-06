@@ -122,7 +122,7 @@ class Caja{
             ':prod_id_prod'        => $idProd,
             ':venta_id_venta'  => $idVenta
         ));
-        echo 'add';
+        //echo 'add';
 
     }
 

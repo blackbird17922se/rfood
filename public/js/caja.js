@@ -123,103 +123,77 @@ $(document).ready(function(){
 
     /* ´------------------ */
     function procesarCompra(){
-    var respuesta = 1;
 
-        //verificarStock();
-
-
-        /* &&&& incrpora verstock */
-        //console.log('verificarStock ejecutada');
-        funcion = 'verificarStock';
+        funcion = 'registrarVenta';
 
         let idOrdSel = idOrdenSel;
+        let total = $('#total').get(0).textContent;
 
-        //console.log("ord selec para consulta stock: " + idOrdenSel);
+        $.post('../controllers/cajaController.php',{funcion,total,idOrdSel,formaPago},(response)=>{
 
-        $.post('../controllers/cajaController.php',{funcion,idOrdSel},(response)=>{
-            console.log("Ha respondido: "+response);
-            // respStock = response;
-            respuesta = response;
-        
-           // console.log("Respuesta a enviar: " + respuesta);
+            // Modificar estado del pedido
+            funcion = 'pagado';
+            console.log("pagado");
+            $.post('../controllers/pedidoController.php',{funcion,idOrdenSel},(response)=>{
+                console.log(response);
+                idOrdenSel=0;
+                listarPedidosCaja() 
+            })
+        });
 
-            if(respuesta == 0){
 
-                registrarVenta();
+        Swal.fire({
+            title: 'Venta Realizada',
+            text: "¿Desea imprimir recibo?",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonText: 'Imprimir',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
 
-                /* Implementacion recibo */
+                let funcion = "ultimaVenta";
+                $.post('../controllers/cajaController.php',{funcion},(response)=>{
+                    console.log(response);
+                
 
-                Swal.fire({
-                    title: 'Venta Realizada',
-                    text: "¿Desea imprimir recibo?",
-                    icon: 'success',
-                    showCancelButton: true,
-                    confirmButtonText: 'Imprimir',
-                    cancelButtonText: 'Cancelar',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.value) {
-
-                        let funcion = "ultimaVenta";
-                        $.post('../controllers/cajaController.php',{funcion},(response)=>{
-                            console.log(response);
-                        
-
-                            $.ajax({
-                                url: 'ticket.php',
-                                type: 'POST',
-                                success: function(resp){
-                                    if(resp==1){
-                                        alert('imprime..');
-                                            vaciarTabla();
-                                        // location.href = '../views/caja.php'
-                                    }else{
-                                        alert('error..');
-                                        vaciarTabla()
-                                        // location.href = '../views/caja.php'
-                                    }
-                                }
-                            })                   
-                        });
-
-            
-                        console.log("selecciono imprimir");
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        console.log("selecciono no imprimir");
-
-                        $.ajax({
-                            url: 'ticketc.php',
-                            type: 'POST',
-                            success: function(resp){
-                                if(resp==1){
-                                    alert('abre..');
-                                        vaciarTabla();
-                            // location.href = '../views/caja.php'
-
-                                }else{
-                                    // alert('error..');
-                                    vaciarTabla()
-                                    // location.href = '../views/caja.php'
-
-                                }
+                    $.ajax({
+                        url: 'ticket.php',
+                        type: 'POST',
+                        success: function(resp){
+                            if(resp==1){
+                                alert('imprime..');
+                                    vaciarTabla();
+                            }else{
+                                alert('error..');
+                                vaciarTabla()
                             }
-                        })
-
-
-                        vaciarTabla()
-                        // location.href = '../views/caja.php'
-                    }
+                        }
+                    })                   
                 });
-                /* END */
-            }else{
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Atencion',
-                    text: 'Escasea materia prima en algun plato',
+
+    
+                console.log("selecciono imprimir");
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                console.log("selecciono no imprimir");
+
+                $.ajax({
+                    url: 'ticketc.php',
+                    type: 'POST',
+                    success: function(resp){
+                        if(resp==1){
+                            alert('abre..');
+                                vaciarTabla();
+                        }else{
+                            // alert('error..');
+                            vaciarTabla()
+                        }
+                    }
                 })
+                vaciarTabla()
             }
-        // });  //Cierre then
-    });
+        });
 
     }
 
@@ -236,48 +210,6 @@ $(document).ready(function(){
         formaPago =$('input:radio[name=fpago]:checked').val()
         console.log(formaPago);
     });
-
-
-
-    function registrarVenta(){
-      
-        funcion = 'registrarVenta';
-
-        let total = $('#total').get(0).textContent;
-        let idOrdSel = idOrdenSel;
-
-        console.log("ord sel: " + idOrdenSel);
-
-        $.post('../controllers/cajaController.php',{funcion,total,idOrdSel,formaPago},(response)=>{
-            console.log(response);
-
-            // Modificar estado del pedido
-            funcion = 'pagado';
-            console.log("pagado");
-    
-            $.post('../controllers/pedidoController.php',{funcion,idOrdenSel},(response)=>{
-                console.log(response);
-                idOrdenSel=0;
-                listarPedidosCaja() 
-            })
-        })
-    }
-
-
-
-    function verificarStock(){
-      console.log('verificarStock ejecutada');
-        funcion = 'verificarStock';
-
-        let idOrdSel = idOrdenSel;
-
-        console.log("ord selec para consulta stock: " + idOrdenSel);
-
-        $.post(CAJA_CONTROLLER,{funcion,idOrdSel},(response)=>{
-            console.log("Ha respondido: "+response);
-            respStock = response;
-        });
-    }
 
 });
  
