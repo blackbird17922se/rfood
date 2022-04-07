@@ -1,17 +1,14 @@
 ****************************************************************************************************
 TO_DO:
 ****************************************************************************************************
-
-- agregar seccion descuadre de inventario (cuando se realizo una venta
-    pero un ingrediente estaba 0 stock)
-
+- agregar ventas del dia
 - EN VENTA AGREGAR EL ID DE LA ORDEN ENCIMA DE LA TABLA DE PLATOS VENDIDOS O HACER 
     QUE EL CUADRITO DE LA ORDEN (EL DEL BOTON SELECCIONAR) CAMBIE DE COLOR
 
-- agregar ventas del dia
+
 -verificar porque no elimina la sesion al salir
 
-
+-arreglar la parte visual de orden cuando es tablet o cel
 -----------------------
 
 ----------------------
@@ -19,6 +16,11 @@ TO_DO:
 ****************************************************************************************************
 DONE:
 ****************************************************************************************************
+
+(06/04)
+- agregar seccion descuadre de inventario (cuando se realizo una venta
+    pero un ingrediente estaba 0 stock)
+
 - verificar descuento ingrediente inventario
 - permitir codbar vacio al crear ingrediente
 

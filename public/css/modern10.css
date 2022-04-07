@@ -262,3 +262,8 @@ html{
 
     background-color: #28a745;
 } */
+
+.ul-header-ventas li{
+    display: inline;
+    margin-right: 30px;
+}

@@ -9,7 +9,6 @@ if(!empty($_SESSION['rol']==1)){
 <div class="modal fade" id="vista-venta" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
-
             <div class="card card-mdrn">
                 <div class="card-header">
                     <div class="card-title">Detalle de la venta</div>
@@ -76,40 +75,20 @@ if(!empty($_SESSION['rol']==1)){
                     <div class="card-footer">
                         <button type="button" data-dismiss="modal" class="btn btn-outline-secondary float-right m-1">Cerrar</button>
                     </div>
-
             </div>
         </div>
     </div>
 </div>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper cnt-wrp-mdrn">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper cnt-wrp-mdrn">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
         <div class="row mb-2">
-          <div class="col-sm-12">
-              <div class="row">
-                  <img src="../public/icons/accessories-dictionary.png">
-                    <h1 class="ml-2">Gestión de Ventas</h1>
-
-              </div>
-          </div>
-
-          <!-- puede ir el filtrar -->
-<!--           <div class="col-sm-6 form-group">
-              <div class="row">
-
-                <p>Filtrar por: </p>
-                <select class="form-control select2 ml-4" aria-label="Default select example" style="width: 50%;">
-                    <option selected>Open this select menu</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                </select>
-              </div>
-          </div> -->
-
+          <div class="col-sm-6">
+            <h1>Resumen de ventas del día</h1>
+          </div>          
         </div>
       </div><!-- /.container-fluid -->
     </section>
@@ -120,18 +99,25 @@ if(!empty($_SESSION['rol']==1)){
         <div class="container-fluid">
             <div class="card card-success">
                 <div class="card-header">
-                    <h3 class="card-title">Ventas Generales</h3>
+                  <div class="row">
+                    <div class="col-md-12">
+                      <ul class="ul-header-ventas">
+                        <li class="tool-item-li"> <i class="fas fa-caret-right"></i> <b>Vendedor: </b><span class="val-venta"><?php echo $_SESSION['nom']?></span></li>
+                        <li class="tool-item-li"> <i class="fas fa-caret-right"></i><b>Ventas del Día: </b>$<span class="val-venta" id="venta_dia_vendor">0</span></li>
+                        <li class="tool-item-li"> <i class="fas fa-caret-right"></i><b>Numero de ventas del Día: </b><span class="val-venta" id="info-cant-number">0</span></li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
 
                 <div class="card-body">
-                    <table id="tabla_venta" class="display table table-hover text-nowrap" style="width:100%">
+                    <table id="tb_venta_dia" class="display table table-hover text-nowrap" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Codigo</th>
-                                <th>Fecha</th>
-                                <th>Total</th>
-                                <th>Vendedor</th>
-                                <th>Acción</th>
+                            <th>Codigo Venta</th>
+                            <th>Cantidad</th>
+                            <th>Producto</th>
+                            <th>Subtotal</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -161,4 +147,4 @@ include_once "layouts/footer.php";
 ?>
 
 <script src="../public/js/datatables.js"></script>
-<script src="../public/js/venta.js"></script>
+<script src="../public/js/venta_dia.js"></script>
