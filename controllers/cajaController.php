@@ -208,6 +208,7 @@ switch ($_POST['funcion']) {
                                     --$cantidad2;
                                 }
                             } else {
+                                $conexion->exec("INSERT INTO inv_descuadre(id_venta,fecha_venta,id_ingred,cantidad) VALUES ('$idVenta','$fecha','$ih','$totalIngCant')");
                                 $cantidad2 = 0;
                             }
                         }

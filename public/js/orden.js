@@ -145,7 +145,7 @@ $(document).ready(function(){
         datatable = $('#tabla_products').DataTable({
 
             "scrollX": true,
-            "order": [[ 2, "asc" ]],
+            "order": [[ 1, "asc" ]],
     
             ajax: "data.json",
             

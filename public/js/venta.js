@@ -13,7 +13,6 @@ $(document).ready(function () {
             $('#venta_anual').html(VENTASDIA.venta_anual);
 
         });
-        alert('woooo')
     }
 
     // Tabla Venta Dia

@@ -132,13 +132,13 @@ $(document).ready(function(){
         $.post('../controllers/cajaController.php',{funcion,total,idOrdSel,formaPago},(response)=>{
 
             // Modificar estado del pedido
-            funcion = 'pagado';
+  /*           funcion = 'pagado';
             console.log("pagado");
             $.post('../controllers/pedidoController.php',{funcion,idOrdenSel},(response)=>{
                 console.log(response);
                 idOrdenSel=0;
                 listarPedidosCaja() 
-            })
+            }) */
         });
 
 
