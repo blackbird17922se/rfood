@@ -2,8 +2,7 @@
 ***************************************** BACKLOG LIST ********************************************
 ***************************************************************************************************
 
---------------------------------------- 08/04 Build 20.30 ----------------------------------------
-
+--------------------------------------- Milestone 3 ----------------------------------------
 
 * Bloquear la mesa cuando tenga un pedido (Ya no aparecera en el listado de mesas en ORDEN hasta que el pedido sea cancelado)
     - Podria añadir un boton de 'Liberar mesa'
@@ -25,15 +24,11 @@
 
 * Agregar seleccion de pago (neki o daviplata)
 
+* EN VENTA AGREGAR EL ID DE LA ORDEN ENCIMA DE LA TABLA DE PLATOS VENDIDOS O HACER QUE EL CUADRITO DE LA ORDEN 
+    (EL DEL BOTON SELECCIONAR) CAMBIE DE COLOR
 
-- EN VENTA AGREGAR EL ID DE LA ORDEN ENCIMA DE LA TABLA DE PLATOS VENDIDOS O HACER 
-    QUE EL CUADRITO DE LA ORDEN (EL DEL BOTON SELECCIONAR) CAMBIE DE COLOR
-
-* BUSCAR LA FORMA DE ACOMODAR LOS CAJONES EN PEDIDO Y POR RECOJER para q no quede esos}
-    huecos entre cajas (ya que a veces despista y hace creer que no hay mas cajas abajo)
-
-* Añadir un cubo mas al icono de MAD y cambiar el sonido por el de 2003SERVER
-    - Bajar el Volumen del sonido
+* BUSCAR LA FORMA DE ACOMODAR LOS CAJONES EN PEDIDO Y POR RECOJER para q no quede esos huecos entre cajas 
+    (ya que a veces despista y hace creer que no hay mas cajas abajo)
 
 * arreglar color tarjetas en Gestion usuarios
 
@@ -44,6 +39,8 @@
 * Cambiar boton de Cerrar Sesion
 
 * Agregar efecto glass al modal detalle venta en Venta
+
+* Verificar descuento inv de cuando el sistema acaba un lote y empieza con otro
 
 
 ------------------------------ PLUS -----------------------------------------------
@@ -77,7 +74,8 @@ DONE:
 
 * arreglar la parte visual de orden cuando es tablet o cel
 
-
+* cambiar el sonido por el de 2003SERVER
+    - Bajar el Volumen del sonido
 
 
 (07/04)

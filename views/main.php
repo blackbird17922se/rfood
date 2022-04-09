@@ -28,7 +28,8 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==4 || $
               
               <h1>RFood</h1>
               <p>DsD RFood para Windows 98</p>
-              <p><i>RFood Milestone 2.3 - version de pruebas 2.3</i></p>
+              <!-- Num version princip,Numero cuando hay nuevos cambios,Año,mes,dia,hora -->
+              <p><i><b>RFood Milestone 2.</b> Version de pruebas.Build 2.4.220408-0000</i></p>
               <p>Copyright &copy; 2020-2022 DsD Desarrollos Dinámicos</p>
               <br>
               <p>Se autoriza el uso de este producto a:</p>
@@ -36,6 +37,9 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==4 || $
               <p><i>Id. Del producto: 32644-072-01808804</i></p>
               <br>
               <h4>Novedades</h4>
+              <h5>09/04/2022 </h5>
+
+              <h5>Anteriores Mejoras</h5>
               <p>
                 - Agrega venta del dia al momento de salir<br>
                 - Agrega la sección descuadre de inventario (cuando se realizó una venta, pero un ingrediente estaba con 0 stock)<br>
@@ -55,10 +59,10 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==4 || $
   </div>
   <!-- /.content-wrapper -->
   <script>
-
-var audio = new Audio('cc.mp3');
-audio.play();
-    </script>
+    var audio = new Audio('cc.mp3');
+    audio.volume = 0.02;
+    audio.play();
+  </script>
 <?php
 include_once "layouts/footer.php";
 
