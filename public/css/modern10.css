@@ -267,3 +267,15 @@ html{
     display: inline;
     margin-right: 30px;
 }
+
+.txt-gr{
+    color: #5efd5e;
+}
+
+.txt-rd{
+    color: #ff8c8c;
+}
+
+.txt-yw{
+    color: yellow;
+}

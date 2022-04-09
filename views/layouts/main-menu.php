@@ -129,10 +129,11 @@
             </p>
           </a>
         </li>
-<!-- 
+        
         <li class="nav-item">
           <a href="inv_lote.php" class="nav-link">
-            <i class="nav-icon fas fa-cubes"></i>
+            <!-- <i class="nav-icon fas fa-cubes"></i> -->
+            <img src="../public/icons/network-vpn.png">
             <p>
               Lotes Ingredientes
             </p>
@@ -147,7 +148,7 @@
             </p>
           </a>
         </li>
- -->
+
 
         <!-- <li class="nav-header">Compras</li>
         <li class="nav-item">

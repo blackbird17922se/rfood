@@ -17,7 +17,7 @@ class DescuadreInv{
                 id_venta,
                 INGR.nombre AS nom_ingred,
                 CONCAT(cantidad,' ',MEDIDA.nom) AS cantidad
-            FROM INV_DESCUADRE AS INV_DESC
+            FROM inv_descuadre AS INV_DESC
             LEFT JOIN ingred INGR
             ON INGR.id_inv_prod = INV_DESC.id_ingred
             LEFT JOIN un_medida MEDIDA
@@ -29,7 +29,7 @@ class DescuadreInv{
     }
 
     public function borrar($id){
-        $sql = "DELETE FROM INV_DESCUADRE WHERE id_descuadre=:id";
+        $sql = "DELETE FROM inv_descuadre WHERE id_descuadre=:id";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':id' => $id));
 

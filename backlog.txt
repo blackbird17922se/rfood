@@ -1,7 +1,8 @@
 ****************************************************************************************************
 TO_DO:
 ****************************************************************************************************
-- agregar ventas del dia
+-lote 
+
 - EN VENTA AGREGAR EL ID DE LA ORDEN ENCIMA DE LA TABLA DE PLATOS VENDIDOS O HACER 
     QUE EL CUADRITO DE LA ORDEN (EL DEL BOTON SELECCIONAR) CAMBIE DE COLOR
 
@@ -18,6 +19,7 @@ DONE:
 ****************************************************************************************************
 
 (06/04)
+- agregar ventas del dia
 - agregar seccion descuadre de inventario (cuando se realizo una venta
     pero un ingrediente estaba 0 stock)
 

@@ -90,9 +90,8 @@ if(!empty($_SESSION['rol']==1)){
         <div class="row mb-2">
           <div class="col-sm-12">
               <div class="row">
-                  <img src="../public/icons/accessories-dictionary.png">
-                    <h1 class="ml-2">Gestión de Ventas</h1>
-
+                <img src="../public/icons/accessories-dictionary.png">
+                <h1 class="ml-2">Gestión de Ventas</h1>
               </div>
           </div>
 
