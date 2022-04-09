@@ -1,17 +1,19 @@
 $(document).ready(function(){
-    var funcion;
+
+    var funcion = 0;
+    const PEDIDOS_CTRL = '../controllers/pedidoController.php';
 
     listarPedidos()
 
     /* Lista los pedidos para el restaurante */
     function listarPedidos(){
-        funcion = 'listarPedidos';
+        funcion = 2;
 
-        $.post('../controllers/pedidoController.php',{funcion},(response)=>{
-            // console.log(response);
+        $.post(PEDIDOS_CTRL,{funcion},(response)=>{
+            console.log(response);
 
-            const PEDIDOS = JSON.parse(response);
             let templateS = '';
+            const PEDIDOS = JSON.parse(response);
             
             PEDIDOS.forEach(pedido=>{
 
@@ -37,7 +39,7 @@ $(document).ready(function(){
                 <div idPedido="${pedido.idPedido}" class="col-12 col-sm-6 col-md-6 align-items-stretch">
                     <div class="card bg-dark-10">
                         <div class="card-header border-bottom-0">Orden Numero: ${pedido.idPedido}
-                            <h2 class="lead"><b>id Mesa: ${pedido.idMesa}</b></h2>
+                            <h2 class="lead"><b>Mesa: ${pedido.nomMesa}</b></h2>
                         </div>
                 
                         <div class="card-body pt-0">
@@ -72,7 +74,7 @@ $(document).ready(function(){
         const ID = $(ELEM).attr('idPedido');
         console.log(ID);
 
-        $.post('../controllers/pedidoController.php',{funcion,ID},(response)=>{
+        $.post(PEDIDOS_CTRL,{funcion,ID},(response)=>{
             console.log(response);
             listarPedidos()
         })
@@ -83,7 +85,7 @@ $(document).ready(function(){
     // listarProdCons();
     // function listarProdCons(){
     //     funcion = "listarPedidos";
-    //     $.post('../controllers/pedidoController.php',{funcion},(response)=>{
+    //     $.post(PEDIDOS_CTRL,{funcion},(response)=>{
     //         // console.log(response);
    
     //     })

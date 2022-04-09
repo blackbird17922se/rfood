@@ -4,45 +4,82 @@
 
 --------------------------------------- 08/04 Build 20.30 ----------------------------------------
 
-* Verificar edicion y eliminacion de ingreds (Gestion ingreds de un item)
 
-* verificar porque no permite agregar cantidades a los ingredientes (Agregar Lotes)
+* Bloquear la mesa cuando tenga un pedido (Ya no aparecera en el listado de mesas en ORDEN hasta que el pedido sea cancelado)
+    - Podria añadir un boton de 'Liberar mesa'
 
-* Revisar porque no permite pasar el producto de estado terminado a caja 
-    (Al presionar 'Plato entregado') 
+* Agregar lista desplegable en orden con los meseros, para que se pueda seleccionar el mesero cuando se usa una sola tablet
 
-* Revisar gestion de mesas
-    - Revisar que el modulo este habilitado
-    - Mostrar el numero o alias de la mesa (no el id 🤦‍♂️)
+* El sistema debe recargar la tabla donde se presenta los elementos en los modulos de
+    _Pedidos
+    _Por recoger
+    _Caja
+    Lo ideal es que solo refresque el div tabla.
 
-* Bloquear la mesa cuando tenga un pedido (Ya no aparecera en el listado
-    de mesas en ORDEN hasta que el pedido sea cancelado)
-        - Podria añadir un boton de 'Liberar mesa'
-
-
-* en gestion de pedidos permitir agregar mas items al pedido 
-    (ej: el cliente aparte de la darbugese pidio luego a gaseosa)
+* en gestion de pedidos permitir agregar mas items al pedido (ej: el cliente aparte de la darbugese pidio luego a gaseosa)
 
 * Habilitar modulo Proveedores
-
 
 * Verificar tema de usuarios y restricciones
     -verificar porque no elimina la sesion al salir
 
 * Agregar seleccion de pago (neki o daviplata)
 
+
 - EN VENTA AGREGAR EL ID DE LA ORDEN ENCIMA DE LA TABLA DE PLATOS VENDIDOS O HACER 
     QUE EL CUADRITO DE LA ORDEN (EL DEL BOTON SELECCIONAR) CAMBIE DE COLOR
 
--arreglar la parte visual de orden cuando es tablet o cel
+* BUSCAR LA FORMA DE ACOMODAR LOS CAJONES EN PEDIDO Y POR RECOJER para q no quede esos}
+    huecos entre cajas (ya que a veces despista y hace creer que no hay mas cajas abajo)
 
 * Añadir un cubo mas al icono de MAD y cambiar el sonido por el de 2003SERVER
     - Bajar el Volumen del sonido
 
+* arreglar color tarjetas en Gestion usuarios
+
+* En caja en estilo responsive ajustar el desborde de texto de las filas que tienen la info del pedido
+
+* Acomodar boton 'salir' en editar ingreds de un item
+
+* Cambiar boton de Cerrar Sesion
+
+* Agregar efecto glass al modal detalle venta en Venta
+
+
+------------------------------ PLUS -----------------------------------------------
+* Al editar los ingred de un item, podria intentar fusionar la tabla INGREDS ACTUALES
+    con INGRED NUEVOS.
 
 ****************************************************************************************************
 DONE:
 ****************************************************************************************************
+
+(08/04)
+* verificar porque no permite agregar cantidades a los ingredientes (Agregar Lotes)
+// Se prueba y el sistema permite agregar el lote al crear el item o darle en el mas
+
+* Revisar porque no permite pasar el producto de estado terminado a caja (Al presionar 
+    'Plato entregado')
+// Se toma un plato de pruebas y se comprueba que hace el proceso desde orden hasta
+    ventas de manera correcta. se hace lo mismo con mas platos en la orden.
+▶️ Mientas se agrega la recarga automatica de la tabla que contiene las ordenes, pedidos
+    en ordenes, pedidos y caja, se recomienda actualizar la pagina manualmente.
+
+* Verificar edicion y eliminacion de ingreds (Gestion ingreds de un item)
+    // Se comprueba que los ingreds se editan(Sus cantidades) o borran de manera correcta.
+
+* Revisar gestion de mesas
+    OK- Revisar que el modulo este habilitado
+    OK- Sacar Gestion mesas de atributos menu
+    OK- Mostrar el numero o alias de la mesa (no el id 🤦‍♂️)
+
+* Quitar boton 'actualizar' en caja
+
+* arreglar la parte visual de orden cuando es tablet o cel
+
+
+
+
 (07/04)
 -lote 
 

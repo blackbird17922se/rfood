@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var funcion;
+    var funcion = 0;
     var totalS = 0;
     var idOrdenSel=0;
     var respStock = 2;
@@ -11,10 +11,10 @@ $(document).ready(function(){
 
     /* Lista los pedidos para el restaurante */
     function listarPedidosCaja(){
-        funcion = 'listarPedidosCaja';
+        funcion = 2;
 
-        $.post('../controllers/cajaController.php',{funcion},(response)=>{
-            console.log(response);
+        $.post(CAJA_CONTROLLER,{funcion},(response)=>{
+            // console.log(response);
 
             const PEDIDOS = JSON.parse(response);
             let template = '';
@@ -23,20 +23,14 @@ $(document).ready(function(){
 
                 template+=`
         
-                    <div idPedido="${pedido.idPedido}" idMesa="${pedido.idMesa}" class="col-2 col-sm-2 col-md-2 align-items-stretch">
-
+                    <div idPedido="${pedido.idPedido}" idMesa="${pedido.idMesa}" class="col-12 col-sm-12 col-md-2 align-items-stretch">
                         <div class="card bg-dark-10">
-                            <div class="card-header border-bottom-0">Orden: ${pedido.idPedido}
-                            
-                            
-                            </div>
+                            <div class="card-header border-bottom-0">Orden: ${pedido.idPedido}</div>
 
                             <div class="card-body pt-0">
                                 <div class="row">
                                     <div class="col-12">
-                                
-                                    <h2 class="lead"><b>Mesa: ${pedido.idMesa}</b></h2>
-
+                                        <h2 class="lead"><b>Mesa: ${pedido.nomMesa}</b></h2>
                                     </div>                           
                                 </div>
 
@@ -56,22 +50,19 @@ $(document).ready(function(){
 
     /* Cargar los datos y costos de ese pedido */
     $(document).off('click','.selItem').on('click','.selItem',(e)=>{
-        funcion = 'cargarDatosPedido';
-        console.log("cargarDatosPedido");
-        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID = $(ELEM).attr('idPedido');
+
+        const ELEM   = $(this)[0].activeElement.parentElement.parentElement.parentElement;
+        const ID     = $(ELEM).attr('idPedido');
         const IDMESA = $(ELEM).attr('idMesa');
-        idOrdenSel = ID;
-        // console.log(ID);
+        funcion      = 5;
+        idOrdenSel   = ID;
 
-        $.post('../controllers/cajaController.php',{funcion,ID,IDMESA},(response)=>{
+        $.post(CAJA_CONTROLLER,{funcion,ID,IDMESA},(response)=>{
             // console.log(response);
-
             const PEDIDOS = JSON.parse(response);
             let templateS = '';
             let total = 0;
           
-            
             PEDIDOS.forEach(pedido=>{
 
                 templateS+=`${pedido.template}'`;
@@ -129,7 +120,7 @@ $(document).ready(function(){
         let idOrdSel = idOrdenSel;
         let total = $('#total').get(0).textContent;
 
-        $.post('../controllers/cajaController.php',{funcion,total,idOrdSel,formaPago},(response)=>{
+        $.post(CAJA_CONTROLLER,{funcion,total,idOrdSel,formaPago},(response)=>{
 
             // Modificar estado del pedido
             funcion = 'pagado';
@@ -154,7 +145,7 @@ $(document).ready(function(){
             if (result.value) {
 
                 let funcion = "ultimaVenta";
-                $.post('../controllers/cajaController.php',{funcion},(response)=>{
+                $.post(CAJA_CONTROLLER,{funcion},(response)=>{
                     console.log(response);
                 
 

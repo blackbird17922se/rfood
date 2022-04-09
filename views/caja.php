@@ -1,147 +1,157 @@
 <?php
 session_start();
-if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==3)){
+if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 3)) {
     include_once "layouts/header.php";
     include_once "layouts/nav.php";
-
 ?>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper cnt-wrp-mdrn">
-
-    <section>
-    <div class="container-fluid pt-3">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card card-success card-mdrn">
-                    <div class="card-header">
-                        Pedidos sin cancelar
-                    </div>
-
-                    <div class="card-body">
-                        <div id="cb-mesas" class="row d-flex align-items-stretch"></div>              
-                    </div>
-
-                    <div class="card-body p-0">
-                    
-                        <button id="actualizar"class="btn btn-success">Actualizar</button>
-                        <div id="cp"class="card-body p-0">
-                        <div class="card-body">
-                        <div id="cb-pedidos" class="row d-flex align-items-stretch"></div>
-
-
-                        <div>
-                        <table class="compra table table-hover text-nowrap">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Mesa</th>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Presentación</th>                                     
-                                        <th scope="col">Cantidad</th>
-                                        <th scope="col">Precio Unid.</th>
-                                        <th scope="col">Sub Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="lista-compra" class='table-active'>
-                                    
-                                </tbody>
-                            </table>
-                        </div>             
-                    </div>
-
-
-                        <h3>Forma de pago</h3>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="fpago" id="efectivo" value="0" checked>
-                            <label class="form-check-label" for="inlineRadio1">Efectivo</label>
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper cnt-wrp-mdrn">
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <img src="../public/icons/calculator_32.png">
+                            <h1 class="ml-2">Caja</h1>
                         </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="fpago" id="tarjeta" value="1">
-                            <label class="form-check-label" for="inlineRadio2">Tarjeta</label>
-                        </div>
-                        
-                    <div id="cpago">
                     </div>
-                  
-                
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <section>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-success card-mdrn">
+                            <div class="card-header">
+                                Pedidos sin cancelar
+                            </div>
+
+                            <div class="card-body">
+                                <div id="cb-mesas" class="row d-flex align-items-stretch"></div>
+                            </div>
+
+                            <div class="card-body p-0">
+                                <div id="cp" class="card-body p-0">
+                                    <div class="card-body">
+                                        <div id="cb-pedidos" class="row d-flex align-items-stretch"></div>
 
 
-                            <div class="row mt-4">
+                                        <div>
+                                            <!-- 
+                                                class="caja: permite el diseño responsive de la tabla,
+                                                llama al archivo caja.css
+                                            -->
+                                            <table class="caja table table-hover text-nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Nombre</th>
+                                                        <th scope="col">Presentación</th>
+                                                        <th scope="col">Cantidad</th>
+                                                        <th scope="col">Precio Unid.</th>
+                                                        <th scope="col">Sub Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="lista-compra" class='table-active'>
 
-                                <div class="col-md-4">
-                                    <div class="card card-default">                                      
-                                        <div class="card-body">
-                                            <div class="info-box mb-3 bg-info">
-                                            <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
-                                                <div class="info-box-content">
-                                                    <span class="info-box-text text-left">TOTAL</span>
-                                                    <span class="info-box-number" id="total"></span>
-                                                </div>
-                                            </div>  
+                                                </tbody>
+                                            </table>
                                         </div>
                                     </div>
-                                </div>
 
-                                <div class="col-md-4">
-                                    <div class="card card-default">
-                                        <div class="card-body">
-                                            <div class="info-box mb-3 bg-success">
-                                                <span class="info-box-icon"><i class="fas fa-money-bill-alt"></i></span>
-                                                <div class="info-box-content">
-                                                    <span class="info-box-text text-left ">INGRESO</span>
-                                                    <input type="number" id="pago" min="1" placeholder="Ingresa Dinero" class="form-control">
-                                                </div>
-                                            </div>                                       
-                                        </div>
+
+                                    <h3>Forma de pago</h3>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="fpago" id="efectivo" value="0" checked>
+                                        <label class="form-check-label" for="inlineRadio1">Efectivo</label>
                                     </div>
-                                </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="fpago" id="tarjeta" value="1">
+                                        <label class="form-check-label" for="inlineRadio2">Tarjeta</label>
+                                    </div>
 
-                                <div class="col-md-4">
-                                    <div class="card card-default">
-                                        <div class="card-body">
-                                            <div class="info-box mb-3 bg-info">
-                                                <span class="info-box-icon"><i class="fas fa-money-bill-wave"></i></span>
-                                                <div class="info-box-content">
-                                                    <span class="info-box-text text-left ">VUELTO</span>
-                                                    <span class="info-box-number" id="vuelto">3</span>
+                                    <div id="cpago">
+                                    </div>
+
+
+
+
+                                    <div class="row mt-4">
+
+                                        <div class="col-md-4">
+                                            <div class="card card-default">
+                                                <div class="card-body">
+                                                    <div class="info-box mb-3 bg-info">
+                                                        <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+                                                        <div class="info-box-content">
+                                                            <span class="info-box-text text-left">TOTAL</span>
+                                                            <span class="info-box-number" id="total"></span>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-md-4">
+                                            <div class="card card-default">
+                                                <div class="card-body">
+                                                    <div class="info-box mb-3 bg-success">
+                                                        <span class="info-box-icon"><i class="fas fa-money-bill-alt"></i></span>
+                                                        <div class="info-box-content">
+                                                            <span class="info-box-text text-left ">INGRESO</span>
+                                                            <input type="number" id="pago" min="1" placeholder="Ingresa Dinero" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="card card-default">
+                                                <div class="card-body">
+                                                    <div class="info-box mb-3 bg-info">
+                                                        <span class="info-box-icon"><i class="fas fa-money-bill-wave"></i></span>
+                                                        <div class="info-box-content">
+                                                            <span class="info-box-text text-left ">VUELTO</span>
+                                                            <span class="info-box-number" id="vuelto">3</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
                                     </div>
                                 </div>
+                                <div class="row justify-content-between">
 
-                                
-
-
-                            </div>
-                        </div>
-                        <div class="row justify-content-between">
-                           
-                            <div class="col-xs-12 col-md-4">
-                                <a href="#" class="btn btn-success btn-block" id="procesar-compra">Realizar venta</a>
+                                    <div class="col-xs-12 col-md-4">
+                                        <a href="#" class="btn btn-success btn-block" id="procesar-compra">Realizar venta</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+        <!-- /.content -->
     </div>
-</section>
-    <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
+    <!-- /.content-wrapper -->
 
-  
+
 
 
 <?php
-include_once "layouts/footer.php";
-
-}else{
+    include_once "layouts/footer.php";
+} else {
     // session_destroy();
     header("Location: ../index.php");
 }
 ?>
 <script src="../public/js/datatables.js"></script>
-
 <script src="../public/js/caja.js"></script>

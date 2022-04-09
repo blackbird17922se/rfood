@@ -32,7 +32,7 @@ class Tipo{
             $this->objetos=$query->fetchall();
             return $this->objetos;
         }else{
-            $sql = "SELECT * FROM tipo_prod WHERE nom NOT LIKE '' ORDER BY id_tipo_prod";
+            $sql = "SELECT * FROM tipo_prod WHERE nom NOT LIKE '' ORDER BY nom";
             $query = $this->acceso->prepare($sql);
             $query->execute();
             $this->objetos=$query->fetchall();

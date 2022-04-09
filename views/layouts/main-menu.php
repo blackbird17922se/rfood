@@ -100,7 +100,7 @@
         </li>
 
         <li class="nav-item">
-          <a href="adm_atr.php" class="nav-link">
+          <a href="atributos_menu.php" class="nav-link">
           <img src="../public/icons/applications-other.png">
             <!-- <i class="nav-icon fas fa-toolbox"></i> -->
             <p>
@@ -172,6 +172,7 @@
           </a>
         </li>
 
+        <!-- OTROS -->
         <li class="nav-header">Otros</li>
         <li class="nav-item">
           <a href="descuadreInventario.php" class="nav-link">
@@ -182,6 +183,18 @@
             </p>
           </a>
         </li>
+
+        <li class="nav-item">
+          <a href="mesa.php" class="nav-link">
+            <img src="../public/icons/edit-select-all.png">
+            <p>
+              Mesas
+            </p>
+          </a>
+        </li>
+
+        <!-- iNSERTADO A CAUSA DEL MOLESTA BARRA QUE APARECE ABAJO CAUNDO ESTA EN PROD -->
+        <li class="nav-item"><a class="nav-link"><p></p></a></li>
 
       </ul>
     </nav>

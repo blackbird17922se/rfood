@@ -27,8 +27,8 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==4 || $
             <div class="col-sm-10">
               
               <h1>RFood</h1>
-              <p>DsD RFood para Windows 95</p>
-              <p><i>RFood Milestone 2.0 - version de pruebas 2.3</i></p>
+              <p>DsD RFood para Windows 98</p>
+              <p><i>RFood Milestone 2.3 - version de pruebas 2.3</i></p>
               <p>Copyright &copy; 2020-2022 DsD Desarrollos Dinámicos</p>
               <br>
               <p>Se autoriza el uso de este producto a:</p>

@@ -14,7 +14,18 @@ class Caja{
     /* Listar los pedidos que ya se elaborron y se entregaron a los clientes */
     function listarPedidosCaja(){
 
-        $sql = "SELECT * FROM pedido WHERE entregado = 1 AND terminado = 1 AND pagado = 0";
+        $sql = 
+            "SELECT 
+                id_pedido, 
+                pedido.id_mesa,
+                mesa.nom AS nom_mesa
+            FROM pedido
+            INNER JOIN mesa 
+                ON mesa.id_mesa = pedido.id_mesa
+            WHERE terminado = 1
+            AND entregado = 1
+            AND pagado = 0
+        ";
         $query = $this->acceso->prepare($sql);
         $query->execute();
         $this->objetos=$query->fetchall();

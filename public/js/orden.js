@@ -86,12 +86,15 @@ $(document).ready(function(){
             productos.forEach(prod => {
                 template=`
                 <tr prodId="${prod.id_prod}">
-                    <td>${prod.id_prod}</td>
                     <td>${prod.nombre}</td>
                     <td>${prod.present}</td>
                     <td>${prod.precio}</td>
                     <td>${prod.cantidad}</td>
-                    <td><button class="btn btn-danger borrar-producto" ><i class="fas fa-times-circle"></i></button></td>
+                    <td class="td_btn_del">
+                        <button class="btn btn-danger btn-lg btn-block borrar-producto">
+                            <i class="fas fa-times-circle"></i>
+                        </button>
+                    </td>
                 </tr>
                 `;
                 $('#tbd-lista').append(template);

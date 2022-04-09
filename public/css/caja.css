@@ -1,0 +1,172 @@
+
+.titulo_cp {
+    border-top: 1px solid  #1c741c;
+    border-bottom: 1px solid #1c741c;
+    color:#1c741c;
+    font-size: 2.4em;
+    line-height: 1.4em;
+    font-weight: normal;
+    text-align: center;
+    margin: 0 0 20px 0;
+    background: url(../img/dimension.png);
+  }
+  
+  .logo_cp {
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 20px;
+    margin-left:30px ;
+    margin-right: 40px;
+  }
+  
+  .logo_cp img {
+    width: 100px;
+    height: 100px;
+  }
+  .nombre_farmacia {
+    font-size: 18px;
+    color: #1c741c;
+  }
+  .datos_cp {
+    font-weight: bold;
+    color: rgb(0, 0, 0);
+  }
+  .datos_cp span {
+    color: #1c741c;
+    text-align: right;
+    width: 150px;
+    margin-right: 100px;
+    display: inline-block;
+    font-size: 20px;
+  
+  }
+  
+  .correo {
+    color: rgb(58, 77, 138);
+    text-decoration: underline;
+  }
+  /*TABLA DE caja*/
+  .caja * {
+    position: relative;
+  }
+  
+  /*encabezado morado*/
+  .caja thead tr {
+    height: 60px;
+    /* background: #9B9B9B; */
+  }
+  
+  
+  /*encabezado producto blancas*/
+  .caja th{
+  
+    font-size: 18px;
+    color: #fff;
+    line-height: 1.2;
+    font-weight: unset;
+  }
+  /*resalto de cada fila*/
+  .caja tbody tr:nth-child(even) {
+    /* background-color: #f5f5f5; */
+  }
+  
+  
+  
+  
+  
+  @media screen and (max-width: 900px) {
+    .datos_cp input{
+      margin-left: 10px;
+    }
+    .datos_cp span {
+      float: left;
+      margin-left: 15px;
+      text-align: left;
+    }
+    .caja {
+      display: block;
+    }
+    .caja > *, .caja tr, .caja td, .caja th {
+      display: block;
+    }
+    .caja thead {
+      display: none;
+      color: #325684;
+    }
+    .caja tbody tr {
+      height: auto;
+      padding: 37px 0;
+    }
+    .caja tbody tr td {
+      padding-left: 50% !important;
+      margin-bottom: -10px;
+    }
+    .caja tbody tr td:last-child {
+      margin-bottom: 0;
+    }
+    .caja tbody tr td:before {
+  
+      font-size: 14px;
+      color: #999999;
+      line-height: 1.2;
+      font-weight: unset;
+      position: absolute;
+      width: 10px;
+      left: 10px;
+      
+    }
+    .caja tbody tr td:nth-child(1):before {
+      content: "Nombre";
+      font-size: 15px;
+      font-weight: bold;
+      color: #000;
+    }
+    .caja tbody tr td:nth-child(2):before {
+      content: "Presentación";
+      font-weight: bold;
+      font-size: 15px;
+      color: #000;
+    }
+     .caja tbody tr td:nth-child(3):before {
+      content: "Cantidad";
+      font-weight: bold;
+      font-size: 15px;
+      color: #000;
+    }
+    .caja tbody tr td:nth-child(4):before {
+      content: "Precio Unid.";
+      font-weight: bold;
+      font-size: 15px;
+      color: #000;
+    }
+    .caja tbody tr td:nth-child(5):before {
+      content: "Subtotal";
+      font-weight: bold;
+      font-size: 15px;
+      color: #000;
+    }
+    
+    .caja tbody tr td:nth-child(10):before {
+      content: "Eliminar";
+      font-weight: bold;
+      font-size: 15px;
+      color: #000;
+    }
+    .caja tbody tr td:nth-child(11):before {
+      content: "Totales";
+      font-weight: bold;
+      font-size: 15px;
+      color: #000;
+    }
+    
+  
+    .caja tbody tr {
+      font-size: 14px;
+    }
+  }
+  @media (max-width: 576px) {
+    .caja {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+  }

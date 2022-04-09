@@ -60,7 +60,8 @@ switch ($_POST['funcion']) {
     break;
 
 
-    case 'listarPedidos':
+    /* listarPedidos */
+    case 2:
         /* pedidos con entrega pendiente */
         $pedido->listarPedidosPendEntrega();
         $json=array();
@@ -83,33 +84,24 @@ switch ($_POST['funcion']) {
                         $objn->nom,
                         $objn->presnom,
                         $objP->det_cant,
-                        // 'idProd' => $objP->id_det_prod,
-                        // 'cant'=>$objP->det_cant,
                     );
-
-
-
                 }
-                // $nomp = $pedido->nom;
-                
-          
             }
 
             $json[]=array(
                 'idPedido' => $objeto->id_pedido,
-                'idMesa'=>$objeto->id_mesa,
+                'nomMesa'=>$objeto->nom_mesa,
                 'observ'=>$objeto->observ,
                 'prods'=> $jsonP
             );
         }
         $jsonstring = json_encode($json);
         echo $jsonstring;
-
     break;
 
 
-    case 'listarPedTerminados':
-        /* pedidos con entrega pendiente */
+    /* listarPedTerminados pedidos con entrega pendiente */
+    case 5:
         $pedido->listarPedTerminados();
         $json=array();
         $jsonC=array();
@@ -134,18 +126,12 @@ switch ($_POST['funcion']) {
                         // 'idProd' => $objP->id_det_prod,
                         // 'cant'=>$objP->det_cant,
                     );
-
-
-
                 }
-                // $nomp = $pedido->nom;
-                
-          
             }
 
             $json[]=array(
                 'idPedido' => $objeto->id_pedido,
-                'idMesa'=>$objeto->id_mesa,
+                'nomMesa'=>$objeto->nom_mesa,
                 'prods'=> $jsonP
             );
         }

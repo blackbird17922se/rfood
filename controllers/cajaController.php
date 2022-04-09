@@ -1,35 +1,32 @@
 <?php
-
 include '../models/caja.php';
 include_once '../models/conexion.php';
-//include '../models/itemModel.php';
 
 $caja = new Caja();
-//$items = new ItemModel();
 
 switch ($_POST['funcion']) {
 
-    case 'listarPedidosCaja':
+    /* Lista los pedidos para el restaurante */
+    case 2:
         /* cajas con entrega pendiente */
         $caja->listarPedidosCaja();
         $json = array();
 
-
         foreach ($caja->objetos as $objeto) {
-
-
 
             $json[] = array(
                 'idPedido' => $objeto->id_pedido,
                 'idMesa' => $objeto->id_mesa,
+                'nomMesa' => $objeto->nom_mesa,
             );
         }
         $jsonstring = json_encode($json);
         echo $jsonstring;
 
-        break;
+    break;
 
-    case 'cargarDatosPedido':
+    /* Cargar los Detalles y costos de ese pedido */
+    case 5:
         $idPedido = $_POST['ID'];
         $idMesa = $_POST['IDMESA'];
         /* pedidos con entrega pendiente */
@@ -69,7 +66,6 @@ switch ($_POST['funcion']) {
             /* prueba  */
             $template = "       
                 <tr prodId='$objeto->id_det_pedido' prodPrecio=''>
-                    <td>$idMesa</td>
                     <td>$nomProduct</td>
                     <td>$nomPresent</td>
                     <td>$cantidad</td>

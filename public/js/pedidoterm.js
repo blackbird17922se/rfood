@@ -1,17 +1,15 @@
 $(document).ready(function(){
-    var funcion;
 
-    console.log("ped");
-
-    funcion = "listarPedTerminados";
+    var funcion = 0;
+    const PEDIDO_CTRL = '../controllers/pedidoController.php';
 
     listarPedTerminados()
 
     /* Lista los pedidos Terminados */
     function listarPedTerminados(){
-        funcion = 'listarPedTerminados';
+        funcion = 5;
 
-        $.post('../controllers/pedidoController.php',{funcion},(response)=>{
+        $.post(PEDIDO_CTRL,{funcion},(response)=>{
             // console.log(response);
 
             const PEDIDOS = JSON.parse(response);
@@ -29,26 +27,20 @@ $(document).ready(function(){
                     tempProducts+=`
                     <h2 class="lead"><b>${item[2]} </b><b>${item[0]}</b> ${item[1]}</h2>
                     `;
-              
                 });
-
 
                 templateS+=`
         
                     <div idPedido="${pedido.idPedido}" class="col-12 col-sm-6 col-md-6 align-items-stretch">
-
                         <div class="card bg-dark-10">
                             <div class="card-header border-bottom-0">Orden Numero: ${pedido.idPedido}
-                            <h2 class="lead"><b>id Mesa: ${pedido.idMesa}</b></h2>
-                            
+                                <h2 class="lead"><b>Mesa: ${pedido.nomMesa}</b></h2>
                             </div>
 
                             <div class="card-body pt-0">
                                 <div class="row">
                                     <div class="col-12">
-                                
                                         <h2 class="lead"><b>${tempProducts}</b></h2>
-
                                     </div>                           
                                 </div>
 
@@ -74,7 +66,7 @@ $(document).ready(function(){
         const ID = $(ELEM).attr('idPedido');
         console.log(ID);
 
-        $.post('../controllers/pedidoController.php',{funcion,ID},(response)=>{
+        $.post(PEDIDO_CTRL,{funcion,ID},(response)=>{
             console.log(response);
             listarPedTerminados()
         })
@@ -85,7 +77,7 @@ $(document).ready(function(){
     // listarProdCons();
     // function listarProdCons(){
     //     funcion = "listarPedidos";
-    //     $.post('../controllers/pedidoController.php',{funcion},(response)=>{
+    //     $.post(PEDIDO_CTRL,{funcion},(response)=>{
     //         // console.log(response);
    
     //     })

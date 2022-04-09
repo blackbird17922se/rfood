@@ -1,6 +1,6 @@
 <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
-      <b>RFood Milestone 2.0</b> version de pruebas 2.0
+      <b>RFood Milestone 2.3</b> version de pruebas 2.0
     </div>
     <strong>Copyright &copy; 2020-2022 DsD Desarrollos Dinámicos</strong> All rights reserved.
     <!-- <strong>Copyright &copy; 2020-2021 DsD Desarrol <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved. -->

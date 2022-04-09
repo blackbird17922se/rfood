@@ -32,7 +32,7 @@ class Presentacion{
             $this->objetos=$query->fetchall();
             return $this->objetos;
         }else{
-            $sql = "SELECT * FROM present WHERE nom NOT LIKE '' ORDER BY id_present";
+            $sql = "SELECT * FROM present WHERE nom NOT LIKE '' ORDER BY nom";
             $query = $this->acceso->prepare($sql);
             $query->execute();
             $this->objetos=$query->fetchall();

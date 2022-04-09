@@ -22,6 +22,9 @@
   
     <!-- Seccion compras -->
     <link rel="stylesheet" href="../public/css/compra.css">
+
+    <link rel="stylesheet" href="../public/css/caja.css">
+    <link rel="stylesheet" href="../public/css/orden.css">
     <!-- Datatable -->
     <link rel="stylesheet" href="../public/css/datatables.css">
     <link rel="stylesheet" href="../public/css/modern10.css">
