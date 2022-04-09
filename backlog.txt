@@ -1,22 +1,50 @@
-****************************************************************************************************
-TO_DO:
-****************************************************************************************************
--lote 
+***************************************************************************************************
+***************************************** BACKLOG LIST ********************************************
+***************************************************************************************************
+
+--------------------------------------- 08/04 Build 20.30 ----------------------------------------
+
+* Verificar edicion y eliminacion de ingreds (Gestion ingreds de un item)
+
+* verificar porque no permite agregar cantidades a los ingredientes (Agregar Lotes)
+
+* Revisar porque no permite pasar el producto de estado terminado a caja 
+    (Al presionar 'Plato entregado') 
+
+* Revisar gestion de mesas
+    - Revisar que el modulo este habilitado
+    - Mostrar el numero o alias de la mesa (no el id 🤦‍♂️)
+
+* Bloquear la mesa cuando tenga un pedido (Ya no aparecera en el listado
+    de mesas en ORDEN hasta que el pedido sea cancelado)
+        - Podria añadir un boton de 'Liberar mesa'
+
+
+* en gestion de pedidos permitir agregar mas items al pedido 
+    (ej: el cliente aparte de la darbugese pidio luego a gaseosa)
+
+* Habilitar modulo Proveedores
+
+
+* Verificar tema de usuarios y restricciones
+    -verificar porque no elimina la sesion al salir
+
+* Agregar seleccion de pago (neki o daviplata)
 
 - EN VENTA AGREGAR EL ID DE LA ORDEN ENCIMA DE LA TABLA DE PLATOS VENDIDOS O HACER 
     QUE EL CUADRITO DE LA ORDEN (EL DEL BOTON SELECCIONAR) CAMBIE DE COLOR
 
-
--verificar porque no elimina la sesion al salir
-
 -arreglar la parte visual de orden cuando es tablet o cel
------------------------
 
-----------------------
+* Añadir un cubo mas al icono de MAD y cambiar el sonido por el de 2003SERVER
+    - Bajar el Volumen del sonido
+
 
 ****************************************************************************************************
 DONE:
 ****************************************************************************************************
+(07/04)
+-lote 
 
 (06/04)
 - agregar ventas del dia
