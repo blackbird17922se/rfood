@@ -40,8 +40,8 @@
           </div>
 
           <!-- <textarea name="" id="" cols="30" rows="10"></textarea> -->
-          <a href="#" id="procesar-pedido" class="btn btn-outline-danger btn-block">Procesar Pedido</a>
-          <a href="#" id="vaciar-carrito" class="btn btn-outline-primary btn-block">Vaciar Pedido</a>
+          <a href="#" id="procesar-orden" class="btn btn-outline-danger btn-block">Procesar Pedido</a>
+          <a href="#" id="vaciar-pedido" class="btn btn-outline-primary btn-block">Vaciar Pedido</a>
 
         </div>
       </li>

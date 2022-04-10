@@ -7,10 +7,9 @@ $pedido = new Pedido();
 
 switch ($_POST['funcion']) {
     
-    case 'nuevoPedido':
-
+    /* CREATE */
+    case 1:
         session_start();
-
         $id_mesa   = $_POST['id_mesa'];
         $observ = $_POST['observ'];
         $entregado = $_POST['entregado'];
@@ -153,12 +152,21 @@ switch ($_POST['funcion']) {
         $pedido->cambiarEstEntregado($idOrden);
     break;
 
-    case 'pagado':
-        session_start();
-        $id_cajero = $_SESSION['usuario'];
 
-        $idOrden = $_POST['idOrdenSel'];
-        $pedido->cambiarEstPagado($idOrden, $id_cajero);
+    /* Cambiar estado de la orden a Pagado */
+    case 9:
+        session_start();
+        $pedido->cambiarEstPagado($_POST['idOrdenSel'], $_SESSION['usuario']);
+    break;
+
+    /* Bloquear Mesa */
+    case 10:
+        $pedido->bloquearMesa($_POST['mesa']);
+    break;
+
+    /* Desbloquear Mesa */
+    case 11:
+        $pedido->desBloquearMesa($_POST['mesa']);
     break;
     
     default:

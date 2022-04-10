@@ -63,7 +63,7 @@ class Mesa{
 
     function listarMesas(){
         // $consulta = $_POST['consulta'];
-        $sql="SELECT * FROM mesa ORDER BY nom ASC";
+        $sql="SELECT * FROM mesa WHERE disponible = 1 ORDER BY nom ASC";
         $query = $this->acceso->prepare($sql);
         $query->execute();
         $this->objetos=$query->fetchall();

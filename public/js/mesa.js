@@ -2,8 +2,10 @@ $(document).ready(function(){
 
     buscarMesa();
 
-    var funcion;
+    var funcion = 0;
     var edit = false;   // bandera
+    const MESA_CTRLR = '../controllers/mesaController.php';
+
 
     /* Formukario crear editar */
     $('#form-crear-mesa').submit(e=>{
@@ -11,13 +13,13 @@ $(document).ready(function(){
         let id_editado = $('#id_edit_mesa').val();
 
         if(edit==false){
-            funcion="crear";
+            funcion = 1;
         }else{
-            funcion="editar";
+            funcion = 3;
         }
 
         // funcion = 'crear';
-        $.post('../controllers/mesaController.php',{nom_mesa,id_editado,funcion},(response)=>{
+        $.post(MESA_CTRLR,{nom_mesa,id_editado,funcion},(response)=>{
             console.log(response)
             if(response=='add'){
                 $('#add-mesa').hide('slow');
@@ -45,9 +47,9 @@ $(document).ready(function(){
     });
 
     function buscarMesa(consulta){
-        funcion = 'buscar';
+        funcion = 2;
         // ajax
-        $.post('../controllers/mesaController.php',{consulta,funcion},(response)=>{
+        $.post(MESA_CTRLR,{consulta,funcion},(response)=>{
             // console.log(response);
             const mesaS = JSON.parse(response);
             let template = '';
@@ -81,7 +83,7 @@ $(document).ready(function(){
     });
 
     $(document).on('click','.borrar-mesa',(e)=>{
-        var funcion = "borrar";
+        var funcion = 4;
         const ELEM = $(this)[0].activeElement.parentElement.parentElement;
         const ID = $(ELEM).attr('mesaId');
         const NOMB = $(ELEM).attr('mesaNom');
@@ -107,7 +109,7 @@ $(document).ready(function(){
             reverseButtons: true
           }).then((result) => {
             if (result.value) {
-                $.post('../controllers/mesaController.php',{ID,funcion},(response)=>{
+                $.post(MESA_CTRLR,{ID,funcion},(response)=>{
                     // console.log(response);
                     edit==false;
                     if(response=='borrado'){

@@ -12,7 +12,7 @@ class Pedido
         $this->acceso = $bd->pdo;
     }
 
-    function nuevoPedido($id_mesa, $id_mesero, $observ, $entregado, $terminado, $pagado)
+    public function nuevoPedido($id_mesa, $id_mesero, $observ, $entregado, $terminado, $pagado)
     {
         $sql = "INSERT INTO pedido (id_mesa, id_mesero, entregado, terminado, pagado, observ) 
         VALUES (:id_mesa, :id_mesero, :entregado, :terminado, :pagado, :observ)";
@@ -138,4 +138,20 @@ class Pedido
         ]);
         echo 'edit';
     }
+
+    /* Bloquear la mesa */
+    public function bloquearMesa($id_mesa){
+        $sql = "UPDATE mesa SET disponible = 0 WHERE id_mesa=:id_mesa";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':id_mesa' => $id_mesa));
+    }
+
+
+    /* Desbloquear la mesa */
+    public function desBloquearMesa($id_mesa){
+        $sql = "UPDATE mesa SET disponible = 1 WHERE id_mesa=:id_mesa";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':id_mesa' => $id_mesa));
+    }
+    
 }

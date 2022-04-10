@@ -1,10 +1,12 @@
 $(document).ready(function(){
-    var funcion = 0;
-    var totalS = 0;
-    var idOrdenSel=0;
-    var respStock = 2;
+    var funcion    = 0;
+    var totalS     = 0;
+    var idOrdenSel = 0;
+    var idMesa     = 0;
+    var respStock  = 2;
 
     const CAJA_CONTROLLER = '../controllers/cajaController.php';
+    const PEDIDO_CTRLR    = '../controllers/pedidoController.php';
 
     listarPedidosCaja()
     calcularVuelto()
@@ -56,6 +58,7 @@ $(document).ready(function(){
         const IDMESA = $(ELEM).attr('idMesa');
         funcion      = 5;
         idOrdenSel   = ID;
+        idMesa       = IDMESA;
 
         $.post(CAJA_CONTROLLER,{funcion,ID,IDMESA},(response)=>{
             // console.log(response);
@@ -92,7 +95,6 @@ $(document).ready(function(){
     }
 
 
-
     $('#pago').keyup((e)=>{
         calcularVuelto()
     });
@@ -108,28 +110,27 @@ $(document).ready(function(){
     }
 
 
-    $(document).on('click','#procesar-compra',(e)=>{
-        procesarCompra();
-    })
-
     /* ´------------------ */
-    function procesarCompra(){
+    $(document).on('click','#procesar-compra',(e)=>{
 
-        funcion = 'registrarVenta';
-
+        funcion = 6;
+        let mesa = idMesa;
         let idOrdSel = idOrdenSel;
         let total = $('#total').get(0).textContent;
 
-        $.post(CAJA_CONTROLLER,{funcion,total,idOrdSel,formaPago},(response)=>{
+        $.post(CAJA_CONTROLLER,{funcion,total,idOrdSel,formaPago,mesa},()=>{
 
             // Modificar estado del pedido
-            funcion = 'pagado';
-            console.log("pagado");
-            $.post('../controllers/pedidoController.php',{funcion,idOrdenSel},(response)=>{
-                console.log(response);
-                idOrdenSel=0;
+            funcion = 9;
+            $.post(PEDIDO_CTRLR,{funcion,idOrdenSel},()=>{
+                idOrdenSel = 0;
                 listarPedidosCaja() 
-            })
+            });
+
+            /* Desbloquear mesa */
+            funcion = 11;
+            $.post(PEDIDO_CTRLR,{funcion,mesa});
+
         });
 
 
@@ -186,7 +187,7 @@ $(document).ready(function(){
             }
         });
 
-    }
+    });
 
 
 

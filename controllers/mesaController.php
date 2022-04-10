@@ -2,46 +2,58 @@
 include '../models/mesa.php';
 $mesa = new Mesa();
 
-if($_POST['funcion']=='crear'){
-    $nom = $_POST['nom_mesa'];
-    $mesa->crear($nom);
-}
+switch ($_POST['funcion']) {
 
-if($_POST['funcion']=='editar'){
-    $nom_mesa = $_POST['nom_mesa'];
-    $id_editado = $_POST['id_editado'];
-    $mesa->editar($nom_mesa,$id_editado);
-}
+    /* crear */
+    case 1:
+        $nom = $_POST['nom_mesa'];
+        $mesa->crear($nom);
+    break;
 
-if($_POST['funcion']=='buscar'){
-    $mesa->buscar();
-    $json=array();
-    foreach($mesa->objetos as $objeto){
-        $json[]=array(
-            'id_mesa'=>$objeto->id_mesa,
-            'nom'=>$objeto->nom
-        );
-    }
-    $jsonstring = json_encode($json);
-    echo $jsonstring;
-}
+    /* read */
+    case 2:
+        $mesa->buscar();
+        $json=array();
+        foreach($mesa->objetos as $objeto){
+            $json[]=array(
+                'id_mesa'=>$objeto->id_mesa,
+                'nom'=>$objeto->nom
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    break;
 
-if($_POST['funcion'] =='borrar'){
-    /* OJO: $_POST['ID'] viene desde mesaratorio.js en la const ID = $(ELEM).attr('mesaId'); */
-    $id_mesa = $_POST['ID'];
-    $mesa->borrar($id_mesa);
-}
+    /* Update */
+    case 3:
+        $nom_mesa = $_POST['nom_mesa'];
+        $id_editado = $_POST['id_editado'];
+        $mesa->editar($nom_mesa,$id_editado);
+    break;
 
-if($_POST['funcion'] =='listarMesas'){
-    $mesa->listarMesas();
-    $json=array();
-    foreach($mesa->objetos as $objeto){
-        $json[]=array(
-            'id_mesa'=>$objeto->id_mesa,
-            /* OJO: ...=> $objeto->NOMBRE DEL CAMPO EL LA BD */
-            'nom_mesa'=>$objeto->nom
-        );
-    }
-    $jsonstring = json_encode($json);
-    echo $jsonstring;
+    /* Delete */
+    case 4:
+        $id_mesa = $_POST['ID'];
+        $mesa->borrar($id_mesa);
+    break;
+
+    /* Listar en select list */
+    /* Solo lista mesas que no tengan ordenes ya hechas */
+    case 5:
+        $mesa->listarMesas();
+        $json=array();
+        foreach($mesa->objetos as $objeto){
+            $json[]=array(
+                'id_mesa'=>$objeto->id_mesa,
+                /* OJO: ...=> $objeto->NOMBRE DEL CAMPO EL LA BD */
+                'nom_mesa'=>$objeto->nom
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    break;
+    
+    default:
+        # code...
+        break;
 }

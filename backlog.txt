@@ -4,8 +4,7 @@
 
 --------------------------------------- Milestone 3 ----------------------------------------
 
-* Bloquear la mesa cuando tenga un pedido (Ya no aparecera en el listado de mesas en ORDEN hasta que el pedido sea cancelado)
-    - Podria añadir un boton de 'Liberar mesa'
+* añadir 'Es domicilio' para que no halla conflicto cuando sean varios domicilios
 
 * Agregar lista desplegable en orden con los meseros, para que se pueda seleccionar el mesero cuando se usa una sola tablet
 
@@ -47,9 +46,14 @@
 * Al editar los ingred de un item, podria intentar fusionar la tabla INGREDS ACTUALES
     con INGRED NUEVOS.
 
+* Podria añadir un boton de 'Liberar mesa'
+
 ****************************************************************************************************
 DONE:
 ****************************************************************************************************
+(09/04)
+* Bloquear la mesa cuando tenga un pedido (Ya no aparecera en el listado de mesas en ORDEN hasta que el pedido sea cancelado)
+
 
 (08/04)
 * verificar porque no permite agregar cantidades a los ingredientes (Agregar Lotes)

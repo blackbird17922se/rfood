@@ -5,10 +5,15 @@
 
 $(document).ready(function(){
 
-    var funcion, idCat="";
-    const URL_ITEM_CONTROL   = '../controllers/itemController.php';
+    var funcion        = 0
+    var idCat          = "";
+    const ITEM_CTRLR   = '../controllers/itemController.php';
+    const MESA_CTRLR   = '../controllers/mesaController.php';
+    const TIPO_CTRLR   = '../controllers/tipoController.php';
+    const PEDIDO_CTRLR = '../controllers/pedidoController.php';
 
-
+    listarCategs();
+    listarMesas();
     
     $(".select2").select2({
         placeholder: "Seleccione una opcion",
@@ -16,13 +21,11 @@ $(document).ready(function(){
 
     $('#cat-carrito').show()
 
-
     /* Le carga al listado superor una lista de categorias para que dependiendo
-    la categoria que escoja, se muestraen los productos de la misma */
-    listarCategs();
+    la categoria que escoja, se muestraen los productos de la misma */ 
     function listarCategs(){
         funcion = "listar_tipos";
-        $.post('../controllers/tipoController.php',{funcion},(response)=>{
+        $.post(TIPO_CTRLR,{funcion},(response)=>{
             // console.log(response);
             const TIPOS = JSON.parse(response);
             let template = '';
@@ -37,16 +40,25 @@ $(document).ready(function(){
         })
     }
 
-    listarMesas();
+
+    /* 
+        Lista las mesas disponibles, o sea las que no tengan pedidos realizados,
+        pendientes o por cancelar
+    */
     function listarMesas(){
-        funcion = "listarMesas";
-        $.post('../controllers/mesaController.php',{funcion},(response)=>{
-            // console.log(response);
+        console.log('dentro de listarMesas');
+        funcion = 5;
+        $.post(MESA_CTRLR,{funcion},(response)=>{
+            console.log('mesas: '+response);
             const MESAS = JSON.parse(response);
-            let template = '';
+            let template = `
+            <option value=""></option>
+            <option value="-1">One</option>
+            `;
             MESAS.forEach(mesa=>{
                 template+=`
-                <option value=""></option>
+                
+                
                 <option value="${mesa.id_mesa}">${mesa.nom_mesa}</option>
                 `;
             });
@@ -91,7 +103,7 @@ $(document).ready(function(){
                     <td>${prod.precio}</td>
                     <td>${prod.cantidad}</td>
                     <td class="td_btn_del">
-                        <button class="btn btn-danger btn-lg btn-block borrar-producto">
+                        <button class="btn btn-danger btn-block borrar-producto">
                             <i class="fas fa-times-circle"></i>
                         </button>
                     </td>
@@ -154,7 +166,7 @@ $(document).ready(function(){
             
             "ajax": {
                 
-                "url":URL_ITEM_CONTROL,
+                "url":ITEM_CTRLR,
                 "method":"POST",
                 "data":{funcion:funcion, idCat:idCat},
                 "dataSrc":""
@@ -183,26 +195,24 @@ $(document).ready(function(){
                 text: 'Debes agregar algún producto al pedido',
             })
         }else{
-            funcion = 'nuevoPedido';
+            funcion = 1;
             let id_mesa = $('#mesa').val();
             let observ = $('#observ').val();
             let entregado = 0;
             let terminado = 0;
             let pagado    = 0;
 
-            
         // let productos = recuperarLS();
-        // let nomb = "mxpr";
         /* nviar ese producto al controlador */
             let json = JSON.stringify(productos);
-            console.log(json);
-            $.post('../controllers/pedidoController.php',{funcion,id_mesa,json,observ,entregado,terminado,pagado},(response=>{
+            // console.log(json);
+            $.post(PEDIDO_CTRLR,{funcion,id_mesa,json,observ,entregado,terminado,pagado},(response=>{
                 console.log(response);
                 console.log(`val observ: ${observ}`);
 
             }));
-
             datatable.ajax.reload();
+            
 
 
             
@@ -326,7 +336,6 @@ $(document).ready(function(){
         }else{
             template=`
             <tr prodId="${PRODUCTO.id_prod}">
-                <td>${PRODUCTO.id_prod}</td>
                 <td>${PRODUCTO.nombre}</td>
                 <td>${PRODUCTO.present}</td>
                 <td>${PRODUCTO.precio}</td>
@@ -356,8 +365,8 @@ $(document).ready(function(){
         // calcularTotal()
     })
 
-    /* VACIAR CARRITO */
-    $(document).on('click','#vaciar-carrito',(e)=>{
+    /* VACIAR EL DESPLEGABLE DEL PEDIDO ACTUAL */
+    $(document).on('click','#vaciar-pedido',(e)=>{
         /* borra todos los elementos del tbody */
         $('#tbd-lista').empty();
         eliminarLS();
@@ -368,7 +377,7 @@ $(document).ready(function(){
 
 
     /* Click en procesar pedido */
-    $(document).on('click','#procesar-pedido',(e)=>{
+    $(document).on('click','#procesar-orden',(e)=>{
         let mesa = $('#mesa').val();
         if(mesa == 0){
             Swal.fire({
@@ -377,13 +386,19 @@ $(document).ready(function(){
                 text: 'Debe seleccionar una mesa',
             })
         }else{
-
             procesarPedido();
+            
+            /* Bloquear la mesa y refrescar lista */
+            if(mesa = -1){
+                funcion = 10;
+                $.post(PEDIDO_CTRLR,{funcion,mesa},(() =>{
+                    listarMesas();
+                }));
+            }
             eliminarLS();
             contarProductos();
             $('#tbd-lista').empty();
             $(".select2").val('').trigger('change');
-
         }
     
     })

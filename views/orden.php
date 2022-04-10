@@ -14,7 +14,8 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
 
                 <div class="form-group">
                     <label for="mesa">Mesa</label>
-                    <select id="mesa" class="form-control select2" style="width: 100%;" required></select>
+                    <select id="mesa" class="form-control select2" style="width: 100%;" required>
+                </select>
                 </div>
 
                 <div class="form-group">
@@ -31,8 +32,6 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
 
                             <div class="card-body">
                                 <div class="tab-content">
-
-
                                     <!-- ENTRADAS -->
                                     <div class="tab-pane active" id="entradas">
                                         <div class="card card-success card-mdrn">
@@ -41,14 +40,12 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
                                                     <thead>
                                                         <tr>
                                                             <th>Acción</th>
-                                                            <!-- <th hidden>Codigo Producto</th> -->
                                                             <th>Nombre</th>
                                                             <th>Presentación</th>
                                                             <th>Precio</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
-                                                    </tbody>
+                                                    <tbody></tbody>
                                                 </table>
                                             </div>
                                         </div>

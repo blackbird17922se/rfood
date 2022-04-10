@@ -29,14 +29,21 @@ if(!empty($_SESSION['rol']==1)){
                                     <label for="fecha">Fecha: </label>
                                     <span id="fecha"></span>
                                 </div>
+
+                                <div class="form-group">
+                                    <label for="mesa">Mesa: </label>
+                                    <span id="mesa"></span>
+                                </div>
                             
+                            </div>
+                            
+                            <div class="col-sm-6">
+                                
                                 <div class="form-group">
                                     <label for="mesero">Mesero: </label>
                                     <span id="mesero"></span>
                                 </div>
-                            </div>
 
-                            <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="coc_lider">Cocinero Líder: </label>
                                     <span id="coc_lider"></span>

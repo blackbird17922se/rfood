@@ -91,12 +91,13 @@ switch ($_POST['funcion']) {
     break;
 
     /* funcion,total,idOrdSel,formaPago */
-    case 'registrarVenta':
+    case 6:
         session_start();
 
         $totalVenta = $_POST['total'];
         $idOrd = $_POST['idOrdSel'];
         $formaPago = $_POST['formaPago'];
+        $mesa = $_POST['mesa'];
 
         $idPedido = $idOrd;
         $idMesero = "";
@@ -123,7 +124,7 @@ switch ($_POST['funcion']) {
         /* integra sfarma */
         date_default_timezone_set('America/Bogota');
         $fecha = date('Y-m-d H:i:s');
-        $caja->crearVenta($totalVenta, $formaPago, $fecha, $vendedor, $idMesero, $idCocineroLider, $idOrd);
+        $caja->crearVenta($totalVenta, $formaPago, $fecha, $vendedor, $idMesero, $idCocineroLider, $idOrd, $mesa);
 
         /* obtener id de la venta */
         $caja->ultimaVenta();
@@ -131,8 +132,6 @@ switch ($_POST['funcion']) {
             $idVenta = $objeto->ultima_venta;
             // echo $idVenta;
         }
-
-        /* +++ */
 
         try {
 
@@ -237,12 +236,9 @@ switch ($_POST['funcion']) {
             echo $error->getMessage();
         }
 
+    break;
 
-
-
-        break;
-
-        /* PARA ACCEDER A LA ULTIMA VENTA */
+    /* PARA ACCEDER A LA ULTIMA VENTA */
     case 'ultimaVenta':
         $caja->ultimaVenta();
         foreach ($caja->objetos as $objeto) {

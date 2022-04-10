@@ -29,7 +29,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==4 || $
               <h1>RFood</h1>
               <p>DsD RFood para Windows 98</p>
               <!-- Num version princip,Numero cuando hay nuevos cambios,Año,mes,dia,hora -->
-              <p><i><b>RFood Milestone 2.</b> Version de pruebas.Build 2.4.220408-0000</i></p>
+              <p><i><b>RFood Milestone 2</b> <br> Version de pruebas.Build 2.4.220408-0000</i></p>
               <p>Copyright &copy; 2020-2022 DsD Desarrollos Dinámicos</p>
               <br>
               <p>Se autoriza el uso de este producto a:</p>
@@ -37,7 +37,15 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==4 || $
               <p><i>Id. Del producto: 32644-072-01808804</i></p>
               <br>
               <h4>Novedades</h4>
-              <h5>09/04/2022 </h5>
+              <h5>08/04/2022 (Build 2.4.220408-0000)</h5>
+              <p>
+                - Optimizacion interna del sistema. <br>
+                - Agrega el modulo para gestionar las mesas <br>
+                - El sistema muestra el alias o numero asignado a la mesa, no su id. <br>
+                - Eliminacion de Elementos inecesarios <br>
+                - Correcciones en la parte visual desde dispositivos moviles en el cuadro de procesar orden y caja <br>
+                  &nbsp &nbsp al arreglar algunos titulos, textos y diseño.
+              </p>
 
               <h5>Anteriores Mejoras</h5>
               <p>

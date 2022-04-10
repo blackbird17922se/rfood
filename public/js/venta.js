@@ -1,10 +1,13 @@
 $(document).ready(function () {
+
+    const VENTA_CTRLR = '../controllers/ventaController.php';
+    var funcion       = 0;
     mostrar_consultas()
     totalVentas()
 
     function totalVentas(){
         let funcion = 'totalVentas';
-        $.post('../controllers/ventaController.php',{funcion},(response)=>{
+        $.post(VENTA_CTRLR,{funcion},(response)=>{
             // console.log(response);
             const VENTASDIA = JSON.parse(response);
             $('#venta_dia_vendor').html(VENTASDIA.venta_dia_vendor);
@@ -47,7 +50,7 @@ $(document).ready(function () {
         /* datos, traera desde el controlador los datos fecha y id usuario */
         funcion = 'datos';
 
-        $.post('../controllers/ventaController.php',{funcion},(resp)=>{
+        $.post(VENTA_CTRLR,{funcion},(resp)=>{
             // console.log(resp);
             const VALORES = JSON.parse(resp);
             console.log("te"+resp);
@@ -57,7 +60,7 @@ $(document).ready(function () {
                 fecha = valor.fecha
 
                 funcion = 'rep_venta';
-                $.post('../controllers/ventaController.php',{funcion,usuario,fecha},(response)=>{  
+                $.post(VENTA_CTRLR,{funcion,usuario,fecha},(response)=>{  
                     console.log("tr"+response);      
                     // window.open('../pdf/pdf-'+funcion+'.pdf','_blank');
                     window.open('../pdf/pdf-'+usuario+fecha+'.pdf','_blank');
@@ -68,13 +71,13 @@ $(document).ready(function () {
     })
 
             
-    funcion = "listar";
+    funcion = 1;
     let datatable = $('#tabla_venta').DataTable( {
 
         "order": [[ 1, "desc" ]],
         
         "ajax": {
-            "url":"../controllers/ventaController.php",
+            "url":VENTA_CTRLR,
             "method":"POST",
             "data":{funcion:funcion}
         },
@@ -99,6 +102,61 @@ $(document).ready(function () {
         <button class="ver btn btn-transp" type="button" data-toggle="modal" data-target="#vista-venta"><img src="../public/icons/dprint-prvx32.png" alt=""></button>
         <button class="borrar btn btn-transp"><img src="../public/icons/delete_32.png" alt=""></button>
     */
+
+
+    /* DETALLE DE LA VENTA */
+    /* seleccionar elid de esa fila para consultar sus valores */
+    $('#tabla_venta tbody').on('click','.ver',function(){
+
+        let datos = datatable.row($(this).parents()).data();
+        let id= datos.id_venta;
+
+        /** CONSULTAR DATOS PRINCIPALES VENTA 
+         * Datos como mesero,cocinero,mesa y observaciones de la orden
+        */
+        funcion = 2
+        $.post(VENTA_CTRLR,{funcion,id},(response)=>{
+            // console.log(response);
+            const encargados = JSON.parse(response);
+
+            encargados.forEach(encargado=>{
+                // console.log(encargado.observ);
+                $('#mesero').html(encargado.mesero);
+                $('#coc_lider').html(encargado.cocineroLider);
+                $('#mesa').html(encargado.mesa);
+                $('#observCli').html(encargado.observ);
+            })
+        });
+
+        funcion = 'ver';
+        // console.log('detalle vent'+id);
+
+        $('#codigo_venta').html(datos.id_venta);
+        $('#fecha').html(datos.fecha);
+        $('#cajero').html(datos.vendedor);
+        $('#total').html(datos.total);
+        $.post('../controllers/ventaProductoController.php',{funcion,id},(response)=>{
+            let registros = JSON.parse(response);
+            let template ="";
+            $('#registros').html(template);
+
+            registros.forEach(registro => {
+                template+=`
+                <tr>
+                    <td>${registro.cant}</td>
+                    <td>${registro.precio}</td>
+                    <td>${registro.producto}</td>
+                    <td>${registro.presentacion}</td>
+                    <td>${registro.tipo}</td>
+                    <td>${registro.subtotal}</td>
+                </tr>
+                `;
+                $('#registros').html(template);
+                
+            });
+            // console.log(response);   
+        })
+    });
 
     /* CODIGO DE GENERAR PDF */
     $('#tabla_venta tbody').on('click','.imprimir',function(){
@@ -159,59 +217,7 @@ $(document).ready(function () {
     }); //Fin eliminar
 
 
-    /* DETALLE DE LA VENTA */
-    /* seleccionar elid de esa fila para consultar sus valores */
-    $('#tabla_venta tbody').on('click','.ver',function(){
 
-        let datos = datatable.row($(this).parents()).data();
-        let id= datos.id_venta;
-        let mesero = "";
-        let cocineroLider = "";
-
-        /* consultar mesero y cocinero lider */
-        funcion = "consultarResponsables"
-        $.post('../controllers/ventaController.php',{funcion,id},(response)=>{
-            // console.log(response);
-            const encargados = JSON.parse(response);
-
-            encargados.forEach(encargado=>{
-                // console.log(encargado.observ);
-                $('#mesero').html(encargado.mesero);
-                $('#coc_lider').html(encargado.cocineroLider);
-                $('#observCli').html(encargado.observ);
-
-            })
-        });
-
-        funcion = 'ver';
-        console.log('detalle vent'+id);
-
-        $('#codigo_venta').html(datos.id_venta);
-        $('#fecha').html(datos.fecha);
-        $('#cajero').html(datos.vendedor);
-        $('#total').html(datos.total);
-        $.post('../controllers/ventaProductoController.php',{funcion,id},(response)=>{
-            let registros = JSON.parse(response);
-            let template ="";
-            $('#registros').html(template);
-
-            registros.forEach(registro => {
-                template+=`
-                <tr>
-                    <td>${registro.cant}</td>
-                    <td>${registro.precio}</td>
-                    <td>${registro.producto}</td>
-                    <td>${registro.presentacion}</td>
-                    <td>${registro.tipo}</td>
-                    <td>${registro.subtotal}</td>
-                </tr>
-                `;
-                $('#registros').html(template);
-                
-            });
-            // console.log(response);   
-        })
-    });
 });
 
 

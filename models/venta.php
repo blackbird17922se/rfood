@@ -211,9 +211,25 @@ class Venta{
 
     }
 
-    function consultarResponsables($idVenta){
-        $sql = "SELECT id_mesero, id_coc_lider, id_orden FROM venta
-        WHERE id_venta = :id_venta";
+    function consultarDatosOrden($idVenta){
+        $sql = 
+            "SELECT 
+                id_orden, 
+                mesa.nom AS nom_mesa, 
+                CONCAT(mesero.nom,' ',mesero.ape) AS nom_mesero,
+                CONCAT(cocinero.nom,' ',cocinero.ape) AS nom_cocinero,
+                pedido.observ
+            FROM venta
+            INNER JOIN mesa
+                ON mesa.id_mesa = venta.id_mesa
+            INNER JOIN usuario AS mesero
+                ON mesero.id_usu = venta.id_mesero
+            INNER JOIN usuario AS cocinero
+                ON cocinero.id_usu = venta.id_coc_lider
+            INNER JOIN pedido
+                ON pedido.id_pedido = venta.id_orden
+            WHERE id_venta = :id_venta
+        ";
     
         $query = $this->acceso->prepare($sql);
         $query->execute([':id_venta' => $idVenta]);
@@ -221,6 +237,7 @@ class Venta{
         return $this->objetos;
     }
 
+/* 
     function consultarMesero($id){
         $sql = "SELECT CONCAT(usuario.nom,' ',usuario.ape) AS mesero FROM usuario
         WHERE id_usu = :id";
@@ -240,7 +257,7 @@ class Venta{
         $this->objetos = $query->fetchall();
         return $this->objetos;
     }
-
+ */
     function consultarObservaciones($idOrden){
         $sql = "SELECT observ FROM pedido
         WHERE id_pedido = :idOrden";
