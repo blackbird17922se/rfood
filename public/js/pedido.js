@@ -53,8 +53,14 @@ $(document).ready(function(){
                                 </div>                           
                             </div>
                 
-                            <button class='terminado btn btn-sm btn-primary'>
-                                <i class='fas fa-plus-square mr-2'></i>Plato Terminado
+                            <button class='terminado btn btn-sm btn-success'>
+                                <i class='fas fa-plus-square mr-2'></i>Entregado
+                            </button>
+                            <button class='editar btn btn-sm btn-primary'>
+                                <i class='fas fa-plus-square mr-2'></i>Editar Pedido
+                            </button>
+                            <button class='lib_mesa btn btn-sm btn-warning'>
+                                <i class='fas fa-plus-square mr-2'></i>Liberar Mesa
                             </button>
                         </div>                        
                     </div>
@@ -68,7 +74,7 @@ $(document).ready(function(){
 
     /* AL HACER CLICK EN EL BOTON DE TERMINADO */
     $(document).on('click','.terminado',(e)=>{
-        funcion = 'terminado';
+        funcion = 16;
         console.log("teminado");
         const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
         const ID = $(ELEM).attr('idPedido');
@@ -79,6 +85,13 @@ $(document).ready(function(){
             listarPedidos()
         })
 
+    });
+
+    /* AL HACER CLICK EN EL BOTON DE EDITAR */
+    $(document).on('click','.editar',(e)=>{
+        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
+        const ID = $(ELEM).attr('idPedido');
+        window.location.href ='edicionOrden.php' + "?id=" + ID; 
     });
 
 

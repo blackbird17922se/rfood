@@ -64,33 +64,24 @@ switch ($_POST['funcion']) {
         /* pedidos con entrega pendiente */
         $pedido->listarPedidosPendEntrega();
         $json=array();
-        $jsonC=array();
         $jsonP=array();
-        
+
         foreach($pedido->objetos as $objeto){
             $jsonP=[];
-            $jsonC=[];
-            $idPedido = $objeto->id_pedido;
 
-            $pedido->listarProdPedido($idPedido);
+            $pedido->listarProdPedido($objeto->id_pedido);
             foreach($pedido->objetos as $objP){
-
-                /* Consultar nombre platillo */
-                $pedido->ConsultarNomProducts($objP->id_det_prod);
-                foreach($pedido->objetos as $objn){
-
-                    $jsonP[]=array(
-                        $objn->nom,
-                        $objn->presnom,
-                        $objP->det_cant,
-                    );
-                }
+                
+                $jsonP[]=array(
+                    $objP->nombprod,
+                    $objP->presnom,
+                    $objP->det_cant,
+                );
             }
 
             $json[]=array(
                 'idPedido' => $objeto->id_pedido,
                 'nomMesa'=>$objeto->nom_mesa,
-                'observ'=>$objeto->observ,
                 'prods'=> $jsonP
             );
         }
@@ -103,29 +94,19 @@ switch ($_POST['funcion']) {
     case 5:
         $pedido->listarPedTerminados();
         $json=array();
-        $jsonC=array();
         $jsonP=array();
         
         foreach($pedido->objetos as $objeto){
             $jsonP=[];
-            $jsonC=[];
-            $idPedido = $objeto->id_pedido;
 
-            $pedido->listarProdPedido($idPedido);
+            $pedido->listarProdPedido($objeto->id_pedido);
             foreach($pedido->objetos as $objP){
-
-                /* Consultar nombre platillo */
-                $pedido->ConsultarNomProducts($objP->id_det_prod);
-                foreach($pedido->objetos as $objn){
-
-                    $jsonP[]=array(
-                        $objn->nom,
-                        $objn->presnom,
-                        $objP->det_cant,
-                        // 'idProd' => $objP->id_det_prod,
-                        // 'cant'=>$objP->det_cant,
-                    );
-                }
+                
+                $jsonP[]=array(
+                    $objP->nom,
+                    $objP->det_cant,
+                    $objP->presnom,
+                );
             }
 
             $json[]=array(
@@ -168,8 +149,72 @@ switch ($_POST['funcion']) {
     case 11:
         $pedido->desBloquearMesa($_POST['mesa']);
     break;
+
+    /* Cargar los items de esa orden (Util en editar pedido) */
+    case 12:
+        $json=array();
+        $pedido->listarProdPedido($_POST['ID_ORDEN']);
+        foreach($pedido->objetos as $objeto){
+            
+            $json[]=array(
+                'idprod'=>$objeto->id_det_prod,
+                'nombprod'=>$objeto->nombprod,
+                'cantidad'=>$objeto->det_cant,
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    break;
+
+    /* Editar la cantidad del Item (Util en editar pedido)*/
+    case 13:
+        $pedido->editarCantItem($_POST['ID_ORDEN'],$_POST['idItem'],$_POST['itemCant']);
+    break;
+
+
+    // agregar los nuevos Items a la orden
+    case 14:
+
+        $idOrden   = $_POST['ID_ORDEN'];
+        $newItems = json_decode($_POST['json']);
+        $response     = false;
+        $nomIngredGl  = null;
+        $flag         = false;
+        $insert       = false;
+
+        foreach ($newItems as $newItem) {
+            $idItem  = $newItem->id_prod;
+
+            if($pedido->verificarItemRepetido($newItem->id_prod,$idOrden)){
+                $response    = true;
+            }else{
+                $pedido->agregarNewItem($idOrden, $newItem->id_prod, $newItem->cantidad);
+                echo 'add';
+            }
+        }
+    break;
+
+
+    // Borrar Item de la Orden
+    case 15:
+        $pedido->borrarItemOrden($_POST['ID']);
+    break;
+
+
+    /* BUILD 3.0  
+        Donde se solicita que pase de la seccion de pedidos a caja
+    */
+    case 16:
+        session_start();
+        $id_coc_lider = $_SESSION['usuario'];
+        $idOrden = $_POST['ID'];
+        
+        $pedido->cambiarEstTerminado($idOrden, $id_coc_lider);
+        $pedido->cambiarEstEntregado($idOrden);
+
+    break;
     
     default:
         # code...
-        break;
+    break;
 }

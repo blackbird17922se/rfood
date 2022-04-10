@@ -2,7 +2,7 @@
 session_start();
 if(!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 5)){
     include_once "layouts/header.php";
-    include_once "layouts/nav.php";kw
+    include_once "layouts/nav.php";
 ?>
 
 <!-- Modal Editar Ingredientes -->

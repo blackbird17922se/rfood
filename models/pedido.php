@@ -84,7 +84,22 @@ class Pedido
 
     function listarProdPedido($idPedido)
     {
-        $sql = "SELECT * FROM det_pedido WHERE id_det_pedido = :idPedido";
+        $sql = 
+            "SELECT
+                id_det,
+                det_cant,
+                id_det_prod,
+                id_det_pedido,
+                producto.nombre AS nombprod,
+                producto.prod_pres,
+                present.nom AS presnom
+            FROM det_pedido 
+            INNER JOIN producto
+                ON producto.id_prod = det_pedido.id_det_prod
+            INNER JOIN present
+                ON present.id_present = producto.prod_pres
+            WHERE id_det_pedido = :idPedido
+        ";
         $query = $this->acceso->prepare($sql);
         $query->execute([
             ':idPedido' => $idPedido
@@ -94,7 +109,7 @@ class Pedido
     }
 
     /* Consulytar el nombre del producto */
-    function ConsultarNomProducts($idProd)
+/*     function ConsultarNomProducts($idProd)
     {
 
         $sql = "SELECT producto.nombre as nom, present.nom AS presnom, prod_pres 
@@ -105,7 +120,7 @@ class Pedido
         $query->execute([':idProd' => $idProd]);
         $this->objetos = $query->fetchall();
         return $this->objetos;
-    }
+    } */
 
     function cambiarEstTerminado($idOrden, $id_coc_lider)
     {
@@ -153,5 +168,85 @@ class Pedido
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':id_mesa' => $id_mesa));
     }
+
+    public function editarCantItem($idOrden,$idItem,$itemCant){
+        $sql = 
+            "UPDATE det_pedido 
+            SET det_cant = :itemCant
+            WHERE id_det_pedido = :idOrden
+                AND id_det_prod = :idItem
+        ";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(
+            ':idOrden' => $idOrden,
+            ':itemCant' => $itemCant,
+            ':idItem' => $idItem
+        ));
+        echo 'edit';
+
+    }
+
+    //Verificar que ese item ya no este asignado a esa orden
+    function verificarItemRepetido($idItem,$idOrden){
+        $sql = "SELECT id_det_prod
+            FROM det_pedido 
+            WHERE id_det_pedido = :idOrden
+            AND id_det_prod = :idItem
+        ";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(
+            'idItem'   => $idItem,
+            'idOrden' => $idOrden
+        ));
+        $this->objetos = $query->fetchall();
+
+        return !empty($this->objetos) ? true : false;
+    }
+
+
+    /* agregarNewItem($idOrden, $newItem->id_prod, $newItem->nombre, $newItem->cantidad); */
+    function agregarNewItem($idOrden, $idItem, $cantidad){
+
+        /* Agregar a la tabla ingredintes */
+        $sql = 
+            "INSERT INTO det_pedido(
+                id_det_pedido,
+                id_det_prod, 
+                det_cant
+            )VALUES(
+                :idOrden, 
+                :idItem,
+                :cantidad
+            )             
+        ";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(
+            ':idOrden' => $idOrden,
+            ':idItem'    => $idItem,
+            ':cantidad'    => $cantidad,
+        ));
+    }
+
+    function borrarItemOrden($idItem){
+
+        $sql = 
+        "DELETE FROM det_pedido 
+            WHERE id_det_prod = :idItem
+        ";
+
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':idItem' => $idItem));
+
+        if(!empty($query->execute(array(':idItem' => $idItem)))){
+            echo 'borrado';
+        }else{
+            echo 'noborrado';
+        }
+
+    }
+
+/*     public function cargarItemsPedido($idPedido){
+
+    } */
     
 }

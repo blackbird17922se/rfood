@@ -22,6 +22,7 @@ $(document).ready(function(){
 
     /* Botones */
     $(document).on('click','.salir',(e)=>{
+        eliminarLS();
         window.location.href ='itemDetalle.php' + "?id=" + ITEM_ID; 
     });
 
