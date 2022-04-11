@@ -90,6 +90,36 @@ switch ($_POST['funcion']) {
     break;
 
 
+    /* read mesa y pedidos */
+    case 3:
+        $pedido->listarMesas();
+        $json=array();
+        $jsonP=array();
+
+        foreach($pedido->objetos as $objeto){
+            $jsonP=[];
+
+            $pedido->listarPedidoMesa($objeto->id_mesa);
+            foreach($pedido->objetos as $objP){
+                
+                $jsonP[]=array(
+                    $objP->nombprod,
+                    $objP->presnom,
+                    $objP->det_cant,
+                );
+            }
+
+            $json[]=array(
+                'id_mesa'=>$objeto->id_mesa,
+                'nom'=>$objeto->nom,
+                'prods'=> $jsonP
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    break;
+
+
     /* listarPedTerminados pedidos con entrega pendiente */
     case 5:
         $pedido->listarPedTerminados();
@@ -153,7 +183,7 @@ switch ($_POST['funcion']) {
     /* Cargar los items de esa orden (Util en editar pedido) */
     case 12:
         $json=array();
-        $pedido->listarProdPedido($_POST['ID_ORDEN']);
+        $pedido->listarProdPedido($_POST['ID_MESA']);
         foreach($pedido->objetos as $objeto){
             
             $json[]=array(
@@ -213,8 +243,38 @@ switch ($_POST['funcion']) {
         $pedido->cambiarEstEntregado($idOrden);
 
     break;
-    
+
+
+    /* Listar pedido de esa mesa */
+    case 17:
+        /* pedidos con entrega pendiente */
+        $pedido->listarPedidoMesa($_POST['idMesa']);
+        $json=array();
+        $jsonP=array();
+
+        foreach($pedido->objetos as $objeto){
+            $jsonP=[];
+
+            $pedido->listarProdPedido($objeto->id_pedido);
+            foreach($pedido->objetos as $objP){
+                
+                $jsonP[]=array(
+                    $objP->nombprod,
+                    $objP->presnom,
+                    $objP->det_cant,
+                );
+            }
+
+            $json[]=array(
+                'idPedido' => $objeto->id_pedido,
+                'nomMesa'=>$objeto->nom_mesa,
+                'prods'=> $jsonP
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    break;
+
     default:
-        # code...
     break;
 }

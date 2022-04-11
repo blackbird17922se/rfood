@@ -245,6 +245,91 @@ class Pedido
 
     }
 
+
+    function listarPedidoMesa($idMesa)
+    {
+        $sql = 
+            "SELECT 
+            det_pedido.id_det,
+            det_pedido.det_cant,
+            det_pedido.id_det_prod,
+            det_pedido.id_det_pedido,
+            producto.nombre AS nombprod,
+            producto.prod_pres,
+            present.nom AS presnom,
+
+            pedido.id_pedido, 
+            pedido.id_mesa, 
+            pedido.observ,
+            mesa.nom AS nom_mesa
+        FROM pedido
+        INNER JOIN mesa 
+            ON mesa.id_mesa = pedido.id_mesa
+        INNER JOIN det_pedido
+            ON det_pedido.id_det_pedido = pedido.id_pedido
+            
+        INNER JOIN producto
+            ON producto.id_prod = det_pedido.id_det_prod
+            
+       INNER JOIN present
+            ON present.id_present = producto.prod_pres
+        
+        WHERE entregado = 0 
+        AND terminado = 0
+        AND pagado = 0
+        AND mesa.id_mesa = :idMesa
+        ";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':idMesa' => $idMesa));
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
+
+
+    function listarProdPedidoMesa($idPedido)
+    {
+        $sql = 
+            "SELECT
+                id_det,
+                det_cant,
+                id_det_prod,
+                id_det_pedido,
+                producto.nombre AS nombprod,
+                producto.prod_pres,
+                present.nom AS presnom
+            FROM det_pedido 
+            INNER JOIN producto
+                ON producto.id_prod = det_pedido.id_det_prod
+            INNER JOIN present
+                ON present.id_present = producto.prod_pres
+            WHERE id_det_pedido = :idPedido
+        ";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([
+            ':idPedido' => $idPedido
+        ]);
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
+
+
+    function listarMesas(){
+        if(!empty($_POST['consulta'])){
+            $consulta = $_POST['consulta'];
+            $sql="SELECT * FROM mesa WHERE nom LIKE :consulta";
+            $query = $this->acceso->prepare($sql);
+            $query->execute(array(':consulta'=>"%$consulta%"));
+            $this->objetos=$query->fetchall();
+            return $this->objetos;
+        }else{
+            $sql = "SELECT * FROM mesa WHERE nom NOT LIKE '' ORDER BY nom";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $this->objetos=$query->fetchall();
+            return $this->objetos;
+        }
+    }
+
 /*     public function cargarItemsPedido($idPedido){
 
     } */

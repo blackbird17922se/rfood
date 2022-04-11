@@ -7,7 +7,6 @@ $(document).ready(function(){
 
     var funcion        = 0
     var idCat          = "";
-    const ID_MESA   = $('#pedidoId').val();
     const ITEM_CTRLR   = '../controllers/itemController.php';
     const MESA_CTRLR   = '../controllers/mesaController.php';
     const TIPO_CTRLR   = '../controllers/tipoController.php';
@@ -21,12 +20,6 @@ $(document).ready(function(){
     });
 
     $('#cat-carrito').show()
-
-    /* Botones */
-    $(document).on('click','.salir',(e)=>{
-        eliminarLS();
-        window.location.href ='ordenMesas.php'; 
-    });
 
     /* Le carga al listado superor una lista de categorias para que dependiendo
     la categoria que escoja, se muestraen los productos de la misma */ 
@@ -193,7 +186,6 @@ $(document).ready(function(){
     }
 
     function procesarPedido(){
-        console.log('pp');
         let productos;
         productos = recuperarLS();
         if(productos.length === 0){
@@ -204,7 +196,7 @@ $(document).ready(function(){
             })
         }else{
             funcion = 1;
-            let id_mesa = ID_MESA;
+            let id_mesa = $('#mesa').val();
             let observ = $('#observ').val();
             let entregado = 0;
             let terminado = 0;
@@ -220,6 +212,32 @@ $(document).ready(function(){
 
             }));
             datatable.ajax.reload();
+            
+
+
+            
+            // productos = JSON.parse(localStorage.getItem('productos'));
+            // productos.forEach(prod => {
+            //     console.log(prod.id_prod);
+
+            //     let id_mesa = $('#mesa').val();
+            //     let id_prod = prod.id_prod;
+            //     let entregado = 0;
+            //     let terminado = 0;
+
+            //     $.post('../controllers/pedidoController.php',{funcion,id_mesa,id_prod,entregado,terminado},(response=>{
+            //         console.log(response);
+            //         $('#tbd-lista').empty();
+            //         eliminarLS();
+            //         contarProductos()
+            //     }));
+
+            // })
+
+
+
+
+            // location.href = '../views/adm_compra.php';
         }
     }
 
@@ -360,19 +378,28 @@ $(document).ready(function(){
 
     /* Click en procesar pedido */
     $(document).on('click','#procesar-orden',(e)=>{
-        procesarPedido();
+        let mesa = $('#mesa').val();
+        if(mesa == 0){
+            Swal.fire({
+                icon: 'warning',
+                title: 'Atención',
+                text: 'Debe seleccionar una mesa',
+            })
+        }else{
+            procesarPedido();
             
-        /* Bloquear la mesa y refrescar lista */
-/*         if(mesa = -1){
-            funcion = 10;
-            $.post(PEDIDO_CTRLR,{funcion,mesa},(() =>{
-                listarMesas();
-            }));
-        } */
-        eliminarLS();
-        contarProductos();
-        $('#tbd-lista').empty();
-        $(".select2").val('').trigger('change');
+            /* Bloquear la mesa y refrescar lista */
+            if(mesa = -1){
+                funcion = 10;
+                $.post(PEDIDO_CTRLR,{funcion,mesa},(() =>{
+                    listarMesas();
+                }));
+            }
+            eliminarLS();
+            contarProductos();
+            $('#tbd-lista').empty();
+            $(".select2").val('').trigger('change');
+        }
     
     })
 

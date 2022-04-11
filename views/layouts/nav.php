@@ -22,12 +22,10 @@
         </a>
         <span id="contador" class="contador badge badge-danger"></span>
         <div class="dropdown-menu mdl-mdrn dropdown-menu-orden" aria-labelledby="navbarDropdownMenuLink">
-          <table class="orden table table-over text-nowrap p-0">
+          <table class="carro table table-over text-nowrap p-0">
             <thead class="table-success">
               <tr>
                 <th>Nombre</th>
-                <th>Presentación</th>
-                <th>Precio</th>
                 <th>Cantidad</th>
                 <th>Eliminar</th>
               </tr>

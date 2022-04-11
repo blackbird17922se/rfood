@@ -3,7 +3,7 @@ $(document).ready(function(){
     var funcion
     var idCat="";
     var datatable="";
-    const ID_ORDEN   = $('#pedidoId').val();
+    const ID_MESA   = $('#pedidoId').val();
     const URL_ITEM_CONTROL   = '../controllers/itemController.php';
     const URL_INGRED_CONTROL = '../controllers/ingredController.php';
     const URL_TIPOINGRED_CONTROL ='../controllers/invTipoController.php';
@@ -13,8 +13,10 @@ $(document).ready(function(){
 
     var edit = false;   // bandera
 
-    cargarItems();
+    // cargarItems();
     listarCategs();
+
+    $('#cat-carrito').show()
 
     $(".select2").select2({
         placeholder: "Seleccione una opcion",
@@ -45,11 +47,11 @@ $(document).ready(function(){
 
 
 
-        /* Botones */
-        $(document).on('click','.salir',(e)=>{
-            eliminarLS();
-            window.location.href ='pedido.php'; 
-        });
+    /* Botones */
+    $(document).on('click','.salir',(e)=>{
+        eliminarLS();
+        window.location.href ='pedido.php'; 
+    });
 
     /* Formukario crear editar */
     $('#formEditItem').submit(e=>{
@@ -62,7 +64,7 @@ $(document).ready(function(){
             funcion = 13;
         }
 
-        $.post(PEDIDO_CTRLR,{ID_ORDEN,idItem,itemCant,funcion},(response)=>{
+        $.post(PEDIDO_CTRLR,{ID_MESA,idItem,itemCant,funcion},(response)=>{
             console.log(response)
             if(response=='add'){
                 $('#add-tipo').hide('slow');
@@ -94,7 +96,7 @@ $(document).ready(function(){
     function cargarItems(){
         funcion = 12;
         // ajax
-        $.post(PEDIDO_CTRLR,{ID_ORDEN,funcion},(response)=>{
+        $.post(PEDIDO_CTRLR,{ID_MESA,funcion},(response)=>{
             console.log(response);
             const ITEMSORDEN = JSON.parse(response);
             let template = '';
@@ -231,12 +233,12 @@ $(document).ready(function(){
         }else{
             template=`
             <tr prodId="${PRODUCTO.id_prod}">
-                <td>${PRODUCTO.nombre}</td>
+                <td>${PRODUCTO.nombre} ${PRODUCTO.present}present</td>
                 <td>${PRODUCTO.cantidad}</td>
                 <td><button class="btn btn-danger borrar-producto" ><i class="fas fa-times-circle"></i></button></td>
             </tr>
             `;
-            $('#tb-nIngr-Item').append(template);
+            $('#tbd-lista').append(template);
             agregarLS(PRODUCTO);
             // contarProductos();
 
@@ -276,7 +278,7 @@ $(document).ready(function(){
                     </td>
                 </tr>
                 `;
-                $('#tb-nIngr-Item').append(template);               
+                $('#tbd-lista').append(template);               
             });
 
         }
@@ -340,7 +342,7 @@ $(document).ready(function(){
 
         json = JSON.stringify(items);
         // console.log(json);
-        $.post(PEDIDO_CTRLR,{funcion, ID_ORDEN, json},(response=>{
+        $.post(PEDIDO_CTRLR,{funcion, ID_MESA, json},(response=>{
             // console.log("RESPONDE: "+response);
             if(response != 'add'){
                 Swal.fire({

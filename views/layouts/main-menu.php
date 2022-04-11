@@ -41,6 +41,15 @@
             </p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="ordenMesas.php" class="nav-link">
+            <!-- <i class="nav-icon fas fa-cash-register"></i> -->
+            <img src="../public/icons/stack_32.png" alt="Pedidos por recoger">
+            <p>
+              Orden mesas
+            </p>
+          </a>
+        </li>
 
         <li class="nav-item">
           <a href="pedidoterm.php" class="nav-link">

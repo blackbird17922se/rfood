@@ -23,5 +23,6 @@
 <script src="../public/js/select2.js"></script>
 <script src="../public/js/cierre.js"></script>
 
+
 </body>
 </html>

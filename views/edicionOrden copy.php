@@ -111,6 +111,84 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2)) {
                         </div>
                     </div>
                 </div>
+
+
+
+                <!-- Item actuales -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-mdrn">
+                            <h2>Items actuales</h2>
+
+                            <div class="card-body">
+                                <div class="tab-content">
+
+                                    <!-- panel categoria -->
+                                    <div class="tab-pane active" id="categ">
+                                        <div class="card card-success card-mdrn">
+
+                                            <div class="card-body p-0 table-responsive">
+                                                <table class="table table-hover text-nowrap">
+                                                    <thead class="table-success">
+                                                        <tr>
+                                                            <th>Item</th>
+                                                            <th>Cant.</th>
+                                                            <th>Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="table-active" id="tb-itemOrden"></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <!-- NUEVOS ITEMS -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-mdrn">
+                            <h2>Nuevos Items Asignados</h2>
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <!-- ENTRADAS -->
+                                    <div class="tab-pane active" id="entradas">
+                                        <div class="card card-success card-mdrn">
+                                            <div class="card-body p-0 table-responsive">
+                                                <table class="display table table-hover text-nowrap" style="width:100%">
+                                                    <thead class="table-success">
+                                                        <tr>
+                                                            <th>Item</th>
+                                                            <th>Cant.</th>
+                                                            <th>Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="table-active" id="tb-nIngr-Item">
+                                                    </tbody>
+                                                    
+                                                </table>
+                                                <a href="#" id="vaciar-carrito-ing" class="btn btn-danger btn-small">Vaciar Tabla</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                            <button id="procesarNewItems" class="btn btn-success">Guardar Ítem</button>
+                            <button class="btn btn-danger salir">Salir</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- imp agregar item fin -->
             </div>
 
         </section>
@@ -126,4 +204,4 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2)) {
 }
 ?>
 <script src="../public/js/datatables.js"></script>
-<script src="../public/js/orden.js"></script>
+<script src="../public/js/edicionOrden.js"></script>

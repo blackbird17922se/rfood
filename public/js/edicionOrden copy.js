@@ -1,34 +1,26 @@
-/* 
- * ORDEN
- * Controla las ordenes de Mesero
-*/
-
 $(document).ready(function(){
-
-    var funcion        = 0
-    var idCat          = "";
-    const ID_MESA   = $('#pedidoId').val();
-    const ITEM_CTRLR   = '../controllers/itemController.php';
-    const MESA_CTRLR   = '../controllers/mesaController.php';
-    const TIPO_CTRLR   = '../controllers/tipoController.php';
-    const PEDIDO_CTRLR = '../controllers/pedidoController.php';
-
-    listarCategs();
-    listarMesas();
     
+    var funcion
+    var idCat="";
+    var datatable="";
+    const ID_ORDEN   = $('#pedidoId').val();
+    const URL_ITEM_CONTROL   = '../controllers/itemController.php';
+    const URL_INGRED_CONTROL = '../controllers/ingredController.php';
+    const URL_TIPOINGRED_CONTROL ='../controllers/invTipoController.php';
+    const PEDIDO_CTRLR    = '../controllers/pedidoController.php';
+    const TIPO_CTRLR   = '../controllers/tipoController.php';
+    const ITEM_CTRLR   = '../controllers/itemController.php';
+
+    var edit = false;   // bandera
+
+    cargarItems();
+    listarCategs();
+
     $(".select2").select2({
         placeholder: "Seleccione una opcion",
     });
 
-    $('#cat-carrito').show()
-
-    /* Botones */
-    $(document).on('click','.salir',(e)=>{
-        eliminarLS();
-        window.location.href ='ordenMesas.php'; 
-    });
-
-    /* Le carga al listado superor una lista de categorias para que dependiendo
+        /* Le carga al listado superor una lista de categorias para que dependiendo
     la categoria que escoja, se muestraen los productos de la misma */ 
     function listarCategs(){
         funcion = "listar_tipos";
@@ -47,118 +39,96 @@ $(document).ready(function(){
         })
     }
 
-
-    /* 
-        Lista las mesas disponibles, o sea las que no tengan pedidos realizados,
-        pendientes o por cancelar
-    */
-    function listarMesas(){
-        console.log('dentro de listarMesas');
-        funcion = 5;
-        $.post(MESA_CTRLR,{funcion},(response)=>{
-            console.log('mesas: '+response);
-            const MESAS = JSON.parse(response);
-            let template = `
-            <option value=""></option>
-            <option value="-1">One</option>
-            `;
-            MESAS.forEach(mesa=>{
-                template+=`
-                
-                
-                <option value="${mesa.id_mesa}">${mesa.nom_mesa}</option>
-                `;
-            });
-            /* id del campo que contiene el listado */
-            $('#mesa').html(template);
-        })
-    }
-
     var datatable="";
-
-    mostrarProducts()
-    contarProductos();
+    mostrarProducts();
     recuperarLSRecarga()
 
 
-    /* OJO---FUNCIONES DEL LOCAL STOG */
 
-    function recuperarLS(){
-        let productos;
-        if(localStorage.getItem('productos')===null){
-            productos=[];
+        /* Botones */
+        $(document).on('click','.salir',(e)=>{
+            eliminarLS();
+            window.location.href ='pedido.php'; 
+        });
+
+    /* Formukario crear editar */
+    $('#formEditItem').submit(e=>{
+        let itemCant = $('#itemCant').val();
+        let idItem = $('#idItem').val();
+
+        if(edit==false){
+            funcion="crear";
         }else{
-            productos = JSON.parse(localStorage.getItem('productos'));
-
+            funcion = 13;
         }
-        return productos;
-    }
 
-    /* Recupera el localstarage al recargar la pagina */
-    function recuperarLSRecarga(){
-        let productos;
-        if(localStorage.getItem('productos')===null){
-            productos=[];
-        }else{
-            let template="";
-            productos = JSON.parse(localStorage.getItem('productos'));
-            productos.forEach(prod => {
-                template=`
-                <tr prodId="${prod.id_prod}">
-                    <td>${prod.nombre}</td>
-                    <td>${prod.present}</td>
-                    <td>${prod.precio}</td>
-                    <td>${prod.cantidad}</td>
-                    <td class="td_btn_del">
-                        <button class="btn btn-danger btn-block borrar-producto">
-                            <i class="fas fa-times-circle"></i>
+        $.post(PEDIDO_CTRLR,{ID_ORDEN,idItem,itemCant,funcion},(response)=>{
+            console.log(response)
+            if(response=='add'){
+                $('#add-tipo').hide('slow');
+                $('#add-tipo').show(1000);
+                $('#add-tipo').hide(2000);
+                $('#formEditItem').trigger('reset');
+                cargarItems();
+            }
+            if(response=='noadd'){
+                $('#noadd-tipo').hide('slow');
+                $('#noadd-tipo').show(1000);
+                $('#noadd-tipo').hide(2000);
+                $('#formEditItem').trigger('reset');
+            }
+            if(response=='edit'){
+                $('#edit-tipo').hide('slow');
+                $('#edit-tipo').show(1000);
+                $('#edit-tipo').hide(2000);
+                $('#formEditItem').trigger('reset');
+                cargarItems();
+            }
+            edit=false;
+        });
+        e.preventDefault();
+    });
+
+
+    /* Cargar Items actuales en la orden */
+    function cargarItems(){
+        funcion = 12;
+        // ajax
+        $.post(PEDIDO_CTRLR,{ID_ORDEN,funcion},(response)=>{
+            console.log(response);
+            const ITEMSORDEN = JSON.parse(response);
+            let template = '';
+            ITEMSORDEN.forEach(itemOrden=>{
+                template+=`
+                <tr idItem="${itemOrden.idprod}" itemCant="${itemOrden.cantidad}" itemNomb="${itemOrden.nombprod}">
+                    <td>${itemOrden.nombprod}</td>
+                    <td>${itemOrden.cantidad}</td>
+                    <td>
+                        <button class="editar btn btn-success" title="editar" type="button" data-toggle="modal" data-target="#editItem">
+                            <i class="fas fa-pencil-alt"></i>
+                        </button>
+    
+                        <button class="borrarItem btn btn-danger" title="borrar">
+                            <i class="fas fa-trash"></i>
                         </button>
                     </td>
                 </tr>
                 `;
-                $('#tbd-lista').append(template);
-                
             });
-
-        }
-        return productos;
+            $('#tb-itemOrden').html(template);
+        })
     }
 
-    /* AGREGAR Producto al LOCAL STORAGE */
-    function agregarLS(producto){
-        let productos;
-        productos = recuperarLS();
-        productos.push(producto);
-        localStorage.setItem('productos',JSON.stringify(productos));
-    }
-
-    function eliminarProdLS(ID){
-        let productos;
-        productos = recuperarLS();
-        productos.forEach(function(producto,indice){
-            if(producto.id_prod === ID){
-                productos.splice(indice,1);
-            }
-        });
-        localStorage.setItem('productos',JSON.stringify(productos));
-    }
-
-    function eliminarLS(){
-        localStorage.clear();
-    }
-
-    /* Agrega el numero de productos que lleva el carrito */
-    function contarProductos(){
-        let productos;
-        let contador = 0;
-        productos = recuperarLS();
-        productos.forEach(producto=>{
-            contador++;
-        });
-        // return contador;
-        $('#contador').html(contador);
-
-    }
+    $(document).on('click','.editar',(e)=>{
+        // console.log('EEDIT');
+        const ELEM = $(this)[0].activeElement.parentElement.parentElement;
+        const ID_ITEM = $(ELEM).attr('idItem');
+        const CANTIDAD = $(ELEM).attr('itemCant');
+        // console.log(ID_ITEM+''+CANTIDAD);
+        $('#idItem').val(ID_ITEM);
+        $('#itemCant').val(CANTIDAD);
+        edit=true;
+    })
 
 
     /* Carga los productos en la tabla segun la categoria indicada */
@@ -189,51 +159,10 @@ $(document).ready(function(){
         });
 
         datatable.columns.adjust().draw();
-       
+        
     }
 
-    function procesarPedido(){
-        console.log('pp');
-        let productos;
-        productos = recuperarLS();
-        if(productos.length === 0){
-            Swal.fire({
-                icon: 'error',
-                title: 'Atención',
-                text: 'Debes agregar algún producto al pedido',
-            })
-        }else{
-            funcion = 1;
-            let id_mesa = ID_MESA;
-            let observ = $('#observ').val();
-            let entregado = 0;
-            let terminado = 0;
-            let pagado    = 0;
-
-        // let productos = recuperarLS();
-        /* nviar ese producto al controlador */
-            let json = JSON.stringify(productos);
-            // console.log(json);
-            $.post(PEDIDO_CTRLR,{funcion,id_mesa,json,observ,entregado,terminado,pagado},(response=>{
-                console.log(response);
-                console.log(`val observ: ${observ}`);
-
-            }));
-            datatable.ajax.reload();
-        }
-    }
-
-    
-    // listarProdCons();
-    // function listarProdCons(){
-    //     funcion = "listarProducts";
-    //     $.post('../controllers/ordenController.php',{funcion, idCat},(response)=>{
-    //         console.log(response);
-   
-    //     })
-    // }
-
-
+    /* Controla la tabla de items al cambiar el select de tipo producto (Item) */
     $( "#prod_tipo" ).change(function() {  
         datatable.destroy();
         idCat = $('#prod_tipo').val();
@@ -250,20 +179,9 @@ $(document).ready(function(){
         input[0][isNegative ? 'stepDown' : 'stepUp']()
         }
     })
-    // $('.btn-plus, .btn-minus').on('click', function(e) {
-    //     const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
-    //     const input = $(e.target).closest('.input-group').find('input');
-    //     if (input.is('input')) {
-    //     input[0][isNegative ? 'stepDown' : 'stepUp']()
-    //     }
-    // }) 
 
-
-
-    /* CARRITO DE COMPRAS AL HACER CLICK EN EL BOTON DE CADA PRODUCTO "AGREGAR AL CARRITO"*/
 
     $('#tabla_products tbody').off('click','.agregar-carrito').on('click','.agregar-carrito',function(){
-        //$('.agregar-carrito').addClass('.vettttttttt');
 
         let datos = datatable.row($(this).parents()).data();
 
@@ -272,17 +190,12 @@ $(document).ready(function(){
         const PRESENT = datos.present;
         const PRECIO  = datos.precio;
         let CANT      = $('#'+ID).val();
-
         var btn_item = 'btn-item-'+datos.btn_item
         
-
         console.log(btn_item);
 
-  
-
         // const CATEG = datos.categ;
-
-        // console.log("id:"+ID+" nom:"+NOMB+" pre:"+PRECIO+" cant:"+CANT);
+        console.log("id:"+ID+" nom:"+NOMB+" pre:"+PRECIO+" cant:"+CANT);
 
         const PRODUCTO = {
             id_prod  : ID,
@@ -319,21 +232,79 @@ $(document).ready(function(){
             template=`
             <tr prodId="${PRODUCTO.id_prod}">
                 <td>${PRODUCTO.nombre}</td>
-                <td>${PRODUCTO.present}</td>
-                <td>${PRODUCTO.precio}</td>
                 <td>${PRODUCTO.cantidad}</td>
                 <td><button class="btn btn-danger borrar-producto" ><i class="fas fa-times-circle"></i></button></td>
             </tr>
             `;
-            $('#tbd-lista').append(template);
+            $('#tb-nIngr-Item').append(template);
             agregarLS(PRODUCTO);
-            contarProductos();
+            // contarProductos();
 
             //Al agregar el item, desabilitar el boton de agregar
             $("#btn-item-"+datos.btn_item).prop('disabled', true);
         }   
     });
 
+
+    function recuperarLS(){
+        let productos;
+        if(localStorage.getItem('LDEditItems')===null){
+            productos=[];
+        }else{
+            productos = JSON.parse(localStorage.getItem('LDEditItems'));
+        }
+        return productos;
+    }
+
+    /* Recupera el localstarage al recargar la pagina */
+    function recuperarLSRecarga(){
+        let productos;
+        if(localStorage.getItem('LDEditItems')===null){
+            productos=[];
+        }else{
+            let template="";
+            productos = JSON.parse(localStorage.getItem('LDEditItems'));
+            productos.forEach(prod => {
+                template=`
+                <tr prodId="${prod.id_prod}">
+                    <td>${prod.nombre}</td>
+                    <td>${prod.cantidad}</td>
+                    <td class="td_btn_del">
+                        <button class="btn btn-danger btn-block borrar-producto">
+                            <i class="fas fa-times-circle"></i>
+                        </button>
+                    </td>
+                </tr>
+                `;
+                $('#tb-nIngr-Item').append(template);               
+            });
+
+        }
+        return productos;
+    }
+
+    /* AGREGAR Producto al LOCAL STORAGE */
+    function agregarLS(producto){
+        let productos;
+        productos = recuperarLS();
+        productos.push(producto);
+        localStorage.setItem('LDEditItems',JSON.stringify(productos));
+    }
+
+    function eliminarProdLS(ID){
+        let productos;
+        productos = recuperarLS();
+        productos.forEach(function(producto,indice){
+            if(producto.id_prod === ID){
+                productos.splice(indice,1);
+            }
+        });
+        localStorage.setItem('LDEditItems',JSON.stringify(productos));
+    }
+
+    function eliminarLS(){
+        localStorage.clear();
+    }
 
     /* Borrar product de car */
     $(document).on('click','.borrar-producto',(e)=>{
@@ -343,41 +314,106 @@ $(document).ready(function(){
         ELEM.remove();
         eliminarProdLS(ID);
         $("#btn-item-"+ID).prop('disabled', false);
-        contarProductos();
+        // contarProductos();
         // calcularTotal()
     })
 
-    /* VACIAR EL DESPLEGABLE DEL PEDIDO ACTUAL */
-    $(document).on('click','#vaciar-pedido',(e)=>{
+    /* VACIAR tabla */
+    $(document).on('click','#vaciar-carrito-ing',(e)=>{
         /* borra todos los elementos del tbody */
-        $('#tbd-lista').empty();
+        $('#tb-nIngr-Item').empty();
         eliminarLS();
-        contarProductos();
-        datatable.ajax.reload();
-        $("#prod_tipo").val('').trigger('change');
+        
+        // calcularTotal()
     });
 
 
-    /* Click en procesar pedido */
-    $(document).on('click','#procesar-orden',(e)=>{
-        procesarPedido();
-            
-        /* Bloquear la mesa y refrescar lista */
-/*         if(mesa = -1){
-            funcion = 10;
-            $.post(PEDIDO_CTRLR,{funcion,mesa},(() =>{
-                listarMesas();
-            }));
-        } */
-        eliminarLS();
-        contarProductos();
-        $('#tbd-lista').empty();
-        $(".select2").val('').trigger('change');
-    
+    // Al hacer clic en Guardar cambios de los nuevos ingredientes de item
+    $(document).on('click','#procesarNewItems',(e)=>{
+
+        let items    = [];
+        let json       = '';
+  
+        items = recuperarLS();
+
+        funcion = 14;
+
+        json = JSON.stringify(items);
+        // console.log(json);
+        $.post(PEDIDO_CTRLR,{funcion, ID_ORDEN, json},(response=>{
+            // console.log("RESPONDE: "+response);
+            if(response != 'add'){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Atencion',
+                    text: response + ' Ya pertenece a los Items de la orden',
+                })
+            }else{
+                eliminarLS();
+                $('#tbd-lista-ing').empty();
+                $(".select2").val('').trigger('change');
+                window.location.href ='pedido.php';
+            }
+        }));
+
     })
 
+    //borrar Item
+    $(document).on('click','.borrarItem',(e)=>{
+        var funcion = 15;
+        const ELEM = $(this)[0].activeElement.parentElement.parentElement;
+        const ID = $(ELEM).attr('idItem');
+        const NOMB = $(ELEM).attr('itemNomb');
+        // console.log(ID + NOMB);
 
-});
+        // Alerta
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger mr-1'
+            },
+            buttonsStyling: false
+            })
+            
+            swalWithBootstrapButtons.fire({
+            title: '¿Eliminar ' + NOMB + '?',
+            text: "Esta acción no se podrá deshacer",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Eliminar',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+            }).then((result) => {
+
+            if (result.value) {
+
+                $.post(PEDIDO_CTRLR,{ID,funcion},(response)=>{
+
+                    if(response == 'borrado'){
+                        swalWithBootstrapButtons.fire(
+                            'Eliminado ' + NOMB,
+                            'El registro ha sido eliminado correctamente',
+                            'success'
+                        )
+                        cargarItems();
+                    }else{
+                        swalWithBootstrapButtons.fire(
+                            'Error!'+NOMB+'!',
+                            'error al eliminar.',
+                            'error'
+                        )
+                    }
+                })
+            }
+        })
+    })
+
+    /* ********************************************************************************************************** */
+
+
+
+
+})
 
 
 
