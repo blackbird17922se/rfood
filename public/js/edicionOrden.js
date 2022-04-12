@@ -3,7 +3,7 @@ $(document).ready(function(){
     var funcion
     var idCat="";
     var datatable="";
-    const ID_MESA   = $('#pedidoId').val();
+    const ID_ORDEN   = $('#idOrden').val();
     const URL_ITEM_CONTROL   = '../controllers/itemController.php';
     const URL_INGRED_CONTROL = '../controllers/ingredController.php';
     const URL_TIPOINGRED_CONTROL ='../controllers/invTipoController.php';
@@ -13,14 +13,14 @@ $(document).ready(function(){
 
     var edit = false;   // bandera
 
-    // cargarItems();
+    console.log('orden: ' + ID_ORDEN);
+    cargarItems();
     listarCategs();
-
-    $('#cat-carrito').show()
 
     $(".select2").select2({
         placeholder: "Seleccione una opcion",
     });
+    $('#cat-carrito').show()
 
         /* Le carga al listado superor una lista de categorias para que dependiendo
     la categoria que escoja, se muestraen los productos de la misma */ 
@@ -43,6 +43,7 @@ $(document).ready(function(){
 
     var datatable="";
     mostrarProducts();
+    contarProductos();
     recuperarLSRecarga()
 
 
@@ -50,9 +51,10 @@ $(document).ready(function(){
     /* Botones */
     $(document).on('click','.salir',(e)=>{
         eliminarLS();
-        window.location.href ='pedido.php'; 
+        window.location.href ='ordenMesas.php'; 
     });
 
+    /* TODO: VERIFICAR FUNCIOANLIDAD */
     /* Formukario crear editar */
     $('#formEditItem').submit(e=>{
         let itemCant = $('#itemCant').val();
@@ -64,7 +66,7 @@ $(document).ready(function(){
             funcion = 13;
         }
 
-        $.post(PEDIDO_CTRLR,{ID_MESA,idItem,itemCant,funcion},(response)=>{
+        $.post(PEDIDO_CTRLR,{ID_ORDEN,idItem,itemCant,funcion},(response)=>{
             console.log(response)
             if(response=='add'){
                 $('#add-tipo').hide('slow');
@@ -94,10 +96,10 @@ $(document).ready(function(){
 
     /* Cargar Items actuales en la orden */
     function cargarItems(){
-        funcion = 12;
+        funcion = 19;
         // ajax
-        $.post(PEDIDO_CTRLR,{ID_MESA,funcion},(response)=>{
-            console.log(response);
+        $.post(PEDIDO_CTRLR,{ID_ORDEN,funcion},(response)=>{
+            // console.log(response);
             const ITEMSORDEN = JSON.parse(response);
             let template = '';
             ITEMSORDEN.forEach(itemOrden=>{
@@ -240,7 +242,7 @@ $(document).ready(function(){
             `;
             $('#tbd-lista').append(template);
             agregarLS(PRODUCTO);
-            // contarProductos();
+            contarProductos();
 
             //Al agregar el item, desabilitar el boton de agregar
             $("#btn-item-"+datos.btn_item).prop('disabled', true);
@@ -316,7 +318,7 @@ $(document).ready(function(){
         ELEM.remove();
         eliminarProdLS(ID);
         $("#btn-item-"+ID).prop('disabled', false);
-        // contarProductos();
+        contarProductos();
         // calcularTotal()
     })
 
@@ -331,33 +333,44 @@ $(document).ready(function(){
 
 
     // Al hacer clic en Guardar cambios de los nuevos ingredientes de item
-    $(document).on('click','#procesarNewItems',(e)=>{
+    $(document).on('click','#procesar-orden',(e)=>{
 
         let items    = [];
         let json       = '';
   
         items = recuperarLS();
+        console.log('Pros ord a 20');
 
-        funcion = 14;
+        /* Verificar si hay un item repetido */
+        funcion = 20;
 
         json = JSON.stringify(items);
         // console.log(json);
-        $.post(PEDIDO_CTRLR,{funcion, ID_MESA, json},(response=>{
-            // console.log("RESPONDE: "+response);
-            if(response != 'add'){
+        $.post(PEDIDO_CTRLR,{funcion, ID_ORDEN, json},(response=>{
+            // console.log("RESPONDE rep: "+response);
+            if(response == 1){
                 Swal.fire({
                     icon: 'error',
                     title: 'Atencion',
-                    text: response + ' Ya pertenece a los Items de la orden',
+                    text: 'Uno de los Items seleccionados ya pertenece a la orden',
                 })
             }else{
-                eliminarLS();
-                $('#tbd-lista-ing').empty();
-                $(".select2").val('').trigger('change');
-                window.location.href ='pedido.php';
+                /* Hacer inssert */
+                funcion = 14;
+                $.post(PEDIDO_CTRLR,{funcion, ID_ORDEN, json},(response=>{
+                    // console.log("RESPONDE: "+response);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Editado',
+                        text: 'Orden editada correctamente',
+                    })
+                    eliminarLS();
+                    $('#tbd-lista-ing').empty();
+                    $(".select2").val('').trigger('change');
+                    window.location.href ='ordenMesas.php';
+                }))
             }
         }));
-
     })
 
     //borrar Item
@@ -409,6 +422,19 @@ $(document).ready(function(){
             }
         })
     })
+
+    /* Agrega el numero de productos que lleva el carrito */
+    function contarProductos(){
+        let productos;
+        let contador = 0;
+        productos = recuperarLS();
+        productos.forEach(producto=>{
+            contador++;
+        });
+        // return contador;
+        $('#contador').html(contador);
+
+    }
 
     /* ********************************************************************************************************** */
 

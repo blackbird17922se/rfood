@@ -207,20 +207,10 @@ switch ($_POST['funcion']) {
 
         $idOrden   = $_POST['ID_ORDEN'];
         $newItems = json_decode($_POST['json']);
-        $response     = false;
-        $nomIngredGl  = null;
-        $flag         = false;
-        $insert       = false;
 
         foreach ($newItems as $newItem) {
             $idItem  = $newItem->id_prod;
-
-            if($pedido->verificarItemRepetido($newItem->id_prod,$idOrden)){
-                $response    = true;
-            }else{
-                $pedido->agregarNewItem($idOrden, $newItem->id_prod, $newItem->cantidad);
-                echo 'add';
-            }
+            $pedido->agregarNewItem($idOrden, $newItem->id_prod, $newItem->cantidad);
         }
     break;
 
@@ -275,6 +265,116 @@ switch ($_POST['funcion']) {
         echo $jsonstring;
     break;
 
+    
+    /* Lista las mesas y la orden q tenga */
+    case 18:
+        $pedido->listarMesas();
+        $json=array();
+        $jsonP=array();
+        $idPedido;
+
+        foreach($pedido->objetos as $objeto){
+            $objeto->nom;   //nombre mesa
+            $jsonP=[];
+
+            $pedido->listarOrdenMesa($objeto->id_mesa);
+            foreach($pedido->objetos as $objP){
+                
+                $jsonP[]=array(
+                    $objP->id_pedido,
+                );
+            }
+
+            $json[]=array(
+                'id_mesa'=>$objeto->id_mesa,
+                'nomMesa'=>$objeto->nom,
+                'prods'=> $jsonP
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    break;
+
+
+    /* Cargar los items de esa orden (Util en editar pedido) */
+    case 19:
+        $json=array();
+        $pedido->listarItemsOrden($_POST['ID_ORDEN']);
+        foreach($pedido->objetos as $objeto){
+            
+            $json[]=array(
+                'idprod'=>$objeto->id_det_prod,
+                'nombprod'=>$objeto->nombprod,
+                'cantidad'=>$objeto->det_cant,
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    break;
+
+    /* Verificar items repetidos */
+    case 20:
+        
+        $idOrden   = $_POST['ID_ORDEN'];
+        $newItems = json_decode($_POST['json']);
+        $response     = 0;
+
+        foreach ($newItems as $newItem) {
+            $idItem  = $newItem->id_prod;
+
+            if($pedido->verificarItemRepetido($newItem->id_prod,$idOrden)){
+                $response = 1;
+            }
+        }
+        echo $response;
+
+    break;
+
+    case 21:
+        $pedido->listarProdPedido($_POST['idOrden']);
+        $json=array();
+        foreach ($pedido->objetos as $objeto) {
+            $json[]=$objeto;
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+
+    break;
+
+    case 22:
+        $pedido->cargarObservOrden($_POST['idOrden']);
+        $json=array();
+        foreach ($pedido->objetos as $objeto) {
+            $json[]=$objeto;
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+
+    break;
+
     default:
     break;
 }
+
+
+
+/* case 14:
+
+    $idOrden   = $_POST['ID_ORDEN'];
+    $newItems = json_decode($_POST['json']);
+    $response     = false;
+    $nomIngredGl  = null;
+    $flag         = false;
+    $insert       = false;
+
+    foreach ($newItems as $newItem) {
+        $idItem  = $newItem->id_prod;
+
+        if($pedido->verificarItemRepetido($newItem->id_prod,$idOrden)){
+            $response    = true;
+        }else{
+            $pedido->agregarNewItem($idOrden, $newItem->id_prod, $newItem->cantidad);
+            echo 'add';
+        }
+    }
+break; */

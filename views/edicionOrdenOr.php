@@ -54,7 +54,7 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2)) {
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper cnt-wrp-mdrn">
-        <input type="hidden" id="idOrden" value="<?php echo $_GET['idOrden'] ?>">
+    <input type="hidden" id="pedidoId" value="<?php echo $_GET['id']?>">
 
         <!-- Content Header (Page header) -->
         <section class="content-header">
@@ -74,42 +74,6 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2)) {
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
-
-            
-                <!-- Item actuales -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="card card-mdrn">
-                            <h2>Items actuales</h2>
-
-                            <div class="card-body">
-                                <div class="tab-content">
-
-                                    <!-- panel categoria -->
-                                    <div class="tab-pane active" id="categ">
-                                        <div class="card card-success card-mdrn">
-
-                                            <div class="card-body p-0 table-responsive">
-                                                <table class="table table-hover text-nowrap">
-                                                    <thead class="table-success">
-                                                        <tr>
-                                                            <th>Item</th>
-                                                            <th>Cant.</th>
-                                                            <th>Acciones</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody class="table-active" id="tb-itemOrden"></tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
                 <!-- impl agregar item -->
                 <div class="row">
                     <div class="col-md-12">
@@ -147,7 +111,6 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2)) {
                         </div>
                     </div>
                 </div>
-
             </div>
 
         </section>
@@ -163,4 +126,4 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2)) {
 }
 ?>
 <script src="../public/js/datatables.js"></script>
-<script src="../public/js/edicionOrden.js"></script>
+<script src="../public/js/orden.js"></script>

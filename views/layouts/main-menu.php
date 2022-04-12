@@ -159,7 +159,7 @@
         </li>
 
 
-        <!-- <li class="nav-header">Compras</li>
+        <li class="nav-header">Compras</li>
         <li class="nav-item">
           <a href="adm_proveed.php" class="nav-link">
             <i class="nav-icon fas fa-truck"></i>
@@ -167,7 +167,7 @@
               Compras a proveedores
             </p>
           </a>
-        </li> -->
+        </li>
 
         <!-- aqui va la gestion de ventas -->
         <li class="nav-header">Ventas</li>

@@ -246,6 +246,25 @@ class Pedido
     }
 
 
+    function listarOrdenMesa($idMesa)
+    {
+        $sql = 
+            "SELECT 
+                id_pedido 
+            FROM pedido
+
+            WHERE entregado = 0 
+            AND terminado = 0
+            AND pagado = 0
+            AND id_mesa = :idMesa
+        ";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':idMesa' => $idMesa));
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
+
+
     function listarPedidoMesa($idMesa)
     {
         $sql = 
@@ -302,6 +321,8 @@ class Pedido
                 ON producto.id_prod = det_pedido.id_det_prod
             INNER JOIN present
                 ON present.id_present = producto.prod_pres
+            INNER JOIN pedido
+                ON pedido.id_pedido = det_pedido.id_det_pedido
             WHERE id_det_pedido = :idPedido
         ";
         $query = $this->acceso->prepare($sql);
@@ -311,6 +332,17 @@ class Pedido
         $this->objetos = $query->fetchall();
         return $this->objetos;
     }
+
+    /* 
+                    id_pedido, 
+                pedido.id_mesa, 
+                observ,
+                mesa.nom AS nom_mesa
+            FROM pedido
+            INNER JOIN mesa 
+                ON mesa.id_mesa = pedido.id_mesa
+            WHERE entregado = 0 
+            AND terminado = 0 */
 
 
     function listarMesas(){
@@ -330,8 +362,45 @@ class Pedido
         }
     }
 
-/*     public function cargarItemsPedido($idPedido){
 
-    } */
+    function listarItemsOrden($idPedido)
+    {
+        $sql = 
+            "SELECT
+                id_det,
+                det_cant,
+                id_det_prod,
+                id_det_pedido,
+                producto.nombre AS nombprod,
+                producto.prod_pres,
+                present.nom AS presnom
+            FROM det_pedido 
+            INNER JOIN producto
+                ON producto.id_prod = det_pedido.id_det_prod
+            INNER JOIN present
+                ON present.id_present = producto.prod_pres
+            WHERE id_det_pedido = :idPedido
+        ";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([
+            ':idPedido' => $idPedido
+        ]);
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
+
+    function cargarObservOrden($idOrden)
+    {
+        $sql = 
+            "SELECT observ
+            FROM pedido
+            WHERE id_pedido = :idOrden
+        ";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':idOrden' => $idOrden));
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
+
     
 }

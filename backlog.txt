@@ -9,8 +9,22 @@ build 3.4
 * Crear Modulo OrdenMesas
 ////////////////////
 
+//////////////////
+biold 4.0
+
+lista mesas pero para ver los items del pedido hay que presionar 'ver orden'
+//////////////////
+
+
 * el modulo pedido 
-    - 
+    OK- al seleccionar btn 'ver pedidos' se despliega un  modal que contiene los item de la orden y un btn que conduce a editarOrden
+    - CREAR ORDEN
+    - se podria hacer que el cajero vea una interfaz como la de las mesas y que simplemente sea presionar un btn 'seleccionar' que le
+        carge la orden y luego si pueda 'realizar venta'.
+    - una vez efectada la venta, la mesa se libera de la orden
+
+    verificacion - Al presionar btn 'entregado' el cuadro de la mesa aparece con algo que identifique que  
+
 
 * añadir 'Es domicilio' para que no halla conflicto cuando sean varios domicilios
 
@@ -55,6 +69,13 @@ build 3.4
     con INGRED NUEVOS.
 
 * Podria añadir un boton de 'Liberar mesa'
+
+* verificar funciones inutles en pedidoController
+
+* optimizar los items repetidos en una orden cuando se vana editar
+ (pedidoController)
+
+* 
 
 ****************************************************************************************************
 DONE:

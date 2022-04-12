@@ -68,7 +68,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==4 || $
   <!-- /.content-wrapper -->
   <script>
     var audio = new Audio('cc.mp3');
-    audio.volume = 0.02;
+    audio.volume = 0.05;
     audio.play();
   </script>
 <?php
