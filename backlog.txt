@@ -5,13 +5,6 @@
 --------------------------------------- Milestone 3 ----------------------------------------
 
 //////////////////
-Build 4.0
-//////////////////
-* Reparar ventas
-    - No se esta efectuando la venta en caja
-    - No esta cargando las ventas generales ni las del dia
-
-//////////////////
 Build 4.1
 //////////////////
 
@@ -69,6 +62,14 @@ Build 4.1
 ****************************************************************************************************
 DONE:
 ****************************************************************************************************
+
+(12/04)
+//////////////////
+Build 4.0
+//////////////////
+* Reparar ventas
+    - No se esta efectuando la venta en caja
+    - No esta cargando las ventas generales ni las del dia
 
 (11/04)
 * el modulo pedido 
