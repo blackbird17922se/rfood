@@ -1,18 +1,27 @@
 $(document).ready(function(){
 
-    var funcion = 0;
+
+    var funcion    = 0;
+    var totalS     = 0;
+    var idOrdenSel = 0;
+    var idMesa     = 0;
+    var respStock  = 2;
+
     const PEDIDOS_CTRL = '../controllers/pedidoController.php';
     const MESA_CTRLR = '../controllers/mesaController.php';
     const VENTA_CTRLR = "../controllers/ventaController.php";
+    const CAJA_CONTROLLER = '../controllers/cajaController.php';
+    const PEDIDO_CTRLR    = '../controllers/pedidoController.php';
 
 
     cargarMesas();
+    calcularVuelto()
 
     function cargarMesas(consulta){
-        funcion = 18;
+        funcion = 9;
         
         // ajax
-        $.post(PEDIDOS_CTRL,{consulta,funcion},(response)=>{
+        $.post(CAJA_CONTROLLER,{consulta,funcion},(response)=>{
             console.log(response);
             const mesaS = JSON.parse(response);
             let templateMesa = '';
@@ -50,12 +59,10 @@ $(document).ready(function(){
                 if (tieneOrden == 1) {
                     tempButtons=`
 
-                        <button class='verOrden btn btn-sm btn-primary' type="button" data-toggle="modal" data-target="#verOrden">
-                            <i class='fas fa-plus-square mr-2'></i>Ver Orden
+                        <button class='selItem btn btn-sm btn-primary' type="button" data-toggle="modal" data-target="#">
+                            <i class='fas fa-plus-square mr-2'></i>Seleccionar
                         </button>
-                        <button class='editarOrden btn btn-sm btn-warning'>
-                            <i class='fas fa-plus-square mr-2'></i>Editar Orden
-                        </button>
+
                     `;
                     
                 } else {
@@ -65,9 +72,6 @@ $(document).ready(function(){
                         </button>
                     `;
                 }
-// console.log(idOrden);
-
-                // let idMesa = mesa.id_mesa;
 
                 templateMesa+=`
 
@@ -92,6 +96,172 @@ $(document).ready(function(){
             $('#tb_Ordenmesas').html(templateMesa);
         })
     }
+
+    /* Cargar los datos y costos de ese pedido */
+    $(document).off('click','.selItem').on('click','.selItem',(e)=>{
+
+        const ELEM   = $(this)[0].activeElement.parentElement.parentElement.parentElement;
+        const ID     = $(ELEM).attr('idOrden');
+        const IDMESA = $(ELEM).attr('mesaId');
+
+        console.log('ORD'+ID + ' IDMESA'+IDMESA);
+        funcion      = 5;
+        idOrdenSel   = ID;
+        idMesa       = IDMESA;
+
+        $.post(CAJA_CONTROLLER,{funcion,ID,IDMESA},(response)=>{
+            // console.log(response);
+            const PEDIDOS = JSON.parse(response);
+            let templateS = '';
+            let total = 0;
+          
+            PEDIDOS.forEach(pedido=>{
+
+                templateS+=`${pedido.template}'`;
+
+                total += pedido.subtotal
+
+                totalS = total;
+                $('#total').html(total.toFixed(0));
+            });
+            $('#lista-compra').html(templateS);
+
+
+            // listarPedidos()
+        })
+
+/*          */
+
+    });
+
+    function calcularVuelto(){
+        let vuelto = 0;
+        let pago = 0;
+        
+        pago = $('#pago').val();
+        
+        vuelto = pago - totalS;
+                
+        $('#vuelto').html(vuelto);
+    }
+
+
+    $('#pago').keyup((e)=>{
+        calcularVuelto()
+    });
+
+    /* Vaciar la tabla y demas campos */
+    function vaciarTabla(){
+        $('#lista-compra').empty();
+        $('#pago').val('');
+        // eliminarLS();
+        // contarProductos();
+        // calcularTotal();
+        // datatable.ajax.reload();
+    }
+
+    /* ´------------------ */
+    $(document).on('click','#procesar-compra',(e)=>{
+        console.log('ncompra');
+
+        funcion = 6;
+        let mesa = idMesa;
+        let idOrdSel = idOrdenSel;
+        let total = $('#total').get(0).textContent;
+
+        $.post(CAJA_CONTROLLER,{funcion,total,idOrdSel,formaPago,mesa},(response)=>{
+            console.log(response);
+
+
+            // Modificar estado del pedido
+            funcion = 9;
+            $.post(PEDIDO_CTRLR,{funcion,idOrdenSel},()=>{
+                idOrdenSel = 0;
+                cargarMesas() 
+            });
+
+            /* Desbloquear mesa */
+            funcion = 11;
+            $.post(PEDIDO_CTRLR,{funcion,mesa});
+
+        });
+
+
+        Swal.fire({
+            title: 'Venta Realizada',
+            text: "¿Desea imprimir recibo?",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonText: 'Imprimir',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+
+                let funcion = "ultimaVenta";
+                $.post(CAJA_CONTROLLER,{funcion},(response)=>{
+                    console.log(response);
+                
+
+                    $.ajax({
+                        url: 'ticket.php',
+                        type: 'POST',
+                        success: function(resp){
+                            if(resp==1){
+                                alert('imprime..');
+                                    vaciarTabla();
+                            }else{
+                                alert('error..');
+                                vaciarTabla()
+                            }
+                        }
+                    })                   
+                });
+
+    
+                console.log("selecciono imprimir");
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                console.log("selecciono no imprimir");
+
+                $.ajax({
+                    url: 'ticketc.php',
+                    type: 'POST',
+                    success: function(resp){
+                        if(resp==1){
+                            alert('abre..');
+                                vaciarTabla();
+                        }else{
+                            // alert('error..');
+                            vaciarTabla()
+                        }
+                    }
+                })
+                vaciarTabla()
+            }
+        });
+
+    });
+    
+    
+    
+        /* Radio buttons de forma de pago. la opcion por default es efectivo (0) */
+        var formaPago = $("input[name='fpago']:checked").val();
+        console.log(formaPago);
+    
+    
+        $("input[name='fpago']").click(function () {    
+            // alert("La edad seleccionada es: " + $('input:radio[name=fpago]:checked').val());
+            // // alert("La edad seleccionada es: " + $(this).val());
+            formaPago =$('input:radio[name=fpago]:checked').val()
+            console.log(formaPago);
+        });
+
+
+
+
+    
+
+    /* *****************FUNCIONES PARA REVISAR Y DESCARTAR*********************** */
 
     /* AL HACER CLICK EN EL BOTON EDITAR ORDEN */
     $(document).on('click','.editarOrden',(e)=>{

@@ -51,8 +51,8 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
         <div class="row mb-2">
           <div class="col-sm-12">
             <div class="row">
-              <img src="../public/icons/applications-other.png">
-              <h1 class="ml-2">Orden Mesas</h1>
+            <img src="../public/icons/text-editor.png" alt="">
+              <h1 class="ml-2">Ordenes</h1>
             </div>
           </div>
         </div>

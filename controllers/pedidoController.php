@@ -172,7 +172,7 @@ switch ($_POST['funcion']) {
 
     /* Bloquear Mesa */
     case 10:
-        $pedido->bloquearMesa($_POST['mesa']);
+        $pedido->bloquearMesa($_POST['ID_MESA']);
     break;
 
     /* Desbloquear Mesa */

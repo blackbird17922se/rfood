@@ -51,8 +51,8 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
         <div class="row mb-2">
           <div class="col-sm-12">
             <div class="row">
-              <img src="../public/icons/applications-other.png">
-              <h1 class="ml-2">Orden Mesas</h1>
+            <img src="../public/icons/calculator_32.png" title="caja">
+              <h1 class="ml-2">Caja</h1>
             </div>
           </div>
         </div>
@@ -70,6 +70,108 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
         </div>
       </div>
     </section>
+
+    <div class="card-body p-0">
+                                <div id="cp" class="card-body p-0">
+                                    <div class="card-body">
+                                        <div id="cb-pedidos" class="row d-flex align-items-stretch"></div>
+
+
+                                        <div>
+                                            <!-- 
+                                                class="caja: permite el diseño responsive de la tabla,
+                                                llama al archivo caja.css
+                                            -->
+                                            <table class="caja table table-hover text-nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">Nombre</th>
+                                                        <th scope="col">Presentación</th>
+                                                        <th scope="col">Cantidad</th>
+                                                        <th scope="col">Precio Unid.</th>
+                                                        <th scope="col">Sub Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="lista-compra" class='table-active'>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+                                    <h3>Forma de pago</h3>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="fpago" id="efectivo" value="0" checked>
+                                        <label class="form-check-label" for="inlineRadio1">Efectivo</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="fpago" id="tarjeta" value="1">
+                                        <label class="form-check-label" for="inlineRadio2">Tarjeta</label>
+                                    </div>
+
+                                    <div id="cpago">
+                                    </div>
+
+
+
+
+                                    <div class="row mt-4">
+
+                                        <div class="col-md-4">
+                                            <div class="card card-default">
+                                                <div class="card-body">
+                                                    <div class="info-box mb-3 bg-info">
+                                                        <span class="info-box-icon"><i class="fas fa-dollar-sign"></i></span>
+                                                        <div class="info-box-content">
+                                                            <span class="info-box-text text-left">TOTAL</span>
+                                                            <span class="info-box-number" id="total"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="card card-default">
+                                                <div class="card-body">
+                                                    <div class="info-box mb-3 bg-success">
+                                                        <span class="info-box-icon"><i class="fas fa-money-bill-alt"></i></span>
+                                                        <div class="info-box-content">
+                                                            <span class="info-box-text text-left ">INGRESO</span>
+                                                            <input type="number" id="pago" min="1" placeholder="Ingresa Dinero" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-4">
+                                            <div class="card card-default">
+                                                <div class="card-body">
+                                                    <div class="info-box mb-3 bg-info">
+                                                        <span class="info-box-icon"><i class="fas fa-money-bill-wave"></i></span>
+                                                        <div class="info-box-content">
+                                                            <span class="info-box-text text-left ">VUELTO</span>
+                                                            <span class="info-box-number" id="vuelto">3</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+
+                                    </div>
+                                </div>
+                                <div class="row justify-content-between">
+
+                                    <div class="col-xs-12 col-md-4">
+                                        <a href="#" class="btn btn-success btn-block" id="procesar-compra">Realizar venta</a>
+                                    </div>
+                                </div>
+                            </div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -82,4 +184,4 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
 }
 ?>
 <script src="../public/js/datatables.js"></script>
-<script src="../public/js/ordenMesas.js"></script>
+<script src="../public/js/cajaNueva.js"></script>

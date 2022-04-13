@@ -192,6 +192,11 @@ $(document).ready(function(){
                 console.log(`val observ: ${observ}`);
 
             }));
+
+            /* Bloquear mesa */
+            funcion = 10;
+            $.post(PEDIDO_CTRLR,{funcion,ID_MESA});
+
             Swal.fire({
                 icon: 'success',
                 title: 'Hecho',

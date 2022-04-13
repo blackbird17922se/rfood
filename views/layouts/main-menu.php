@@ -22,9 +22,8 @@
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-        <li class="nav-item">
+<!--         <li class="nav-item">
           <a href="orden.php" class="nav-link">
-            <!-- <i class="nav-icon fas fa-cash-register"></i> -->
             <img src="../public/icons/text-editor.png" alt="">
             <p>
               Nueva Orden
@@ -34,32 +33,31 @@
 
         <li class="nav-item">
           <a href="pedido.php" class="nav-link">
-            <!-- <i class="nav-icon fas fa-cash-register"></i> -->
             <img src="../public/icons/stack_32.png" alt="Pedidos por recoger">
             <p>
               Pedidos
             </p>
           </a>
-        </li>
+        </li> -->
+        
         <li class="nav-item">
           <a href="ordenMesas.php" class="nav-link">
             <!-- <i class="nav-icon fas fa-cash-register"></i> -->
-            <img src="../public/icons/stack_32.png" alt="Pedidos por recoger">
+            <img src="../public/icons/text-editor.png" alt="">
             <p>
-              Orden mesas
+              Ordenes
             </p>
           </a>
         </li>
 
-        <li class="nav-item">
+<!--         <li class="nav-item">
           <a href="pedidoterm.php" class="nav-link">
-            <!-- <i class="nav-icon fas fa-cash-register"></i> -->
             <img src="../public/icons/cs-notifications.png" alt="Pedidos por recoger">
             <p>
               Por Recoger
             </p>
           </a>
-        </li>
+        </li> -->
 
         <li class="nav-item">
           <a href="caja.php" class="nav-link">

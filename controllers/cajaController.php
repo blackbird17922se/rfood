@@ -100,9 +100,11 @@ switch ($_POST['funcion']) {
         $mesa = $_POST['mesa'];
 
         $idPedido = $idOrd;
-        $idMesero = "";
-        $idCocineroLider = "";
+    /*     $idMesero = "";
+        $idCocineroLider = ""; */
         $vendedor = $_SESSION['usuario'];
+        $idMesero = $_SESSION['usuario'];
+        $idCocineroLider = $_SESSION['usuario'];
 
         $cantPedido = 0;
         $cantIngred = 0;
@@ -113,12 +115,12 @@ switch ($_POST['funcion']) {
 
 
         /* Cargar id mesero y cocinero */
-        $caja->cargarMeseroCocinero($idPedido);
+/*         $caja->cargarMeseroCocinero($idPedido);
 
         foreach ($caja->objetos as $objId) {
             $idMesero = $objId->id_mesero;
             $idCocineroLider = $objId->id_coc_lider;
-        }
+        } */
 
 
         /* integra sfarma */
@@ -246,7 +248,7 @@ switch ($_POST['funcion']) {
             $_SESSION['idUltimaVenta'] = $idVenta;
             echo $idVenta;
         }
-        break;
+    break;
 
 
     case 'verificarStock':
@@ -344,7 +346,35 @@ switch ($_POST['funcion']) {
             // $caja->borrar($idVenta);
             echo $error->getMessage();
         }
-        break;
+    break;
+
+    /* Listar mesas con ordenes */
+    case 9:
+        $caja->listarMesas();
+        $json=array();
+        $jsonP=array();
+
+        foreach($caja->objetos as $objeto){
+            $objeto->nom;   //nombre mesa
+            $jsonP=[];
+
+            $caja->listarOrdenMesa($objeto->id_mesa);
+            foreach($caja->objetos as $objP){
+                
+                $jsonP[]=array(
+                    $objP->id_pedido,
+                );
+            }
+
+            $json[]=array(
+                'id_mesa'=>$objeto->id_mesa,
+                'nomMesa'=>$objeto->nom,
+                'prods'=> $jsonP
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    break;
 
 
 

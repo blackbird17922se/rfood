@@ -4,27 +4,16 @@
 
 --------------------------------------- Milestone 3 ----------------------------------------
 
-/////////////////////
-build 3.4
-* Crear Modulo OrdenMesas
-////////////////////
+//////////////////
+Build 4.0
+//////////////////
+* Reparar ventas
+    - No se esta efectuando la venta en caja
+    - No esta cargando las ventas generales ni las del dia
 
 //////////////////
-biold 4.0
-
-lista mesas pero para ver los items del pedido hay que presionar 'ver orden'
+Build 4.1
 //////////////////
-
-
-* el modulo pedido 
-    OK- al seleccionar btn 'ver pedidos' se despliega un  modal que contiene los item de la orden y un btn que conduce a editarOrden
-    - CREAR ORDEN
-    - se podria hacer que el cajero vea una interfaz como la de las mesas y que simplemente sea presionar un btn 'seleccionar' que le
-        carge la orden y luego si pueda 'realizar venta'.
-    - una vez efectada la venta, la mesa se libera de la orden
-
-    verificacion - Al presionar btn 'entregado' el cuadro de la mesa aparece con algo que identifique que  
-
 
 * añadir 'Es domicilio' para que no halla conflicto cuando sean varios domicilios
 
@@ -36,7 +25,7 @@ lista mesas pero para ver los items del pedido hay que presionar 'ver orden'
     _Caja
     Lo ideal es que solo refresque el div tabla.
 
-* en gestion de pedidos permitir agregar mas items al pedido (ej: el cliente aparte de la darbugese pidio luego a gaseosa)
+
 
 * Habilitar modulo Proveedores
 
@@ -48,8 +37,6 @@ lista mesas pero para ver los items del pedido hay que presionar 'ver orden'
 * EN VENTA AGREGAR EL ID DE LA ORDEN ENCIMA DE LA TABLA DE PLATOS VENDIDOS O HACER QUE EL CUADRITO DE LA ORDEN 
     (EL DEL BOTON SELECCIONAR) CAMBIE DE COLOR
 
-* BUSCAR LA FORMA DE ACOMODAR LOS CAJONES EN PEDIDO Y POR RECOJER para q no quede esos huecos entre cajas 
-    (ya que a veces despista y hace creer que no hay mas cajas abajo)
 
 * arreglar color tarjetas en Gestion usuarios
 
@@ -75,11 +62,25 @@ lista mesas pero para ver los items del pedido hay que presionar 'ver orden'
 * optimizar los items repetidos en una orden cuando se vana editar
  (pedidoController)
 
-* 
+* cuando se cargan las mesas en ordenmesas o caja, el sistema evalua (y trae los preoductos), se puede optimizar
+    simplemente vcalidando si la mesa esta bloqueada o no y cargar solo la orden
+*caja js quitar funciones oncli inutiles (editar, borrar)
 
 ****************************************************************************************************
 DONE:
 ****************************************************************************************************
+
+(11/04)
+* el modulo pedido 
+    OK- al seleccionar btn 'ver pedidos' se despliega un  modal que contiene los item de la orden y un btn que conduce a 
+        editarOrden
+* CREAR ORDEN
+    OK- se podria hacer que el cajero vea una interfaz como la de las mesas y que simplemente sea presionar un btn 'seleccionar' que le
+        carge la orden y luego si pueda 'realizar venta'.
+    OK- una vez efectada la venta, la mesa se libera de la orden
+* REMMPLAZADO POR EDIT ORDEN EN ORDENMESAS -- en gestion de pedidos permitir agregar mas items al pedido 
+    (ej: el cliente aparte de la darbugese pidio luego a gaseosa)
+
 (09/04)
 * Bloquear la mesa cuando tenga un pedido (Ya no aparecera en el listado de mesas en ORDEN hasta que el pedido sea cancelado)
 
@@ -143,3 +144,7 @@ ITEM INGREDIENTES (06/12)
     una cerveza no lleva ingredientes del inventario)
 -corregir la no lectura si el item tiene iva
 
+*****************************DESCARTADAS
+
+* BUSCAR LA FORMA DE ACOMODAR LOS CAJONES EN PEDIDO Y POR RECOJER para q no quede esos huecos entre cajas 
+    (ya que a veces despista y hace creer que no hay mas cajas abajo)

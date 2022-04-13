@@ -4,9 +4,9 @@ $(document).ready(function () {
     totalVentas()
 
     function totalVentas(){
-        let funcion = 'totalVentas';
+        let funcion = 3;
         $.post('../controllers/ventaController.php',{funcion},(response)=>{
-            // console.log(response);
+            console.log(response);
             const VENTASDIA = JSON.parse(response);
             $('#venta_dia_vendor').html(VENTASDIA.venta_dia_vendor);
 
@@ -16,7 +16,7 @@ $(document).ready(function () {
 
     // Tabla Venta Dia
     function mostrar_consultas(){
-        let funcion = 'mostrar_consultas';
+        let funcion = 5;
 
         let datatable = $('#tb_venta_dia').DataTable( {
 

@@ -8,7 +8,7 @@ $(document).ready(function () {
     function totalVentas(){
         let funcion = 'totalVentas';
         $.post(VENTA_CTRLR,{funcion},(response)=>{
-            // console.log(response);
+            console.log(response);
             const VENTASDIA = JSON.parse(response);
             $('#venta_dia_vendor').html(VENTASDIA.venta_dia_vendor);
             $('#venta_dia').html(VENTASDIA.venta_dia);

@@ -187,6 +187,47 @@ class Caja{
     // }
 
 
+    /* Lista las mesas con ordenes */
+    function listarMesas(){
+        if(!empty($_POST['consulta'])){
+            $consulta = $_POST['consulta'];
+            $sql="SELECT * FROM mesa WHERE nom LIKE :consulta AND disponible = 0";
+            $query = $this->acceso->prepare($sql);
+            $query->execute(array(':consulta'=>"%$consulta%"));
+            $this->objetos=$query->fetchall();
+            return $this->objetos;
+        }else{
+            $sql = "SELECT * FROM mesa 
+            WHERE nom NOT LIKE '' 
+                AND disponible = 0
+            ORDER BY nom";
+            $query = $this->acceso->prepare($sql);
+            $query->execute();
+            $this->objetos=$query->fetchall();
+            return $this->objetos;
+        }
+    }
+
+    function listarOrdenMesa($idMesa)
+    {
+        $sql = 
+            "SELECT 
+                id_pedido 
+            FROM pedido
+
+            WHERE entregado = 0 
+            AND terminado = 0
+            AND pagado = 0
+            AND id_mesa = :idMesa
+        ";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':idMesa' => $idMesa));
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
+
+
+
 
 
 } 
