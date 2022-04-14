@@ -11,15 +11,15 @@ switch ($_POST['funcion']) {
     case 1:
         session_start();
         $id_mesa   = $_POST['id_mesa'];
-        $observ = $_POST['observ'];
+        $observ    = $_POST['observ'];
         $entregado = $_POST['entregado'];
         $terminado = $_POST['terminado'];
         $pagado    = $_POST['pagado'];
-        $id_mesero = $_SESSION['usuario'];
+        $idMesero  = $_POST['idMesero'];
         $productos = json_decode($_POST['json']);
-        $fecha = date('Y-m-d H:i:s');
+        $fecha     = date('Y-m-d H:i:s');
         
-        $pedido->nuevoPedido($id_mesa, $id_mesero, $observ, $entregado,$terminado,$pagado);
+        $pedido->nuevoPedido($id_mesa, $idMesero, $observ, $entregado,$terminado,$pagado);
 
         /* obtener id de la venta */
         $pedido->ultimoPedido();

@@ -315,7 +315,7 @@ $(document).ready(function(){
     }
 
     function eliminarLS(){
-        localStorage.clear();
+        localStorage.removeItem('LDEditItems');
     }
 
     /* Borrar product de car */

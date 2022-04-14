@@ -7,6 +7,7 @@ $(document).ready(function(){
 
     var funcion        = 0
     var idCat          = "";
+    var idMesero       = 0;
     const ID_MESA      = $('#mesaId').val();
     const ITEM_CTRLR   = '../controllers/itemController.php';
     const TIPO_CTRLR   = '../controllers/tipoController.php';
@@ -52,6 +53,7 @@ $(document).ready(function(){
     mostrarProducts()
     contarProductos();
     recuperarLSRecarga()
+    recuperarLSMesero();
 
 
     /* OJO---FUNCIONES DEL LOCAL STOG */
@@ -116,7 +118,19 @@ $(document).ready(function(){
     }
 
     function eliminarLS(){
-        localStorage.clear();
+        localStorage.removeItem('productos');
+    }
+
+
+    /* Localstarage para traer el id del Mesero */
+    function recuperarLSMesero(){
+        let mesero;
+        if(localStorage.getItem('LSMesero')===null){
+            mesero=[];
+        }else{
+            mesero = JSON.parse(localStorage.getItem('LSMesero'));
+        }
+        idMesero = mesero[0];
     }
 
     /* Agrega el numero de productos que lleva el carrito */
@@ -186,7 +200,7 @@ $(document).ready(function(){
             /* nviar ese producto al controlador */
             let json = JSON.stringify(productos);
             // console.log(json);
-            $.post(PEDIDO_CTRLR,{funcion,id_mesa,json,observ,entregado,terminado,pagado},(response=>{
+            $.post(PEDIDO_CTRLR,{funcion,id_mesa,json,observ,entregado,terminado,pagado,idMesero},(response=>{
                 console.log(response);
                 console.log(`val observ: ${observ}`);
 

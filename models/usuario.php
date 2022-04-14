@@ -226,4 +226,18 @@ class Usuario{
             echo 'noborrado';
         }
     }
+
+    function listarMeseros(){   
+        $sql = 
+            "SELECT
+                id_usu,
+                CONCAT(nom,' ',ape) AS nombres
+            FROM usuario
+            WHERE rol = 5
+        ";
+        $query = $this->acceso->prepare($sql);
+        $query->execute();
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
 }

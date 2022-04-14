@@ -147,3 +147,20 @@ if($_POST['funcion'] =='consultarRol'){
 
 }
 
+/* Listar Meseros */
+if($_POST['funcion'] == 8){
+
+    $json=array();
+    $usuario->listarMeseros();
+
+    foreach ($usuario->objetos as $objeto) {
+        $json[] = array(
+            'idMesero' => $objeto->id_usu,
+            'nombres'  => $objeto->nombres
+        );
+    }
+
+    $jsonstring = json_encode($json);
+    echo $jsonstring;
+}
+

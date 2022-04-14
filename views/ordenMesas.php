@@ -52,7 +52,7 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
           <div class="col-sm-6">
             <div class="row">
               <img src="../public/icons/text-editor.png" alt="">
-              <h1 class="ml-2">Ordenes</h1>
+              <h1 id="SE" class="ml-2">Ordenes</h1>
             </div>
           </div>
         </div>
@@ -64,6 +64,11 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
     <section>
       <div class="container-fluid">
         <div class="card card-success card-mdrn">
+          <div class="form-group">
+            <label for="mesero">Mesero</label>
+            <select id="mesero" class="form-control select2" style="width: 100%;" required>
+            </select>
+          </div>
           <div class="card-body">
             <div id="tb_Ordenmesas" class="row d-flex align-items-stretch"></div>
           </div>

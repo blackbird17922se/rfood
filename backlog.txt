@@ -8,7 +8,8 @@
 Build 4.1
 //////////////////
 
-* Agregar lista desplegable en orden con los meseros, para que se pueda seleccionar el mesero cuando se usa una sola tablet
+* Agregar lista desplegable en orden con los meseros, para que se pueda seleccionar el mesero cuando se usa una 
+    sola tablet
 
 * El sistema debe recargar la tabla donde se presenta los elementos en los modulos de
     _Pedidos
@@ -16,18 +17,15 @@ Build 4.1
     _Caja
     Lo ideal es que solo refresque el div tabla.
 
-
-
 * Habilitar modulo Proveedores
 
 * Verificar tema de usuarios y restricciones
     -verificar porque no elimina la sesion al salir
 
-* Agregar seleccion de pago (neki o daviplata)
-
 * EN VENTA AGREGAR EL ID DE LA ORDEN ENCIMA DE LA TABLA DE PLATOS VENDIDOS O HACER QUE EL CUADRITO DE LA ORDEN 
     (EL DEL BOTON SELECCIONAR) CAMBIE DE COLOR
 
+* cargar en la vista de ventas el medio de pago usado en la venta
 
 * arreglar color tarjetas en Gestion usuarios
 
@@ -68,6 +66,7 @@ Build 4.1 (13/04)
 //////////////////
 * Mejorar parte visual y manejo en Caja
 * Se añadio el modulo domicilio
+* Agregar seleccion de pago (neki o daviplata)
 
 
 
