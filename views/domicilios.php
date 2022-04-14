@@ -70,6 +70,11 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
     <section>
       <div class="container-fluid">
         <div class="card card-success card-mdrn">
+          <div class="form-group">
+            <label for="mesero">Encargado</label>
+            <select id="mesero" class="form-control select2" style="width: 100%;" required></select>
+          </div>
+
           <div class="card-body">
             <div id="tb_domicios" class="row d-flex align-items-stretch"></div>
           </div>

@@ -2,13 +2,39 @@ $(document).ready(function(){
 
     var funcion = 0;
     const PEDIDOS_CTRL = '../controllers/pedidoController.php';
-    const MESA_CTRLR = '../controllers/mesaController.php';
-    const VENTA_CTRLR = "../controllers/ventaController.php";
     const CAJA_CONTROLLER = '../controllers/cajaController.php';
+    const USUARIO_CTRL = '../controllers/usuarioController.php';
+
+    listarMeseros();
+    listarDomiciliosCaja();
+    recuperarLSRecarga();
+    ss();
+
+    $(".select2").select2({
+        placeholder: "Seleccione una opcion",
+    });
 
 
+    function listarMeseros(){
 
-    listarDomiciliosCaja()
+        funcion = 8;
+        $.post(USUARIO_CTRL,{funcion},(response)=>{
+            console.log(response);
+            const MESEROS = JSON.parse(response);
+            let template = '';
+            MESEROS.forEach(mesero => {
+                template += `
+                    <option value=""></option>
+                    <option nomMesero=${mesero.nombres} value="${mesero.idMesero}">${mesero.nombres}</option>
+                `;
+            });
+            $('#mesero').html(template);
+            ss()
+            // $('#mesero').val(12).trigger('change');
+            // $('#mesero').val(12)
+        })
+    }
+
     /* Lista los domicilios */
     function listarDomiciliosCaja(){
         funcion = 10;
@@ -104,6 +130,60 @@ $(document).ready(function(){
     $(document).on('click','#nuevoDomicilio',(e)=>{
         window.location.href ='nuevaOrden.php' + "?mesaId=" + -1; 
     });
+
+    /* EVENTO CUANDO SE CAMBIA EL MESERO Y ESTE SE GUARDA AL LOCALSTORAGE */
+    $( "#mesero" ).change(function() {  
+        eliminarLS();
+        console.log('mesero');
+        idMesero = $('#mesero').val();
+        agregarLS(idMesero)
+    });
+    
+    function ss(){
+        console.log('sss');
+        return $('#mesero').val(idMesero).trigger('change');
+    }
+
+    /* AGREGAR USUARIO al LOCAL STORAGE */
+    function agregarLS(idMesero){
+        let mesero = recuperarLS();
+        mesero.push(idMesero);
+        localStorage.setItem('LSMesero',JSON.stringify(mesero));
+    }
+
+    function recuperarLS(){
+        let mesero;
+        if(localStorage.getItem('LSMesero')===null){
+            mesero=[];
+        }else{
+            mesero = JSON.parse(localStorage.getItem('LSMesero'));
+        }
+        return mesero;
+    }
+
+    function eliminarLS(){
+        localStorage.removeItem('LSMesero');
+    }
+
+    /* Recupera el localstarage al recargar la pagina */
+    function recuperarLSRecarga(){
+        let mesero;
+        if(localStorage.getItem('LSMesero')===null){
+            mesero=[];
+        }else{
+
+            mesero = JSON.parse(localStorage.getItem('LSMesero'));
+            mesero.forEach(mesro => {
+                idMesero = mesro;
+
+            });
+
+        }
+        $('#mesero').val(idMesero).trigger('change');
+        return mesero;
+    }
+
+
 
 
     // listarProdCons();

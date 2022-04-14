@@ -25,7 +25,11 @@ $(document).ready(function(){
     /* Botones */
     $(document).on('click','.salir',(e)=>{
         eliminarLS();
-        window.location.href ='ordenMesas.php'; 
+        if (ID_MESA != -1) {
+            window.location.href ='ordenMesas.php';
+        }else{
+            window.location.href ='domicilios.php';
+        }
     });
 
     /* Le carga al listado superor una lista de categorias para que dependiendo
@@ -221,7 +225,11 @@ $(document).ready(function(){
             datatable.ajax.reload();
             eliminarLS();
             $(".select2").val('').trigger('change');
-            window.location.href ='ordenMesas.php';
+            if (ID_MESA != -1) {
+                window.location.href ='ordenMesas.php';
+            }else{
+                window.location.href ='domicilios.php';
+            }
         }
     }
 

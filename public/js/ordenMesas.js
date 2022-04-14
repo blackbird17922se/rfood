@@ -3,15 +3,13 @@ $(document).ready(function(){
     var funcion = 0;
     var idMesero = 0;
     const PEDIDOS_CTRL = '../controllers/pedidoController.php';
-    const MESA_CTRLR = '../controllers/mesaController.php';
-    const VENTA_CTRLR = "../controllers/ventaController.php";
     const USUARIO_CTRL = '../controllers/usuarioController.php';
 
     listarMeseros();
     cargarMesas();
     recuperarLSRecarga()
     ss()
-    console.log('mesero:' + idMesero);
+    // console.log('mesero:' + idMesero);
     
     $(".select2").select2({
         placeholder: "Seleccione una opcion",
@@ -192,10 +190,9 @@ $(document).ready(function(){
         eliminarLS();
         console.log('mesero');
         idMesero = $('#mesero').val();
-
         agregarLS(idMesero)
-
     });
+    
     function ss(){
         console.log('sss');
         return $('#mesero').val(idMesero).trigger('change');
