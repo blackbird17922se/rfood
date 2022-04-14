@@ -8,14 +8,8 @@
 Build 4.1
 //////////////////
 
-* Verificar tema de usuarios y restricciones
-    -verificar porque no elimina la sesion al salir
-
-* EN VENTA AGREGAR EL ID DE LA ORDEN ENCIMA DE LA TABLA DE PLATOS VENDIDOS O HACER QUE EL CUADRITO DE LA ORDEN 
-    (EL DEL BOTON SELECCIONAR) CAMBIE DE COLOR
-
 * cargar en la vista de ventas el medio de pago usado en la venta
-
+    -quitar id mesero y en bd que sea 0
 
 
 * En caja en estilo responsive ajustar el desborde de texto de las filas que tienen la info del pedido
@@ -68,6 +62,10 @@ Build 4.1 (13/04)
     sola tablet.
 * Habilitar modulo Proveedores.
 * arreglar color tarjetas en Gestion usuarios
+* Verificar tema de usuarios y restricciones
+    -verificar porque no elimina la sesion al salir
+* EN VENTA AGREGAR EL ID DE LA ORDEN ENCIMA DE LA TABLA DE PLATOS VENDIDOS O HACER QUE EL CUADRITO DE LA ORDEN 
+    (EL DEL BOTON SELECCIONAR) CAMBIE DE COLOR
 
 
 

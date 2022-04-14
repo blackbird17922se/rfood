@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2 || $_SESSION['rol']==4 || $_SESSION['rol'] == 5 || $_SESSION['rol'] == 3)){
+if(!empty($_SESSION['rol'])){
     include_once "layouts/header.php";
     include_once "layouts/nav.php";
 ?>

@@ -164,6 +164,11 @@ $(document).ready(function(){
                 $('#total').html(total.toFixed(0));
             });
             $('#lista-compra').html(templateS);
+
+            templateTitulo = `
+                <span id="tituloDetalle">Detalle de la Orden en mesa ${IDMESA}</span>
+            `;
+            $('#tituloDetalle').html(templateTitulo);
         })
     });
 
@@ -175,13 +180,13 @@ $(document).ready(function(){
         const ID     = $(ELEM).attr('idDom');
         const IDMESA = -1;
 
-        console.log('ORD'+ID + ' IDMESA'+IDMESA);
+        // console.log('ORD'+ID + ' IDMESA'+IDMESA);
         funcion      = 5;
         idOrdenSel   = ID;
         idMesa       = IDMESA;
 
         $.post(CAJA_CONTROLLER,{funcion,ID,IDMESA},(response)=>{
-            console.log(response);
+            // console.log(response);
             const PEDIDOS = JSON.parse(response);
             let templateS = '';
             let total = 0;
@@ -197,7 +202,13 @@ $(document).ready(function(){
             });
             $('#lista-compra').html(templateS);
         })
-    });
+
+        templateTitulo = `
+            <span id="tituloDetalle">Detalle de la Orden ${ID}</span>
+        `;
+        $('#tituloDetalle').html(templateTitulo);
+        
+        });
 
     function calcularVuelto(){
         let vuelto = 0;

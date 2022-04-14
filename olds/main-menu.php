@@ -1,16 +1,44 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
+  <!-- <div class="image">
+        <img src="../public/img/logo.png" class="logosf d-block" alt="User Image">
+      </div> -->
   <!-- Brand Logo -->
   <a href="#" class="brand-link">
+    <!-- <img src="../public/img/logo.png" alt="AdminLTE Logo" class="brand-image" > -->
+    <!-- <span class="brand-text font-weight-light">Codename Rfood</span> -->
     <h1 id="logo">RFood</h1>
   </a>
 
   <!-- Sidebar -->
   <div class="sidebar">
+    <!-- Sidebar user (optional) -->
+
+
+
+
     <!-- Sidebar Menu -->
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+        <!--         <li class="nav-item">
+          <a href="orden.php" class="nav-link">
+            <img src="../public/icons/text-editor.png" alt="">
+            <p>
+              Nueva Orden
+            </p>
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a href="pedido.php" class="nav-link">
+            <img src="../public/icons/stack_32.png" alt="Pedidos por recoger">
+            <p>
+              Pedidos
+            </p>
+          </a>
+        </li> -->
 
         <li class="nav-item">
           <a href="ordenMesas.php" class="nav-link">
@@ -32,7 +60,15 @@
           </a>
         </li>
 
-        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 3) { ?>
+        <!--         <li class="nav-item">
+          <a href="pedidoterm.php" class="nav-link">
+            <img src="../public/icons/cs-notifications.png" alt="Pedidos por recoger">
+            <p>
+              Por Recoger
+            </p>
+          </a>
+        </li> -->
+
         <li class="nav-item">
           <a href="caja.php" class="nav-link">
             <img src="../public/icons/calculator_32.png" title="caja">
@@ -42,7 +78,6 @@
             </p>
           </a>
         </li>
-        <?php } ?>
 
         <li class="nav-header">Usuario</li>
         <!-- items que contiene la seccion Ventas -->
@@ -69,7 +104,7 @@
 
         <?php } ?>
 
-        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
+
         <li class="nav-header">Menú y Carta</li>
         <li class="nav-item">
           <a href="adm_menu.php" class="nav-link">
@@ -103,7 +138,7 @@
         </li>
 
         <li class="nav-item">
-          <a href="atrIngredientes.php" class="nav-link">
+          <a href="inv_atr.php" class="nav-link">
             <!-- <i class="nav-icon fas fa-vials"></i> -->
             <img src="../public/icons/applications-science.png">
             <p>
@@ -131,9 +166,6 @@
           </a>
         </li>
 
-        <?php } ?>
-
-        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] == 3) { ?>
         <!-- aqui va la gestion de ventas -->
         <li class="nav-header">Ventas</li>
         <li class="nav-item">
@@ -145,9 +177,7 @@
             </p>
           </a>
         </li>
-        <?php } ?>
 
-        <?php if ($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2) { ?>
         <!-- OTROS -->
         <li class="nav-header">Otros</li>
         <li class="nav-item">
@@ -177,8 +207,6 @@
             </p>
           </a>
         </li>
-
-        <?php } ?>
 
         <!-- iNSERTADO A CAUSA DEL MOLESTA BARRA QUE APARECE ABAJO CAUNDO ESTA EN PROD -->
         <li class="nav-item"><a class="nav-link">
