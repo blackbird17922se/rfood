@@ -83,19 +83,16 @@ if(!empty($_SESSION['rol']==1)){
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
+
         <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Gestión de Usuarios
-                <button type="button" data-toggle="modal" data-target="#crearUsuario" class="btn bg-gradient-primary btn-sm m-2">Nuevo Usuario</button>
-            </h1>
-            <input type="hidden" id="rol" value="<?php echo $_SESSION['rol']; ?>">
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Gestión de Usuarios</li>
-            </ol>
-          </div>
+        <div class="col-sm-12 col-md-12">
+            <div class="row">
+                <img src="layouts/cs-user.png" alt="">
+                <h1 class="ml-2">Gestión de Usuarios</h1>
+                    <button type="button" data-toggle="modal" data-target="#crearUsuario" class="btn bg-gradient-primary btn-sm m-2">Nuevo Usuario</button>
+                <input type="hidden" id="rol" value="<?php echo $_SESSION['rol']; ?>">
+            </div>
+        </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
@@ -140,4 +137,4 @@ include_once "layouts/footer.php";
     header("Location: ../index.php");
 }
 ?>
-<script src="../public/js/gestion_usuario.js"></script>
+<script src="../public/js/usuarios.js"></script>

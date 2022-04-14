@@ -16,7 +16,7 @@ Build 4.1
 
 * cargar en la vista de ventas el medio de pago usado en la venta
 
-* arreglar color tarjetas en Gestion usuarios
+
 
 * En caja en estilo responsive ajustar el desborde de texto de las filas que tienen la info del pedido
 
@@ -25,6 +25,8 @@ Build 4.1
 * Cambiar boton de Cerrar Sesion
 
 * Agregar efecto glass al modal detalle venta en Venta
+
+* arreglar parte visual modals.
 
 * Verificar descuento inv de cuando el sistema acaba un lote y empieza con otro
 
@@ -65,6 +67,7 @@ Build 4.1 (13/04)
 * Agregar lista desplegable en orden con los meseros, para que se pueda seleccionar el mesero cuando se usa una 
     sola tablet.
 * Habilitar modulo Proveedores.
+* arreglar color tarjetas en Gestion usuarios
 
 
 

@@ -89,7 +89,6 @@ $(document).ready(function(){
                                 </div>
                             </div>
 
-                            
                             <div class="card-footer">
                                 <div class="text-right">
                                     <button class="editar btn btn-sm btn-success" type="button" data-toggle="modal" data-target="#crearproveed">
@@ -103,7 +102,6 @@ $(document).ready(function(){
                             </div>
                         </div>
                     </div>
-
                 `;
             });
 

@@ -98,34 +98,32 @@ $(document).ready(function(){
                 template+=`
                     <div usuId="${usuario.id_usu}" usuNom="${usuario.nom}" class="col-12 col-sm-6 col-md-4 align-items-stretch">
 
-                        <div class="card bg-light">
+                        <div class="card bg-dark-10">
                             <div class="card-header text-muted border-bottom-0">
-                            ${usuario.rol}
-                        </div>
+                                ${usuario.rol}
+                            </div>
 
-                        <div class="card-body pt-0">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h2 class="lead"><b> ${usuario.nom}  ${usuario.ape}</b></h2>
-                                    <ul class="ml-4 mb-0 fa-ul text-muted">
-                                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-id-card"></i></span>Número Identificador: ${usuario.dni_us} </li>                             
-                                    </ul>
+                            <div class="card-body pt-0">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h2 class="lead"><b> ${usuario.nom}  ${usuario.ape}</b></h2>
+                                        <ul class="ml-4 mb-0 fa-ul text-muted">
+                                            <li class="small"><span class="fa-li"><i class="fas fa-lg fa-id-card"></i></span>Número Identificador: ${usuario.dni_us} </li>                             
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        
+                            <div class="card-footer">
+                                <div class="text-right">
+                                    <button class="borrar btn btn-sm btn-danger">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
-
-                        
-                        <div class="card-footer">
-                            <div class="text-right">
-                            
-                                <button class="borrar btn btn-sm btn-danger">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </div>
                     </div>
-                </div>
-             
                 `;
             });
 
