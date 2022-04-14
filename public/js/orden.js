@@ -182,8 +182,8 @@ $(document).ready(function(){
             let terminado = 0;
             let pagado    = 0;
 
-        // let productos = recuperarLS();
-        /* nviar ese producto al controlador */
+            // let productos = recuperarLS();
+            /* nviar ese producto al controlador */
             let json = JSON.stringify(productos);
             // console.log(json);
             $.post(PEDIDO_CTRLR,{funcion,id_mesa,json,observ,entregado,terminado,pagado},(response=>{
@@ -192,9 +192,12 @@ $(document).ready(function(){
 
             }));
 
-            /* Bloquear mesa */
-            funcion = 10;
-            $.post(PEDIDO_CTRLR,{funcion,ID_MESA});
+
+            if(ID_MESA != -1){
+                /* Bloquear mesa */
+                funcion = 10;
+                $.post(PEDIDO_CTRLR,{funcion,ID_MESA});
+            }
 
             Swal.fire({
                 icon: 'success',

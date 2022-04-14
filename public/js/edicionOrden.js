@@ -3,6 +3,7 @@ $(document).ready(function(){
     var funcion
     var idCat="";
     var datatable="";
+    var idMesa = 0;
     const ID_ORDEN   = $('#idOrden').val();
     const URL_ITEM_CONTROL   = '../controllers/itemController.php';
     const URL_INGRED_CONTROL = '../controllers/ingredController.php';
@@ -12,17 +13,31 @@ $(document).ready(function(){
     const ITEM_CTRLR   = '../controllers/itemController.php';
 
     var edit = false;   // bandera
+    var datatable="";
 
     console.log('orden: ' + ID_ORDEN);
     cargarItems();
     listarCategs();
+    mostrarProducts();
+    contarProductos();
+    recuperarLSRecarga()
 
     $(".select2").select2({
         placeholder: "Seleccione una opcion",
     });
     $('#cat-carrito').show()
 
-        /* Le carga al listado superor una lista de categorias para que dependiendo
+    /* Botones */
+    $(document).on('click','.salir',(e)=>{
+        eliminarLS();
+        if (idMesa != -1) {
+            window.location.href ='ordenMesas.php';
+        }else{
+            window.location.href ='domicilios.php';
+        }
+    });
+
+    /* Le carga al listado superor una lista de categorias para que dependiendo
     la categoria que escoja, se muestraen los productos de la misma */ 
     function listarCategs(){
         funcion = "listar_tipos";
@@ -41,18 +56,6 @@ $(document).ready(function(){
         })
     }
 
-    var datatable="";
-    mostrarProducts();
-    contarProductos();
-    recuperarLSRecarga()
-
-
-
-    /* Botones */
-    $(document).on('click','.salir',(e)=>{
-        eliminarLS();
-        window.location.href ='ordenMesas.php'; 
-    });
 
     /* TODO: VERIFICAR FUNCIOANLIDAD */
     /* Formukario crear editar */
@@ -103,6 +106,11 @@ $(document).ready(function(){
             const ITEMSORDEN = JSON.parse(response);
             let template = '';
             ITEMSORDEN.forEach(itemOrden=>{
+
+                /* Lee el id de la mesa para evaluar su es un domicilio (-1) */
+                idMesa = itemOrden.idMesa;
+
+                console.log(idMesa);
                 template+=`
                 <tr idItem="${itemOrden.idprod}" itemCant="${itemOrden.cantidad}" itemNomb="${itemOrden.nombprod}">
                     <td>${itemOrden.nombprod}</td>
@@ -367,7 +375,13 @@ $(document).ready(function(){
                     eliminarLS();
                     $('#tbd-lista-ing').empty();
                     $(".select2").val('').trigger('change');
-                    window.location.href ='ordenMesas.php';
+                    
+                    if (idMesa != -1) {
+                        window.location.href ='ordenMesas.php';
+                    }else{
+                        window.location.href ='domicilios.php';
+                    }
+                    
                 }))
             }
         }));

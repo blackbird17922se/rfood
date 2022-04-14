@@ -376,6 +376,23 @@ switch ($_POST['funcion']) {
         echo $jsonstring;
     break;
 
+    /* Lista los pedidos para el restaurante */
+    case 10:
+        /* cajas con entrega pendiente */
+        $caja->listarDomiciliosCaja();
+        $json = array();
+
+        foreach ($caja->objetos as $objeto) {
+
+            $json[] = array(
+                'idPedido' => $objeto->id_pedido
+            );
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+
+    break;
+
 
 
     default:

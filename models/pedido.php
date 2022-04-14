@@ -373,12 +373,15 @@ class Pedido
                 id_det_pedido,
                 producto.nombre AS nombprod,
                 producto.prod_pres,
-                present.nom AS presnom
+                present.nom AS presnom,
+                pedido.id_mesa
             FROM det_pedido 
             INNER JOIN producto
                 ON producto.id_prod = det_pedido.id_det_prod
             INNER JOIN present
                 ON present.id_present = producto.prod_pres
+            INNER JOIN pedido
+                ON pedido.id_pedido = det_pedido.id_det_pedido
             WHERE id_det_pedido = :idPedido
         ";
         $query = $this->acceso->prepare($sql);

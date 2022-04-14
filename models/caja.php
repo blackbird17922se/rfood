@@ -227,6 +227,23 @@ class Caja{
     }
 
 
+    /* Listar los domicilios */
+    function listarDomiciliosCaja(){
+
+        $sql = 
+            "SELECT 
+                id_pedido 
+            FROM pedido
+            WHERE 
+            pagado = 0
+            AND id_mesa = -1
+        ";
+        $query = $this->acceso->prepare($sql);
+        $query->execute();
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+        
+    }
 
 
 

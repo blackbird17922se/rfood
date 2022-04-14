@@ -51,13 +51,19 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
         <div class="row mb-2">
           <div class="col-sm-6">
             <div class="row">
-              <img src="../public/icons/text-editor.png" alt="">
-              <h1 class="ml-2">Ordenes</h1>
+              <img src="../public/icons/softwarecenter.png" alt="">
+              <h1 class="ml-2">Domicilios</h1>
             </div>
+          </div>
+          <div class="col-sm-6">
+            <button id="nuevoDomicilio" class='btn btn-sm btn-success'>
+              <i class='fas fa-plus-square mr-2'></i>Nuevo Domicilio
+            </button>
           </div>
         </div>
       </div><!-- /.container-fluid -->
     </section>
+
 
     <!-- ********************** TABLA Pedidos ************************* -->
     <!-- Main content -->
@@ -65,7 +71,7 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
       <div class="container-fluid">
         <div class="card card-success card-mdrn">
           <div class="card-body">
-            <div id="tb_Ordenmesas" class="row d-flex align-items-stretch"></div>
+            <div id="tb_domicios" class="row d-flex align-items-stretch"></div>
           </div>
         </div>
       </div>
@@ -82,4 +88,4 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
 }
 ?>
 <script src="../public/js/datatables.js"></script>
-<script src="../public/js/ordenMesas.js"></script>
+<script src="../public/js/domicilios.js"></script>

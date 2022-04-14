@@ -50,6 +50,16 @@
           </a>
         </li>
 
+        <li class="nav-item">
+          <a href="domicilios.php" class="nav-link">
+            <!-- <i class="nav-icon fas fa-cash-register"></i> -->
+            <img src="../public/icons/softwarecenter.png" alt="">
+            <p>
+              Domicilios
+            </p>
+          </a>
+        </li>
+
 <!--         <li class="nav-item">
           <a href="pedidoterm.php" class="nav-link">
             <img src="../public/icons/cs-notifications.png" alt="Pedidos por recoger">

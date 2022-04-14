@@ -18,7 +18,9 @@ $(document).ready(function(){
     });
 
     cargarMesas();
+    listarDomiciliosCaja();
     calcularVuelto()
+
 
 
     function cargarMesas(consulta){
@@ -101,6 +103,39 @@ $(document).ready(function(){
         })
     }
 
+    /* Lista los domicilios */
+    function listarDomiciliosCaja(){
+        funcion = 10;
+
+        $.post(CAJA_CONTROLLER,{funcion},(response)=>{
+            console.log('list dom resp: ' + response);
+
+            const PEDIDOS = JSON.parse(response);
+            let template = '';
+            
+            PEDIDOS.forEach(pedido=>{
+
+                template+=`
+        
+                    <div idDom="${pedido.idPedido}" class="col-12 col-sm-12 col-md-2 align-items-stretch">
+                        <div class="card bg-dark-10">
+                            <div class="card-header border-bottom-0">Orden: ${pedido.idPedido}</div>
+
+                            <div class="card-body pt-0">
+
+                                <button class='selDomicilio btn btn-sm btn-primary' type="button" data-toggle="modal" data-target="#verOrdenCaja">
+                                    <i class='fas fa-plus-square mr-2'></i>Seleccionar
+                                </button>
+
+                            </div>                        
+                        </div>
+                    </div>
+                `;   
+            });
+            $('#tb_domicios').html(template);
+        });
+    }
+
     /* Cargar los datos y costos de ese pedido */
     $(document).off('click','.selItem').on('click','.selItem',(e)=>{
 
@@ -115,6 +150,38 @@ $(document).ready(function(){
 
         $.post(CAJA_CONTROLLER,{funcion,ID,IDMESA},(response)=>{
             // console.log(response);
+            const PEDIDOS = JSON.parse(response);
+            let templateS = '';
+            let total = 0;
+          
+            PEDIDOS.forEach(pedido=>{
+
+                templateS+=`${pedido.template}'`;
+
+                total += pedido.subtotal
+
+                totalS = total;
+                $('#total').html(total.toFixed(0));
+            });
+            $('#lista-compra').html(templateS);
+        })
+    });
+
+    /* Cargar los datos y costos de ese domicilio */
+    $(document).off('click','.selDomicilio').on('click','.selDomicilio',(e)=>{
+        console.log('domm');
+
+        const ELEM   = $(this)[0].activeElement.parentElement.parentElement.parentElement;
+        const ID     = $(ELEM).attr('idDom');
+        const IDMESA = -1;
+
+        console.log('ORD'+ID + ' IDMESA'+IDMESA);
+        funcion      = 5;
+        idOrdenSel   = ID;
+        idMesa       = IDMESA;
+
+        $.post(CAJA_CONTROLLER,{funcion,ID,IDMESA},(response)=>{
+            console.log(response);
             const PEDIDOS = JSON.parse(response);
             let templateS = '';
             let total = 0;
@@ -169,13 +236,15 @@ $(document).ready(function(){
             funcion = 9;
             $.post(PEDIDO_CTRLR,{funcion,idOrdenSel},()=>{
                 idOrdenSel = 0;
-                cargarMesas() 
+                cargarMesas();
+                listarDomiciliosCaja();
             });
 
-            /* Desbloquear mesa */
-            funcion = 11;
-            $.post(PEDIDO_CTRLR,{funcion,mesa});
-
+            if(idMesa != -1){
+                /* Desbloquear mesa */
+                funcion = 11;
+                $.post(PEDIDO_CTRLR,{funcion,mesa});
+            }
         });
 
         $('#verOrdenCaja').modal('hide');
@@ -232,90 +301,9 @@ $(document).ready(function(){
                 vaciarTabla()
             }
         });
-
+        idMesa = 0;
     });
     
-
-    /* *****************FUNCIONES PARA REVISAR Y DESCARTAR*********************** */
-
-    /* AL HACER CLICK EN EL BOTON EDITAR ORDEN */
-    $(document).on('click','.editarOrden',(e)=>{
-        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID = $(ELEM).attr('idOrden');
-        window.location.href ='edicionOrden.php' + "?idOrden=" + ID; 
-    });
-
-    /* AL HACER CLICK EN EL BOTON EDITAR ORDEN */
-    $(document).on('click','.nuevaOrden',(e)=>{
-        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID = $(ELEM).attr('mesaId');
-        console.log(ID);
-        window.location.href ='nuevaOrden.php' + "?mesaId=" + ID; 
-    });
-
-
-    /* AL HACER CLICK EN EL BOTON DE TERMINADO */
-    $(document).on('click','.terminado',(e)=>{
-        funcion = 16;
-        console.log("teminado");
-        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID = $(ELEM).attr('idPedido');
-        console.log(ID);
-
-        $.post(PEDIDOS_CTRL,{funcion,ID},(response)=>{
-            console.log(response);
-            listarPedidos()
-        })
-
-    });
-
-    /* AL HACER CLICK EN EL BOTON DE orden */
-    $(document).on('click','.orden',(e)=>{
-        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID = $(ELEM).attr('mesaId');
-        window.location.href ='edicionOrden.php' + "?id=" + ID; 
-    });
-
-
-    $(document).on('click','.verOrden',(e)=>{
-        
-        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const idOrden = $(ELEM).attr('idOrden');
-        // console.log(idOrden)
-        funcion = 22
-
-        /* Cargar las observaciones */
-        $.post(PEDIDOS_CTRL,{funcion,idOrden},(response)=>{
-            console.log('obser: ' + response);
-            const encargados = JSON.parse(response);
-
-            encargados.forEach(encargado=>{
-                $('#observCli').html(encargado.observ);
-            })
-        });
-
-        funcion = 21;
-        
-        // ajax
-        $.post(PEDIDOS_CTRL,{idOrden,funcion},(response)=>{
-            let registros = JSON.parse(response);
-            let template ="";
-            $('#registros').html(template);
-
-            registros.forEach(registro => {
-                template+=`
-                <tr>
-                    <td>${registro.det_cant}</td>
-                    <td>${registro.nombprod}</td>
-                    <td>${registro.presnom}</td>
-                </tr>
-                `;
-                $('#registros').html(template);
-                
-            });
-        })
-    })
-
 
     // listarProdCons();
     // function listarProdCons(){
@@ -327,34 +315,6 @@ $(document).ready(function(){
     // }
 
 })
-
-
-/* USAR SI EL CLIENTE QUIERE UNA DATATABLE: */
-// let datatable = $('#tabla_pedidos').DataTable( {
-
-//     "scrollX": true,
-//     "order": [[ 0, "asc" ]],
-
-
-
-//     ajax: "data.json",
-    
-//     "ajax": {
-        
-//         "url":"../controllers/pedidoController.php",
-//         "method":"POST",
-//         "data":{funcion:funcion},
-//         "dataSrc":""
-//     },
-//     "columns": [
-
-//         { "data": "idPedido" },
-//         { "data": "idMesa" },
-//         { "data": "cant" },
-//         { "data": "idProd" }
-//     ],
-//     language: espanol,
-// } );
 
 
 

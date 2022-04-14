@@ -306,6 +306,7 @@ switch ($_POST['funcion']) {
                 'idprod'=>$objeto->id_det_prod,
                 'nombprod'=>$objeto->nombprod,
                 'cantidad'=>$objeto->det_cant,
+                'idMesa'=>$objeto->id_mesa,
             );
         }
         $jsonstring = json_encode($json);

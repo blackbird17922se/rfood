@@ -281,6 +281,6 @@ html{
     color: yellow;
 }
 
-#procesar-compra{
+#procesar-compra, #nuevoDomicilio{
     float: right;
 }

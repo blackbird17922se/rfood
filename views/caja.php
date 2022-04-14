@@ -135,48 +135,61 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
 
         <!-- ********************** TABLA Pedidos ************************* -->
         <!-- Main content -->
-        <section>
-            <div class="container-fluid">
-                <div class="card card-success card-mdrn">
+
+
+        <!-- INTEGRA TARJETAS -->
+        <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-12 col-sm-6">
+                <div class="card card-primary card-tabs">
+                    <div class="card-header p-0 pt-1">
+                        <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" href="#custom-tabs-one-home" role="tab" aria-controls="custom-tabs-one-home" aria-selected="true">Mesas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#custom-tabs-one-profile" role="tab" aria-controls="custom-tabs-one-profile" aria-selected="false">Domicilios</a>
+                            </li>
+
+                        </ul>
+                    </div>
                     <div class="card-body">
-                        <div id="tb_Ordenmesas" class="row d-flex align-items-stretch"></div>
+                        <div class="tab-content" id="custom-tabs-one-tabContent">
+                            <div class="tab-pane fade show active" id="custom-tabs-one-home" role="tabpanel" aria-labelledby="custom-tabs-one-home-tab">
+
+                                <section>
+                                    <div class="container-fluid">
+                                        <div class="card card-success card-mdrn">
+                                            <div class="card-body">
+                                                <div id="tb_Ordenmesas" class="row d-flex align-items-stretch"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                            </div>
+                            <div class="tab-pane fade" id="custom-tabs-one-profile" role="tabpanel" aria-labelledby="custom-tabs-one-profile-tab">
+                                <section>
+                                    <div class="container-fluid">
+                                        <div class="card card-success card-mdrn">
+                                            <div class="card-body">
+                                                <div id="tb_domicios" class="row d-flex align-items-stretch"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+
+                        </div>
                     </div>
+                    <!-- /.card -->
                 </div>
             </div>
-        </section>
 
-        <div class="card-body p-0">
-            <div id="cp" class="card-body p-0">
-                <div class="card-body">
-                    <div id="cb-pedidos" class="row d-flex align-items-stretch"></div>
-
-
-                    <div>
-                        <!-- 
-                                                class="caja: permite el diseño responsive de la tabla,
-                                                llama al archivo caja.css
-                                            -->
-
-                    </div>
-                </div>
-
-
-
-
-                <div id="cpago">
-                </div>
-
-
-
-
-
-            </div>
-            <div class="row justify-content-between">
-
-                <div class="col-xs-12 col-md-4">
-                </div>
-            </div>
         </div>
+        </div>
+
+
         <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->

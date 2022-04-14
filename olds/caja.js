@@ -50,6 +50,8 @@ $(document).ready(function(){
     }
 
 
+
+
     /* Cargar los datos y costos de ese pedido */
     $(document).off('click','.selItem').on('click','.selItem',(e)=>{
 

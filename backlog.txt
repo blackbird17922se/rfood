@@ -7,9 +7,6 @@
 //////////////////
 Build 4.1
 //////////////////
-* Mejorar parte visual y manejo en Caja
-
-* añadir 'Es domicilio' para que no halla conflicto cuando sean varios domicilios
 
 * Agregar lista desplegable en orden con los meseros, para que se pueda seleccionar el mesero cuando se usa una sola tablet
 
@@ -60,12 +57,17 @@ Build 4.1
     simplemente vcalidando si la mesa esta bloqueada o no y cargar solo la orden
 *caja js quitar funciones oncli inutiles (editar, borrar)
 
+* agregar la opcion de cancelar (borrar) un pedido o domicilio:
+    ej: El cliente cancelo la solicitud de pedido
+
 ****************************************************************************************************
 DONE:
 ****************************************************************************************************
 //////////////////
 Build 4.1 (13/04)
 //////////////////
+* Mejorar parte visual y manejo en Caja
+* Se añadio el modulo domicilio
 
 
 
