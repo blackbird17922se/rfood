@@ -26,6 +26,7 @@
             <thead class="table-success">
               <tr>
                 <th>Nombre</th>
+                <th>Presentación</th>
                 <th>Cantidad</th>
                 <th>Eliminar</th>
               </tr>

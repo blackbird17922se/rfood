@@ -80,7 +80,6 @@ $(document).ready(function(){
                 <tr prodId="${prod.id_prod}">
                     <td>${prod.nombre}</td>
                     <td>${prod.present}</td>
-                    <td>${prod.precio}</td>
                     <td>${prod.cantidad}</td>
                     <td class="td_btn_del">
                         <button class="btn btn-danger btn-block borrar-producto">
@@ -306,7 +305,6 @@ $(document).ready(function(){
             <tr prodId="${PRODUCTO.id_prod}">
                 <td>${PRODUCTO.nombre}</td>
                 <td>${PRODUCTO.present}</td>
-                <td>${PRODUCTO.precio}</td>
                 <td>${PRODUCTO.cantidad}</td>
                 <td><button class="btn btn-danger borrar-producto" ><i class="fas fa-times-circle"></i></button></td>
             </tr>

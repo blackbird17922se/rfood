@@ -169,7 +169,9 @@ html{
 }
 
 .card-mdrn .card-footer{
-    background-color: #1b1b1b;
+    background-color: #2b2b2b00;
+    
+
 }
 
 .table-hover-mdr10:hover{
@@ -250,7 +252,6 @@ html{
 }
 
 #vista-venta .card-mdrn .card-footer{
-    background-color: #202020;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
@@ -278,4 +279,8 @@ html{
 
 .txt-yw{
     color: yellow;
+}
+
+#procesar-compra{
+    float: right;
 }

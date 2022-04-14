@@ -13,9 +13,13 @@ $(document).ready(function(){
     const CAJA_CONTROLLER = '../controllers/cajaController.php';
     const PEDIDO_CTRLR    = '../controllers/pedidoController.php';
 
+    $(".select2").select2({
+        placeholder: "Seleccione una opcion",
+    });
 
     cargarMesas();
     calcularVuelto()
+
 
     function cargarMesas(consulta){
         funcion = 9;
@@ -59,7 +63,7 @@ $(document).ready(function(){
                 if (tieneOrden == 1) {
                     tempButtons=`
 
-                        <button class='selItem btn btn-sm btn-primary' type="button" data-toggle="modal" data-target="#">
+                        <button class='selItem btn btn-sm btn-primary' type="button" data-toggle="modal" data-target="#verOrdenCaja">
                             <i class='fas fa-plus-square mr-2'></i>Seleccionar
                         </button>
 
@@ -75,7 +79,7 @@ $(document).ready(function(){
 
                 templateMesa+=`
 
-                <div mesaId="${mesa.id_mesa}" idOrden="${idOrden}" mesaNom="${mesa.nomMesa}" class="col-12 col-sm-6 col-md-6 align-items-stretch">
+                <div mesaId="${mesa.id_mesa}" idOrden="${idOrden}" mesaNom="${mesa.nomMesa}" class="col-12 col-sm-6 col-md-3 align-items-stretch">
                     <div class="card bg-dark-10">
                         <div class="card-header border-bottom-0">Mesa: ${mesa.nomMesa}
                         </div>
@@ -125,13 +129,7 @@ $(document).ready(function(){
                 $('#total').html(total.toFixed(0));
             });
             $('#lista-compra').html(templateS);
-
-
-            // listarPedidos()
         })
-
-/*          */
-
     });
 
     function calcularVuelto(){
@@ -139,9 +137,7 @@ $(document).ready(function(){
         let pago = 0;
         
         pago = $('#pago').val();
-        
         vuelto = pago - totalS;
-                
         $('#vuelto').html(vuelto);
     }
 
@@ -154,10 +150,6 @@ $(document).ready(function(){
     function vaciarTabla(){
         $('#lista-compra').empty();
         $('#pago').val('');
-        // eliminarLS();
-        // contarProductos();
-        // calcularTotal();
-        // datatable.ajax.reload();
     }
 
     /* ´------------------ */
@@ -167,11 +159,11 @@ $(document).ready(function(){
         funcion = 6;
         let mesa = idMesa;
         let idOrdSel = idOrdenSel;
+        let formaPago = $('#formaPago').val();
         let total = $('#total').get(0).textContent;
 
         $.post(CAJA_CONTROLLER,{funcion,total,idOrdSel,formaPago,mesa},(response)=>{
-            console.log(response);
-
+            // console.log(response);
 
             // Modificar estado del pedido
             funcion = 9;
@@ -186,6 +178,7 @@ $(document).ready(function(){
 
         });
 
+        $('#verOrdenCaja').modal('hide');
 
         Swal.fire({
             title: 'Venta Realizada',
@@ -241,24 +234,6 @@ $(document).ready(function(){
         });
 
     });
-    
-    
-    
-        /* Radio buttons de forma de pago. la opcion por default es efectivo (0) */
-        var formaPago = $("input[name='fpago']:checked").val();
-        console.log(formaPago);
-    
-    
-        $("input[name='fpago']").click(function () {    
-            // alert("La edad seleccionada es: " + $('input:radio[name=fpago]:checked').val());
-            // // alert("La edad seleccionada es: " + $(this).val());
-            formaPago =$('input:radio[name=fpago]:checked').val()
-            console.log(formaPago);
-        });
-
-
-
-
     
 
     /* *****************FUNCIONES PARA REVISAR Y DESCARTAR*********************** */

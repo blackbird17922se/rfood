@@ -163,6 +163,13 @@
     .caja tbody tr {
       font-size: 14px;
     }
+
+    #procesar-compra{
+      float: none;
+      display: block;
+      width: 100%;
+  }
+
   }
   @media (max-width: 576px) {
     .caja {
