@@ -1,11 +1,11 @@
 $(document).ready(function(){
 
-    buscarMesa();
-
+    
     var funcion = 0;
     var edit = false;   // bandera
     const MESA_CTRLR = '../controllers/mesaController.php';
-
+    
+    buscarMesa();
 
     /* Formukario crear editar */
     $('#form-crear-mesa').submit(e=>{
@@ -50,7 +50,7 @@ $(document).ready(function(){
         funcion = 2;
         // ajax
         $.post(MESA_CTRLR,{consulta,funcion},(response)=>{
-            // console.log(response);
+            console.log(response);
             const mesaS = JSON.parse(response);
             let template = '';
             mesaS.forEach(mesa=>{

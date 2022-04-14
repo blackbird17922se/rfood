@@ -7,6 +7,7 @@
 //////////////////
 Build 4.1
 //////////////////
+* Mejorar parte visual y manejo en Caja
 
 * añadir 'Es domicilio' para que no halla conflicto cuando sean varios domicilios
 
@@ -62,11 +63,19 @@ Build 4.1
 ****************************************************************************************************
 DONE:
 ****************************************************************************************************
+//////////////////
+Build 4.1 (13/04)
+//////////////////
+
+
+
+
 
 (12/04)
 //////////////////
 Build 4.0
 //////////////////
+* Reparar gestion mesa
 * Reparar ventas
     - No se esta efectuando la venta en caja
     - No esta cargando las ventas generales ni las del dia
