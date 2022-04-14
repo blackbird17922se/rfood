@@ -140,5 +140,5 @@ include_once "layouts/footer.php";
 }
 ?>
 
-<script src="../public/js/datatables.js"></script>
-<script src="../public/js/venta.js"></script>
+<script src="../js/datatables.js"></script>
+<script src="../js/venta.js"></script>

@@ -1,18 +1,27 @@
 $(document).ready(function(){
 
-    var funcion = 0;
-    const PEDIDOS_CTRL = '../controllers/pedidoController.php';
-    const MESA_CTRLR = '../controllers/mesaController.php';
-    const VENTA_CTRLR = "../controllers/ventaController.php";
+    var funcion    = 0;
+    var totalS     = 0;
+    var idOrdenSel = 0;
+    var idMesa     = 0;
 
+    const CAJA_CONTROLLER = '../controllers/cajaController.php';
+    const PEDIDO_CTRLR    = '../controllers/pedidoController.php';
+
+    $(".select2").select2({
+        placeholder: "Seleccione una opcion",
+    });
 
     cargarMesas();
+    listarDomiciliosCaja();
+    calcularVuelto()
+
 
     function cargarMesas(consulta){
-        funcion = 18;
+        funcion = 9;
         
         // ajax
-        $.post(PEDIDOS_CTRL,{consulta,funcion},(response)=>{
+        $.post(CAJA_CONTROLLER,{consulta,funcion},(response)=>{
             console.log(response);
             const mesaS = JSON.parse(response);
             let templateMesa = '';
@@ -50,12 +59,10 @@ $(document).ready(function(){
                 if (tieneOrden == 1) {
                     tempButtons=`
 
-                        <button class='verOrden btn btn-sm btn-primary' type="button" data-toggle="modal" data-target="#verOrden">
-                            <i class='fas fa-plus-square mr-2'></i>Ver Orden
+                        <button class='selItem btn btn-sm btn-primary' type="button" data-toggle="modal" data-target="#verOrdenCaja">
+                            <i class='fas fa-plus-square mr-2'></i>Seleccionar
                         </button>
-                        <button class='editarOrden btn btn-sm btn-warning'>
-                            <i class='fas fa-plus-square mr-2'></i>Editar Orden
-                        </button>
+
                     `;
                     
                 } else {
@@ -65,13 +72,10 @@ $(document).ready(function(){
                         </button>
                     `;
                 }
-// console.log(idOrden);
-
-                // let idMesa = mesa.id_mesa;
 
                 templateMesa+=`
 
-                <div mesaId="${mesa.id_mesa}" idOrden="${idOrden}" mesaNom="${mesa.nomMesa}" class="col-12 col-sm-6 col-md-6 align-items-stretch">
+                <div mesaId="${mesa.id_mesa}" idOrden="${idOrden}" mesaNom="${mesa.nomMesa}" class="col-12 col-sm-6 col-md-3 align-items-stretch">
                     <div class="card bg-dark-10">
                         <div class="card-header border-bottom-0">Mesa: ${mesa.nomMesa}
                         </div>
@@ -93,160 +97,219 @@ $(document).ready(function(){
         })
     }
 
+    /* Lista los domicilios */
+    function listarDomiciliosCaja(){
+        funcion = 10;
 
-    // listarPedidos()
+        $.post(CAJA_CONTROLLER,{funcion},(response)=>{
+            console.log('list dom resp: ' + response);
 
-    /* Lista los pedidos para el restaurante */
-    // function listarPedidos(){
-    //     funcion = 2;
-
-    //     $.post(PEDIDOS_CTRL,{funcion},(response)=>{
-    //         console.log(response);
-
-    //         let templateS = '';
-    //         const PEDIDOS = JSON.parse(response);
+            const PEDIDOS = JSON.parse(response);
+            let template = '';
             
-    //         PEDIDOS.forEach(pedido=>{
+            PEDIDOS.forEach(pedido=>{
 
-    //             pedido.observ = pedido.observ == null ? "Ninguna":pedido.observ;
-
-    //             let tempProducts = '';
-    //             pedido.prods.forEach(item=>{
-
-    //                 /* 
-    //                  * item[0] = nombre del platillo
-    //                  * item[1] = presentacion del platillo
-    //                  * item[2] = cantidad del platillo
-    //                 */
-    //                 tempProducts+=`
-    //                 <h2 class="lead"><span class="card-num-big">${item[2]} </span><b>${item[0]}</b> ${item[1]}</h2>
-    //                 `;
-              
-    //             });
-
-
-    //             templateS+=`
+                template+=`
         
-    //             <div idPedido="${pedido.idPedido}" class="col-12 col-sm-6 col-md-6 align-items-stretch">
-    //                 <div class="card bg-dark-10">
-    //                     <div class="card-header border-bottom-0">Orden Numero: ${pedido.idPedido}
-    //                         <h2 class="lead"><b>Mesa: ${pedido.nomMesa}</b></h2>
-    //                     </div>
-                
-    //                     <div class="card-body pt-0">
-    //                         <div class="row">
-    //                             <div class="col-12">
-    //                                 <h2 class="lead"><b>${tempProducts}</b></h2>
-    //                                 <div class="card-obs">
-    //                                     <h5>Observaciones</h5>
-    //                                     <p>${pedido.observ}</p>
-    //                                 </div>
-    //                             </div>                           
-    //                         </div>
-                
-    //                         <button class='terminado btn btn-sm btn-success'>
-    //                             <i class='fas fa-plus-square mr-2'></i>Entregado
-    //                         </button>
-    //                         <button class='orden btn btn-sm btn-primary'>
-    //                             <i class='fas fa-plus-square mr-2'></i>Editar Pedido
-    //                         </button>
-    //                         <button class='lib_mesa btn btn-sm btn-warning'>
-    //                             <i class='fas fa-plus-square mr-2'></i>Liberar Mesa
-    //                         </button>
-    //                     </div>                        
-    //                 </div>
-    //             </div>
-    //             `;   
-    //         });
-    //         $('#cb-pedidos').html(templateS);
-    //     });
-    // }
+                    <div idDom="${pedido.idPedido}" class="col-12 col-sm-12 col-md-2 align-items-stretch">
+                        <div class="card bg-dark-10">
+                            <div class="card-header border-bottom-0">Orden: ${pedido.idPedido}</div>
 
-    /* AL HACER CLICK EN EL BOTON VER ORDEN */
-/*     $(document).on('click','.verOrden',(e)=>{
-        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID = $(ELEM).attr('mesaId');
-        // window.location.href ='edicionOrden.php' + "?id=" + ID; 
-    }); */
+                            <div class="card-body pt-0">
 
-    /* AL HACER CLICK EN EL BOTON EDITAR ORDEN */
-    $(document).on('click','.editarOrden',(e)=>{
-        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID = $(ELEM).attr('idOrden');
-        window.location.href ='edicionOrden.php' + "?idOrden=" + ID; 
+                                <button class='selDomicilio btn btn-sm btn-primary' type="button" data-toggle="modal" data-target="#verOrdenCaja">
+                                    <i class='fas fa-plus-square mr-2'></i>Seleccionar
+                                </button>
+
+                            </div>                        
+                        </div>
+                    </div>
+                `;   
+            });
+            $('#tb_domicios').html(template);
+        });
+    }
+
+    /* Cargar los datos y costos de ese pedido */
+    $(document).off('click','.selItem').on('click','.selItem',(e)=>{
+
+        const ELEM   = $(this)[0].activeElement.parentElement.parentElement.parentElement;
+        const ID     = $(ELEM).attr('idOrden');
+        const IDMESA = $(ELEM).attr('mesaId');
+        const NOM_MESA = $(ELEM).attr('mesaNom');
+
+        // console.log('ORD'+ID + ' IDMESA'+IDMESA);
+        funcion      = 5;
+        idOrdenSel   = ID;
+        idMesa       = IDMESA;
+
+        $.post(CAJA_CONTROLLER,{funcion,ID,IDMESA},(response)=>{
+            // console.log(response);
+            const PEDIDOS = JSON.parse(response);
+            let templateS = '';
+            let total = 0;
+          
+            PEDIDOS.forEach(pedido=>{
+
+                templateS+=`${pedido.template}'`;
+
+                total += pedido.subtotal
+
+                totalS = total;
+                $('#total').html(total.toFixed(0));
+            });
+            $('#lista-compra').html(templateS);
+
+            templateTitulo = `
+                <span id="tituloDetalle">Detalle de la Orden en mesa ${NOM_MESA}</span>
+            `;
+            $('#tituloDetalle').html(templateTitulo);
+        })
     });
 
-    /* AL HACER CLICK EN EL BOTON EDITAR ORDEN */
-    $(document).on('click','.nuevaOrden',(e)=>{
-        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID = $(ELEM).attr('mesaId');
-        console.log(ID);
-        window.location.href ='nuevaOrden.php' + "?mesaId=" + ID; 
-    });
+    /* Cargar los datos y costos de ese domicilio */
+    $(document).off('click','.selDomicilio').on('click','.selDomicilio',(e)=>{
+        console.log('domm');
 
+        const ELEM   = $(this)[0].activeElement.parentElement.parentElement.parentElement;
+        const ID     = $(ELEM).attr('idDom');
+        const IDMESA = -1;
 
-    /* AL HACER CLICK EN EL BOTON DE TERMINADO */
-    $(document).on('click','.terminado',(e)=>{
-        funcion = 16;
-        console.log("teminado");
-        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID = $(ELEM).attr('idPedido');
-        console.log(ID);
+        // console.log('ORD'+ID + ' IDMESA'+IDMESA);
+        funcion      = 5;
+        idOrdenSel   = ID;
+        idMesa       = IDMESA;
 
-        $.post(PEDIDOS_CTRL,{funcion,ID},(response)=>{
-            console.log(response);
-            listarPedidos()
+        $.post(CAJA_CONTROLLER,{funcion,ID,IDMESA},(response)=>{
+            // console.log(response);
+            const PEDIDOS = JSON.parse(response);
+            let templateS = '';
+            let total = 0;
+          
+            PEDIDOS.forEach(pedido=>{
+
+                templateS+=`${pedido.template}'`;
+
+                total += pedido.subtotal
+
+                totalS = total;
+                $('#total').html(total.toFixed(0));
+            });
+            $('#lista-compra').html(templateS);
         })
 
-    });
-
-    /* AL HACER CLICK EN EL BOTON DE orden */
-    $(document).on('click','.orden',(e)=>{
-        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID = $(ELEM).attr('mesaId');
-        window.location.href ='edicionOrden.php' + "?id=" + ID; 
-    });
-
-
-    $(document).on('click','.verOrden',(e)=>{
+        templateTitulo = `
+            <span id="tituloDetalle">Detalle de la Orden ${ID}</span>
+        `;
+        $('#tituloDetalle').html(templateTitulo);
         
-        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const idOrden = $(ELEM).attr('idOrden');
-        // console.log(idOrden)
-        funcion = 22
-
-        /* Cargar las observaciones */
-        $.post(PEDIDOS_CTRL,{funcion,idOrden},(response)=>{
-            console.log('obser: ' + response);
-            const encargados = JSON.parse(response);
-
-            encargados.forEach(encargado=>{
-                $('#observCli').html(encargado.observ);
-            })
         });
 
-        funcion = 21;
+    function calcularVuelto(){
+        let vuelto = 0;
+        let pago = 0;
         
-        // ajax
-        $.post(PEDIDOS_CTRL,{idOrden,funcion},(response)=>{
-            let registros = JSON.parse(response);
-            let template ="";
-            $('#registros').html(template);
+        pago = $('#pago').val();
+        vuelto = pago - totalS;
+        $('#vuelto').html(vuelto);
+    }
 
-            registros.forEach(registro => {
-                template+=`
-                <tr>
-                    <td>${registro.det_cant}</td>
-                    <td>${registro.nombprod}</td>
-                    <td>${registro.presnom}</td>
-                </tr>
-                `;
-                $('#registros').html(template);
-                
+
+    $('#pago').keyup((e)=>{
+        calcularVuelto()
+    });
+
+    /* Vaciar la tabla y demas campos */
+    function vaciarTabla(){
+        $('#lista-compra').empty();
+        $('#pago').val('');
+    }
+
+    /* ´------------------ */
+    $(document).on('click','#procesar-compra',(e)=>{
+        // console.log('ncompra');
+
+        funcion = 6;
+        let mesa = idMesa;
+        let idOrdSel = idOrdenSel;
+        let formaPago = $('#formaPago').val();
+        let total = $('#total').get(0).textContent;
+
+        $.post(CAJA_CONTROLLER,{funcion,total,idOrdSel,formaPago},(response)=>{
+            console.log(response);
+
+            // Modificar estado del pedido
+            funcion = 9;
+            $.post(PEDIDO_CTRLR,{funcion,idOrdenSel},()=>{
+                idOrdenSel = 0;
+                cargarMesas();
+                listarDomiciliosCaja();
             });
-        })
-    })
 
+            if(idMesa != -1){
+                /* Desbloquear mesa */
+                funcion = 11;
+                $.post(PEDIDO_CTRLR,{funcion,mesa});
+            }
+        });
+
+        $('#verOrdenCaja').modal('hide');
+
+        Swal.fire({
+            title: 'Venta Realizada',
+            text: "¿Desea imprimir recibo?",
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonText: 'Imprimir',
+            cancelButtonText: 'Cancelar',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+
+                let funcion = "ultimaVenta";
+                $.post(CAJA_CONTROLLER,{funcion},(response)=>{
+                    console.log(response);
+                
+
+                    $.ajax({
+                        url: 'ticket.php',
+                        type: 'POST',
+                        success: function(resp){
+                            if(resp==1){
+                                alert('imprime..');
+                                    vaciarTabla();
+                            }else{
+                                alert('error..');
+                                vaciarTabla()
+                            }
+                        }
+                    })                   
+                });
+
+    
+                console.log("selecciono imprimir");
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                console.log("selecciono no imprimir");
+
+                $.ajax({
+                    url: 'ticketc.php',
+                    type: 'POST',
+                    success: function(resp){
+                        if(resp==1){
+                            alert('abre..');
+                                vaciarTabla();
+                        }else{
+                            // alert('error..');
+                            vaciarTabla()
+                        }
+                    }
+                })
+                vaciarTabla()
+            }
+        });
+        idMesa = 0;
+    });
+    
 
     // listarProdCons();
     // function listarProdCons(){
@@ -258,34 +321,6 @@ $(document).ready(function(){
     // }
 
 })
-
-
-/* USAR SI EL CLIENTE QUIERE UNA DATATABLE: */
-// let datatable = $('#tabla_pedidos').DataTable( {
-
-//     "scrollX": true,
-//     "order": [[ 0, "asc" ]],
-
-
-
-//     ajax: "data.json",
-    
-//     "ajax": {
-        
-//         "url":"../controllers/pedidoController.php",
-//         "method":"POST",
-//         "data":{funcion:funcion},
-//         "dataSrc":""
-//     },
-//     "columns": [
-
-//         { "data": "idPedido" },
-//         { "data": "idMesa" },
-//         { "data": "cant" },
-//         { "data": "idProd" }
-//     ],
-//     language: espanol,
-// } );
 
 
 

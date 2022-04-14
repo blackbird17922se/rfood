@@ -1,39 +1,70 @@
 /* 
- * ORDEN
- * Controla las ordenes de Mesero
+
 */
 
 $(document).ready(function(){
 
-    var funcion        = 0
-    var idCat          = "";
-    const ID_MESA   = $('#pedidoId').val();
-    const ITEM_CTRLR   = '../controllers/itemController.php';
-    const MESA_CTRLR   = '../controllers/mesaController.php';
-    const TIPO_CTRLR   = '../controllers/tipoController.php';
-    const PEDIDO_CTRLR = '../controllers/pedidoController.php';
+    var funcion, idCat="";
 
-    listarCategs();
-    listarMesas();
+    const URL_INGRED_CONTROL = '../controllers/ingredController.php';
+    const URL_ITEM_CONTROL   = '../controllers/itemController.php';
+    const URL_CATEG_ITEM_CONTROL = '../controllers/tipoController.php';
+    const URL_PRESENT_ITEM_CONTROL = '../controllers/presentacionController.php';
     
     $(".select2").select2({
         placeholder: "Seleccione una opcion",
     });
 
-    $('#cat-carrito').show()
+    $('#ing-carrito').show();
 
-    /* Botones */
-    $(document).on('click','.salir',(e)=>{
-        eliminarLS();
-        window.location.href ='ordenMesas.php'; 
-    });
 
-    /* Le carga al listado superor una lista de categorias para que dependiendo
-    la categoria que escoja, se muestraen los productos de la misma */ 
-    function listarCategs(){
+    /***********************************************
+     * Lista el tipo y la presentacion del producto (o plato)
+    ************************************************/ 
+    listar_tipos();
+    function listar_tipos(){
         funcion = "listar_tipos";
-        $.post(TIPO_CTRLR,{funcion},(response)=>{
+        $.post(URL_CATEG_ITEM_CONTROL,{funcion},(response)=>{
+            // console.log("tipos" + response);
+            const TIPOS = JSON.parse(response);
+            let template = '';
+            TIPOS.forEach(tipo=>{
+                template+=`
+                    <option value="${tipo.id_tipo}">${tipo.nom_tipo}</option>
+                `;
+            });
+            /* id del campo que contiene el listado */
+            $('#cat_item').html(template);
+        })
+    }
+     
+    listar_presents();
+    function listar_presents(){
+        funcion = "listar_presents";
+        $.post(URL_PRESENT_ITEM_CONTROL,{funcion},(response)=>{
             // console.log(response);
+            const PRESENTS = JSON.parse(response);
+            let template = '';
+            PRESENTS.forEach(present=>{
+                template+=`
+                    <option value="${present.id_present}">${present.nom_present}</option>
+                `;
+            });
+            /* id del campo que contiene el listado */
+            $('#pres_item').html(template);
+        })
+    }
+
+
+    /***********************************************
+     * Lista los tipos de ingredientes  que puede llevar el producto a
+     * crear (Panes, Carnes, Lacteos...)
+    ************************************************/ 
+    listarTipoIngred();
+    function listarTipoIngred(){
+        funcion = "listarTipoIngred";
+        $.post('../controllers/invTipoController.php',{funcion},(response)=>{
+            console.log(response);
             const TIPOS = JSON.parse(response);
             let template = '';
             TIPOS.forEach(tipo=>{
@@ -43,147 +74,107 @@ $(document).ready(function(){
                 `;
             });
             /* id del campo que contiene el listado */
-            $('#prod_tipo').html(template);
+            $('#tipo_ing').html(template);
         })
     }
 
 
-    /* 
-        Lista las mesas disponibles, o sea las que no tengan pedidos realizados,
-        pendientes o por cancelar
-    */
-    function listarMesas(){
-        console.log('dentro de listarMesas');
-        funcion = 5;
-        $.post(MESA_CTRLR,{funcion},(response)=>{
-            console.log('mesas: '+response);
-            const MESAS = JSON.parse(response);
-            let template = `
-            <option value=""></option>
-            <option value="-1">One</option>
-            `;
-            MESAS.forEach(mesa=>{
-                template+=`
-                
-                
-                <option value="${mesa.id_mesa}">${mesa.nom_mesa}</option>
-                `;
-            });
-            /* id del campo que contiene el listado */
-            $('#mesa').html(template);
-        })
-    }
 
     var datatable="";
 
     mostrarProducts()
-    contarProductos();
     recuperarLSRecarga()
 
 
     /* OJO---FUNCIONES DEL LOCAL STOG */
 
     function recuperarLS(){
-        let productos;
-        if(localStorage.getItem('productos')===null){
-            productos=[];
+        let ingreds;
+        if(localStorage.getItem('ingreds')===null){
+            ingreds=[];
+            console.log("ingrds: "+ingreds);
         }else{
-            productos = JSON.parse(localStorage.getItem('productos'));
-
+            ingreds = JSON.parse(localStorage.getItem('ingreds'));
+            console.log("ingrds: "+ingreds);
         }
-        return productos;
+        return ingreds;
     }
 
     /* Recupera el localstarage al recargar la pagina */
     function recuperarLSRecarga(){
-        let productos;
-        if(localStorage.getItem('productos')===null){
-            productos=[];
+        let ingreds;
+        if(localStorage.getItem('ingreds')===null){
+            ingreds=[];
         }else{
             let template="";
-            productos = JSON.parse(localStorage.getItem('productos'));
-            productos.forEach(prod => {
+            ingreds = JSON.parse(localStorage.getItem('ingreds'));
+            ingreds.forEach(prod => {
                 template=`
                 <tr prodId="${prod.id_prod}">
+                    <td>${prod.id_prod}</td>
                     <td>${prod.nombre}</td>
-                    <td>${prod.present}</td>
-                    <td>${prod.precio}</td>
+                    <td>${prod.medida}</td>
                     <td>${prod.cantidad}</td>
-                    <td class="td_btn_del">
-                        <button class="btn btn-danger btn-block borrar-producto">
-                            <i class="fas fa-times-circle"></i>
-                        </button>
-                    </td>
+                    <td><button class="btn btn-danger borrar-producto" ><i class="fas fa-times-circle"></i></button></td>
                 </tr>
                 `;
-                $('#tbd-lista').append(template);
+                $('#tbd-lista-ing').append(template);
                 
             });
 
         }
-        return productos;
+        return ingreds;
     }
 
     /* AGREGAR Producto al LOCAL STORAGE */
-    function agregarLS(producto){
-        let productos;
-        productos = recuperarLS();
-        productos.push(producto);
-        localStorage.setItem('productos',JSON.stringify(productos));
+    function agregarLS(ingred){
+        let ingreds;
+        ingreds = recuperarLS();
+        ingreds.push(ingred);
+        localStorage.setItem('ingreds',JSON.stringify(ingreds));
     }
 
     function eliminarProdLS(ID){
-        let productos;
-        productos = recuperarLS();
-        productos.forEach(function(producto,indice){
-            if(producto.id_prod === ID){
-                productos.splice(indice,1);
+        let ingreds;
+        ingreds = recuperarLS();
+        ingreds.forEach(function(ingred,indice){
+            if(ingred.id_prod === ID){
+                ingreds.splice(indice,1);
             }
         });
-        localStorage.setItem('productos',JSON.stringify(productos));
+        localStorage.setItem('ingreds',JSON.stringify(ingreds));
     }
 
     function eliminarLS(){
         localStorage.clear();
     }
 
-    /* Agrega el numero de productos que lleva el carrito */
-    function contarProductos(){
-        let productos;
-        let contador = 0;
-        productos = recuperarLS();
-        productos.forEach(producto=>{
-            contador++;
-        });
-        // return contador;
-        $('#contador').html(contador);
-
-    }
-
 
     /* Carga los productos en la tabla segun la categoria indicada */
     function mostrarProducts(){
-        funcion = 141;
+        funcion = "listarIngredsCateg";
         datatable = $('#tabla_products').DataTable({
 
             "scrollX": true,
-            "order": [[ 1, "asc" ]],
+            "order": [[ 2, "asc" ]],
     
             ajax: "data.json",
             
             "ajax": {
                 
-                "url":ITEM_CTRLR,
+                "url":URL_INGRED_CONTROL,
                 "method":"POST",
                 "data":{funcion:funcion, idCat:idCat},
                 "dataSrc":""
             },
             "columns": [
 
+           
                 { "data": "cant" },
+                { "data": "medida" },
                 { "data": "nombre" },
-                { "data": "present" },
-                { "data": "precio" }
+                { "data": "id_prod" },
+           
             ],
             language: espanol,
         });
@@ -192,52 +183,24 @@ $(document).ready(function(){
        
     }
 
-    function procesarPedido(){
-        console.log('pp');
-        let productos;
-        productos = recuperarLS();
-        if(productos.length === 0){
-            Swal.fire({
-                icon: 'error',
-                title: 'Atención',
-                text: 'Debes agregar algún producto al pedido',
-            })
-        }else{
-            funcion = 1;
-            let id_mesa = ID_MESA;
-            let observ = $('#observ').val();
-            let entregado = 0;
-            let terminado = 0;
-            let pagado    = 0;
-
-        // let productos = recuperarLS();
-        /* nviar ese producto al controlador */
-            let json = JSON.stringify(productos);
-            // console.log(json);
-            $.post(PEDIDO_CTRLR,{funcion,id_mesa,json,observ,entregado,terminado,pagado},(response=>{
-                console.log(response);
-                console.log(`val observ: ${observ}`);
-
-            }));
-            datatable.ajax.reload();
-        }
-    }
-
     
     // listarProdCons();
     // function listarProdCons(){
-    //     funcion = "listarProducts";
-    //     $.post('../controllers/ordenController.php',{funcion, idCat},(response)=>{
-    //         console.log(response);
+    //     // console.log("listarProdCons");
+    //     console.log("idCat: " + idCat);
+
+    //     funcion = "listarProlistarIngredsCategducts";
+    //     $.post(URL_INGRED_CONTROL,{funcion, idCat},(response)=>{
+    //         console.log("prod: " + response);
    
     //     })
     // }
 
 
-    $( "#prod_tipo" ).change(function() {  
+    $( "#tipo_ing" ).change(function() {  
         datatable.destroy();
-        idCat = $('#prod_tipo').val();
-        console.log(idCat);
+        idCat = $('#tipo_ing').val();
+        // console.log(idCat);
         mostrarProducts()
     });
 
@@ -250,54 +213,61 @@ $(document).ready(function(){
         input[0][isNegative ? 'stepDown' : 'stepUp']()
         }
     })
-    // $('.btn-plus, .btn-minus').on('click', function(e) {
-    //     const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
-    //     const input = $(e.target).closest('.input-group').find('input');
-    //     if (input.is('input')) {
-    //     input[0][isNegative ? 'stepDown' : 'stepUp']()
-    //     }
-    // }) 
 
 
+    /* Borrar Ingrediente de la lista de ingredintes del item */
+    $(document).on('click','.borrar-producto',(e)=>{
+        const ELEM = $(this)[0].activeElement.parentElement.parentElement;
+        const ID = $(ELEM).attr('prodId');
+        ELEM.remove();
+        eliminarProdLS(ID);
+        
+        // calcularTotal()
+    })
 
-    /* CARRITO DE COMPRAS AL HACER CLICK EN EL BOTON DE CADA PRODUCTO "AGREGAR AL CARRITO"*/
+    /* VACIAR tabla */
+    $(document).on('click','#vaciar-carrito-ing',(e)=>{
+        /* borra todos los elementos del tbody */
+        $('#tbd-lista-ing').empty();
+        eliminarLS();
+        
+        // calcularTotal()
+    });
+
+
+    /**
+     * el contenido de la tabla "tabla_products" y el boton agregar-carrito
+     * vienen desde ingredController.php/listarIngredsCateg
+    */
 
     $('#tabla_products tbody').off('click','.agregar-carrito').on('click','.agregar-carrito',function(){
-        //$('.agregar-carrito').addClass('.vettttttttt');
-
         let datos = datatable.row($(this).parents()).data();
 
-        const ID      = datos.id_prod;
+        const medida = datos.medida;
         const NOMB    = datos.nombre;
-        const PRESENT = datos.present;
-        const PRECIO  = datos.precio;
+        const ID      = datos.id_prod;
         let CANT      = $('#'+ID).val();
-
-        var btn_item = 'btn-item-'+datos.btn_item
-        
-
-        console.log(btn_item);
+        const PLATO   = $('#id_plato').val();
 
   
 
         // const CATEG = datos.categ;
 
-        // console.log("id:"+ID+" nom:"+NOMB+" pre:"+PRECIO+" cant:"+CANT);
+        console.log("id:"+ID+" nom:"+NOMB+" cant:"+CANT);
 
         const PRODUCTO = {
             id_prod  : ID,
             nombre   : NOMB,
-            present  : PRESENT,
-            precio   : PRECIO,
+            medida  : medida,
             cantidad : CANT,
-            // categ : CATEG,
+            id_plato : PLATO
         }
 
         /* verificar si el producto existe ya en el carr */
         let id_prod;
-        let products;
-        products = recuperarLS();
-        products.forEach(prod=>{
+        let ingreds;
+        ingreds = recuperarLS();
+        ingreds.forEach(prod=>{
             if(prod.id_prod === PRODUCTO.id_prod){
                 id_prod = prod.id_prod
             }
@@ -307,7 +277,7 @@ $(document).ready(function(){
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: 'Ya ingresaste este producto al pedido',
+                text: 'Ya ingresaste este producto al carrito',
             })
         }else if(PRODUCTO.cantidad == 0){
             Swal.fire({
@@ -318,63 +288,150 @@ $(document).ready(function(){
         }else{
             template=`
             <tr prodId="${PRODUCTO.id_prod}">
+                <td>${PRODUCTO.id_prod}</td>
                 <td>${PRODUCTO.nombre}</td>
-                <td>${PRODUCTO.present}</td>
-                <td>${PRODUCTO.precio}</td>
+                <td>${PRODUCTO.medida}</td>
                 <td>${PRODUCTO.cantidad}</td>
                 <td><button class="btn btn-danger borrar-producto" ><i class="fas fa-times-circle"></i></button></td>
             </tr>
             `;
-            $('#tbd-lista').append(template);
+            $('#tbd-lista-ing').append(template);
             agregarLS(PRODUCTO);
-            contarProductos();
-
-            //Al agregar el item, desabilitar el boton de agregar
-            $("#btn-item-"+datos.btn_item).prop('disabled', true);
+            
         }   
     });
 
 
-    /* Borrar product de car */
-    $(document).on('click','.borrar-producto',(e)=>{
-        const ELEM = $(this)[0].activeElement.parentElement.parentElement;
-        const ID = $(ELEM).attr('prodId');
-        console.log(ID);
-        ELEM.remove();
-        eliminarProdLS(ID);
-        $("#btn-item-"+ID).prop('disabled', false);
-        contarProductos();
-        // calcularTotal()
+    /* Clic al Guardar Item */
+    $(document).on('click','#procesarItemMenu',(e)=>{
+
+        let ingreds   = [];
+        let json      = '';
+
+        let codbar    = 0;
+        let cat_item  = '';
+        let nombre    = '';
+        let pres_item = '';
+        let precio    = 0;
+        let iva       = 0;
+
+        ingreds = recuperarLS();
+        
+        // Verificar check del IVA
+        if($('#iva').is(':checked')){
+            $('#iva').prop("value","1");
+        }else{
+            $('#iva').prop("value","0");
+        }
+
+        funcion   = 145;
+
+        codbar    = $('#codbar').val();
+        cat_item  = $('#cat_item').val();
+        nombre    = $('#nombre').val();
+        pres_item = $('#pres_item').val();
+        precio    = $('#precio').val();
+        iva       = $('#iva').val();
+
+
+    /* nviar ese producto al controlador */
+        json = JSON.stringify(ingreds);
+        console.log(json);
+        $.post(URL_ITEM_CONTROL,{funcion,codbar,cat_item,nombre,pres_item,precio,iva,json},(response=>{
+            console.log("RESP MEN: "+response);
+            if(response == 'addItem'){
+                Swal.fire({
+                    title: 'Agregado ' + nombre + ' Exitosamente',
+                    icon: 'success',
+                    confirmButtonText: 'Aceptar',
+                    reverseButtons: true
+                });
+
+                eliminarLS();
+                $('#codbar').val('');
+                $('#nombre').val('');
+                $('#adici').val('');
+                $('#precio').val('');
+                $('#tbd-lista-ing').empty();
+                $(".select2").val('').trigger('change');
+
+            }else if(response == 'noAddItem'){
+                Swal.fire({
+                    title: 'Error al registrar ' + nombre,
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar',
+                    reverseButtons: true
+                });
+            }
+        }));
     })
 
-    /* VACIAR EL DESPLEGABLE DEL PEDIDO ACTUAL */
-    $(document).on('click','#vaciar-pedido',(e)=>{
-        /* borra todos los elementos del tbody */
-        $('#tbd-lista').empty();
+
+/*     $(document).on('click','#procesarItemMenu',(e)=>{
+        console.log("procesarItemMenu");
+        procesarItemMenu();
         eliminarLS();
-        contarProductos();
-        datatable.ajax.reload();
-        $("#prod_tipo").val('').trigger('change');
+        $('#tbd-lista-ing').empty();
+        $(".select2").val('').trigger('change');
+    }) */
+
+
+
+
+    /* **************************************************** */
+    /*  FUNCIONES PARA AGREGAR INGREDS A UN ITEM YA CREADO  */
+    /* **************************************************** */
+
+    $(document).on('click','#procesarNIngredItem',(e)=>{
+        console.log("procesarNIngredItem");
+        procesarNIngredItem();
+        eliminarLS();
+        $('#tbd-lista-ing').empty();
+        $(".select2").val('').trigger('change');
+    })
+
+
+    
+    function procesarNIngredItem(){
+
+        let ingreds   = [];
+        let json      = '';
+
+        ingreds = recuperarLS();
+        if(ingreds.length === 0){
+            Swal.fire({
+                icon: 'error',
+                title: 'Atencion',
+                text: 'No Asignaste Ingredientes Al Ítem',
+            })
+        }else{
+
+            funcion   = 160;
+
+        /* nviar ese producto al controlador */
+            json = JSON.stringify(ingreds);
+            console.log(json);
+            $.post(URL_ITEM_CONTROL,{funcion,codbar,cat_item,nombre,pres_item,precio,iva,json},(response=>{
+                console.log("RESP MEN: "+response);
+
+                if (response=="errorAddItem") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error Fatal',
+                        text: 'Ha ocurrido un error interno al agregar el ítem.',
+                    })   
+                }
+
+            }));
+        }
+    }
+
+    $(document).on('click','.salir',(e)=>{
+        location.href = '../views/adm_menu.php';
     });
 
 
-    /* Click en procesar pedido */
-    $(document).on('click','#procesar-orden',(e)=>{
-        procesarPedido();
-            
-        /* Bloquear la mesa y refrescar lista */
-/*         if(mesa = -1){
-            funcion = 10;
-            $.post(PEDIDO_CTRLR,{funcion,mesa},(() =>{
-                listarMesas();
-            }));
-        } */
-        eliminarLS();
-        contarProductos();
-        $('#tbd-lista').empty();
-        $(".select2").val('').trigger('change');
-    
-    })
+
 
 
 });

@@ -26,8 +26,8 @@ switch ($_POST['funcion']) {
      * de la orden
     */
     case 2:
-        session_start();
-$idUsu = $_SESSION['usuario'];
+        // session_start();
+        $idUsu = $_SESSION['usuario'];
         $venta->consultarDatosOrden($_POST['id']);
         $json=array();
 
@@ -35,9 +35,10 @@ $idUsu = $_SESSION['usuario'];
 
             $json[] = array(
                 "mesero"        => $objeto->nom_mesero,
-                "cocineroLider" => $objeto->nom_cocinero,
+                // "cocineroLider" => $objeto->nom_cocinero,
                 'mesa'          => $objeto->nom_mesa,
-                "observ"        => $objeto->observ
+                'formpago'          => $objeto->formpago,
+                // "observ"        => $objeto->observ
             );
         }
         $jsonstring = json_encode($json);

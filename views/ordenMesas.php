@@ -85,5 +85,5 @@ if (!empty($_SESSION['rol'])) {
   header("Location: ../index.php");
 }
 ?>
-<script src="../public/js/datatables.js"></script>
-<script src="../public/js/ordenMesas.js"></script>
+<script src="../js/datatables.js"></script>
+<script src="../js/ordenMesas.js"></script>

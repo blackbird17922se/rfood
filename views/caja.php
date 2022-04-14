@@ -202,8 +202,8 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
     header("Location: ../index.php");
 }
 ?>
-<script src="../public/js/datatables.js"></script>
-<script src="../public/js/cajaNueva.js"></script>
+<script src="../js/datatables.js"></script>
+<script src="../js/cajaNueva.js"></script>
 <script>
     $('#formaPago').select2({
         dropdownParent: $('#verOrdenCaja')

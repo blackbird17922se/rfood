@@ -109,4 +109,4 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2)) {
     header("Location: ../index.php");
 }
 ?>
-<script src="../public/js/mesa.js"></script>
+<script src="../js/mesa.js"></script>

@@ -94,5 +94,5 @@ include_once "layouts/footer.php";
     header("Location: ../index.php");
 }
 ?>
-<script src="../public/js/itemDetalle.js"></script>
-<!-- <script src="../public/js/inv_medida.js"></script> -->
+<script src="../js/itemDetalle.js"></script>
+<!-- <script src="../js/inv_medida.js"></script> -->

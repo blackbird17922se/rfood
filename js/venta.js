@@ -3,9 +3,9 @@ $(document).ready(function () {
     const VENTA_CTRLR = '../controllers/ventaController.php';
     var funcion       = 0;
     mostrar_consultas()
-    totalVentas()
+    // totalVentas()
 
-    function totalVentas(){
+/*     function totalVentas(){
         let funcion = 'totalVentas';
         $.post(VENTA_CTRLR,{funcion},(response)=>{
             console.log(response);
@@ -16,7 +16,7 @@ $(document).ready(function () {
             $('#venta_anual').html(VENTASDIA.venta_anual);
 
         });
-    }
+    } */
 
     // Tabla Venta Dia
     function mostrar_consultas(){
@@ -116,15 +116,41 @@ $(document).ready(function () {
         */
         funcion = 2
         $.post(VENTA_CTRLR,{funcion,id},(response)=>{
-            // console.log(response);
+            console.log(response);
             const encargados = JSON.parse(response);
+            
 
             encargados.forEach(encargado=>{
                 // console.log(encargado.observ);
                 $('#mesero').html(encargado.mesero);
-                $('#coc_lider').html(encargado.cocineroLider);
+                // $('#coc_lider').html(encargado.cocineroLider);
                 $('#mesa').html(encargado.mesa);
-                $('#observCli').html(encargado.observ);
+                // $('#observCli').html(encargado.observ);
+
+                let formaPago = encargado.formpago;
+                /* Evaluar que tipo de pago es */
+
+                switch (formaPago) {
+                    case '1':
+                        formaPago = 'Efectivo'
+                    break;
+                    
+                    case '2':
+                        formaPago = 'Tarjeta'
+                    break;
+                    case '3':
+                        formaPago = 'Nequi'
+                    break;
+                    
+                    case '4':
+                        formaPago = 'Daviplata'
+                    break;
+
+                    default:
+                        formaPago = 'ERROR FATAL DEL SISTEMA'
+                    break;
+                }
+                $('#medPago').html(formaPago);
             })
         });
 
@@ -136,6 +162,8 @@ $(document).ready(function () {
         $('#cajero').html(datos.vendedor);
         $('#total').html(datos.total);
         $.post('../controllers/ventaProductoController.php',{funcion,id},(response)=>{
+            console.log(response);
+
             let registros = JSON.parse(response);
             let template ="";
             $('#registros').html(template);

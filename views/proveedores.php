@@ -131,7 +131,7 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2)) {
     header("Location: ../index.php");
 }
 ?>
-<script src="../public/js/proveedores.js"></script>
-<!-- <script src="../public/js/laboratorio.js"></script>
-<script src="../public/js/tipo.js"></script>
-<script src="../public/js/presentacion.js"></script> -->
+<script src="../js/proveedores.js"></script>
+<!-- <script src="../js/laboratorio.js"></script>
+<script src="../js/tipo.js"></script>
+<script src="../js/presentacion.js"></script> -->

@@ -89,22 +89,16 @@ switch ($_POST['funcion']) {
         echo $jsonstring;
 
     break;
+    
 
-    /* funcion,total,idOrdSel,formaPago */
     case 6:
         session_start();
 
         $totalVenta = $_POST['total'];
         $idOrd = $_POST['idOrdSel'];
         $formaPago = $_POST['formaPago'];
-        $mesa = $_POST['mesa'];
-
         $idPedido = $idOrd;
-    /*     $idMesero = "";
-        $idCocineroLider = ""; */
         $vendedor = $_SESSION['usuario'];
-        $idMesero = $_SESSION['usuario'];
-        $idCocineroLider = $_SESSION['usuario'];
 
         $cantPedido = 0;
         $cantIngred = 0;
@@ -113,20 +107,9 @@ switch ($_POST['funcion']) {
         $totalIngred = 0;
         $cantidad = 0;
 
-
-        /* Cargar id mesero y cocinero */
-/*         $caja->cargarMeseroCocinero($idPedido);
-
-        foreach ($caja->objetos as $objId) {
-            $idMesero = $objId->id_mesero;
-            $idCocineroLider = $objId->id_coc_lider;
-        } */
-
-
-        /* integra sfarma */
         date_default_timezone_set('America/Bogota');
         $fecha = date('Y-m-d H:i:s');
-        $caja->crearVenta($totalVenta, $formaPago, $fecha, $vendedor, $idMesero, $idCocineroLider, $idOrd, $mesa);
+        $caja->crearVenta($totalVenta, $formaPago, $fecha, $vendedor, $idOrd);
 
         /* obtener id de la venta */
         $caja->ultimaVenta();
@@ -137,7 +120,6 @@ switch ($_POST['funcion']) {
 
         try {
 
-            /* NINC */
             $db = new Conexion();
             $conexion = $db->pdo;
             $conexion->beginTransaction();

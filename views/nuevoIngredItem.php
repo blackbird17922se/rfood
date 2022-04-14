@@ -161,5 +161,5 @@ include_once "layouts/footer.php";
 }
 ?>
 
-<script src="../public/js/datatables.js"></script>
-<script src="../public/js/nuevoIngredItem.js"></script>
+<script src="../js/datatables.js"></script>
+<script src="../js/nuevoIngredItem.js"></script>

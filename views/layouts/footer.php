@@ -14,14 +14,14 @@
 <!-- Bootstrap 4 -->
 <script src="../public/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../public/js/adminlte.min.js"></script>
+<script src="../js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../public/js/demo.js"></script>
+<script src="../js/demo.js"></script>
 <!-- aletas -->
-<script src="../public/js/sweetalert2.js"></script>
+<script src="../js/sweetalert2.js"></script>
 <!-- selct2 -->
-<script src="../public/js/select2.js"></script>
-<script src="../public/js/cierre.js"></script>
+<script src="../js/select2.js"></script>
+<!-- <script src="../js/cierre.js"></script> -->
 
 
 </body>

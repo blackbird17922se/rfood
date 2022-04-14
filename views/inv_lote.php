@@ -118,5 +118,5 @@ include_once "layouts/footer.php";
     header("Location: ../index.php");
 }
 ?>
-<script src="../public/js/datatables.js"></script>
-<script src="../public/js/inv_lote.js"></script>
+<script src="../js/datatables.js"></script>
+<script src="../js/inv_lote.js"></script>

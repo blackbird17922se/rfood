@@ -72,4 +72,4 @@ include_once "layouts/footer.php";
     header("Location: ../index.php");
 }
 ?>
-<script src="../public/js/riesgo.js"></script>
+<script src="../js/riesgo.js"></script>

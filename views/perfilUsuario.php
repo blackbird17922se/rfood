@@ -189,4 +189,4 @@ include_once "layouts/footer.php";
 }
 ?>
 
-<script src="../public/js/usuario.js"></script>
+<script src="../js/perfilUsuario.js"></script>

@@ -59,5 +59,5 @@ include_once "layouts/footer.php";
     header("Location: ../index.php");
 }
 ?>
-<script src="../public/js/datatables.js"></script>
-<script src="../public/js/descuadreInventario.js"></script>
+<script src="../js/datatables.js"></script>
+<script src="../js/descuadreInventario.js"></script>

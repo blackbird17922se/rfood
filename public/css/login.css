@@ -1,7 +1,8 @@
 /* LOG-IN */
 
 #body-login{
-    background: url("../img/bg_login.jpg") no-repeat;
+    /* background: url("../img/bg_login.jpg") no-repeat; */
+    background-color: #000000;
     width: 100%;
     background-size: cover;
 }

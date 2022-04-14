@@ -137,4 +137,4 @@ include_once "layouts/footer.php";
     header("Location: ../index.php");
 }
 ?>
-<script src="../public/js/usuarios.js"></script>
+<script src="../js/usuarios.js"></script>

@@ -215,21 +215,22 @@ class Venta{
         $sql = 
             "SELECT 
                 id_orden, 
+                formpago,
                 mesa.nom AS nom_mesa, 
-                CONCAT(mesero.nom,' ',mesero.ape) AS nom_mesero,
-                CONCAT(cocinero.nom,' ',cocinero.ape) AS nom_cocinero,
-                pedido.observ
+                CONCAT(mesero.nom,' ',mesero.ape) AS nom_mesero
             FROM venta
-            INNER JOIN mesa
-                ON mesa.id_mesa = venta.id_mesa
-            INNER JOIN usuario AS mesero
-                ON mesero.id_usu = venta.id_mesero
-            INNER JOIN usuario AS cocinero
-                ON cocinero.id_usu = venta.id_coc_lider
             INNER JOIN pedido
                 ON pedido.id_pedido = venta.id_orden
+            INNER JOIN usuario AS mesero
+                ON mesero.id_usu = pedido.id_mesero
+            INNER JOIN mesa
+                ON mesa.id_mesa = pedido.id_mesa
             WHERE id_venta = :id_venta
         ";
+        // CONCAT(cocinero.nom,' ',cocinero.ape) AS nom_cocinero,
+        // INNER JOIN usuario AS cocinero
+        //         ON cocinero.id_usu = venta.id_coc_lider
+
     
         $query = $this->acceso->prepare($sql);
         $query->execute([':id_venta' => $idVenta]);
