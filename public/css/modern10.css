@@ -240,6 +240,10 @@ html{
     color: #FFFFFF;
 }
 
+.card.bg-dark-10 ul li{
+    color: #cacaca;
+}
+
 #vista-venta .modal-content {
     background-color: transparent;
 }
@@ -284,3 +288,4 @@ html{
 #procesar-compra, #nuevoDomicilio{
     float: right;
 }
+

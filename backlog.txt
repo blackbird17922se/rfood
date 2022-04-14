@@ -8,9 +8,6 @@
 Build 4.1
 //////////////////
 
-
-* Habilitar modulo Proveedores
-
 * Verificar tema de usuarios y restricciones
     -verificar porque no elimina la sesion al salir
 
@@ -66,7 +63,8 @@ Build 4.1 (13/04)
 * Se añadio el modulo domicilio
 * Agregar seleccion de pago (neki o daviplata)
 * Agregar lista desplegable en orden con los meseros, para que se pueda seleccionar el mesero cuando se usa una 
-    sola tablet
+    sola tablet.
+* Habilitar modulo Proveedores.
 
 
 

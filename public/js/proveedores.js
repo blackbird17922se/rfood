@@ -71,40 +71,39 @@ $(document).ready(function(){
 
                 // console.log(proveed.nom);
                 template+=`
-                <div proveedId="${proveed.id_prov}" proveednom="${proveed.nom}" proveeddirec="${proveed.direc}" proveedtelef="${proveed.telef}" proveedcorreo="${proveed.correo}" class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
-              <div class="card bg-light">
-                <div class="card-header text-muted border-bottom-0">
-                <i class="fas fa-lg fa-cubes mr-1"></i>${proveed.id_prov}
-                </div>
-                <div class="card-body pt-0">
-                  <div class="row">
-                    <div class="col-12">
-                      <h2 class="lead"><b>${proveed.nom}</b></h2>
 
-                      <ul class="ml-4 mb-0 fa-ul text-muted">
-                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-cubes"></i></span> ${proveed.telef}</li>
-                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-cubes"></i></span> ${proveed.correo}</li>
-                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-cubes"></i></span> ${proveed.direc}</li>
-    
-                      </ul>
+                    <div proveedId="${proveed.id_prov}" proveednom="${proveed.nom}" proveeddirec="${proveed.direc}" proveedtelef="${proveed.telef}" proveedcorreo="${proveed.correo}" class="col-12 col-sm-6 col-md-4 align-items-stretch">
+
+                        <div class="card bg-dark-10">
+
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h2 class="lead"><b>${proveed.nom}</b></h2>
+                                        <ul class="ml-4 mb-0 fa-ul text-muted">
+                                            <li class="small"><span class="fa-li"><i class="fas fa-solid fa-phone"></i></span> ${proveed.telef}</li>
+                                            <li class="small"><span class="fa-li"><i class="fas fa-envelope"></i></span> ${proveed.correo}</li>
+                                            <li class="small"><span class="fa-li"><i class="fas fa-solid fa-address-card"></i></span> ${proveed.direc}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                            
+                            <div class="card-footer">
+                                <div class="text-right">
+                                    <button class="editar btn btn-sm btn-success" type="button" data-toggle="modal" data-target="#crearproveed">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </button>
+                        
+                                    <button class="borrar btn btn-sm btn-danger">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                   
-                  </div>
-                </div>
-                <div class="card-footer">
-                  <div class="text-right">
-                    <button class="editar btn btn-sm btn-success" type="button" data-toggle="modal" data-target="#crearproveed">
-                        <i class="fas fa-pencil-alt"></i>
-                    </button>
-           
-                    <button class="borrar btn btn-sm btn-danger">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-             
+
                 `;
             });
 
