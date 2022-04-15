@@ -5,6 +5,7 @@ ALTER TABLE `venta`
   DROP `id_mesa`;
 
 ALTER TABLE `pedido` DROP `id_cajero`;
+INSERT INTO `mesa` (`id_mesa`, `nom`, `disponible`) VALUES ('-1', 'Domicilio', '1');
 
 ------------------------done
 ALTER TABLE `mesa` ADD `disponible` BOOLEAN NOT NULL DEFAULT TRUE AFTER `nom`;

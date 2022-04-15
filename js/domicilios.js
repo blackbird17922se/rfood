@@ -19,7 +19,7 @@ $(document).ready(function(){
 
         funcion = 8;
         $.post(USUARIO_CTRL,{funcion},(response)=>{
-            console.log(response);
+            // console.log(response);
             const MESEROS = JSON.parse(response);
             let template = '';
             MESEROS.forEach(mesero => {
@@ -40,7 +40,7 @@ $(document).ready(function(){
         funcion = 10;
 
         $.post(CAJA_CONTROLLER,{funcion},(response)=>{
-            console.log('list dom resp: ' + response);
+            // console.log('list dom resp: ' + response);
 
             const PEDIDOS = JSON.parse(response);
             let template = '';
@@ -134,13 +134,13 @@ $(document).ready(function(){
     /* EVENTO CUANDO SE CAMBIA EL MESERO Y ESTE SE GUARDA AL LOCALSTORAGE */
     $( "#mesero" ).change(function() {  
         eliminarLS();
-        console.log('mesero');
+        // console.log('mesero');
         idMesero = $('#mesero').val();
         agregarLS(idMesero)
     });
     
     function ss(){
-        console.log('sss');
+        // console.log('sss');
         return $('#mesero').val(idMesero).trigger('change');
     }
 

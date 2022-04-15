@@ -60,34 +60,34 @@ switch ($_POST['funcion']) {
 
 
     /* listarPedidos */
-    case 2:
-        /* pedidos con entrega pendiente */
-        $pedido->listarPedidosPendEntrega();
-        $json=array();
-        $jsonP=array();
+    // case 2:
+    //     /* pedidos con entrega pendiente */
+    //     $pedido->listarPedidosPendEntrega();
+    //     $json=array();
+    //     $jsonP=array();
 
-        foreach($pedido->objetos as $objeto){
-            $jsonP=[];
+    //     foreach($pedido->objetos as $objeto){
+    //         $jsonP=[];
 
-            $pedido->listarProdPedido($objeto->id_pedido);
-            foreach($pedido->objetos as $objP){
+    //         $pedido->listarProdPedido($objeto->id_pedido);
+    //         foreach($pedido->objetos as $objP){
                 
-                $jsonP[]=array(
-                    $objP->nombprod,
-                    $objP->presnom,
-                    $objP->det_cant,
-                );
-            }
+    //             $jsonP[]=array(
+    //                 $objP->nombprod,
+    //                 $objP->presnom,
+    //                 $objP->det_cant,
+    //             );
+    //         }
 
-            $json[]=array(
-                'idPedido' => $objeto->id_pedido,
-                'nomMesa'=>$objeto->nom_mesa,
-                'prods'=> $jsonP
-            );
-        }
-        $jsonstring = json_encode($json);
-        echo $jsonstring;
-    break;
+    //         $json[]=array(
+    //             'idPedido' => $objeto->id_pedido,
+    //             'nomMesa'=>$objeto->nom_mesa,
+    //             'prods'=> $jsonP
+    //         );
+    //     }
+    //     $jsonstring = json_encode($json);
+    //     echo $jsonstring;
+    // break;
 
 
     /* read mesa y pedidos */
@@ -166,8 +166,7 @@ switch ($_POST['funcion']) {
 
     /* Cambiar estado de la orden a Pagado */
     case 9:
-        session_start();
-        $pedido->cambiarEstPagado($_POST['idOrdenSel'], $_SESSION['usuario']);
+        $pedido->cambiarEstPagado($_POST['idOrdenSel']);
     break;
 
     /* Bloquear Mesa */

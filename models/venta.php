@@ -269,5 +269,14 @@ class Venta{
         return $this->objetos;
     }
 
+/*     function consultarNombreMesa($idMesa){
+
+        $sql = "SELECT nom FROM mesa WHERE id_mesa = :idMesa";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([':idMesa' => $idMesa]);
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+
+    } */
 
 }

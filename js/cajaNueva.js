@@ -22,7 +22,7 @@ $(document).ready(function(){
         
         // ajax
         $.post(CAJA_CONTROLLER,{consulta,funcion},(response)=>{
-            console.log(response);
+            // console.log(response);
             const mesaS = JSON.parse(response);
             let templateMesa = '';
             let templateOrden = '';
@@ -47,7 +47,7 @@ $(document).ready(function(){
                     
                     
                     mesa.prods.forEach(item=>{
-                        console.log('item[0]'+item[0]);
+                        // console.log('item[0]'+item[0]);
                         idOrden=item[0]
                   
                         tempItemsOrden+=`
@@ -102,7 +102,7 @@ $(document).ready(function(){
         funcion = 10;
 
         $.post(CAJA_CONTROLLER,{funcion},(response)=>{
-            console.log('list dom resp: ' + response);
+            // console.log('list dom resp: ' + response);
 
             const PEDIDOS = JSON.parse(response);
             let template = '';
@@ -235,79 +235,92 @@ $(document).ready(function(){
         let formaPago = $('#formaPago').val();
         let total = $('#total').get(0).textContent;
 
-        $.post(CAJA_CONTROLLER,{funcion,total,idOrdSel,formaPago},(response)=>{
-            console.log(response);
-
-            // Modificar estado del pedido
-            funcion = 9;
-            $.post(PEDIDO_CTRLR,{funcion,idOrdenSel},()=>{
-                idOrdenSel = 0;
-                cargarMesas();
-                listarDomiciliosCaja();
-            });
-
-            if(idMesa != -1){
-                /* Desbloquear mesa */
-                funcion = 11;
-                $.post(PEDIDO_CTRLR,{funcion,mesa});
-            }
-        });
-
-        $('#verOrdenCaja').modal('hide');
-
-        Swal.fire({
-            title: 'Venta Realizada',
-            text: "¿Desea imprimir recibo?",
-            icon: 'success',
-            showCancelButton: true,
-            confirmButtonText: 'Imprimir',
-            cancelButtonText: 'Cancelar',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.value) {
-
-                let funcion = "ultimaVenta";
-                $.post(CAJA_CONTROLLER,{funcion},(response)=>{
+        if (formaPago != 0) {
+            $.post(CAJA_CONTROLLER,{funcion,total,idOrdSel,formaPago},(response)=>{
+                console.log(response);
+    
+                // Modificar estado del pedido
+                funcion = 9;
+                $.post(PEDIDO_CTRLR,{funcion,idOrdenSel},(response)=>{
                     console.log(response);
-                
-
+                    idOrdenSel = 0;
+                    cargarMesas();
+                    listarDomiciliosCaja();
+                });
+    
+                if(idMesa != -1){
+                    /* Desbloquear mesa */
+                    funcion = 11;
+                    $.post(PEDIDO_CTRLR,{funcion,mesa});
+                }
+            });
+    
+            $('#verOrdenCaja').modal('hide');
+    
+            Swal.fire({
+                title: 'Venta Realizada',
+                text: "¿Desea imprimir recibo?",
+                icon: 'success',
+                showCancelButton: true,
+                confirmButtonText: 'Imprimir',
+                cancelButtonText: 'Cancelar',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+    
+                    let funcion = "ultimaVenta";
+                    $.post(CAJA_CONTROLLER,{funcion},(response)=>{
+                        console.log(response);
+                    
+    
+                        $.ajax({
+                            url: 'ticket.php',
+                            type: 'POST',
+                            success: function(resp){
+                                if(resp==1){
+                                    alert('imprime..');
+                                        vaciarTabla();
+                                }else{
+                                    alert('error..');
+                                    vaciarTabla()
+                                }
+                            }
+                        })                   
+                    });
+    
+        
+                    console.log("selecciono imprimir");
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    console.log("selecciono no imprimir");
+    
                     $.ajax({
-                        url: 'ticket.php',
+                        url: 'ticketc.php',
                         type: 'POST',
                         success: function(resp){
                             if(resp==1){
-                                alert('imprime..');
+                                alert('abre..');
                                     vaciarTabla();
                             }else{
-                                alert('error..');
+                                // alert('error..');
                                 vaciarTabla()
                             }
                         }
-                    })                   
-                });
+                    })
+                    vaciarTabla()
+                }
+            });
+            idMesa = 0;
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Atención',
+                text: 'Debes Seleccionar una Forma de pago de la lista. ¡no se admite pago en especie!',
+            })
+            
+        }
+        
 
-    
-                console.log("selecciono imprimir");
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-                console.log("selecciono no imprimir");
-
-                $.ajax({
-                    url: 'ticketc.php',
-                    type: 'POST',
-                    success: function(resp){
-                        if(resp==1){
-                            alert('abre..');
-                                vaciarTabla();
-                        }else{
-                            // alert('error..');
-                            vaciarTabla()
-                        }
-                    }
-                })
-                vaciarTabla()
-            }
-        });
-        idMesa = 0;
+        
     });
     
 

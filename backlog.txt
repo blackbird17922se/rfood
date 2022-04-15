@@ -39,8 +39,7 @@ Build 4.1
 * optimizar los items repetidos en una orden cuando se vana editar
  (pedidoController)
 
-* cuando se cargan las mesas en ordenmesas o caja, el sistema evalua (y trae los preoductos), se puede optimizar
-    simplemente vcalidando si la mesa esta bloqueada o no y cargar solo la orden
+
 *caja js quitar funciones oncli inutiles (editar, borrar)
 
 * agregar la opcion de cancelar (borrar) un pedido o domicilio:
@@ -65,6 +64,8 @@ Build 4.1 (13/04)
     (EL DEL BOTON SELECCIONAR) CAMBIE DE COLOR
 * cargar en la vista de ventas el medio de pago usado en la venta
     - REESTRUCTUTA DB TABLAS PEDIDO Y VENTA
+* cuando se cargan las mesas en ordenmesas o caja, el sistema evalua (y trae los preoductos), se puede optimizar
+    simplemente vcalidando si la mesa esta bloqueada o no y cargar solo la orden
 
 
 (12/04)

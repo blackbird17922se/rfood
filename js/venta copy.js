@@ -110,21 +110,29 @@ $(document).ready(function () {
 
         let datos = datatable.row($(this).parents()).data();
         let id= datos.id_venta;
+        let nomMesa;
 
         /** CONSULTAR DATOS PRINCIPALES VENTA 
          * Datos como mesero,cocinero,mesa y observaciones de la orden
         */
         funcion = 2
         $.post(VENTA_CTRLR,{funcion,id},(response)=>{
-            // console.log(response);
             const encargados = JSON.parse(response);
-            
 
             encargados.forEach(encargado=>{
+
+                /* La forma como se pudo determinar si es domicilio o la mesa tiene nombre */
+                if (encargado.mesa[0] == null) {
+                    nomMesa = encargado.mesa['nom'];
+                } else {
+                    nomMesa = 'domicilio';
+                }
+
                 // console.log(encargado.observ);
                 $('#mesero').html(encargado.mesero);
                 // $('#coc_lider').html(encargado.cocineroLider);
-                $('#mesa').html(encargado.mesa);
+                // console.log(encargado.mesa['nom']);
+                $('#mesa').html(nomMesa);
                 // $('#observCli').html(encargado.observ);
 
                 let formaPago = encargado.formpago;
@@ -162,7 +170,7 @@ $(document).ready(function () {
         $('#cajero').html(datos.vendedor);
         $('#total').html(datos.total);
         $.post('../controllers/ventaProductoController.php',{funcion,id},(response)=>{
-            // console.log(response);
+            console.log(response);
 
             let registros = JSON.parse(response);
             let template ="";

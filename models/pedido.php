@@ -142,14 +142,13 @@ class Pedido
         echo 'edit';
     }
 
-    function cambiarEstPagado($idOrden, $id_cajero)
+    function cambiarEstPagado($idOrden)
     {
-        $sql = "UPDATE pedido SET pagado = 1, id_cajero = :id_cajero
+        $sql = "UPDATE pedido SET pagado = 1
         WHERE id_pedido = :idPedido";
         $query = $this->acceso->prepare($sql);
         $query->execute([
-            ':idPedido' => $idOrden,
-            ':id_cajero' => $id_cajero
+            ':idPedido' => $idOrden
         ]);
         echo 'edit';
     }
@@ -348,13 +347,13 @@ class Pedido
     function listarMesas(){
         if(!empty($_POST['consulta'])){
             $consulta = $_POST['consulta'];
-            $sql="SELECT * FROM mesa WHERE nom LIKE :consulta";
+            $sql="SELECT * FROM mesa WHERE nom LIKE :consulta AND id_mesa <> -1";
             $query = $this->acceso->prepare($sql);
             $query->execute(array(':consulta'=>"%$consulta%"));
             $this->objetos=$query->fetchall();
             return $this->objetos;
         }else{
-            $sql = "SELECT * FROM mesa WHERE nom NOT LIKE '' ORDER BY nom";
+            $sql = "SELECT * FROM mesa WHERE nom NOT LIKE '' AND id_mesa <> -1 ORDER BY nom";
             $query = $this->acceso->prepare($sql);
             $query->execute();
             $this->objetos=$query->fetchall();

@@ -5,9 +5,6 @@ $(document).ready(function(){
     var datatable="";
     var idMesa = 0;
     const ID_ORDEN   = $('#idOrden').val();
-    const URL_ITEM_CONTROL   = '../controllers/itemController.php';
-    const URL_INGRED_CONTROL = '../controllers/ingredController.php';
-    const URL_TIPOINGRED_CONTROL ='../controllers/invTipoController.php';
     const PEDIDO_CTRLR    = '../controllers/pedidoController.php';
     const TIPO_CTRLR   = '../controllers/tipoController.php';
     const ITEM_CTRLR   = '../controllers/itemController.php';
@@ -15,7 +12,7 @@ $(document).ready(function(){
     var edit = false;   // bandera
     var datatable="";
 
-    console.log('orden: ' + ID_ORDEN);
+    // console.log('orden: ' + ID_ORDEN);
     cargarItems();
     listarCategs();
     mostrarProducts();
@@ -57,8 +54,10 @@ $(document).ready(function(){
     }
 
 
-    /* TODO: VERIFICAR FUNCIOANLIDAD */
-    /* Formukario crear editar */
+    /** 
+     * Envia los datos recibidos del formulario que edita la 
+     * cantidad de los items actuales 
+    */
     $('#formEditItem').submit(e=>{
         let itemCant = $('#itemCant').val();
         let idItem = $('#idItem').val();

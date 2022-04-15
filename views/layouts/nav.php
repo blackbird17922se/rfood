@@ -51,6 +51,8 @@
         <?php
           $urlActual = $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"];
 
+          /* PARA PONER CUANDO ESTE EN EL SERVER */
+          /* $urlActual != 'fox17922.000webhostapp.com/views/resum_venta_dia.php' */
           if($urlActual != 'localhost/rfood/views/resum_venta_dia.php'){
             ?>
             <a href="resum_venta_dia.php" class="btn btn-outline-secondary">Cerrar</a>

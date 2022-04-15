@@ -20,16 +20,16 @@ if(!empty($_SESSION['rol'])){
         </div>
         <div class="container-fluid">
           <div class="row">
-            <div class="col-sm-1">
+<!--             <div class="col-sm-1">
             <img src="../public/icons/appicon.ico" width="60px">
               
-            </div>
+            </div> -->
             <div class="col-sm-10">
               
               <h1>RFood</h1>
-              <p>DsD RFood para Windows XP</p>
+              <p>DsD RFood para Windows Server 2003</p>
               <!-- Num version princip,Numero cuando hay nuevos cambios,Año,mes,dia,hora -->
-              <p><i><b>RFood Milestone 3</b> <br> Version de pruebas.Build 4.0.220413-0018</i></p>
+              <p><i><b>RFood Milestone 4</b> <br> Version de pruebas.Build 4.1.220414-</i></p>
               <p>Copyright &copy; 2020-2022 DsD Desarrollos Dinámicos</p>
               <br>
               <p>Se autoriza el uso de este producto a:</p>
@@ -37,12 +37,20 @@ if(!empty($_SESSION['rol'])){
               <p><i>Id. Del producto: 32644-072-01808804</i></p>
               <br>
               <h4>Novedades</h4>
-              <h5>13/04/2022 (Build 4.0.220413-0018)</h5>
+              <h5>14/04/2022 (Build 4.0.4.1.220414-)</h5>
               <p>
+                - Mejora la parte visual y el manejo en Caja <br>
+                - Se añadio el modulo domicilio <br>
+                - Agrega seleccion de Forma de pago al momento de cancelar. <br>
+                - Incluye la seleccion del mesero al momento de crear una nueva orden o domicilio <br>
+                - El modulo de proveedores esta activado para gestionar proveedores de materia prima. <br>
+                - Multiples mejoras graficas. <br>
+                - Corrige la falla que no permitia acceder a los usuarios tipo mesero a los modulos de orden. <br>
+                - Permite ver el medio de pago al ver en detalle una venta.
                 - Agrega nuevo diseño en modulos de orden y ventas. ahora se puede generar <br>
                   las ventas al visualizar todas las mesas registradas, cuando la mesa este <br>
                   disponible, se dispone del boton 'Nueva orden' para crear una nueva orden a la mesa. <br>
-                  Cuando la mesa esta con una orden, se vusializa el id de la orden y dos botones <br>
+                  Cuando la mesa esta con una orden, se visualiza el id de la orden y dos botones <br>
                   Uno para ver los productos de dicha orden y otro para editar esa orden. <br>
                   <br>
                   - El modulo de caja permite ver las mesas que tienen pedidos pendientes por cancelar,<br>
