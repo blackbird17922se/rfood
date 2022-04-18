@@ -170,14 +170,14 @@ class Venta{
 
 
     // Venta diaria Tabla
-    function venta_diaria($idUsu){
+    function venta_diaria($idUsu, $fecha){
         $sql="SELECT id_venta, producto.nombre AS producto, venta_prod.cant as cantidad, venta_prod.subtotal as subtotal 
         FROM `venta`
         JOIN venta_prod on venta_id_venta = id_venta
         JOIN producto ON prod_id_prod = id_prod
-         WHERE vendedor=:id_usuario AND DATE(fecha) = DATE(curdate()) ORDER BY id_venta ASC";
+         WHERE vendedor=:id_usuario AND DATE(fecha) = DATE(:fecha) ORDER BY id_venta ASC";
         $query = $this->acceso->prepare($sql);
-        $query->execute(array(':id_usuario' => $idUsu));
+        $query->execute(array(':id_usuario' => $idUsu, ':fecha' =>  $fecha));
         $this->objetos=$query->fetchall();
         return $this->objetos;
     }

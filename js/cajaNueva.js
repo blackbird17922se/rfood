@@ -239,7 +239,7 @@ $(document).ready(function(){
             $.post(CAJA_CONTROLLER,{funcion,total,idOrdSel,formaPago},(response)=>{
                 console.log(response);
     
-                // Modificar estado del pedido
+                /* Cambiar estado de la orden a Pagado */
                 funcion = 9;
                 $.post(PEDIDO_CTRLR,{funcion,idOrdenSel},(response)=>{
                     console.log(response);

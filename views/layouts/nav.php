@@ -55,11 +55,12 @@
           /* $urlActual != 'fox17922.000webhostapp.com/views/resum_venta_dia.php' */
           if($urlActual != 'localhost/rfood/views/resum_venta_dia.php'){
             ?>
-            <a href="resum_venta_dia.php" class="btn btn-outline-secondary">Cerrar</a>
+            <a href="resum_venta_dia.php" class="btn btn-outline-secondary">Cierre</a>
             <?php
           }else{
             ?>
-            <a id="logout" href="../controllers/logout.php"><img src="../public/icons/close_32.png" title="Cerrar Sesión" alt=""></a>
+
+            <a id="logout" class="btn btn-outline-danger" href="../controllers/logout.php">Salir</a>
             <?php
           }
         ?>

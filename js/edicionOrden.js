@@ -65,6 +65,7 @@ $(document).ready(function(){
         if(edit==false){
             funcion="crear";
         }else{
+            /* Editar la cantidad del Item (Util en editar pedido)*/
             funcion = 13;
         }
 

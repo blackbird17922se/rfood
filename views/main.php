@@ -29,7 +29,7 @@ if(!empty($_SESSION['rol'])){
               <h1>RFood</h1>
               <p>DsD RFood para Windows Server 2003</p>
               <!-- Num version princip,Numero cuando hay nuevos cambios,Año,mes,dia,hora -->
-              <p><i><b>RFood Milestone 4</b> <br> Version de pruebas.Build 4.1.220414-</i></p>
+              <p><i><b>RFood Milestone 4</b> <br> Version de pruebas.Build 4.1.220417-</i></p>
               <p>Copyright &copy; 2020-2022 DsD Desarrollos Dinámicos</p>
               <br>
               <p>Se autoriza el uso de este producto a:</p>
@@ -37,7 +37,17 @@ if(!empty($_SESSION['rol'])){
               <p><i>Id. Del producto: 32644-072-01808804</i></p>
               <br>
               <h4>Novedades</h4>
-              <h5>14/04/2022 (Build 4.0.4.1.220414-)</h5>
+              <h5>17/04/2022 (Build 4.2.220417-)</h5>
+              <p>
+                * Corrige la falla que no permitía ver las ventas del día. <br>
+                * Incorpora varias mejoras visuales en etiquetas de campos, botones y formularios. <br>
+                * Incorpora una alerta que se despliega al no seleccionar un mesero de la lista al crear/editar una orden. <br>
+                * Mejoras de rendimiento.
+              </p>
+              
+
+              <h4>Anteriores Mejoras</h4>
+              <h5>14/04/2022 (Build 4.1.220414-0000)</h5>
               <p>
                 - Mejora la parte visual y el manejo en Caja <br>
                 - Se añadio el modulo domicilio <br>
@@ -57,9 +67,6 @@ if(!empty($_SESSION['rol'])){
                   solo se debe presionar el boton 'seleccionar' y cargara los items y costos a cobrar de <br>
                   dicha mesa.
               </p>
-              
-
-              <h5>Anteriores Mejoras</h5>
 
               <h5>08/04/2022 (Build 2.4.220408-0000)</h5>
               <p>

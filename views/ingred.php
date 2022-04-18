@@ -10,7 +10,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="card card-success">
-                <div class="card-header">
+                <div class="card-header card-mdrn">
                     <h3 class="card-title">Ingrediente</h3>
                     <button data-dismiss="modal" aria-label="close" class="close">
                         <span aria-hidden="true">&times;</span>
@@ -76,7 +76,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 <div class="modal fade" id="crearlote" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="card card-success">
+            <div class="card card-success card-mdrn">
                 <div class="card-header">
                     <h3 class="card-title">Crear lote</h3>
                     <button data-dismiss="modal" aria-label="close" class="close">

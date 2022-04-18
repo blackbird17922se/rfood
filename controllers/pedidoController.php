@@ -58,112 +58,6 @@ switch ($_POST['funcion']) {
 
     break;
 
-
-    /* listarPedidos */
-    // case 2:
-    //     /* pedidos con entrega pendiente */
-    //     $pedido->listarPedidosPendEntrega();
-    //     $json=array();
-    //     $jsonP=array();
-
-    //     foreach($pedido->objetos as $objeto){
-    //         $jsonP=[];
-
-    //         $pedido->listarProdPedido($objeto->id_pedido);
-    //         foreach($pedido->objetos as $objP){
-                
-    //             $jsonP[]=array(
-    //                 $objP->nombprod,
-    //                 $objP->presnom,
-    //                 $objP->det_cant,
-    //             );
-    //         }
-
-    //         $json[]=array(
-    //             'idPedido' => $objeto->id_pedido,
-    //             'nomMesa'=>$objeto->nom_mesa,
-    //             'prods'=> $jsonP
-    //         );
-    //     }
-    //     $jsonstring = json_encode($json);
-    //     echo $jsonstring;
-    // break;
-
-
-    /* read mesa y pedidos */
-    case 3:
-        $pedido->listarMesas();
-        $json=array();
-        $jsonP=array();
-
-        foreach($pedido->objetos as $objeto){
-            $jsonP=[];
-
-            $pedido->listarPedidoMesa($objeto->id_mesa);
-            foreach($pedido->objetos as $objP){
-                
-                $jsonP[]=array(
-                    $objP->nombprod,
-                    $objP->presnom,
-                    $objP->det_cant,
-                );
-            }
-
-            $json[]=array(
-                'id_mesa'=>$objeto->id_mesa,
-                'nom'=>$objeto->nom,
-                'prods'=> $jsonP
-            );
-        }
-        $jsonstring = json_encode($json);
-        echo $jsonstring;
-    break;
-
-
-    /* listarPedTerminados pedidos con entrega pendiente */
-    case 5:
-        $pedido->listarPedTerminados();
-        $json=array();
-        $jsonP=array();
-        
-        foreach($pedido->objetos as $objeto){
-            $jsonP=[];
-
-            $pedido->listarProdPedido($objeto->id_pedido);
-            foreach($pedido->objetos as $objP){
-                
-                $jsonP[]=array(
-                    $objP->nom,
-                    $objP->det_cant,
-                    $objP->presnom,
-                );
-            }
-
-            $json[]=array(
-                'idPedido' => $objeto->id_pedido,
-                'nomMesa'=>$objeto->nom_mesa,
-                'prods'=> $jsonP
-            );
-        }
-        $jsonstring = json_encode($json);
-        echo $jsonstring;
-
-    break;
-
-    case 'terminado':
-        session_start();
-        $id_coc_lider = $_SESSION['usuario'];
-
-        $idOrden = $_POST['ID'];
-        $pedido->cambiarEstTerminado($idOrden, $id_coc_lider);
-    break;
-
-    case 'entregado':
-        $idOrden = $_POST['ID'];
-        $pedido->cambiarEstEntregado($idOrden);
-    break;
-
-
     /* Cambiar estado de la orden a Pagado */
     case 9:
         $pedido->cambiarEstPagado($_POST['idOrdenSel']);
@@ -179,27 +73,10 @@ switch ($_POST['funcion']) {
         $pedido->desBloquearMesa($_POST['mesa']);
     break;
 
-    /* Cargar los items de esa orden (Util en editar pedido) */
-    case 12:
-        $json=array();
-        $pedido->listarProdPedido($_POST['ID_MESA']);
-        foreach($pedido->objetos as $objeto){
-            
-            $json[]=array(
-                'idprod'=>$objeto->id_det_prod,
-                'nombprod'=>$objeto->nombprod,
-                'cantidad'=>$objeto->det_cant,
-            );
-        }
-        $jsonstring = json_encode($json);
-        echo $jsonstring;
-    break;
-
     /* Editar la cantidad del Item (Util en editar pedido)*/
     case 13:
         $pedido->editarCantItem($_POST['ID_ORDEN'],$_POST['idItem'],$_POST['itemCant']);
     break;
-
 
     // agregar los nuevos Items a la orden
     case 14:
@@ -213,58 +90,11 @@ switch ($_POST['funcion']) {
         }
     break;
 
-
     // Borrar Item de la Orden
     case 15:
         $pedido->borrarItemOrden($_POST['ID']);
     break;
 
-
-    /* BUILD 3.0  
-        Donde se solicita que pase de la seccion de pedidos a caja
-    */
-    case 16:
-        session_start();
-        $id_coc_lider = $_SESSION['usuario'];
-        $idOrden = $_POST['ID'];
-        
-        $pedido->cambiarEstTerminado($idOrden, $id_coc_lider);
-        $pedido->cambiarEstEntregado($idOrden);
-
-    break;
-
-
-    /* Listar pedido de esa mesa */
-    case 17:
-        /* pedidos con entrega pendiente */
-        $pedido->listarPedidoMesa($_POST['idMesa']);
-        $json=array();
-        $jsonP=array();
-
-        foreach($pedido->objetos as $objeto){
-            $jsonP=[];
-
-            $pedido->listarProdPedido($objeto->id_pedido);
-            foreach($pedido->objetos as $objP){
-                
-                $jsonP[]=array(
-                    $objP->nombprod,
-                    $objP->presnom,
-                    $objP->det_cant,
-                );
-            }
-
-            $json[]=array(
-                'idPedido' => $objeto->id_pedido,
-                'nomMesa'=>$objeto->nom_mesa,
-                'prods'=> $jsonP
-            );
-        }
-        $jsonstring = json_encode($json);
-        echo $jsonstring;
-    break;
-
-    
     /* Lista las mesas y la orden q tenga */
     case 18:
         $pedido->listarMesas();
@@ -330,6 +160,7 @@ switch ($_POST['funcion']) {
 
     break;
 
+    /*  Lista los items de la orden */
     case 21:
         $pedido->listarProdPedido($_POST['idOrden']);
         $json=array();
@@ -341,6 +172,7 @@ switch ($_POST['funcion']) {
 
     break;
 
+    /* Cargar las observaciones de la orden*/
     case 22:
         $pedido->cargarObservOrden($_POST['idOrden']);
         $json=array();
@@ -356,7 +188,7 @@ switch ($_POST['funcion']) {
     break;
 }
 
-
+/* ***************** FUNCIONES DESCARTADAS PERO POSIBLE UTILIDAD ************************* */
 
 /* case 14:
 
@@ -378,3 +210,172 @@ switch ($_POST['funcion']) {
         }
     }
 break; */
+
+
+
+/* Listar pedido de esa mesa. LISTA TODOS LOS ITEMS */
+// case 17:
+//     /* pedidos con entrega pendiente */
+//     $pedido->listarPedidoMesa($_POST['idMesa']);
+//     $json=array();
+//     $jsonP=array();
+
+//     foreach($pedido->objetos as $objeto){
+//         $jsonP=[];
+
+//         $pedido->listarProdPedido($objeto->id_pedido);
+//         foreach($pedido->objetos as $objP){
+            
+//             $jsonP[]=array(
+//                 $objP->nombprod,
+//                 $objP->presnom,
+//                 $objP->det_cant,
+//             );
+//         }
+
+//         $json[]=array(
+//             'idPedido' => $objeto->id_pedido,
+//             'nomMesa'=>$objeto->nom_mesa,
+//             'prods'=> $jsonP
+//         );
+//     }
+//     $jsonstring = json_encode($json);
+//     echo $jsonstring;
+// break;
+
+
+
+/* listarPedidos */
+    // case 2:
+    //     /* pedidos con entrega pendiente */
+    //     $pedido->listarPedidosPendEntrega();
+    //     $json=array();
+    //     $jsonP=array();
+
+    //     foreach($pedido->objetos as $objeto){
+    //         $jsonP=[];
+
+    //         $pedido->listarProdPedido($objeto->id_pedido);
+    //         foreach($pedido->objetos as $objP){
+                
+    //             $jsonP[]=array(
+    //                 $objP->nombprod,
+    //                 $objP->presnom,
+    //                 $objP->det_cant,
+    //             );
+    //         }
+
+    //         $json[]=array(
+    //             'idPedido' => $objeto->id_pedido,
+    //             'nomMesa'=>$objeto->nom_mesa,
+    //             'prods'=> $jsonP
+    //         );
+    //     }
+    //     $jsonstring = json_encode($json);
+    //     echo $jsonstring;
+    // break;
+
+
+        /* read mesa y pedidos */
+        // case 3:
+        //     $pedido->listarMesas();
+        //     $json=array();
+        //     $jsonP=array();
+    
+        //     foreach($pedido->objetos as $objeto){
+        //         $jsonP=[];
+    
+        //         $pedido->listarPedidoMesa($objeto->id_mesa);
+        //         foreach($pedido->objetos as $objP){
+                    
+        //             $jsonP[]=array(
+        //                 $objP->nombprod,
+        //                 $objP->presnom,
+        //                 $objP->det_cant,
+        //             );
+        //         }
+    
+        //         $json[]=array(
+        //             'id_mesa'=>$objeto->id_mesa,
+        //             'nom'=>$objeto->nom,
+        //             'prods'=> $jsonP
+        //         );
+        //     }
+        //     $jsonstring = json_encode($json);
+        //     echo $jsonstring;
+        // break;
+    
+    
+        // /* listarPedTerminados pedidos con entrega pendiente */
+        // case 5:
+        //     $pedido->listarPedTerminados();
+        //     $json=array();
+        //     $jsonP=array();
+            
+        //     foreach($pedido->objetos as $objeto){
+        //         $jsonP=[];
+    
+        //         $pedido->listarProdPedido($objeto->id_pedido);
+        //         foreach($pedido->objetos as $objP){
+                    
+        //             $jsonP[]=array(
+        //                 $objP->nom,
+        //                 $objP->det_cant,
+        //                 $objP->presnom,
+        //             );
+        //         }
+    
+        //         $json[]=array(
+        //             'idPedido' => $objeto->id_pedido,
+        //             'nomMesa'=>$objeto->nom_mesa,
+        //             'prods'=> $jsonP
+        //         );
+        //     }
+        //     $jsonstring = json_encode($json);
+        //     echo $jsonstring;
+    
+        // break;
+    
+        // case 'terminado':
+        //     session_start();
+        //     $id_coc_lider = $_SESSION['usuario'];
+    
+        //     $idOrden = $_POST['ID'];
+        //     $pedido->cambiarEstTerminado($idOrden, $id_coc_lider);
+        // break;
+    
+        // case 'entregado':
+        //     $idOrden = $_POST['ID'];
+        //     $pedido->cambiarEstEntregado($idOrden);
+        // break;
+
+
+            /* Cargar los items de esa orden (Util en editar pedido) */
+    // case 12:
+    //     $json=array();
+    //     $pedido->listarProdPedido($_POST['ID_MESA']);
+    //     foreach($pedido->objetos as $objeto){
+            
+    //         $json[]=array(
+    //             'idprod'=>$objeto->id_det_prod,
+    //             'nombprod'=>$objeto->nombprod,
+    //             'cantidad'=>$objeto->det_cant,
+    //         );
+    //     }
+    //     $jsonstring = json_encode($json);
+    //     echo $jsonstring;
+    // break;
+
+    
+    /* BUILD 3.0  
+        Donde se solicita que pase de la seccion de pedidos a caja
+    */
+    // case 16:
+    //     session_start();
+    //     $id_coc_lider = $_SESSION['usuario'];
+    //     $idOrden = $_POST['ID'];
+        
+    //     $pedido->cambiarEstTerminado($idOrden, $id_coc_lider);
+    //     $pedido->cambiarEstEntregado($idOrden);
+
+    // break;

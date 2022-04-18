@@ -104,8 +104,8 @@ $(document).ready(function(){
             })
         });
 
+        /* Lista los items de la orden */
         funcion = 21;
-        
         // ajax
         $.post(PEDIDOS_CTRL,{idOrden,funcion},(response)=>{
             let registros = JSON.parse(response);

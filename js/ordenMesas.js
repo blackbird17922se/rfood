@@ -124,7 +124,11 @@ $(document).ready(function(){
         const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
         const ID = $(ELEM).attr('idOrden');
         if (idMesero == 0) {
-            alert('elija un mesero')
+                        Swal.fire({
+                icon: 'error',
+                title: 'Atención',
+                text: 'Debes seleccionar un mesero de la lista.',
+            })
         } else {
         window.location.href ='edicionOrden.php' + "?idOrden=" + ID; 
         }
@@ -136,7 +140,11 @@ $(document).ready(function(){
         const ID = $(ELEM).attr('mesaId');
         console.log(ID);
         if (idMesero == 0) {
-            alert('elija un mesero')
+                        Swal.fire({
+                icon: 'error',
+                title: 'Atención',
+                text: 'Debes seleccionar un mesero de la lista.',
+            })
         } else {
             window.location.href ='nuevaOrden.php' + "?mesaId=" + ID; 
         }

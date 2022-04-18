@@ -41,22 +41,22 @@
     }
 
     .carro tbody tr td:nth-child(1):before{
-        content: 'Codigo: ';
-        font-weight: bold;
-        color: #000;
-    }
-    .carro tbody tr td:nth-child(2):before{
         content: 'Nombre: ';
         font-weight: bold;
         color: #000;
     }
+    .carro tbody tr td:nth-child(2):before{
+        content: 'Presentación: ';
+        font-weight: bold;
+        color: #000;
+    }
     .carro tbody tr td:nth-child(3):before{
-        content: 'Compos: ';
+        content: 'Cantidad: ';
         font-weight: bold;
         color: #000;
     }
     .carro tbody tr td:nth-child(4):before{
-        content: 'Present: ';
+        /* content: 'Present: '; */
         font-weight: bold;
         color: #000;
     }

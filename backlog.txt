@@ -5,21 +5,8 @@
 --------------------------------------- Milestone 4 ----------------------------------------
 
 //////////////////
-Build 4.2
+Build 4.
 //////////////////
-* Reparar ventas dias
-*editar desplegable procesar pedido, labels (dice compos...)
-*agregar alerta seleccionar meseros
-
-* En caja en estilo responsive ajustar el desborde de texto de las filas que tienen la info del pedido
-
-* Acomodar boton 'salir' en editar ingreds de un item
-
-* Cambiar boton de Cerrar Sesion
-
-* Agregar efecto glass al modal detalle venta en Venta
-
-* arreglar parte visual modals.
 
 * Verificar descuento inv de cuando el sistema acaba un lote y empieza con otro
 
@@ -29,14 +16,22 @@ Build 4.2
     _Caja
     Lo ideal es que solo refresque el div tabla.
 
+▶️ Aclarar como va a ser el tema del IVA
+
+* impresion ordenes
+
+* impresion factura
+
+* impresion venta dia
+
+* incorporar funcionalidad ocultar ventas efectivo
+
 
 ------------------------------ PLUS -----------------------------------------------
 * Al editar los ingred de un item, podria intentar fusionar la tabla INGREDS ACTUALES
     con INGRED NUEVOS.
 
 * Podria añadir un boton de 'Liberar mesa'
-
-* verificar funciones inutles en pedidoController
 
 * optimizar los items repetidos en una orden cuando se vana editar
  (pedidoController)
@@ -45,11 +40,28 @@ Build 4.2
 *caja js quitar funciones oncli inutiles (editar, borrar)
 
 * agregar la opcion de cancelar (borrar) un pedido o domicilio:
-    ej: El cliente cancelo la solicitud de pedido
+    ej: El cliente cancelo la solicitud de pedido.
+
+* En caja en estilo responsive ajustar el desborde de texto de las filas que tienen la info del pedido
+
+* Agregar efecto glass al modal detalle venta en Venta
 
 ****************************************************************************************************
 DONE:
 ****************************************************************************************************
+//////////////////
+Build 4.2
+//////////////////
+* Reparar ventas dias.
+*editar desplegable procesar pedido, labels (dice compos...).
+*agregar alerta seleccionar meseros
+* arreglar parte visual modals.
+* Cambiar boton de Cerrar Sesion
+* Acomodar boton 'salir' en editar ingreds de un item
+* verificar funciones inutles en pedidoController
+
+
+
 //////////////////
 Build 4.1 (13/04)
 //////////////////

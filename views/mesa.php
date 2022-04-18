@@ -9,7 +9,7 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2)) {
     <div class="modal fade" id="crearmesa" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="card card-success">
+                <div class="card card-success card-mdrn">
                     <div class="card-header">
                         <h3 class="card-title">Mesa</h3>
                         <button data-dismiss="modal" aria-label="close" class="close">

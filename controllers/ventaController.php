@@ -79,26 +79,13 @@ switch ($_POST['funcion']) {
     break;
 
 
-    /* dATOS? */
-    case 4:
-        date_default_timezone_set('America/Bogota');
-        $fecha2 = date('Y-m-d H:i:s');
-        $nfecha =  str_replace(':','-',$fecha2);
-    
-    
-        $json=array();
-        $json[]=array(
-            'idUsu' => $idUsu,
-            'fecha' => $nfecha
-        );
-        $jsonstring = json_encode($json);
-        echo $jsonstring;
-    break;
-
-
     /* Venta Dia */
     case 5:
-        $venta->venta_diaria($idUsu);
+        date_default_timezone_set('America/Bogota');
+        $fecha = date('Y-m-d');
+
+        $venta->venta_diaria($idUsu, $fecha);
+
    
         $json=array();
         foreach ($venta->objetos as $objeto) {
@@ -108,155 +95,6 @@ switch ($_POST['funcion']) {
         echo $jsonstring;
     break;
 
-    /* REPORTE VENTA PDF rep_venta*/
-    case 6:
-        // session_start();
-        date_default_timezone_set('America/Bogota');
-        $fecha = date('Y-m-d H:i:s');
-        $fecha2 = date('Y-m-d');
-    
-        $html = '
-
-            <header>
-                <h1>Reporte venta</h1>
-                <div id="project">
-                </div>
-            </header>
-            <table>
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>Producto</th>
-                        <th>Cant</th>
-                        <th>sub</th>
-                    
-                    </tr>
-                </thead>
-                <tbody>
-        ';
-
-        $venta->venta_diaria($idUsu);
-        $contador = 0;
-        foreach ($venta->objetos as $objeto) {
-            $contador++;
-        
-            $html.='
-                <tr>
-                    <th class="service">'.$objeto->id_venta.'</th>
-                    <th class="service">'.$objeto->producto.'</th>
-                    <th class="service">'.$objeto->cantidad.'</th>
-                    <th class="service">'.$objeto->subtotal.'</th>
-                    
-                </tr>
-            ';      
-        }
-
-        $html.='
-                </tbody>
-            </table>
-        ';
-
-        $venta->venta_dia_vendor($idUsu);
-        foreach ($venta->objetos as $objeto) {
-            $html.='
-                <h1>Total en ventas:<br>$'.$objeto->venta_dia_vendor.'</h1>
-                <h5>Vendedor: '.$_SESSION['nom'].'</h5>
-                <h5>Reporte generado el: '.$fecha.'</h5>
-            ';
-        }
-
-        $id_venta = $_POST['usuario'];
-        $fecha2 = $_POST['fecha'];
-        // $css = file_get_contents("../css/pdf.css");
-        $mpdf = new \Mpdf\Mpdf();
-        // $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [50, 800]]);
-        // $mpdf->WriteHTML($css, \Mpdf\HTMLParserMode::HEADER_CSS);
-        $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
-        // $mpdf->Output("../pdf/pdf-".$_POST['funcion'].".pdf","F");
-        $mpdf->Output("../pdf/pdf-".$id_venta.$fecha2.".pdf","F");
-
-        $json=array();
-        $json[]=array(
-            /* '' =>$objeto->ALIAS ASIGNADO */
-            'idUsu' => $idUsu,
-            'fecha' => $fecha
-        );
-        $jsonstring = json_encode($json);
-        echo $jsonstring;
-        
-    break;
-
-    /***********rep_cierre GENERAR AUTOMATICAMENTE UN REPORTE AL CERRAR SESION ************** */
-    case 7:
-        session_start();
-        date_default_timezone_set('America/Bogota');
-        $fecha = date('Y-m-d H:i:s');
-      
-        $html = '
-            <header>
-                <h1>Reporte venta</h1>
-                <div id="project">
-                </div>
-            </header>
-            <table>
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>Producto</th>
-                        <th>Cant</th>
-                        <th>sub</th>
-                      
-                    </tr>
-                </thead>
-                <tbody>
-        ';
-    
-        $venta->venta_diaria($idUsu);
-        $contador = 0;
-        foreach ($venta->objetos as $objeto) {
-            $contador++;
-        
-            $html.='
-                <tr>
-                    <th class="service">'.$objeto->id_venta.'</th>
-                    <th class="service">'.$objeto->producto.'</th>
-                    <th class="service">'.$objeto->cantidad.'</th>
-                    <th class="service">'.$objeto->subtotal.'</th>
-                    
-                </tr>
-            ';
-        }
-    
-        $html.='
-                </tbody>
-            </table>
-        ';
-    
-        $venta->venta_dia_vendor($idUsu);
-        foreach ($venta->objetos as $objeto) {
-            $html.='
-                <h1>Total en ventas:<br>$'.$objeto->venta_dia_vendor.'</h1>
-                <h5>Vendedor: '.$_SESSION['nom'].'</h5>
-                <h5>Reporte generado el: '.$fecha.'</h5>
-            ';
-        }
-    
-        // $css = file_get_contents("../css/pdf.css");
-        $mpdf = new \Mpdf\Mpdf();
-        // $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [50, 800]]);
-        // $mpdf->WriteHTML($css, \Mpdf\HTMLParserMode::HEADER_CSS);
-        $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
-        $mpdf->Output("../pdf/pdf-".$_POST['funcion'].".pdf","F");
-    
-        $json=array();
-        $json[]=array(
-            /* '' =>$objeto->ALIAS ASIGNADO */
-            'idUsu' => $idUsu,
-            'fecha' => $fecha
-        );
-        $jsonstring = json_encode($json);
-        echo $jsonstring;  
-    break;
 
     case 8:
         $id = 1;
@@ -283,8 +121,174 @@ switch ($_POST['funcion']) {
         echo $jsonstring;
 
     break;
+
+    /* REPORTE VENTA PDF rep_venta*/
+    case 9:
+            // session_start();
+            date_default_timezone_set('America/Bogota');
+            $fecha = date('Y-m-d H:i:s');
+            $fecha2 = date('Y-m-d');
+        
+            $html = '
+    
+                <header>
+                    <h1>Reporte venta</h1>
+                    <div id="project">
+                    </div>
+                </header>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Producto</th>
+                            <th>Cant</th>
+                            <th>sub</th>
+                        
+                        </tr>
+                    </thead>
+                    <tbody>
+            ';
+    
+            $venta->venta_diaria($idUsu);
+            $contador = 0;
+            foreach ($venta->objetos as $objeto) {
+                $contador++;
+            
+                $html.='
+                    <tr>
+                        <th class="service">'.$objeto->id_venta.'</th>
+                        <th class="service">'.$objeto->producto.'</th>
+                        <th class="service">'.$objeto->cantidad.'</th>
+                        <th class="service">'.$objeto->subtotal.'</th>
+                        
+                    </tr>
+                ';      
+            }
+    
+            $html.='
+                    </tbody>
+                </table>
+            ';
+    
+            $venta->venta_dia_vendor($idUsu);
+            foreach ($venta->objetos as $objeto) {
+                $html.='
+                    <h1>Total en ventas:<br>$'.$objeto->venta_dia_vendor.'</h1>
+                    <h5>Vendedor: '.$_SESSION['nom'].'</h5>
+                    <h5>Reporte generado el: '.$fecha.'</h5>
+                ';
+            }
+    
+            $id_venta = $_POST['usuario'];
+            $fecha2 = $_POST['fecha'];
+            // $css = file_get_contents("../css/pdf.css");
+            $mpdf = new \Mpdf\Mpdf();
+            // $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [50, 800]]);
+            // $mpdf->WriteHTML($css, \Mpdf\HTMLParserMode::HEADER_CSS);
+            $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
+            // $mpdf->Output("../pdf/pdf-".$_POST['funcion'].".pdf","F");
+            $mpdf->Output("../pdf/pdf-".$id_venta.$fecha2.".pdf","F");
+    
+            $json=array();
+            $json[]=array(
+                /* '' =>$objeto->ALIAS ASIGNADO */
+                'idUsu' => $idUsu,
+                'fecha' => $fecha
+            );
+            $jsonstring = json_encode($json);
+            echo $jsonstring;
+            
+    break;
+
+    /***********rep_cierre GENERAR AUTOMATICAMENTE UN REPORTE AL CERRAR SESION ************** */
+    case 10:
+            session_start();
+            date_default_timezone_set('America/Bogota');
+            $fecha = date('Y-m-d H:i:s');
+          
+            $html = '
+                <header>
+                    <h1>Reporte venta</h1>
+                    <div id="project">
+                    </div>
+                </header>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>Producto</th>
+                            <th>Cant</th>
+                            <th>sub</th>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+            ';
+        
+            $venta->venta_diaria($idUsu);
+            $contador = 0;
+            foreach ($venta->objetos as $objeto) {
+                $contador++;
+            
+                $html.='
+                    <tr>
+                        <th class="service">'.$objeto->id_venta.'</th>
+                        <th class="service">'.$objeto->producto.'</th>
+                        <th class="service">'.$objeto->cantidad.'</th>
+                        <th class="service">'.$objeto->subtotal.'</th>
+                        
+                    </tr>
+                ';
+            }
+        
+            $html.='
+                    </tbody>
+                </table>
+            ';
+        
+            $venta->venta_dia_vendor($idUsu);
+            foreach ($venta->objetos as $objeto) {
+                $html.='
+                    <h1>Total en ventas:<br>$'.$objeto->venta_dia_vendor.'</h1>
+                    <h5>Vendedor: '.$_SESSION['nom'].'</h5>
+                    <h5>Reporte generado el: '.$fecha.'</h5>
+                ';
+            }
+        
+            // $css = file_get_contents("../css/pdf.css");
+            $mpdf = new \Mpdf\Mpdf();
+            // $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [50, 800]]);
+            // $mpdf->WriteHTML($css, \Mpdf\HTMLParserMode::HEADER_CSS);
+            $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
+            $mpdf->Output("../pdf/pdf-".$_POST['funcion'].".pdf","F");
+        
+            $json=array();
+            $json[]=array(
+                /* '' =>$objeto->ALIAS ASIGNADO */
+                'idUsu' => $idUsu,
+                'fecha' => $fecha
+            );
+            $jsonstring = json_encode($json);
+            echo $jsonstring;  
+    break;
     
     default:
         # code...
     break;
 }
+
+    /* dATOS? */
+/*     case 4:
+        date_default_timezone_set('America/Bogota');
+        $fecha2 = date('Y-m-d H:i:s');
+        $nfecha =  str_replace(':','-',$fecha2);
+    
+    
+        $json=array();
+        $json[]=array(
+            'idUsu' => $idUsu,
+            'fecha' => $nfecha
+        );
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+    break; */

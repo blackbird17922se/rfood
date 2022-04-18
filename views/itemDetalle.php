@@ -14,7 +14,6 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
 
           
           <div class="col-sm-6 mt-2">
-            <button class="btn btn-danger salir">Salir</button>
             <h1 id="tit-item"></h1>
             <input type="hidden" id="itemId" value="<?php echo $_GET['id']?>">
             <p>Codigo: <span id="codbar"></span></p>
@@ -22,10 +21,7 @@ if(!empty($_SESSION['rol']==1 || $_SESSION['rol']==2)){
             <p>¿Tiene IVA?: <span id="iva"></span></p>
           </div>
           <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Gestion Atributos inv</li>
-            </ol>
+            <button class="btn btn-danger salir flt-rgt">Salir</button>
           </div>
         </div>
       </div><!-- /.container-fluid -->

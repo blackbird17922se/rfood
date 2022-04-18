@@ -9,7 +9,7 @@ if(!empty($_SESSION['rol'])){
 <div class="modal fade" id="cambioContras" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="card card-success">
+            <div class="card card-success card-mdrn">
                 <div class="card-header">
                     <h3 class="card-title">Cambiar Contraseña</h3>
                     <button data-dismiss="modal" aria-label="close" class="close">

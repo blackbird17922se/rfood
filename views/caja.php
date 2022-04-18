@@ -105,10 +105,6 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
 
                     </div>
                     <div class="card-footer">
-                        <div class="form-group mt-2">
-                            <label for="observCli">Observaciones del Pedido: </label>
-                            <p id="observCli"></p>
-                        </div>
                         <button type="button" data-dismiss="modal" class="btn btn-outline-secondary float-right m-1">Cerrar</button>
                     </div>
 
