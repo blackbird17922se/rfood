@@ -2,12 +2,14 @@
 ***************************************** BACKLOG LIST ********************************************
 ***************************************************************************************************
 
---------------------------------------- Milestone 3 ----------------------------------------
+--------------------------------------- Milestone 4 ----------------------------------------
 
 //////////////////
-Build 4.1
+Build 4.2
 //////////////////
-
+* Reparar ventas dias
+*editar desplegable procesar pedido, labels (dice compos...)
+*agregar alerta seleccionar meseros
 
 * En caja en estilo responsive ajustar el desborde de texto de las filas que tienen la info del pedido
 
