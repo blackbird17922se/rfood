@@ -1,7 +1,7 @@
 -------------------------BUID 4.1-----------------------------------------------
 ALTER TABLE `venta`
   DROP `id_mesero`,
-  DROP `id_coc_lider`
+  DROP `id_coc_lider`,
   DROP `id_mesa`;
 
 ALTER TABLE `pedido` DROP `id_cajero`;

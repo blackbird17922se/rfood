@@ -127,7 +127,7 @@ class Venta{
     // Venta por dia y vendedor
     function venta_dia_vendor($id){
         $sql="SELECT SUM(total) as venta_dia_vendor FROM `venta` 
-        WHERE vendedor=:id_usuario AND DATE(fecha) = DATE(curdate())";
+        WHERE vendedor=:id_usuario AND DATE(fecha) = DATE(CURDATE())";
 
         $query = $this->acceso->prepare($sql);
         $query->execute(array(':id_usuario' => $id));

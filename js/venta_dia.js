@@ -2,6 +2,7 @@ $(document).ready(function () {
 
     mostrar_consultas()
     totalVentas()
+    listarVentasCons();
 
     function totalVentas(){
         let funcion = 3;
@@ -11,6 +12,14 @@ $(document).ready(function () {
             $('#venta_dia_vendor').html(VENTASDIA.venta_dia_vendor);
 
         });
+    }
+
+        
+    function listarVentasCons(){
+        funcion = 5;
+        $.post('../controllers/ventaController.php',{funcion},(response)=>{
+            console.log(response);
+        })
     }
 
 
