@@ -5,8 +5,12 @@
 --------------------------------------- Milestone 4 ----------------------------------------
 
 //////////////////
-Build 4.
+Build 4.3.2
 //////////////////
+* Mejorar modulos de ventas, ver por
+    -Ventas del dia general.
+    -Ventas por fecha
+    -Ventas generales 
 
 * Verificar descuento inv de cuando el sistema acaba un lote y empieza con otro
 
@@ -24,7 +28,7 @@ Build 4.
 
 * impresion venta dia
 
-* incorporar funcionalidad ocultar ventas efectivo
+
 
 
 ------------------------------ PLUS -----------------------------------------------
@@ -45,6 +49,7 @@ Build 4.
 * En caja en estilo responsive ajustar el desborde de texto de las filas que tienen la info del pedido
 
 * Agregar efecto glass al modal detalle venta en Venta
+* incorporar funcionalidad ocultar ventas efectivo
 
 ****************************************************************************************************
 DONE:

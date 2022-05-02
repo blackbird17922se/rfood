@@ -269,14 +269,40 @@ class Venta{
         return $this->objetos;
     }
 
-/*     function consultarNombreMesa($idMesa){
 
-        $sql = "SELECT nom FROM mesa WHERE id_mesa = :idMesa";
+    function listarVentaDiaGeneral($fecha){
+        $sql=
+            "SELECT 
+                id_venta, 
+                total, 
+                CONCAT(usuario.nom,' ',usuario.ape) AS vendedor 
+            FROM venta 
+            JOIN usuario ON vendedor = id_usu
+            WHERE DATE(fecha) = DATE(:fecha) ORDER BY id_venta ASC";
         $query = $this->acceso->prepare($sql);
-        $query->execute([':idMesa' => $idMesa]);
+        $query->execute(array(':fecha' =>  $fecha));
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+    }
+
+
+    function calcularTotalDia($fecha){
+        $sql="SELECT SUM(total) as venta_dia FROM `venta` 
+        WHERE DATE(fecha) = DATE(:fecha)";
+
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':fecha' => $fecha));
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+    }
+
+    function calcularTotalGeneralVenta(){
+        $sql="SELECT SUM(total) as venta_dia FROM `venta`";
+        $query = $this->acceso->prepare($sql);
+        $query->execute();
         $this->objetos=$query->fetchall();
         return $this->objetos;
 
-    } */
+    }
 
 }

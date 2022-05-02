@@ -137,7 +137,7 @@
         <!-- aqui va la gestion de ventas -->
         <li class="nav-header">Ventas</li>
         <li class="nav-item">
-          <a href="adm_venta.php" class="nav-link">
+          <a href="ventas.php" class="nav-link">
             <!-- <i class="nav-icon fas fa-notes-medical"></i> -->
             <img src="../public/icons/accessories-dictionary.png">
             <p>

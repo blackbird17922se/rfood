@@ -1,126 +1,141 @@
 $(document).ready(function () {
 
     const VENTA_CTRLR = '../controllers/ventaController.php';
-    var funcion       = 0;
-    mostrar_consultas()
-    // totalVentas()
+    var funcion = 0;
+    var datatable = "";
+    var fecha = $("input#fecha").val();
 
-/*     function totalVentas(){
-        let funcion = 'totalVentas';
-        $.post(VENTA_CTRLR,{funcion},(response)=>{
-            console.log(response);
-            const VENTASDIA = JSON.parse(response);
-            $('#venta_dia_vendor').html(VENTASDIA.venta_dia_vendor);
-            $('#venta_dia').html(VENTASDIA.venta_dia);
-            $('#venta_mensual').html(VENTASDIA.venta_mensual);
-            $('#venta_anual').html(VENTASDIA.venta_anual);
 
-        });
-    } */
+    listarVentaDiaGeneral();
 
-    // Tabla Venta Dia
-    function mostrar_consultas(){
-        let funcion = 'mostrar_consultas';
 
-        let datatable = $('#tb_venta_dia').DataTable( {
 
-            // "order": [[ 1, "desc" ]],
-            
+    /* Cuando el usuario seleciona una fecha del input */
+    $("input#fecha").on("change", function () {
+        datatable.destroy();
+        fecha = $(this).val();
+        listarVentaDiaGeneral()
+    })
+
+
+    /**
+     * Cargar las ventas generales solo al seleccionar la pestaña, 
+     * esto con el fin de mejorar rendimiento 
+    */
+    $('#btn-general').on("click", function () {
+        datatable.destroy();
+        listarVentaGeneral()
+    })
+
+
+    /* Listar las ventas del dia de todos los cajeros */
+    function listarVentaDiaGeneral() {
+        let funcion = 12;
+
+        datatable = $('#tablaVentaDiaGeneral').DataTable({
+
+            "order": [[0, "desc"]],
+            ajax: "data.json",
+
             "ajax": {
-                "url":"../controllers/ventaController.php",
-                "method":"POST",
-                "data":{funcion:funcion}
+                "url": "../controllers/ventaController.php",
+                "method": "POST",
+                "data": { funcion: funcion, fecha: fecha }
             },
             "columns": [
-    
+
                 { "data": "id_venta" },
-                { "data": "cantidad" },
-                { "data": "producto" },
-                { "data": "subtotal" }
-                
+                { "data": "total" },
+                { "data": "vendedor" },
+                {
+                    "data": "imageUrl",
+                    "render": function (data, type, row) {
+                        if (row.vendedor == 'No existen datos') {
+
+                            return '';
+                        }
+                        else {
+                            return `
+                                <button class=" btn btn-transp-dis"><img src="../public/icons/printx32.png" alt=""></i></button>
+                                <button class="ver btn btn-transp" type="button" data-toggle="modal" data-target="#vista-venta"><img src="../public/icons/dprint-prvx32.png" alt=""></button>
+                                <button class=" btn btn-transp-dis"><img src="../public/icons/delete_32.png" alt=""></button>
+                            `;
+                        }
+                    }
+                },
+            ],
+
+
+            language: espanol
+        });
+        
+        calcularTotal(fecha)
+         
+    }
+
+    /* Listar todas las ventas desde el origen de los tiempos... */
+    function listarVentaGeneral() {
+        funcion = 1;
+        datatable = $('#tabla_venta').DataTable({
+
+            "order": [[1, "desc"]],
+
+            "ajax": {
+                "url": VENTA_CTRLR,
+                "method": "POST",
+                "data": { funcion: funcion }
+            },
+            "columns": [
+
+                { "data": "id_venta" },
+                { "data": "fecha" },
+                { "data": "total" },
+                { "data": "vendedor" },
+                {
+                    "defaultContent": `
+                    <button class=" btn btn-transp-dis"><img src="../public/icons/printx32.png" alt=""></i></button>
+                    <button class="ver btn btn-transp" type="button" data-toggle="modal" data-target="#vista-venta"><img src="../public/icons/dprint-prvx32.png" alt=""></button>
+                    <button class=" btn btn-transp-dis"><img src="../public/icons/delete_32.png" alt=""></button>
+                    
+                `},
+
             ],
             language: espanol
-        } );
+        });
+
+        calcularTotalGeneral()
     }
 
 
-    /* PDF REPORTE VENTA DIARIA */
-    $(document).on('click','#btn_reporte_venta',(e)=>{
-        var usuario, fecha;
-        /* datos, traera desde el controlador los datos fecha y id usuario */
-        funcion = 'datos';
-
-        $.post(VENTA_CTRLR,{funcion},(resp)=>{
-            // console.log(resp);
-            const VALORES = JSON.parse(resp);
-            console.log("te"+resp);
-       
-            VALORES.forEach(valor=>{
-                usuario = valor.idUsu
-                fecha = valor.fecha
-
-                funcion = 'rep_venta';
-                $.post(VENTA_CTRLR,{funcion,usuario,fecha},(response)=>{  
-                    console.log("tr"+response);      
-                    // window.open('../pdf/pdf-'+funcion+'.pdf','_blank');
-                    window.open('../pdf/pdf-'+usuario+fecha+'.pdf','_blank');
-        
-                });
-            });
-        });
-    })
-
-            
-    funcion = 1;
-    let datatable = $('#tabla_venta').DataTable( {
-
-        "order": [[ 1, "desc" ]],
-        
-        "ajax": {
-            "url":VENTA_CTRLR,
-            "method":"POST",
-            "data":{funcion:funcion}
-        },
-        "columns": [
-
-            { "data": "id_venta" },
-            { "data": "fecha" },
-            { "data": "total" },
-            { "data": "vendedor" },
-            { "defaultContent": `
-                <button class=" btn btn-transp-dis"><img src="../public/icons/printx32.png" alt=""></i></button>
-                <button class="ver btn btn-transp" type="button" data-toggle="modal" data-target="#vista-venta"><img src="../public/icons/dprint-prvx32.png" alt=""></button>
-                <button class=" btn btn-transp-dis"><img src="../public/icons/delete_32.png" alt=""></button>
-                
-            `}, 
-
-        ],
-        language: espanol
-    } );
-    /* originales sin disable:
-        <button class="imprimir btn btn-transp"><img src="../public/icons/printx32.png" alt=""></i></button>
-        <button class="ver btn btn-transp" type="button" data-toggle="modal" data-target="#vista-venta"><img src="../public/icons/dprint-prvx32.png" alt=""></button>
-        <button class="borrar btn btn-transp"><img src="../public/icons/delete_32.png" alt=""></button>
+    /* Controlan eventos al hacer clic en ver detalle de la orden 
+        tanto en la pestaña ventas dia como generales.
     */
-
-
-    /* DETALLE DE LA VENTA */
-    /* seleccionar elid de esa fila para consultar sus valores */
-    $('#tabla_venta tbody').on('click','.ver',function(){
-
+    $('#tablaVentaDiaGeneral tbody').on('click', '.ver', function () {
         let datos = datatable.row($(this).parents()).data();
-        let id= datos.id_venta;
+        let id = datos.id_venta;
+        listarDetalleVenta(datos, id)
 
-        /** CONSULTAR DATOS PRINCIPALES VENTA 
-         * Datos como mesero,cocinero,mesa y observaciones de la orden
-        */
+    });
+
+
+    $('#tabla_venta tbody').on('click', '.ver', function () {
+        let datos = datatable.row($(this).parents()).data();
+        let id = datos.id_venta;
+        listarDetalleVenta(datos, id)
+    });
+
+
+    /** CONSULTAR DATOS PRINCIPALES VENTA 
+     * Datos como mesero,cocinero,mesa y observaciones de la orden
+    */
+    function listarDetalleVenta(datos, id) {
         funcion = 2
-        $.post(VENTA_CTRLR,{funcion,id},(response)=>{
+        $.post(VENTA_CTRLR, { funcion, id }, (response) => {
             // console.log(response);
             const encargados = JSON.parse(response);
-            
 
-            encargados.forEach(encargado=>{
+
+            encargados.forEach(encargado => {
                 // console.log(encargado.observ);
                 $('#mesero').html(encargado.mesero);
                 // $('#coc_lider').html(encargado.cocineroLider);
@@ -133,22 +148,22 @@ $(document).ready(function () {
                 switch (formaPago) {
                     case '1':
                         formaPago = 'Efectivo'
-                    break;
-                    
+                        break;
+
                     case '2':
                         formaPago = 'Tarjeta'
-                    break;
+                        break;
                     case '3':
                         formaPago = 'Nequi'
-                    break;
-                    
+                        break;
+
                     case '4':
                         formaPago = 'Daviplata'
-                    break;
+                        break;
 
                     default:
                         formaPago = 'ERROR FATAL DEL SISTEMA'
-                    break;
+                        break;
                 }
                 $('#medPago').html(formaPago);
             })
@@ -161,58 +176,75 @@ $(document).ready(function () {
         $('#fecha').html(datos.fecha);
         $('#cajero').html(datos.vendedor);
         $('#total').html(datos.total);
-        $.post('../controllers/ventaProductoController.php',{funcion,id},(response)=>{
+        $.post('../controllers/ventaProductoController.php', { funcion, id }, (response) => {
             // console.log(response);
 
             let registros = JSON.parse(response);
-            let template ="";
+            let template = "";
             $('#registros').html(template);
 
             registros.forEach(registro => {
-                template+=`
-                <tr>
-                    <td>${registro.cant}</td>
-                    <td>${registro.precio}</td>
-                    <td>${registro.producto}</td>
-                    <td>${registro.presentacion}</td>
-                    <td>${registro.tipo}</td>
-                    <td>${registro.subtotal}</td>
-                </tr>
-                `;
+                template += `
+                 <tr>
+                     <td>${registro.cant}</td>
+                     <td>${registro.precio}</td>
+                     <td>${registro.producto}</td>
+                     <td>${registro.presentacion}</td>
+                     <td>${registro.tipo}</td>
+                     <td>${registro.subtotal}</td>
+                 </tr>
+                 `;
                 $('#registros').html(template);
-                
+
             });
             // console.log(response);   
         })
-    });
+        // console.log('dd');
+        // listarDetalleVenta();
 
-    /* CODIGO DE GENERAR PDF */
-    $('#tabla_venta tbody').on('click','.imprimir',function(){
-        let datos = datatable.row($(this).parents()).data();
-        let id= datos.id_venta;
-        $.post('../controllers/PDFController.php',{id},(response)=>{
-            console.log(response);
-            window.open('../pdf/pdf-'+id+'.pdf','_blank');
-        });
-    });
+
+    }
+
+
+    /* Total */
+    function calcularTotal(fecha){
+        funcion = 6;
+        $.post(VENTA_CTRLR,{funcion,fecha},(response) => {
+            const totales = JSON.parse(response);
+            totales.forEach(total => {
+                $('#totalDia').html(total.venta_dia);
+            })
+        })
+    }
+
+    function calcularTotalGeneral(){
+        funcion = 7;
+        $.post(VENTA_CTRLR,{funcion},(response) => {
+            const totales = JSON.parse(response);
+            totales.forEach(total => {
+                $('#totalGeneral').html(total.venta_dia);
+            })
+        })
+    }
+
 
 
     /* BORRAR VENTA */
-    $('#tabla_venta tbody').on('click','.borrar',function(){
+    $('#tabla_venta tbody').on('click', '.borrar', function () {
         let datos = datatable.row($(this).parents()).data();
-        let id= datos.id_venta;
+        let id = datos.id_venta;
         funcion = 'borrar_venta';
         /* Alerta */
         const swalWithBootstrapButtons = Swal.mixin({
             customClass: {
-              confirmButton: 'btn btn-success m-1',
-              cancelButton: 'btn btn-danger m-1'
+                confirmButton: 'btn btn-success m-1',
+                cancelButton: 'btn btn-danger m-1'
             },
             buttonsStyling: false
         })
-          
+
         swalWithBootstrapButtons.fire({
-            title: '¿Está seguro que desea eliminar la venta '+id+'?',
+            title: '¿Está seguro que desea eliminar la venta ' + id + '?',
             text: "Esta acción ya no se podrá deshacer.",
             icon: 'warning',
             showCancelButton: true,
@@ -221,19 +253,19 @@ $(document).ready(function () {
             reverseButtons: true
         }).then((result) => {
             if (result.value) {
-                $.post('../controllers/detalleVentaController.php',{id,funcion},(response)=>{
+                $.post('../controllers/detalleVentaController.php', { id, funcion }, (response) => {
                     // console.log(response);
                     // edit==false;
-                    if(response=='delete'){
+                    if (response == 'delete') {
                         swalWithBootstrapButtons.fire(
-                            'Eliminado '+ID+'!',
+                            'Eliminado ' + ID + '!',
                             'La venta ha sido eliminada.',
                             'success'
                         )
                         // buscar_lote();
-                    }else if(response=='nodelete'){
+                    } else if (response == 'nodelete') {
                         swalWithBootstrapButtons.fire(
-                            'Error al eliminar '+ID,
+                            'Error al eliminar ' + ID,
                             'No se pudo eliminar la venta.',
                             'error'
                         )
@@ -246,7 +278,61 @@ $(document).ready(function () {
 
 
 
+    /* ***********************************PDF********************************* */
+    /* PDF REPORTE VENTA DIARIA */
+    $(document).on('click', '#btn_reporte_venta', (e) => {
+        var usuario, fecha;
+        /* datos, traera desde el controlador los datos fecha y id usuario */
+        funcion = 'datos';
+
+        $.post(VENTA_CTRLR, { funcion }, (resp) => {
+            // console.log(resp);
+            const VALORES = JSON.parse(resp);
+            console.log("te" + resp);
+
+            VALORES.forEach(valor => {
+                usuario = valor.idUsu
+                fecha = valor.fecha
+
+                funcion = 'rep_venta';
+                $.post(VENTA_CTRLR, { funcion, usuario, fecha }, (response) => {
+                    console.log("tr" + response);
+                    // window.open('../pdf/pdf-'+funcion+'.pdf','_blank');
+                    window.open('../pdf/pdf-' + usuario + fecha + '.pdf', '_blank');
+
+                });
+            });
+        });
+    })
+
+
+    /* CODIGO DE GENERAR PDF */
+    $('#tabla_venta tbody').on('click', '.imprimir', function () {
+        let datos = datatable.row($(this).parents()).data();
+        let id = datos.id_venta;
+        $.post('../controllers/PDFController.php', { id }, (response) => {
+            console.log(response);
+            window.open('../pdf/pdf-' + id + '.pdf', '_blank');
+        });
+    });
+
+
+    /* listarVentaDiaGeneral Consola */
+    // VV();
+    // function VV(){
+
+    //     funcion = 12;
+    //     $.post(VENTA_CTRLR,{funcion,fecha},(response)=>{
+    //         console.log('vv rwsp: '+response);
+
+    //     })
+
+    //     listarVentaDiaGeneral()
+    // }
+
+
 });
+
 
 
 

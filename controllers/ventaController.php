@@ -8,28 +8,28 @@ $idUsu = $_SESSION['usuario'];
 
 
 switch ($_POST['funcion']) {
-    
-    /* LISTAR VENTAS GENERALES */
+
+        /* LISTAR VENTAS GENERALES */
     case 1:
         $venta->buscar();
-        $json=array();
+        $json = array();
         foreach ($venta->objetos as $objeto) {
-            $json['data'][]=$objeto;
+            $json['data'][] = $objeto;
         }
         $jsonstring = json_encode($json);
         echo $jsonstring;
-    break;
+        break;
 
 
-    /** CONSULTAR DATOS PRINCIPALES VENTA 
-     * Datos como mesero,cocinero,mesa y observaciones
-     * de la orden
-    */
+        /** CONSULTAR DATOS PRINCIPALES VENTA 
+         * Datos como mesero,cocinero,mesa y observaciones
+         * de la orden
+         */
     case 2:
         // session_start();
         $idUsu = $_SESSION['usuario'];
         $venta->consultarDatosOrden($_POST['id']);
-        $json=array();
+        $json = array();
 
         foreach ($venta->objetos as $objeto) {
 
@@ -43,10 +43,10 @@ switch ($_POST['funcion']) {
         }
         $jsonstring = json_encode($json);
         echo $jsonstring;
-        
-    break;
 
-    /* Total venta dia totalVentas*/
+        break;
+
+        /* Total venta dia totalVentas*/
     case 3:
         $venta->venta_dia_vendor($idUsu);
         foreach ($venta->objetos as $objeto) {
@@ -65,34 +65,72 @@ switch ($_POST['funcion']) {
 
         // $venta->totalVentas();
         $venta->venta_anual();
-        $json=array();
+        $json = array();
         foreach ($venta->objetos as $objeto) {
-            $json[]=array(
-            "venta_dia_vendor" => $venta_dia_vendor,
-            "venta_dia"        => $venta_dia,
-            "venta_mensual"    => $venta_mensual,
-            "venta_anual"      => $objeto->venta_anual
+            $json[] = array(
+                "venta_dia_vendor" => $venta_dia_vendor,
+                "venta_dia"        => $venta_dia,
+                "venta_mensual"    => $venta_mensual,
+                "venta_anual"      => $objeto->venta_anual
             );
         }
         $jsonstring = json_encode($json[0]);
-        echo $jsonstring;    
-    break;
+        echo $jsonstring;
+        break;
+
+    case 4:
+        date_default_timezone_set('America/Bogota');
+        $fecha = date('Y-m-d');
+        $venta->listarVentaDiaGeneral($fecha);
+        $json = array();
+        foreach ($venta->objetos as $objeto) {
+            $json['data'][] = $objeto;
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
 
 
-    /* Venta Dia */
+        break;
+
+
+        /* Venta Dia */
     case 5:
         date_default_timezone_set('America/Bogota');
         $fecha = date('Y-m-d');
 
         $venta->venta_diaria($idUsu, $fecha);
 
-   
-        $json=array();
+
+        $json = array();
         foreach ($venta->objetos as $objeto) {
-            $json['data'][]=$objeto;
+            $json['data'][] = $objeto;
         }
         $jsonstring = json_encode($json);
         echo $jsonstring;
+    break;
+
+    case 6:
+
+        if ($_POST['fecha'] == null) {
+
+            date_default_timezone_set('America/Bogota');
+            $fechaN = date('Y-m-d');
+            $total = $venta->calcularTotalDia($fechaN);
+
+        } else {
+            $total = $venta->calcularTotalDia($_POST['fecha']);
+        }
+        $jsonstring = json_encode($total);
+        echo $jsonstring;
+
+    break;
+
+    case 7:
+        
+        $jsonstring = json_encode($venta->calcularTotalGeneralVenta());
+        echo $jsonstring;
+
+
     break;
 
 
@@ -102,17 +140,17 @@ switch ($_POST['funcion']) {
         foreach ($venta->objetos as $objeto) {
             $venta_dia_vendor = $objeto->venta_dia_vendor;
         }
-    
+
         $venta->venta_diaria();
         foreach ($venta->objetos as $objeto) {
             $venta_diaria = $objeto->venta_diaria;
         }
-    
-    
-        $json=array();
+
+
+        $json = array();
         foreach ($venta->objetos as $objeto) {
             // $json['data'][]=$objeto;
-            $json[]= array(
+            $json[] = array(
                 'venta_dia_vendor' => $venta_dia_vendor,
                 'venta_diaria' => $venta_diaria
             );
@@ -120,16 +158,16 @@ switch ($_POST['funcion']) {
         $jsonstring = json_encode($json[0]);
         echo $jsonstring;
 
-    break;
+        break;
 
-    /* REPORTE VENTA PDF rep_venta*/
+        /* REPORTE VENTA PDF rep_venta*/
     case 9:
-            // session_start();
-            date_default_timezone_set('America/Bogota');
-            $fecha = date('Y-m-d H:i:s');
-            $fecha2 = date('Y-m-d');
-        
-            $html = '
+        // session_start();
+        date_default_timezone_set('America/Bogota');
+        $fecha = date('Y-m-d H:i:s');
+        $fecha2 = date('Y-m-d');
+
+        $html = '
     
                 <header>
                     <h1>Reporte venta</h1>
@@ -148,65 +186,65 @@ switch ($_POST['funcion']) {
                     </thead>
                     <tbody>
             ';
-    
-            $venta->venta_diaria($idUsu);
-            $contador = 0;
-            foreach ($venta->objetos as $objeto) {
-                $contador++;
-            
-                $html.='
+
+        $venta->venta_diaria($idUsu);
+        $contador = 0;
+        foreach ($venta->objetos as $objeto) {
+            $contador++;
+
+            $html .= '
                     <tr>
-                        <th class="service">'.$objeto->id_venta.'</th>
-                        <th class="service">'.$objeto->producto.'</th>
-                        <th class="service">'.$objeto->cantidad.'</th>
-                        <th class="service">'.$objeto->subtotal.'</th>
+                        <th class="service">' . $objeto->id_venta . '</th>
+                        <th class="service">' . $objeto->producto . '</th>
+                        <th class="service">' . $objeto->cantidad . '</th>
+                        <th class="service">' . $objeto->subtotal . '</th>
                         
                     </tr>
-                ';      
-            }
-    
-            $html.='
+                ';
+        }
+
+        $html .= '
                     </tbody>
                 </table>
             ';
-    
-            $venta->venta_dia_vendor($idUsu);
-            foreach ($venta->objetos as $objeto) {
-                $html.='
-                    <h1>Total en ventas:<br>$'.$objeto->venta_dia_vendor.'</h1>
-                    <h5>Vendedor: '.$_SESSION['nom'].'</h5>
-                    <h5>Reporte generado el: '.$fecha.'</h5>
-                ';
-            }
-    
-            $id_venta = $_POST['usuario'];
-            $fecha2 = $_POST['fecha'];
-            // $css = file_get_contents("../css/pdf.css");
-            $mpdf = new \Mpdf\Mpdf();
-            // $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [50, 800]]);
-            // $mpdf->WriteHTML($css, \Mpdf\HTMLParserMode::HEADER_CSS);
-            $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
-            // $mpdf->Output("../pdf/pdf-".$_POST['funcion'].".pdf","F");
-            $mpdf->Output("../pdf/pdf-".$id_venta.$fecha2.".pdf","F");
-    
-            $json=array();
-            $json[]=array(
-                /* '' =>$objeto->ALIAS ASIGNADO */
-                'idUsu' => $idUsu,
-                'fecha' => $fecha
-            );
-            $jsonstring = json_encode($json);
-            echo $jsonstring;
-            
-    break;
 
-    /***********rep_cierre GENERAR AUTOMATICAMENTE UN REPORTE AL CERRAR SESION ************** */
+        $venta->venta_dia_vendor($idUsu);
+        foreach ($venta->objetos as $objeto) {
+            $html .= '
+                    <h1>Total en ventas:<br>$' . $objeto->venta_dia_vendor . '</h1>
+                    <h5>Vendedor: ' . $_SESSION['nom'] . '</h5>
+                    <h5>Reporte generado el: ' . $fecha . '</h5>
+                ';
+        }
+
+        $id_venta = $_POST['usuario'];
+        $fecha2 = $_POST['fecha'];
+        // $css = file_get_contents("../css/pdf.css");
+        $mpdf = new \Mpdf\Mpdf();
+        // $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [50, 800]]);
+        // $mpdf->WriteHTML($css, \Mpdf\HTMLParserMode::HEADER_CSS);
+        $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
+        // $mpdf->Output("../pdf/pdf-".$_POST['funcion'].".pdf","F");
+        $mpdf->Output("../pdf/pdf-" . $id_venta . $fecha2 . ".pdf", "F");
+
+        $json = array();
+        $json[] = array(
+            /* '' =>$objeto->ALIAS ASIGNADO */
+            'idUsu' => $idUsu,
+            'fecha' => $fecha
+        );
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+
+        break;
+
+        /***********rep_cierre GENERAR AUTOMATICAMENTE UN REPORTE AL CERRAR SESION ************** */
     case 10:
-            session_start();
-            date_default_timezone_set('America/Bogota');
-            $fecha = date('Y-m-d H:i:s');
-          
-            $html = '
+        session_start();
+        date_default_timezone_set('America/Bogota');
+        $fecha = date('Y-m-d H:i:s');
+
+        $html = '
                 <header>
                     <h1>Reporte venta</h1>
                     <div id="project">
@@ -224,57 +262,101 @@ switch ($_POST['funcion']) {
                     </thead>
                     <tbody>
             ';
-        
-            $venta->venta_diaria($idUsu);
-            $contador = 0;
-            foreach ($venta->objetos as $objeto) {
-                $contador++;
-            
-                $html.='
+
+        $venta->venta_diaria($idUsu);
+        $contador = 0;
+        foreach ($venta->objetos as $objeto) {
+            $contador++;
+
+            $html .= '
                     <tr>
-                        <th class="service">'.$objeto->id_venta.'</th>
-                        <th class="service">'.$objeto->producto.'</th>
-                        <th class="service">'.$objeto->cantidad.'</th>
-                        <th class="service">'.$objeto->subtotal.'</th>
+                        <th class="service">' . $objeto->id_venta . '</th>
+                        <th class="service">' . $objeto->producto . '</th>
+                        <th class="service">' . $objeto->cantidad . '</th>
+                        <th class="service">' . $objeto->subtotal . '</th>
                         
                     </tr>
                 ';
-            }
-        
-            $html.='
+        }
+
+        $html .= '
                     </tbody>
                 </table>
             ';
-        
-            $venta->venta_dia_vendor($idUsu);
-            foreach ($venta->objetos as $objeto) {
-                $html.='
-                    <h1>Total en ventas:<br>$'.$objeto->venta_dia_vendor.'</h1>
-                    <h5>Vendedor: '.$_SESSION['nom'].'</h5>
-                    <h5>Reporte generado el: '.$fecha.'</h5>
+
+        $venta->venta_dia_vendor($idUsu);
+        foreach ($venta->objetos as $objeto) {
+            $html .= '
+                    <h1>Total en ventas:<br>$' . $objeto->venta_dia_vendor . '</h1>
+                    <h5>Vendedor: ' . $_SESSION['nom'] . '</h5>
+                    <h5>Reporte generado el: ' . $fecha . '</h5>
                 ';
+        }
+
+        // $css = file_get_contents("../css/pdf.css");
+        $mpdf = new \Mpdf\Mpdf();
+        // $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [50, 800]]);
+        // $mpdf->WriteHTML($css, \Mpdf\HTMLParserMode::HEADER_CSS);
+        $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
+        $mpdf->Output("../pdf/pdf-" . $_POST['funcion'] . ".pdf", "F");
+
+        $json = array();
+        $json[] = array(
+            /* '' =>$objeto->ALIAS ASIGNADO */
+            'idUsu' => $idUsu,
+            'fecha' => $fecha
+        );
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+        break;
+
+    case 11:
+        $fecha = $_POST['selected'];
+        echo $fecha;
+        break;
+
+    case 12:
+        $fecha = $_POST['fecha'];
+
+        if ($fecha == null) {
+            date_default_timezone_set('America/Bogota');
+            $fechaN = date('Y-m-d');
+            $venta->listarVentaDiaGeneral($fechaN);
+            $json = array();
+            foreach ($venta->objetos as $objeto) {
+                $json['data'][] = $objeto;
             }
-        
-            // $css = file_get_contents("../css/pdf.css");
-            $mpdf = new \Mpdf\Mpdf();
-            // $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => [50, 800]]);
-            // $mpdf->WriteHTML($css, \Mpdf\HTMLParserMode::HEADER_CSS);
-            $mpdf->WriteHTML($html, \Mpdf\HTMLParserMode::HTML_BODY);
-            $mpdf->Output("../pdf/pdf-".$_POST['funcion'].".pdf","F");
-        
-            $json=array();
-            $json[]=array(
-                /* '' =>$objeto->ALIAS ASIGNADO */
-                'idUsu' => $idUsu,
-                'fecha' => $fecha
-            );
             $jsonstring = json_encode($json);
-            echo $jsonstring;  
-    break;
-    
+            echo $jsonstring;
+        } else {
+
+            $response = $venta->listarVentaDiaGeneral($fecha);
+
+            if ($response == null) {
+                $valor = "";
+                $json = array();
+
+                $json['data'][] = array(
+                    'id_venta' => $valor,
+                    'total' => $valor,
+                    'vendedor' => 'No existen datos'
+                );
+            } else {
+
+                $json = array();
+                foreach ($venta->objetos as $objeto) {
+                    $json['data'][] = $objeto;
+                }
+            }
+            $jsonstring = json_encode($json);
+            echo $jsonstring;
+        }
+
+        break;
+
     default:
         # code...
-    break;
+        break;
 }
 
     /* dATOS? */

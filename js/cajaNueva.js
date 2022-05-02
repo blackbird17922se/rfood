@@ -314,14 +314,17 @@ $(document).ready(function(){
             Swal.fire({
                 icon: 'error',
                 title: 'Atención',
-                text: 'Debes Seleccionar una Forma de pago de la lista. ¡no se admite pago en especie!',
+                text: 'Debes Seleccionar una Forma de pago de la lista.',
             })
             
         }
         
-
+        
         
     });
+    /* jajajajaj
+    text: 'Debes Seleccionar una Forma de pago de la lista. ¡no se admite pago en especie!',
+     */
     
 
     // listarProdCons();
