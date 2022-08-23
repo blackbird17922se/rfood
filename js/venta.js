@@ -322,7 +322,7 @@ $(document).ready(function () {
     // function VV(){
 
     //     funcion = 12;
-    //     $.post(VENTA_CTRLR,{funcion,fecha},(response)=>{
+    //     $.pofst(VENTA_CTRLR,{funcion,fecha},(response)=>{
     //         console.log('vv rwsp: '+response);
 
     //     })

@@ -5,12 +5,11 @@
 --------------------------------------- Milestone 4 ----------------------------------------
 
 //////////////////
-Build 4.3.2
+Build 4.3.3
 //////////////////
-* Mejorar modulos de ventas, ver por
-    -Ventas del dia general.
-    -Ventas por fecha
-    -Ventas generales 
+* en lote prod arreglar el editar y eliminar, guiese con sfarma
+* arreglar en ventas, cuando cambio de venta diaria a general y luego regreso a dia entonces id_venta se pierde. guiese con sfarma creando un evento al boton q pasa a venas dias y destruyendo la tabla generales
+* Mejorar parte cierre de caja.
 
 * Verificar descuento inv de cuando el sistema acaba un lote y empieza con otro
 
@@ -54,6 +53,14 @@ Build 4.3.2
 ****************************************************************************************************
 DONE:
 ****************************************************************************************************
+//////////////////
+Build 4.3.2
+//////////////////
+* Mejorar modulos de ventas, ver por
+    -Ventas del dia general.
+    -Ventas por fecha
+    -Ventas generales 
+
 //////////////////
 Build 4.2
 //////////////////

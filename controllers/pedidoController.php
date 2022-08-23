@@ -60,7 +60,7 @@ switch ($_POST['funcion']) {
 
     /* Cambiar estado de la orden a Pagado */
     case 9:
-        $pedido->cambiarEstPagado($_POST['idOrdenSel']);
+        $pedido->cambiarEstPagado($_POST['idOrdSel']);
     break;
 
     /* Bloquear Mesa */

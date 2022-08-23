@@ -3,7 +3,7 @@ class Conexion{
    private $servidor = "localhost";
 
    // private $db = "id12935461_rfood";
-   private $db = "rfood";
+   private $db = "sfarmm";
 
    private $puerto = 3306;
    private $charset = "utf8";

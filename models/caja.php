@@ -195,8 +195,7 @@ class Caja{
             return $this->objetos;
         }else{
             $sql = "SELECT * FROM mesa 
-            WHERE nom NOT LIKE '' 
-                AND disponible = 0
+            WHERE disponible = 0
             ORDER BY nom";
             $query = $this->acceso->prepare($sql);
             $query->execute();

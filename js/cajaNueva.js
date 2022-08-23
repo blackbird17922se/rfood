@@ -1,12 +1,10 @@
-$(document).ready(function(){
+$(document).ready(function () {
 
-    var funcion    = 0;
-    var totalS     = 0;
-    var idOrdenSel = 0;
-    var idMesa     = 0;
+    var funcion = 0;
+    var totalS = 0;
 
     const CAJA_CONTROLLER = '../controllers/cajaController.php';
-    const PEDIDO_CTRLR    = '../controllers/pedidoController.php';
+    const PEDIDO_CTRLR = '../controllers/pedidoController.php';
 
     $(".select2").select2({
         placeholder: "Seleccione una opcion",
@@ -17,63 +15,63 @@ $(document).ready(function(){
     calcularVuelto()
 
 
-    function cargarMesas(consulta){
+    function cargarMesas(consulta) {
         funcion = 9;
-        
+
         // ajax
-        $.post(CAJA_CONTROLLER,{consulta,funcion},(response)=>{
+        $.post(CAJA_CONTROLLER, { consulta, funcion }, (response) => {
             // console.log(response);
             const mesaS = JSON.parse(response);
             let templateMesa = '';
             let templateOrden = '';
 
             let tempButtons = '';
-            
-            mesaS.forEach(mesa=>{
+
+            mesaS.forEach(mesa => {
                 let tieneOrden = 0;
                 let tempItemsOrden = '';
                 // let tempProducts = '';
                 // console.log(mesa.prods);
                 let idOrden = 0;
 
-                if (mesa.prods ==0) {
+                if (mesa.prods == 0) {
                     tieneOrden = 0;
-                    tempItemsOrden+=`
+                    tempItemsOrden += `
                     <h2 class="lead"><b>Disponible</b></h2>
                     `;
                 } else {
 
                     tieneOrden = 1;
-                    
-                    
-                    mesa.prods.forEach(item=>{
+
+
+                    mesa.prods.forEach(item => {
                         // console.log('item[0]'+item[0]);
-                        idOrden=item[0]
-                  
-                        tempItemsOrden+=`
+                        idOrden = item[0]
+
+                        tempItemsOrden += `
                         <h2 class="lead"><b>Orden Numero: ${item[0]} </b></h2>
                         `;
                     });
                 }
 
                 if (tieneOrden == 1) {
-                    tempButtons=`
+                    tempButtons = `
 
                         <button class='selItem btn btn-sm btn-primary' type="button" data-toggle="modal" data-target="#verOrdenCaja">
                             <i class='fas fa-plus-square mr-2'></i>Seleccionar
                         </button>
 
                     `;
-                    
+
                 } else {
-                    tempButtons=`
+                    tempButtons = `
                         <button class='nuevaOrden btn btn-sm btn-primary'>
                             <i class='fas fa-plus-square mr-2'></i>Nueva Orden
                         </button>
                     `;
                 }
 
-                templateMesa+=`
+                templateMesa += `
 
                 <div mesaId="${mesa.id_mesa}" idOrden="${idOrden}" mesaNom="${mesa.nomMesa}" class="col-12 col-sm-6 col-md-3 align-items-stretch">
                     <div class="card bg-dark-10">
@@ -98,18 +96,18 @@ $(document).ready(function(){
     }
 
     /* Lista los domicilios */
-    function listarDomiciliosCaja(){
+    function listarDomiciliosCaja() {
         funcion = 10;
 
-        $.post(CAJA_CONTROLLER,{funcion},(response)=>{
+        $.post(CAJA_CONTROLLER, { funcion }, (response) => {
             // console.log('list dom resp: ' + response);
 
             const PEDIDOS = JSON.parse(response);
             let template = '';
-            
-            PEDIDOS.forEach(pedido=>{
 
-                template+=`
+            PEDIDOS.forEach(pedido => {
+
+                template += `
         
                     <div idDom="${pedido.idPedido}" class="col-12 col-sm-12 col-md-2 align-items-stretch">
                         <div class="card bg-dark-10">
@@ -124,34 +122,38 @@ $(document).ready(function(){
                             </div>                        
                         </div>
                     </div>
-                `;   
+                `;
             });
             $('#tb_domicios').html(template);
         });
     }
 
     /* Cargar los datos y costos de ese pedido */
-    $(document).off('click','.selItem').on('click','.selItem',(e)=>{
+    $(document).off('click', '.selItem').on('click', '.selItem', (e) => {
+        console.log('selecc pedido');
 
         const ELEM   = $(this)[0].activeElement.parentElement.parentElement.parentElement;
         const ID     = $(ELEM).attr('idOrden');
         const IDMESA = $(ELEM).attr('mesaId');
         const NOM_MESA = $(ELEM).attr('mesaNom');
 
-        // console.log('ORD'+ID + ' IDMESA'+IDMESA);
-        funcion      = 5;
-        idOrdenSel   = ID;
-        idMesa       = IDMESA;
+        $('#idMesaSelect').val(IDMESA);
+        $('#idOrdenSelect').val(ID);
 
-        $.post(CAJA_CONTROLLER,{funcion,ID,IDMESA},(response)=>{
-            // console.log(response);
+        // console.log('ORD'+ID + ' IDMESA'+IDMESA);
+        funcion = 5;
+        // idOrdenSel   = ID;
+        // idMesa       = IDMESA;
+
+        $.post(CAJA_CONTROLLER, { funcion, ID, IDMESA }, (response) => {
+            console.log(response);
             const PEDIDOS = JSON.parse(response);
             let templateS = '';
             let total = 0;
-          
-            PEDIDOS.forEach(pedido=>{
 
-                templateS+=`${pedido.template}'`;
+            PEDIDOS.forEach(pedido => {
+
+                templateS += `${pedido.template}'`;
 
                 total += pedido.subtotal
 
@@ -168,27 +170,30 @@ $(document).ready(function(){
     });
 
     /* Cargar los datos y costos de ese domicilio */
-    $(document).off('click','.selDomicilio').on('click','.selDomicilio',(e)=>{
+    $(document).off('click', '.selDomicilio').on('click', '.selDomicilio', (e) => {
         console.log('domm');
 
-        const ELEM   = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID     = $(ELEM).attr('idDom');
+        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
+        const ID = $(ELEM).attr('idDom');
         const IDMESA = -1;
 
-        // console.log('ORD'+ID + ' IDMESA'+IDMESA);
-        funcion      = 5;
-        idOrdenSel   = ID;
-        idMesa       = IDMESA;
+        $('#idMesaSelect').val(IDMESA);
+        $('#idOrdenSelect').val(ID);
 
-        $.post(CAJA_CONTROLLER,{funcion,ID,IDMESA},(response)=>{
-            // console.log(response);
+         console.log('ORD'+ID + ' IDMESA'+IDMESA);
+        funcion = 5;
+        idOrdenSel = ID;
+        idMesa = IDMESA;
+
+        $.post(CAJA_CONTROLLER, { funcion, ID, IDMESA }, (response) => {
+             console.log(response);
             const PEDIDOS = JSON.parse(response);
             let templateS = '';
             let total = 0;
-          
-            PEDIDOS.forEach(pedido=>{
 
-                templateS+=`${pedido.template}'`;
+            PEDIDOS.forEach(pedido => {
+
+                templateS += `${pedido.template}'`;
 
                 total += pedido.subtotal
 
@@ -202,61 +207,65 @@ $(document).ready(function(){
             <span id="tituloDetalle">Detalle de la Orden ${ID}</span>
         `;
         $('#tituloDetalle').html(templateTitulo);
-        
-        });
 
-    function calcularVuelto(){
+    });
+
+    function calcularVuelto() {
         let vuelto = 0;
         let pago = 0;
-        
+
         pago = $('#pago').val();
         vuelto = pago - totalS;
         $('#vuelto').html(vuelto);
     }
 
 
-    $('#pago').keyup((e)=>{
+    $('#pago').keyup((e) => {
         calcularVuelto()
     });
 
     /* Vaciar la tabla y demas campos */
-    function vaciarTabla(){
+    function vaciarTabla() {
         $('#lista-compra').empty();
         $('#pago').val('');
     }
 
     /* ´------------------ */
-    $(document).on('click','#procesar-compra',(e)=>{
+    $(document).on('click', '#procesar-compra', (e) => {
         // console.log('ncompra');
 
         funcion = 6;
-        let mesa = idMesa;
-        let idOrdSel = idOrdenSel;
+
+        let mesa      = $('#idMesaSelect').val();
+        let idOrdSel  = $('#idOrdenSelect').val();
         let formaPago = $('#formaPago').val();
-        let total = $('#total').get(0).textContent;
+        let total     = $('#total').get(0).textContent;
+
+        console.log('idOrdSelSelect: ' + idOrdSel + ' -- idMesaSelect' + mesa);
 
         if (formaPago != 0) {
-            $.post(CAJA_CONTROLLER,{funcion,total,idOrdSel,formaPago},(response)=>{
+            $.post(CAJA_CONTROLLER, { funcion, total, idOrdSel, formaPago }, (response) => {
                 console.log(response);
-    
+
                 /* Cambiar estado de la orden a Pagado */
                 funcion = 9;
-                $.post(PEDIDO_CTRLR,{funcion,idOrdenSel},(response)=>{
+                $.post(PEDIDO_CTRLR, { funcion, idOrdSel }, (response) => {
                     console.log(response);
-                    idOrdenSel = 0;
-                    cargarMesas();
-                    listarDomiciliosCaja();
+
+                    /* Si no es un domicilio... Desbloquear mesa*/
+                    if (mesa != -1) {
+                        funcion = 11;
+                        $.post(PEDIDO_CTRLR, { funcion, mesa }, () => {
+                            cargarMesas();
+                        });
+                    }else{
+                        listarDomiciliosCaja();
+                    }
                 });
-    
-                if(idMesa != -1){
-                    /* Desbloquear mesa */
-                    funcion = 11;
-                    $.post(PEDIDO_CTRLR,{funcion,mesa});
-                }
             });
-    
+
             $('#verOrdenCaja').modal('hide');
-    
+
             Swal.fire({
                 title: 'Venta Realizada',
                 text: "¿Desea imprimir recibo?",
@@ -267,40 +276,40 @@ $(document).ready(function(){
                 reverseButtons: true
             }).then((result) => {
                 if (result.value) {
-    
+
                     let funcion = "ultimaVenta";
-                    $.post(CAJA_CONTROLLER,{funcion},(response)=>{
+                    $.post(CAJA_CONTROLLER, { funcion }, (response) => {
                         console.log(response);
-                    
-    
+
+
                         $.ajax({
                             url: 'ticket.php',
                             type: 'POST',
-                            success: function(resp){
-                                if(resp==1){
+                            success: function (resp) {
+                                if (resp == 1) {
                                     alert('imprime..');
-                                        vaciarTabla();
-                                }else{
+                                    vaciarTabla();
+                                } else {
                                     alert('error..');
                                     vaciarTabla()
                                 }
                             }
-                        })                   
+                        })
                     });
-    
-        
+
+
                     console.log("selecciono imprimir");
                 } else if (result.dismiss === Swal.DismissReason.cancel) {
                     console.log("selecciono no imprimir");
-    
+
                     $.ajax({
                         url: 'ticketc.php',
                         type: 'POST',
-                        success: function(resp){
-                            if(resp==1){
+                        success: function (resp) {
+                            if (resp == 1) {
                                 alert('abre..');
-                                    vaciarTabla();
-                            }else{
+                                vaciarTabla();
+                            } else {
                                 // alert('error..');
                                 vaciarTabla()
                             }
@@ -309,30 +318,30 @@ $(document).ready(function(){
                     vaciarTabla()
                 }
             });
-            idMesa = 0;
+
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Atención',
                 text: 'Debes Seleccionar una Forma de pago de la lista.',
             })
-            
+
         }
-        
-        
-        
+
+
+
     });
     /* jajajajaj
     text: 'Debes Seleccionar una Forma de pago de la lista. ¡no se admite pago en especie!',
      */
-    
+
 
     // listarProdCons();
     // function listarProdCons(){
     //     funcion = "listarPedidos";
     //     $.post(PEDIDOS_CTRL,{funcion},(response)=>{
     //         // console.log(response);
-   
+
     //     })
     // }
 

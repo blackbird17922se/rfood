@@ -7,7 +7,11 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
 
     <!-- modal items en orden de la mesa -->
     <div class="modal fade" id="verOrdenCaja" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl" role="document">
+    
+    <input type="hidden" id="idMesaSelect" value="">    
+    <input type="hidden" id="idOrdenSelect" value="">  
+
+    <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
 
                 <div class="card card-mdrn">

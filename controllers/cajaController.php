@@ -37,8 +37,8 @@ switch ($_POST['funcion']) {
 
         $nomProduct = "";
         $nomPresent = "";
-        $cantidad = "";
-        $precio = "";
+        $cantidad = 0;
+        $precio = 0;
         // $total="";
 
         foreach ($caja->objetos as $objeto) {
