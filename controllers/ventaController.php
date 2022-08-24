@@ -352,7 +352,68 @@ switch ($_POST['funcion']) {
             echo $jsonstring;
         }
 
-        break;
+    break;
+
+    case 13:
+        $formaPago = $_POST['formaPago'];
+        date_default_timezone_set('America/Bogota');
+        $fechaN = date('Y-m-d');
+        $json = array();
+
+
+        if ($formaPago == 0) {
+
+            $venta->listarVentaDiaGeneralCierre($idUsu, $fechaN);
+            foreach ($venta->objetos as $objeto) {
+                $json['data'][] = $objeto;
+            }
+            $jsonstring = json_encode($json);
+            echo $jsonstring;
+
+            // $venta->listarVentaTipoPago($formaPago);
+        } else {
+            $response = $venta->listarVentaTipoPago($idUsu, $fechaN, $formaPago);
+
+        if ($response == null) {
+            $valor = "";
+            $json = array();
+
+            $json['data'][] = array(
+                'id_venta' => '¡No existen datos!',
+                'cantidad' => '',
+                'producto' => '',
+                'subtotal' => ''
+            );
+        } else {
+
+            $json = array();
+            foreach ($venta->objetos as $objeto) {
+                $json['data'][] = $objeto;
+            }
+        }
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
+        }
+        
+
+    break;
+
+
+    case 14:
+        date_default_timezone_set('America/Bogota');
+        $fechaN = date('Y-m-d');
+
+        if ($_POST['formaPago'] == 0) {
+
+            $total = $venta->calcularTotalDia($fechaN);
+
+        } else {
+            $total = $venta->calcularTotalDiaPorPago($fechaN, $_POST['formaPago']);
+        }
+        $jsonstring = json_encode($total);
+        echo $jsonstring;
+
+    break;
 
     default:
         # code...

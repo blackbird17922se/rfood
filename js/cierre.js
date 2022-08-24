@@ -1,82 +1,114 @@
 $(document).ready(function () {
 
-    mostrar_consultas()
-    totalVentas()
-    listarVentasCons();
+    const VENTA_CTRLR = '../controllers/ventaController.php';
+    var funcion = 0;
+    var datatable = "";
+    var formaPago = $("#formaPago").val();
+    // var formaPago = 1
 
-    function totalVentas(){
-        let funcion = 3;
-        $.post('../controllers/ventaController.php',{funcion},(response)=>{
-            console.log(response);
-            const VENTASDIA = JSON.parse(response);
-            $('#venta_dia_vendor').html(VENTASDIA.venta_dia_vendor);
+    console.log(formaPago);
 
+    $( "#formaPago" ).change(function() {  
+        console.log('cambio pago');
+        datatable.destroy();
+        formaPago = $(this).val();
+        listarVentaPagoGeneral()
+        calcularTotal(formaPago)
+    });
+
+
+    // VV();
+    listarVentaPagoGeneral();
+
+
+    // $( "#formaPago" ).change(function() {  
+    //     console.log('cambio pago');
+    //     datatable.destroy();
+    //     formaPago = $(this).val();
+    //     listarVentaPagoGeneral()
+    // });
+
+    /* Cuando el usuario seleciona una formaPago del input */
+    // $("#formaPago").on("change", function () {
+    //     console.log('cambio pago');
+    //     datatable.destroy();
+    //     formaPago = $(this).val();
+    //     listarVentaPagoGeneral()
+    // })
+
+
+    /* Listar las ventas del dia de todos los cajeros */
+    function listarVentaPagoGeneral() {
+        let funcion = 13;
+
+        datatable = $('#tablaVentaDiaGeneral').DataTable({
+
+            "order": [[0, "desc"]],
+            ajax: "data.json",
+
+            "ajax": {
+                "url": "../controllers/ventaController.php",
+                "method": "POST",
+                "data": { funcion: funcion, formaPago: formaPago }
+            },
+
+            "columns": [
+    
+                { "data": "id_venta" },
+                { "data": "cantidad" },
+                { "data": "producto" },
+                { "data": "subtotal" }
+                
+            ],
+            language: espanol
         });
+        
+        calcularTotal(formaPago)
+         
     }
 
-        
-    function listarVentasCons(){
-        funcion = 5;
-        $.post('../controllers/ventaController.php',{funcion},(response)=>{
-            console.log(response);
+
+    /* Total */
+    function calcularTotal(formaPago){
+        console.log('cakculo fevcha');
+        funcion = 14;
+        $.post(VENTA_CTRLR,{funcion,formaPago},(response) => {
+            const totales = JSON.parse(response);
+            totales.forEach(total => {
+                $('#totalDia').html(total.venta_dia);
+            })
+        })
+    }
+
+    function calcularTotalGeneral(){
+        funcion = 7;
+        $.post(VENTA_CTRLR,{funcion},(response) => {
+            const totales = JSON.parse(response);
+            totales.forEach(total => {
+                $('#totalGeneral').html(total.venta_dia);
+            })
         })
     }
 
 
-    // Tabla Venta Dia
-    function mostrar_consultas(){
-        let funcion = 5;
 
-        let datatable = $('#tb_venta_dia').DataTable( {
+    /* listarVentaPagoGeneral Consola */
 
-            "initComplete": function() {
-                let info = datatable.page.info();
-                let count = info.recordsTotal;
-                $('#info-cant-number').html(count)
-            },
+    function VV(){
 
-            "order": [[ 0, "desc" ]],
-            ajax: "data.json",
-            
-            "ajax": {
-                "url":"../controllers/ventaController.php",
-                "method":"POST",
-                "data":{funcion:funcion}
-            },
-            
-            language: espanol
-        } );
+        funcion = 13;
+        $.post(VENTA_CTRLR,{funcion,formaPago},(response)=>{
+            console.log('vv rwsp: '+response);
+            console.log('heloooooo');
+
+        })
+
+        listarVentaPagoGeneral()
     }
 
 
-    /* PDF REPORTE VENTA DIARIA */
-    $(document).on('click','#btn_reporte_venta',(e)=>{
-        var usuario, fecha;
-        /* datos, traera desde el controlador los datos fecha y id usuario */
-        funcion = 'datos';
-
-        $.post('../controllers/ventaController.php',{funcion},(resp)=>{
-            // console.log(resp);
-            const VALORES = JSON.parse(resp);
-            console.log("te"+resp);
-       
-            VALORES.forEach(valor=>{
-                usuario = valor.idUsu
-                fecha = valor.fecha
-
-                funcion = 'rep_venta';
-                $.post('../controllers/ventaController.php',{funcion,usuario,fecha},(response)=>{  
-                    console.log("tr"+response);      
-                    // window.open('../pdf/pdf-'+funcion+'.pdf','_blank');
-                    window.open('../pdf/pdf-'+usuario+fecha+'.pdf','_blank');
-        
-                });
-            });
-        });
-    })
-
-  
 });
+
 
 
 

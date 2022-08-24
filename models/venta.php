@@ -1,4 +1,7 @@
 <?php
+
+use Mpdf\Utils\Arrays;
+
 include 'conexion.php';
 class Venta{
     var $objetos;
@@ -269,7 +272,7 @@ class Venta{
         return $this->objetos;
     }
 
-
+ 
     function listarVentaDiaGeneral($fecha){
         $sql=
             "SELECT 
@@ -300,6 +303,78 @@ class Venta{
         $sql="SELECT SUM(total) as venta_dia FROM `venta`";
         $query = $this->acceso->prepare($sql);
         $query->execute();
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+
+    }
+
+    
+    function listarVentaDiaGeneralCierre($idUsu, $fecha){
+        $select ="SELECT 
+        id_venta, 
+        producto.nombre AS producto, 
+        venta_prod.cant as cantidad, 
+        venta_prod.subtotal as subtotal 
+    FROM `venta`
+    JOIN venta_prod on venta_id_venta = id_venta
+    JOIN producto ON prod_id_prod = id_prod
+    ";
+
+    $condicion = "
+    WHERE 
+        vendedor=:id_usuario 
+        AND DATE(fecha) = DATE(:fecha)
+    ORDER BY id_venta ASC";
+
+        $sql=$select.$condicion;
+            
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(
+            ':id_usuario' => $idUsu,
+            ':fecha' =>  $fecha
+        ));
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+    }
+
+    function listarVentaTipoPago($idUsu, $fecha, $formaPago){
+            $sql=
+                "SELECT 
+                    id_venta, 
+                    producto.nombre AS producto, 
+                    venta_prod.cant as cantidad, 
+                    venta_prod.subtotal as subtotal 
+                FROM `venta`
+                JOIN venta_prod on venta_id_venta = id_venta
+                JOIN producto ON prod_id_prod = id_prod
+                WHERE
+                    vendedor=:id_usuario 
+                    AND DATE(fecha) = DATE(:fecha)
+                    AND formpago = :formaPago
+                ORDER BY id_venta ASC";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(
+            ':id_usuario' => $idUsu,
+            ':formaPago'  =>  $formaPago,
+            ':fecha'      =>  $fecha));
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+    }
+
+
+
+    function calcularTotalDiaPorPago($fecha, $formaPago){
+
+        $sql="SELECT SUM(total) as venta_dia FROM `venta` 
+        WHERE 
+            DATE(fecha) = DATE(:fecha)
+            AND formpago = :formaPago ORDER BY id_venta ASC";
+
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(
+            ':formaPago' =>  $formaPago,
+            ':fecha' => $fecha
+        ));
         $this->objetos=$query->fetchall();
         return $this->objetos;
 

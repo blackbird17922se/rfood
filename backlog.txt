@@ -5,12 +5,19 @@
 --------------------------------------- Milestone 4 ----------------------------------------
 
 //////////////////
-Build 4.3.3
+Build 4.4.1
 //////////////////
 * en lote prod arreglar el editar y eliminar, guiese con sfarma
 * arreglar en ventas, cuando cambio de venta diaria a general y luego regreso a dia entonces id_venta se pierde. guiese con sfarma creando un evento al boton q pasa a venas dias y destruyendo la tabla generales
 * Mejorar parte cierre de caja.
 
+-------------OK-----
+* En el cierre de caja agregar opcion que permita filtrar por el tipo de pago.
+
+
+//////////////////////////////////// EN COLA //////////////////////////////////////////////////////////////////
+* caso mesa 7
+* El enrredado problema q tatiana dice
 * Verificar descuento inv de cuando el sistema acaba un lote y empieza con otro
 
 * El sistema debe recargar la tabla donde se presenta los elementos en los modulos de

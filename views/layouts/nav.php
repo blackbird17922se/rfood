@@ -53,9 +53,11 @@
 
           /* PARA PONER CUANDO ESTE EN EL SERVER */
           /* $urlActual != 'fox17922.000webhostapp.com/views/resum_venta_dia.php' */
-          if($urlActual != 'localhost/rfood/views/resum_venta_dia.php'){
+          // if($urlActual != 'localhost/rfood/views/resum_venta_dia.php'){
+            if($urlActual != 'localhost/rfood/views/cierre.php'){
             ?>
-            <a href="resum_venta_dia.php" class="btn btn-outline-secondary">Cierre</a>
+            <!-- <a href="resum_venta_dia.php" class="btn btn-outline-secondary">Cierre</a> -->
+            <a href="cierre.php" class="btn btn-outline-secondary">Cierre</a>
             <?php
           }else{
             ?>
