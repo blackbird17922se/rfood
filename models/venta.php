@@ -49,7 +49,9 @@ class Venta{
 
     }
 
-    function buscar(){
+
+    /* Listar todas las ventas desde el origen de los tiempos... */
+    function listarVentasGenerales(){
         $sql="SELECT id_venta, fecha, total, CONCAT(usuario.nom,' ',usuario.ape) AS vendedor FROM venta 
         JOIN usuario ON vendedor = id_usu";
         $query = $this->acceso->prepare($sql);
@@ -128,62 +130,62 @@ class Venta{
     /************************************************/
 
     // Venta por dia y vendedor
-    function venta_dia_vendor($id){
-        $sql="SELECT SUM(total) as venta_dia_vendor FROM `venta` 
-        WHERE vendedor=:id_usuario AND DATE(fecha) = DATE(CURDATE())";
+    // function venta_dia_vendor($id){
+    //     $sql="SELECT SUM(total) as venta_dia_vendor FROM `venta` 
+    //     WHERE vendedor=:id_usuario AND DATE(fecha) = DATE(CURDATE())";
 
-        $query = $this->acceso->prepare($sql);
-        $query->execute(array(':id_usuario' => $id));
-        $this->objetos=$query->fetchall();
-        return $this->objetos;
-    }
+    //     $query = $this->acceso->prepare($sql);
+    //     $query->execute(array(':id_usuario' => $id));
+    //     $this->objetos=$query->fetchall();
+    //     return $this->objetos;
+    // }
 
     //Venta diaria total
-    function venta_dia(){
-        $sql="SELECT SUM(total) as venta_dia FROM `venta` 
-        WHERE DATE(fecha) = DATE(curdate())";
+    // function venta_dia(){
+    //     $sql="SELECT SUM(total) as venta_dia FROM `venta` 
+    //     WHERE DATE(fecha) = DATE(curdate())";
 
-        $query = $this->acceso->prepare($sql);
-        $query->execute();
-        $this->objetos=$query->fetchall();
-        return $this->objetos;
-    }
+    //     $query = $this->acceso->prepare($sql);
+    //     $query->execute();
+    //     $this->objetos=$query->fetchall();
+    //     return $this->objetos;
+    // }
 
     //Venta Mensual total
-    function venta_mensual(){
-        $sql="SELECT SUM(total) as venta_mensual FROM `venta` 
-        WHERE year(fecha) = year(curdate()) AND month(fecha) = month(curdate())";
+    // function venta_mensual(){
+    //     $sql="SELECT SUM(total) as venta_mensual FROM `venta` 
+    //     WHERE year(fecha) = year(curdate()) AND month(fecha) = month(curdate())";
 
-        $query = $this->acceso->prepare($sql);
-        $query->execute();
-        $this->objetos=$query->fetchall();
-        return $this->objetos;
-    }
+    //     $query = $this->acceso->prepare($sql);
+    //     $query->execute();
+    //     $this->objetos=$query->fetchall();
+    //     return $this->objetos;
+    // }
 
     //Venta Anual total
-    function venta_anual(){
-        $sql="SELECT SUM(total) as venta_anual FROM `venta` 
-        WHERE year(fecha) = year(curdate())";
+    // function venta_anual(){
+    //     $sql="SELECT SUM(total) as venta_anual FROM `venta` 
+    //     WHERE year(fecha) = year(curdate())";
 
-        $query = $this->acceso->prepare($sql);
-        $query->execute();
-        $this->objetos=$query->fetchall();
-        return $this->objetos;
-    }
+    //     $query = $this->acceso->prepare($sql);
+    //     $query->execute();
+    //     $this->objetos=$query->fetchall();
+    //     return $this->objetos;
+    // }
 
 
     // Venta diaria Tabla
-    function venta_diaria($idUsu, $fecha){
-        $sql="SELECT id_venta, producto.nombre AS producto, venta_prod.cant as cantidad, venta_prod.subtotal as subtotal 
-        FROM `venta`
-        JOIN venta_prod on venta_id_venta = id_venta
-        JOIN producto ON prod_id_prod = id_prod
-         WHERE vendedor=:id_usuario AND DATE(fecha) = DATE(:fecha) ORDER BY id_venta ASC";
-        $query = $this->acceso->prepare($sql);
-        $query->execute(array(':id_usuario' => $idUsu, ':fecha' =>  $fecha));
-        $this->objetos=$query->fetchall();
-        return $this->objetos;
-    }
+    // function venta_diaria($idUsu, $fecha){
+    //     $sql="SELECT id_venta, producto.nombre AS producto, venta_prod.cant as cantidad, venta_prod.subtotal as subtotal 
+    //     FROM `venta`
+    //     JOIN venta_prod on venta_id_venta = id_venta
+    //     JOIN producto ON prod_id_prod = id_prod
+    //      WHERE vendedor=:id_usuario AND DATE(fecha) = DATE(:fecha) ORDER BY id_venta ASC";
+    //     $query = $this->acceso->prepare($sql);
+    //     $query->execute(array(':id_usuario' => $idUsu, ':fecha' =>  $fecha));
+    //     $this->objetos=$query->fetchall();
+    //     return $this->objetos;
+    // }
     // function venta_diaria(){
     //     $sql="SELECT id_venta, producto.nombre AS producto, venta_prod.cant as cantidad, venta_prod.subtotal as subtotal 
     //     FROM `venta`
@@ -230,9 +232,6 @@ class Venta{
                 ON mesa.id_mesa = pedido.id_mesa
             WHERE id_venta = :id_venta
         ";
-        // CONCAT(cocinero.nom,' ',cocinero.ape) AS nom_cocinero,
-        // INNER JOIN usuario AS cocinero
-        //         ON cocinero.id_usu = venta.id_coc_lider
 
     
         $query = $this->acceso->prepare($sql);
@@ -241,27 +240,7 @@ class Venta{
         return $this->objetos;
     }
 
-/* 
-    function consultarMesero($id){
-        $sql = "SELECT CONCAT(usuario.nom,' ',usuario.ape) AS mesero FROM usuario
-        WHERE id_usu = :id";
-    
-        $query = $this->acceso->prepare($sql);
-        $query->execute([':id' => $id]);
-        $this->objetos = $query->fetchall();
-        return $this->objetos;
-    }
 
-    function consultarCocineroLider($id){
-        $sql = "SELECT CONCAT(usuario.nom,' ',usuario.ape) AS cocinerolider FROM usuario
-        WHERE id_usu = :id";
-    
-        $query = $this->acceso->prepare($sql);
-        $query->execute([':id' => $id]);
-        $this->objetos = $query->fetchall();
-        return $this->objetos;
-    }
- */
     function consultarObservaciones($idOrden){
         $sql = "SELECT observ FROM pedido
         WHERE id_pedido = :idOrden";
@@ -273,39 +252,46 @@ class Venta{
     }
 
  
-    function listarVentaDiaGeneral($fecha){
-        $sql=
-            "SELECT 
-                id_venta, 
-                total, 
-                CONCAT(usuario.nom,' ',usuario.ape) AS vendedor 
-            FROM venta 
-            JOIN usuario ON vendedor = id_usu
-            WHERE DATE(fecha) = DATE(:fecha) ORDER BY id_venta ASC";
-        $query = $this->acceso->prepare($sql);
-        $query->execute(array(':fecha' =>  $fecha));
-        $this->objetos=$query->fetchall();
-        return $this->objetos;
+    function listarVentaDiaGeneral($fecha, $cajero, $formaPago){
+
+        $select     = "SELECT 
+                            id_venta, 
+                            total, 
+                            CONCAT(usuario.nom,' ',usuario.ape) AS vendedor 
+                        FROM venta 
+                        JOIN usuario ON vendedor = id_usu";
+
+        $condFecha  = " WHERE DATE(fecha) = DATE(:fecha)";
+        $condCajero = " AND vendedor = :vendedor";
+        $condFPago  = " AND formpago = :formaPago";
+
+        $order      = " ORDER BY id_venta ASC";
+
+
+        return $this->cargarDatosVenta($fecha, $formaPago, $cajero, $select, $condFecha, $condCajero, $condFPago, $order);
+
     }
 
 
-    function calcularTotalDia($fecha){
-        $sql="SELECT SUM(total) as venta_dia FROM `venta` 
-        WHERE DATE(fecha) = DATE(:fecha)";
+    function calcularTotalDia($fecha, $formaPago, $cajero){
 
-        $query = $this->acceso->prepare($sql);
-        $query->execute(array(':fecha' => $fecha));
-        $this->objetos=$query->fetchall();
-        return $this->objetos;
+        $select     = "SELECT SUM(total) as venta_dia FROM `venta`";
+        $condFecha  = " WHERE DATE(fecha) = DATE(:fecha)";
+        $condCajero = " AND vendedor = :vendedor";
+        $condFPago  = " AND formpago = :formaPago";
+        $order      = " ORDER BY id_venta ASC";
+
+        return $this->cargarDatosVenta($fecha, $formaPago, $cajero, $select, $condFecha, $condCajero, $condFPago, $order);
     }
 
+
+    /* CALCULA EL TOTAL DE LAS VENTAS GENERALES */
     function calcularTotalGeneralVenta(){
         $sql="SELECT SUM(total) as venta_dia FROM `venta`";
         $query = $this->acceso->prepare($sql);
         $query->execute();
         $this->objetos=$query->fetchall();
         return $this->objetos;
-
     }
 
     
@@ -363,21 +349,62 @@ class Venta{
 
 
 
-    function calcularTotalDiaPorPago($fecha, $formaPago){
+    // function calcularTotalDiaPorPago($fecha, $formaPago){
 
-        $sql="SELECT SUM(total) as venta_dia FROM `venta` 
-        WHERE 
-            DATE(fecha) = DATE(:fecha)
-            AND formpago = :formaPago ORDER BY id_venta ASC";
+    //     $sql="SELECT SUM(total) as venta_dia FROM `venta` 
+    //     WHERE 
+    //         DATE(fecha) = DATE(:fecha)
+    //         AND formpago = :formaPago ORDER BY id_venta ASC";
 
-        $query = $this->acceso->prepare($sql);
-        $query->execute(array(
-            ':formaPago' =>  $formaPago,
-            ':fecha' => $fecha
-        ));
+    //     $query = $this->acceso->prepare($sql);
+    //     $query->execute(array(
+    //         ':formaPago' =>  $formaPago,
+    //         ':fecha' => $fecha
+    //     ));
+    //     $this->objetos=$query->fetchall();
+    //     return $this->objetos;
+
+    // }
+
+
+    function cargarDatosVenta($fecha, $formaPago, $cajero, $select, $condFecha, $condCajero, $condFPago, $order){
+
+        $sql = "";
+
+        if ($cajero == 0 && $formaPago == 0) {
+            $sql = $select.$condFecha.$order;
+            $query = $this->acceso->prepare($sql);
+            $query->execute(array(
+                ':fecha' =>  $fecha
+            ));
+        } elseif ($cajero == 0 && $formaPago != 0) {
+            $sql = $select.$condFecha.$condFPago.$order;
+            $query = $this->acceso->prepare($sql);
+            $query->execute(array(
+                ':fecha' =>  $fecha,
+                ':formaPago' => $formaPago
+            ));
+        } elseif ($cajero != 0 && $formaPago != 0) {
+            $sql = $select.$condFecha.$condCajero.$condFPago.$order;
+            $query = $this->acceso->prepare($sql);
+            $query->execute(array(
+                ':fecha' =>  $fecha,
+                ':formaPago' => $formaPago,
+                ':vendedor' =>  $cajero
+            ));
+        } elseif ($cajero != 0 && $formaPago == 0) {
+            $sql = $select.$condFecha.$condCajero.$order;
+            $query = $this->acceso->prepare($sql);
+            $query->execute(array(
+                ':fecha' =>  $fecha,
+                ':vendedor' =>  $cajero
+            ));
+        }
+
         $this->objetos=$query->fetchall();
         return $this->objetos;
 
     }
+    
 
 }

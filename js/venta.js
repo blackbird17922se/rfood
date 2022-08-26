@@ -1,21 +1,61 @@
 $(document).ready(function () {
 
     const VENTA_CTRLR = '../controllers/ventaController.php';
+    const USUARIO_CTRL = '../controllers/usuarioController.php';
     var funcion = 0;
     var datatable = "";
-    var fecha = $("input#fecha").val();
+
+    var fecha     = $("input#fecha").val();
+    var cajero    = $("#list-cajero").val();
+    var formaPago = $("#formaPago").val();
 
 
-    listarVentaDiaGeneral();
+    listarCajeros();
+    listarVentaDia(fecha,formaPago,cajero);
+    
+
+    $(".select2").select2();
+
+    /* listarVentaDia Consola */
+    // VV();
+    function VV(){
+
+        funcion = 12;
+        $.post(VENTA_CTRLR,{funcion,fecha},(response)=>{
+            console.log('vv rwsp: '+response);
+        })
+
+        listarVentaDia(fecha,formaPago,cajero)
+    }
 
 
 
-    /* Cuando el usuario seleciona una fecha del input */
+    /* ******************************** DETECTA CAMBIO EN LOS INPUTS ******************************** */
+
     $("input#fecha").on("change", function () {
         datatable.destroy();
         fecha = $(this).val();
-        listarVentaDiaGeneral()
+        listarVentaDia(fecha,formaPago,cajero)
     })
+
+
+    $( "#list-cajero" ).change(function() {  
+        console.log("chance cajero");
+        datatable.destroy();
+        cajero = $(this).val();
+        listarVentaDia(fecha,formaPago,cajero)
+    });
+
+
+    $( "#formaPago" ).change(function() {  
+        console.log("chance formaPago");
+        datatable.destroy();
+        formaPago = $(this).val();
+        listarVentaDia(fecha,formaPago,cajero)
+    });
+
+    /* ********************************************************************************************** */
+
 
 
     /**
@@ -28,9 +68,40 @@ $(document).ready(function () {
     })
 
 
-    /* Listar las ventas del dia de todos los cajeros */
-    function listarVentaDiaGeneral() {
+
+
+    /* ******************************** LISTAR DATOS INPUTS ******************************** */
+    /* Lista los cajeros para poder filtar por el mismo */ 
+    function listarCajeros(){
+        funcion = 9;
+        $.post(USUARIO_CTRL,{funcion},(response)=>{
+            console.log(response);
+            const CAJEROS = JSON.parse(response);
+
+            let optDefault = `<option selected="selected" value="${0}">Todos</option>`;
+
+            let template = '';
+            CAJEROS.forEach(cajero=>{
+                template+=`
+                    <option value="${cajero.id}">${cajero.nombres}</option>
+                `;
+            });
+            /* id del campo que contiene el listado */
+            $('#list-cajero').html(optDefault + template);
+        })
+    }
+
+    /* ********************************************************************************************** */
+
+
+
+    /* ******************************** CARGAR DATOS TABLA ******************************** */
+    /* Listar las ventas del dia */
+    function listarVentaDia(fecha,formaPago,cajero) {
         let funcion = 12;
+
+        console.log("formaPago " + formaPago);
+        console.log("cajero " + cajero);
 
         datatable = $('#tablaVentaDiaGeneral').DataTable({
 
@@ -38,9 +109,14 @@ $(document).ready(function () {
             ajax: "data.json",
 
             "ajax": {
-                "url": "../controllers/ventaController.php",
+                "url": VENTA_CTRLR,
                 "method": "POST",
-                "data": { funcion: funcion, fecha: fecha }
+                "data": { 
+                    funcion:   funcion, 
+                    fecha:     fecha,
+                    formaPago: formaPago,
+                    cajero:    cajero
+                }
             },
             "columns": [
 
@@ -65,11 +141,10 @@ $(document).ready(function () {
                 },
             ],
 
-
             language: espanol
         });
         
-        calcularTotal(fecha)
+        calcularTotal(fecha,formaPago,cajero);
          
     }
 
@@ -207,9 +282,10 @@ $(document).ready(function () {
 
 
     /* Total */
-    function calcularTotal(fecha){
+    function calcularTotal(fecha,formaPago,cajero){
         funcion = 6;
-        $.post(VENTA_CTRLR,{funcion,fecha},(response) => {
+        $.post(VENTA_CTRLR,{funcion,fecha,formaPago,cajero},(response) => {
+            console.log("calculo total"+response);
             const totales = JSON.parse(response);
             totales.forEach(total => {
                 $('#totalDia').html(total.venta_dia);
@@ -317,18 +393,7 @@ $(document).ready(function () {
     });
 
 
-    /* listarVentaDiaGeneral Consola */
-    // VV();
-    // function VV(){
 
-    //     funcion = 12;
-    //     $.pofst(VENTA_CTRLR,{funcion,fecha},(response)=>{
-    //         console.log('vv rwsp: '+response);
-
-    //     })
-
-    //     listarVentaDiaGeneral()
-    // }
 
 
 });

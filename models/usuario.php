@@ -240,4 +240,19 @@ class Usuario{
         $this->objetos = $query->fetchall();
         return $this->objetos;
     }
+
+
+    /* Listar Cajeros */
+    function listarCajeros(){
+        $sql = 
+            "SELECT
+                id_usu,
+                CONCAT(nom,' ',ape) AS nombres
+            FROM usuario
+            WHERE rol BETWEEN 1 AND 3";
+        $query = $this->acceso->prepare($sql);
+        $query->execute();
+        $this->objetos = $query->fetchall();
+        return $this->objetos;
+    }
 }

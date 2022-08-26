@@ -7,12 +7,19 @@
 //////////////////
 Build 4.4.1
 //////////////////
+
+!cajero no puede cerrar session
 * en lote prod arreglar el editar y eliminar, guiese con sfarma
 * arreglar en ventas, cuando cambio de venta diaria a general y luego regreso a dia entonces id_venta se pierde. guiese con sfarma creando un evento al boton q pasa a venas dias y destruyendo la tabla generales
-* Mejorar parte cierre de caja.
 
--------------OK-----
+--------------------------------------- OK ---------------------------------------
 * En el cierre de caja agregar opcion que permita filtrar por el tipo de pago.
+
+* Agregar a la gest de ventas filtro por cajero y formpago
+    - que el total calcule segun filtro
+    - reparar cierre caja
+
+* Mejorar parte cierre de caja.
 
 
 //////////////////////////////////// EN COLA //////////////////////////////////////////////////////////////////

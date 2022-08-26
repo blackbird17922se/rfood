@@ -41,13 +41,15 @@ $(document).ready(function () {
     function listarVentaPagoGeneral() {
         let funcion = 13;
 
+        console.log("listarVentaPagoGeneral");
+
         datatable = $('#tablaVentaDiaGeneral').DataTable({
 
             "order": [[0, "desc"]],
             ajax: "data.json",
 
             "ajax": {
-                "url": "../controllers/ventaController.php",
+                "url": VENTA_CTRLR,
                 "method": "POST",
                 "data": { funcion: funcion, formaPago: formaPago }
             },
@@ -70,9 +72,11 @@ $(document).ready(function () {
 
     /* Total */
     function calcularTotal(formaPago){
+        console.log("Calcular Total forma pago:" + formaPago);
         console.log('cakculo fevcha');
         funcion = 14;
         $.post(VENTA_CTRLR,{funcion,formaPago},(response) => {
+            console.log(response);
             const totales = JSON.parse(response);
             totales.forEach(total => {
                 $('#totalDia').html(total.venta_dia);
@@ -80,15 +84,15 @@ $(document).ready(function () {
         })
     }
 
-    function calcularTotalGeneral(){
-        funcion = 7;
-        $.post(VENTA_CTRLR,{funcion},(response) => {
-            const totales = JSON.parse(response);
-            totales.forEach(total => {
-                $('#totalGeneral').html(total.venta_dia);
-            })
-        })
-    }
+    // function calcularTotalGeneral(){
+    //     funcion = 7;
+    //     $.post(VENTA_CTRLR,{funcion},(response) => {
+    //         const totales = JSON.parse(response);
+    //         totales.forEach(total => {
+    //             $('#totalGeneral').html(total.venta_dia);
+    //         })
+    //     })
+    // }
 
 
 

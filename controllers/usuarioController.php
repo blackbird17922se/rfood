@@ -164,3 +164,20 @@ if($_POST['funcion'] == 8){
     echo $jsonstring;
 }
 
+
+/* Listar Cajeros */
+if($_POST['funcion'] == 9){
+
+    $json=array();
+    $usuario->listarCajeros();
+
+    foreach ($usuario->objetos as $objeto) {
+        $json[] = array(
+            'id' => $objeto->id_usu,
+            'nombres'  => $objeto->nombres
+        );
+    }
+
+    $jsonstring = json_encode($json);
+    echo $jsonstring;
+}

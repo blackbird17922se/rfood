@@ -138,12 +138,34 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2)) {
                                         <div class="card card-success card-mdrn">
 
                                             <div class="row">
-                                                <div class="col-md-6 col-sm-12">
+                                                <div class="col-md-4 col-sm-12">
 
                                                     <div class="form-group">
                                                         <label for="fecha">Fecha</label>
                                                         <input type="date" name="fecha" id="fecha" class="form-control">
 
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="formaPago">Forma de Pago</label>
+                                                        <select id="formaPago" class="form-control select2" style="width: 100%;" required>
+                                                            <option value="0">Todos</option>
+                                                            <option value="1">Efectivo</option>
+                                                            <option value="2">Tarjeta</option>
+                                                            <option value="3">Nequi</option>
+                                                            <option value="4">Daviplata</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                
+                                                
+                                                <div class="col-md-4 col-sm-12">
+                                                    <div class="form-group">
+                                                        <label for="list-cajero">Cajero</label>
+                                                        <select id="list-cajero" class="form-control select2" style="width: 100%;"></select>
                                                     </div>
                                                 </div>
 
