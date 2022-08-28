@@ -65,10 +65,27 @@
     line-height: 1.2;
     font-weight: unset;
   }
+
+  #verOrdenCaja input.form-check-input{
+    width: 20px;
+    height: 20px;
+    margin: 0;
+  }
+
+  #verOrdenCaja input.form-check-input+label{
+    margin-left: 30px;
+  }
+
   /*resalto de cada fila*/
   .caja tbody tr:nth-child(even) {
     /* background-color: #f5f5f5; */
   }
+
+  .caja .deselect {
+    background: #1c741c;
+  }
+
+
   
   
   

@@ -73,7 +73,7 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
 
 
                         <div class="row">
-                            <div class="col-md-6 col-sm-12">
+                            <div class="col-md-4 col-sm-12">
 
                                 <div class="form-group">
                                     <label for="formaPago">Forma de Pago</label>
@@ -88,15 +88,25 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
 
                             </div>
 
-                            <div class="col-md-6 col-sm-12">
+                            <div class="col-md-4 col-sm-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="ck-dividir-cuenta">
+                                    <label class="form-check-label" for="ck-dividir-cuenta">
+                                        Dividir Cuenta
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-12">
                                 <a href="#" class="btn btn-success" id="procesar-compra">Realizar venta</a>
                             </div>
 
                         </div>
 
-                        <table class="caja table table-hover text-nowrap">
+                        <table id="tb-items-orden" class="caja table table-hover text-nowrap">
                             <thead>
                                 <tr>
+                                    <th scope="col"></th>
                                     <th scope="col">Nombre</th>
                                     <th scope="col">Presentación</th>
                                     <th scope="col">Cantidad</th>

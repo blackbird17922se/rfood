@@ -43,6 +43,24 @@ class Caja{
         return $this->objetos;
     }
 
+
+    /* Carga los items realizados en ese pedido
+    que aun no se han pagado 
+    */
+    function cargarItemsPedidoSinPago($idPedido){
+        $sql = 
+            "SELECT * 
+             FROM det_pedido 
+             WHERE id_det_pedido = :idPedido
+             AND prod_pagado = 0";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([
+            ':idPedido' => $idPedido
+        ]);
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+    }
+
     /* Consulytar el nombre del producto */
     function ConsultarNomProducts($idProd){
 
@@ -239,6 +257,40 @@ class Caja{
         $this->objetos=$query->fetchall();
         return $this->objetos;
         
+    }
+
+
+    /* Carga los datos de un item segun el pedido al que pertenezca */
+    function cargarDatosItemPedido($idOrd, $item){
+        $sql = 
+            "SELECT * 
+             FROM det_pedido 
+             WHERE id_det_pedido = :idPedido
+             AND id_det_prod = :item";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([
+            ':idPedido' => $idOrd,
+            ':item' => $item
+        ]);
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+
+    }
+
+    function cambiarEstadoPagoItemPedido($idOrd, $item){
+        $sql = 
+            "UPDATE det_pedido
+             SET prod_pagado = 1
+             WHERE id_det_pedido = :idPedido
+             AND id_det_prod = :item";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([
+            ':idPedido' => $idOrd,
+            ':item' => $item
+        ]);
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+
     }
 
 
