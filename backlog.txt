@@ -7,6 +7,8 @@
 Build 4.5.0
 //////////////////
 * Implementar dividir cuenta.
+- hacer seguimiento  a controldarr factcuenta porque el primer prod lo itera 2 veces.
+- al iterar en uno de los items, consultar la cantidad original de la orden
 
 --------------------------------------- OK ---------------------------------------
 

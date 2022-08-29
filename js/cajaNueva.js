@@ -6,6 +6,8 @@ $(document).ready(function () {
     var itemsPedido = [];
     var remainingArr =[]
 
+    var btnDividirCuenta = document.getElementById("btn_dividir_cuenta");
+
     const CAJA_CONTROLLER = '../controllers/cajaController.php';
     const PEDIDO_CTRLR = '../controllers/pedidoController.php';
 
@@ -428,6 +430,15 @@ $(document).ready(function () {
 
     /* ******************************* DIVIDIR CUENTAS ************************************** */
     /* EVENTOS CHECK DE DIVIDIR CUENTA */
+    $(btnDividirCuenta).on('click', function () {
+        window.location.href ='dividirCuenta.php' + "?id=" + $('#idOrdenSelect').val();
+    });
+
+
+
+
+
+
     $('#ck-dividir-cuenta').change(function() {
         // console.log('Checkbox checked!');
         let isChecked = $('#ck-dividir-cuenta')[0].checked
