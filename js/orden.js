@@ -202,8 +202,16 @@ $(document).ready(function(){
 
             // let productos = recuperarLS();
             /* nviar ese producto al controlador */
+            console.log("Arr antes de stringif: ");
+            console.log(productos);
+
             let json = JSON.stringify(productos);
             // console.log(json);
+            console.log("Arr que se le pasa: ");
+            console.log(json);
+
+
+
             $.post(PEDIDO_CTRLR,{funcion,id_mesa,json,observ,entregado,terminado,pagado,idMesero},(response=>{
                 console.log(response);
                 console.log(`val observ: ${observ}`);

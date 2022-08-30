@@ -103,13 +103,21 @@ class Caja{
 
     function agregarDetVenta($cantidad, $idProd, $idVenta){
 
-        $sql = "INSERT INTO det_venta(det_cant, id_det_prod, id_det_venta) 
-        VALUES (:det_cant, :id_det_prod, :id_det_venta)";
+        $sql = 
+            "INSERT INTO det_venta(
+                det_cant, 
+                id_det_prod, 
+                id_det_venta
+            )VALUES (
+                :det_cant,
+                :id_det_prod,
+                :id_det_venta
+            )";
         $query = $this->acceso->prepare($sql);
         $query->execute(array(
-            ':det_cant'       => $cantidad,
-            ':id_det_prod'        => $idProd,
-            ':id_det_venta'  => $idVenta
+            ':det_cant'     => $cantidad,
+            ':id_det_prod'  => $idProd,
+            ':id_det_venta' => $idVenta
         ));
         echo 'add';
     }
@@ -283,6 +291,40 @@ class Caja{
              SET prod_pagado = 1
              WHERE id_det_pedido = :idPedido
              AND id_det_prod = :item";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([
+            ':idPedido' => $idOrd,
+            ':item' => $item
+        ]);
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+
+    }
+
+
+    function descontarCantidad($idOrd, $item, $cantidad){
+        $sql = 
+            "UPDATE det_pedido
+             SET cant_cuenta_dividida = (cant_cuenta_dividida - :cantidad)
+             WHERE id_det_pedido = :idPedido
+             AND id_det_prod = :item";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([
+            ':idPedido' => $idOrd,
+            ':item' => $item,
+            ':cantidad' => $cantidad
+        ]);
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+    }
+
+    function evaluarCantidadRestante($idOrd, $item){
+        $sql = 
+            "SELECT
+                cant_cuenta_dividida AS cant_ct_div
+            FROM det_pedido 
+            WHERE id_det_pedido = :idPedido
+            AND id_det_prod = :item";
         $query = $this->acceso->prepare($sql);
         $query->execute([
             ':idPedido' => $idOrd,

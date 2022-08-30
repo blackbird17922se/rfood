@@ -1,0 +1,16 @@
+[
+    {
+        "id_prod":"278",
+        "nombre":"BORRA MENTES",
+        "present":"Unidad",
+        "precio":"20000",
+        "cantidad":"2"
+    },
+    {
+        "id_prod":"276",
+        "nombre":"CUBA LIBRE",
+        "present":"Unidad",
+        "precio":"15000",
+        "cantidad":"1"
+    }
+]

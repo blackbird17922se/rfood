@@ -1,3 +1,8 @@
+------BUILD 4.5.1.0
+ALTER TABLE `det_pedido` ADD `cant_cuenta_dividida` INT(200) NOT NULL ;
+UPDATE `det_pedido` SET `cant_cuenta_dividida`=`det_cant` WHERE `cant_cuenta_dividida` = 0
+
+-----------------------------OLD---------------------------------
 -------------------------BUID 4.1-----------------------------------------------
 ALTER TABLE `venta`
   DROP `id_mesero`,

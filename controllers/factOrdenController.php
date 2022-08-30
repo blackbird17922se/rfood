@@ -38,6 +38,7 @@ switch ($_POST['funcion']) {
                     $nomPresent = $objn->presnom,
                     $cantidad = $objeto->det_cant,
                     $precio = $objn->precio,
+                    $cant_ct_div = $objeto->cant_cuenta_dividida
 
                 );
             }
@@ -52,7 +53,7 @@ switch ($_POST['funcion']) {
                             <i class='fa fa-minus'></i>
                         </button>
                     </div>
-                    <input class='form-control quantity' min='1' max='$cantidad' iditem='$idDetProd' id='id_cant_item_$idDetProd' value='$cantidad' type='number'>
+                    <input class='form-control quantity' min='1' max='$cant_ct_div' iditem='$idDetProd' id='id_cant_item_$idDetProd' value='$cant_ct_div' type='number'>
                     <div class='input-group-append'>
                     <div class='input-group-append'>
                         <button class='btn btn-outline-secondary btn-plus' iditem='$idDetProd'>
@@ -62,6 +63,7 @@ switch ($_POST['funcion']) {
 
                     <input type='hidden' value='$precio' class='inputprecio'>
                     <input type='hidden' value='$idDetProd' class='inputiditem'>
+                    <input type='hidden' value='$cantidad' class='inputcantoriginal'>
 
                 </div>
             ";
@@ -90,7 +92,8 @@ switch ($_POST['funcion']) {
                 'template' => $template,
                 'subtotal' => $subtotal,
                 'idItem' => $idDetProd,
-                'cantidad' => $cantidad
+                'cantidad' => $cantidad,
+                'cant_ct_div' => $cant_ct_div
             );
         }
         $jsonstring = json_encode($json);
@@ -100,9 +103,6 @@ switch ($_POST['funcion']) {
 
 
     case 2:
-
-        //itemSelec
-        $itemSelec = array();
 
         session_start();
 
@@ -120,6 +120,7 @@ switch ($_POST['funcion']) {
         $response = 0;
         $totalIngred = 0;
         $cantidad = 0;
+        $cantOriginal = 0;
 
         date_default_timezone_set('America/Bogota');
         $fecha = date('Y-m-d H:i:s');
@@ -131,128 +132,114 @@ switch ($_POST['funcion']) {
             $idVenta = $objeto->ultima_venta;
         }
 
+        try {
 
-
-
+            $db = new Conexion();
+            $conexion = $db->pdo;
+            $conexion->beginTransaction();
 
             foreach ($itemSelec as $item) {
 
-                try {
-
-                    $db = new Conexion();
-                    $conexion = $db->pdo;
-                    $conexion->beginTransaction();
-
-                    /////////////////////////////
-                    $cantidad = intval( $item->cantidad ); 
-                    // $cantidad = $item->cantidad; //Cantidad del plato solicitado
-                    $cantidad2 = intval( $item->cantidad );
-                    $idProd = intval( $item->idItem );
-                    $totalIngCant = 0;
-                    $precio = intval( $item->precio);
+                $cantidad = intval( $item->cantidad ); 
+                $idProd = intval( $item->idItem );
+                $totalIngCant = 0;
+                $precio = intval( $item->precio);
+                $cantOriginal = intval( $item->cantOriginal);
 
 
-                    while ($cantidad2 > 0) {
-        
-                        /* Consultar ingredientes */
-                        $caja->listarIngredsItem($idProd);
-    
+                /* Consultar ingredientes */
+                $caja->listarIngredsItem($idProd);
+
+                /**
+                 * CUANDO EL PRODUCTO O ITEM DE CARTA TIENE INGREDIENTES
+                 * Procede a descontar los ingredientes del inventario
+                 * se añade esta condicion dado a que hay items que
+                 * no tienen ingredientes del inv (como la cervezaa)
+                 */
+                if ($caja->objetos != null) {
+
+                    foreach ($caja->objetos as $ingred) {
+                        $ih = $ingred->id_ingr;
+
+                        $ingCant = $ingred->cant_ingr;   //Cantidad del ingrediente
+
+                        $totalIngCant = $cantidad * $ingCant;
+
+                        /* Descontar productos */
+                        /* seleccionael lote mas proximo a vencer */
+                        $sql = "SELECT * FROM inv_lote WHERE vencim = (SELECT MIN(vencim) FROM inv_lote WHERE lote_id_prod = :id) AND lote_id_prod = :id";
+                        $query = $conexion->prepare($sql);
+                        $query->execute(array(
+                            ':id' => $ingred->id_ingr
+                        ));
+
+                        $lote = $query->fetchall();
+
                         /**
-                         * CUANDO EL PRODUCTO O ITEM DE CARTA TIENE INGREDIENTES
-                         * Procede a descontar los ingredientes del inventario
-                         * se añade esta condicion dado a que hay items que
-                         * no tienen ingredientes del inv (como la cervezaa)
+                         * CUANDO HAY INGREDIENTES DEL ITEM EN EL INVENTARIO
                          */
-                        if ($caja->objetos != null) {
-    
-                            foreach ($caja->objetos as $ingred) {
-                                $ih = $ingred->id_ingr;
-    
-                                $ingCant = $ingred->cant_ingr;   //Cantidad del ingrediente
-    
-                                $totalIngCant = $cantidad * $ingCant;
-    
-                                /* Descontar productos */
-                                /* seleccionael lote mas proximo a vencer */
-                                $sql = "SELECT * FROM inv_lote WHERE vencim = (SELECT MIN(vencim) FROM inv_lote WHERE lote_id_prod = :id) AND lote_id_prod = :id";
-                                $query = $conexion->prepare($sql);
-                                $query->execute(array(
-                                    ':id' => $ingred->id_ingr
-                                ));
-    
-                                $lote = $query->fetchall();
-    
-                                /**
-                                 * CUANDO HAY INGREDIENTES DEL ITEM EN EL INVENTARIO
-                                 */
-                                if ($lote != null) {
-                                    foreach ($lote as $lote) {
-                                        if ($totalIngCant < $lote->stock) {
-                                            $conexion->exec("UPDATE inv_lote SET stock = stock - '$totalIngCant' WHERE id_lote = '$lote->id_lote'");
-                                        }
-    
-                                        /* ingred->cant pedida es igual a la ingred->cant en el stock */
-                                        if ($totalIngCant == $lote->stock) {
-                                            $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
-                                        }
-    
-                                        /* Cuaando la ingred->cant pedida es superior a la ingred->cant del stock de un lote
-                                            y debe eliminar ese lote y consumir los productos del siguiente lote*/
-                                        if ($totalIngCant > $lote->stock) {
-                                            $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
-                                            $cantidad -= $lote->stock;
-                                        }
-                                        --$cantidad2;
-                                    }
-                                } else {
-                                    $conexion->exec("INSERT INTO inv_descuadre(id_venta,fecha_venta,id_ingred,cantidad) VALUES ('$idVenta','$fecha','$ih','$totalIngCant')");
-                                    $cantidad2 = 0;
+                        if ($lote != null) {
+                            foreach ($lote as $lote) {
+                                if ($totalIngCant < $lote->stock) {
+                                    $conexion->exec("UPDATE inv_lote SET stock = stock - '$totalIngCant' WHERE id_lote = '$lote->id_lote'");
+                                }
+
+                                /* ingred->cant pedida es igual a la ingred->cant en el stock */
+                                if ($totalIngCant == $lote->stock) {
+                                    $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
+                                }
+
+                                /* Cuaando la ingred->cant pedida es superior a la ingred->cant del stock de un lote
+                                    y debe eliminar ese lote y consumir los productos del siguiente lote*/
+                                if ($totalIngCant > $lote->stock) {
+                                    $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
+                                    $cantidad -= $lote->stock;
                                 }
                             }
                         } else {
-                            //agredet regular
-                            
-                            $cantidad2 = 0;
+                            /* Cuando no hay ingreds en el inv agragar a descuadre */
+                            $conexion->exec("INSERT INTO inv_descuadre(id_venta,fecha_venta,id_ingred,cantidad) VALUES ('$idVenta','$fecha','$ih','$totalIngCant')");
                         }
-    
                     }
-                    $caja->agregarDetVenta($cantidad, $idProd, $idVenta);
-                        // $precio = 0;
-                        // $caja->consultarDatosProducto($idProd);
-                        // $caja->consultarPrecio($idProd);
-                        // foreach ($caja->objetos as $objPr) {
-                        //     $precio = $objPr->precio;
-                        // }
 
-                        $subtotal = $cantidad *  $precio;
-                        $caja->insertRegVenta( $precio, $cantidad, $subtotal, $idProd, $idVenta);
-                        /* venta_prod(precio,cant,subtotal,prod_id_prod,venta_id_venta)  */
+                }   /* Fin cuando item tiene ingredientes */
+
+                $caja->agregarDetVenta($cantidad, $idProd, $idVenta);
+
+
+                $subtotal = $cantidad *  $precio;
+                $caja->insertRegVenta( $precio, $cantidad, $subtotal, $idProd, $idVenta);
+            
+                $caja -> descontarCantidad($idOrd, $idProd, $cantidad);
+                $caja -> evaluarCantidadRestante($idOrd, $idProd);
+                foreach ($caja->objetos as $it) {
+
+                    if ($it->cant_ct_div != 0) {
+                        echo 'no cero, aun hay item sin pagar en la ct div';
                     
 
+                    }else{
+                        /* Cambiar el estado de ese item perteneciente a la orden
+                        en cuestion a "pagado" */
+                        $caja->cambiarEstadoPagoItemPedido($idOrd, $idProd);
+                        echo 'pagado total';
 
-                    /* Cambiar el estado de ese item perteneciente a la orden
-                    en cuestion a "pagado" */
-                    $caja->cambiarEstadoPagoItemPedido($idOrd, $idProd);
+                    }
+                }
 
+            }   /* Fin iteracion sobre array items */
+            echo $response = 0;
 
-                    echo $response = 0;
+            $conexion->commit();
+
+            ///////////////////////////
+
+        } catch (Exception $error) {
+            $conexion->rollBack();
+            // $caja->borrar($idVenta);
+            echo $error->getMessage();
+        }
         
-                    $conexion->commit();
-
-            } catch (Exception $error) {
-                $conexion->rollBack();
-                // $caja->borrar($idVenta);
-                echo $error->getMessage();
-            }
-
-
-                    ///////////////////////////
-
-
-
-             
-
-            }
 
     break;
 

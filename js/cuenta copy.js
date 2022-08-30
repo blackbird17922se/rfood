@@ -8,7 +8,7 @@ $(document).ready(function () {
     cargarDetallesOrden();
 
     function cargarDetallesOrden(){
-        // console.log('domm');
+        console.log('domm');
 
         // const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
         // const ID = $(ELEM).attr('idDom');
@@ -52,8 +52,8 @@ $(document).ready(function () {
             $('#tbody_items_orden').html(templateS);
         })
 
-        // console.log(arreglo);
-        // console.log(itemsPedidoBorr);
+        console.log(arreglo);
+        console.log(itemsPedidoBorr);
 
         templateTitulo = `
             <span id="tituloDetalle">Detalle de la Orden ${ID_ORDEN}</span>
@@ -218,83 +218,242 @@ $(document).ready(function () {
 
 
 
-    function recorreTabla(){
+function recorreTabla(){
+    console.log("ratbkla");
+
+//     var resume_table = document.getElementById("tb_items_orden");
+
+// for (var i = 0, row; row = resume_table.rows[i]; i++) {
+//   //alert(cell[i].innerText);
+//   for (var j = 0, col; col = row.cells[j]; j++) {
+//     //alert(col[j].innerText);
+//     console.log(`Txt: ${col.innerText} \tFila: ${i} \t Celda: ${j}`);
+//   }
+// }
 
 
-        let itemSelec = []
+let itemSelec = []
 
-        let cantidad = 0;
-        let idItem = 0;
-        let precio = 0;
-        let cantOriginal = 0;
-        let datosItem = [];
-        
-        const tableRows = document.querySelectorAll('#tb_items_orden tr.rowt');
-        
-        // Recorremos las filas que tengan el class="row"
-        // así obviamos la cabecera
-        for(let i=0; i<tableRows.length; i++) {
-            const row = tableRows[i];
-            const tdPrecio = row.querySelector('.inputprecio');
-            const tdCantidad = row.querySelector('.quantity');
-            const ck = row.querySelector('.ck-item-pedido');
-            const inputiditem = row.querySelector('.inputiditem');
-            const inputcantoriginal = row.querySelector('.inputcantoriginal');
+    const resume_table = document.getElementById("tb_items_orden");
+    
+    const tableRows = document.querySelectorAll('#tb_items_orden tr.rowt');
+    
+    // Recorremos las filas que tengan el class="row"
+    // así obviamos la cabecera
+    for(let i=0; i<tableRows.length; i++) {
+      const row = tableRows[i];
+      const tdPrecio = row.querySelector('.inputprecio');
+      const tdCantidad = row.querySelector('.quantity');
+      const ck = row.querySelector('.ck-item-pedido');
+      const inputiditem = row.querySelector('.inputiditem');
+      const inputcantoriginal = row.querySelector('.inputcantoriginal');
 
-            cantidad = $(tdCantidad).val();
-            idItem = $(inputiditem).val();
-            precio = $(tdPrecio).val();
-            cantOriginal = $(inputcantoriginal).val();
+      let cantidad = $(tdCantidad).val();
+      let idItem = $(inputiditem).val();
+      let precio = $(tdPrecio).val();
+      let cantOriginal = $(inputcantoriginal).val();
 
-            /* Si esta check debe insertar ese item al arreglo */
-            if ($(ck)[0].checked) {
-                console.log("row Checkeada");
 
-                datosItem = {
-                    "idItem": idItem,
-                    "cantidad": cantidad,
-                    "precio": precio,
-                    "cantOriginal": cantOriginal,
-                }
+      if ($(ck)[0].checked) {
+        // $(".ck-item-pedido").prop("disabled", false);
+        console.log("ch");
 
-                // console.log("Datitems:");
-                // console.log(datosItem);
+        console.log('idItem: ', idItem);
+        console.log('cant: ', cantidad);
+        console.log('Precio: ',precio);
+        console.log('cantOriginal: ',cantOriginal);
 
-                /* Agrega ese row al array de items */
-                itemSelec.push(datosItem)
-
-            } else {
-                console.log("row no checkeada");
-            }
+        let datosItem = {
+            "idItem": idItem,
+            "cantidad": cantidad,
+            "precio": precio,
+            "cantOriginal": cantOriginal,
         }
+
+        itemSelec.push(datosItem)
+
+        console.log("Arr antes de stringif: ");
+        console.log(itemSelec);
+
+
+    } else {
+        console.log("no ch");
+    }
 
 
         let funcion = 2;
 
-        // console.log("Arr antes de stringif: ");
-        // console.log(itemSelec);
         let json = JSON.stringify(itemSelec)
         /* Variables de prueba */
         let total=1;
         let formaPago = 1;
 
-        // console.log("Arr que se le pasa: ");
-        // console.log(json);
+        console.log("Arr que se le pasa: ");
+        console.log(json);
 
-            
+        
         if (formaPago != 0) {
             $.post(FACTORDEN_CTRL, { funcion, total, ID_ORDEN, formaPago, json }, (response) => {
                 console.log(response);
+
+                /* cARGAR LA TABLA CON LOS ITEMS RESTANTES */
+                // funcion = 5;
+                // // idOrdenSel   = ID;
+                // // idMesa       = IDMESA;
+                // // let ID =idOrdSel;
+
+                // /* Carga los items que aun no se han pagado que contiene esa orden */
+                // $.post(CAJA_CONTROLLER, { funcion, ID, IDMESA }, (response) => {
+                //     console.log(response);
+                //     const PEDIDOS = JSON.parse(response);
+                //     let templateS = '';
+                //     let total = 0;
+
+                //     PEDIDOS.forEach(pedido => {
+
+                //         templateS += `${pedido.template}'`;
+                //         console.log(pedido.idItem);
+                //         arreglo.push(pedido.idItem);
+
+                //         total += pedido.subtotal
+
+                //         totalS = total;
+                //         $('#total').html(total.toFixed(0));
+                //     });
+                //     $('#lista-compra').html(templateS);
+
+                //     // templateTitulo = `
+                //     //     <span id="tituloDetalle">Detalle de la Orden en mesa ${}</span>
+                //     // `;
+                //     // $('#tituloDetalle').html(templateTitulo);
+                //     console.log(arreglo);
+                // })
+
+
             });
+
+                ////////////////////////////////////////////
+            // $.post(CAJA_CONTROLLER, { funcion, total, idOrdSel, formaPago }, (response) => {
+            //     console.log(response);
+
+            //     /* Cambiar estado de la orden a Pagado */
+            //     funcion = 9;
+            //     $.post(PEDIDO_CTRLR, { funcion, idOrdSel }, (response) => {
+            //         console.log(response);
+
+            //         /* Si no es un domicilio... Desbloquear mesa*/
+            //         if (mesa != -1) {
+            //             funcion = 11;
+            //             $.post(PEDIDO_CTRLR, { funcion, mesa }, () => {
+            //                 cargarMesas();
+            //             });
+            //         }else{
+            //             listarDomiciliosCaja();
+            //         }
+            //     });
+            // });
+
+            // $('#verOrdenCaja').modal('hide');
+
+            // Swal.fire({
+            //     title: 'Venta Realizada',
+            //     text: "¿Desea imprimir recibo?",
+            //     icon: 'success',
+            //     showCancelButton: true,
+            //     confirmButtonText: 'Imprimir',
+            //     cancelButtonText: 'Cancelar',
+            //     reverseButtons: true
+            // }).then((result) => {
+            //     if (result.value) {
+
+            //         let funcion = "ultimaVenta";
+            //         $.post(CAJA_CONTROLLER, { funcion }, (response) => {
+            //             console.log(response);
+
+
+            //             $.ajax({
+            //                 url: 'ticket.php',
+            //                 type: 'POST',
+            //                 success: function (resp) {
+            //                     if (resp == 1) {
+            //                         alert('imprime..');
+            //                         vaciarTabla();
+            //                     } else {
+            //                         alert('error..');
+            //                         vaciarTabla()
+            //                     }
+            //                 }
+            //             })
+            //         });
+
+
+            //         console.log("selecciono imprimir");
+            //     } else if (result.dismiss === Swal.DismissReason.cancel) {
+            //         console.log("selecciono no imprimir");
+
+            //         $.ajax({
+            //             url: 'ticketc.php',
+            //             type: 'POST',
+            //             success: function (resp) {
+            //                 if (resp == 1) {
+            //                     alert('abre..');
+            //                     vaciarTabla();
+            //                 } else {
+            //                     // alert('error..');
+            //                     vaciarTabla()
+            //                 }
+            //             }
+            //         })
+            //         vaciarTabla()
+            //     }
+            // });
+
         } else {
             Swal.fire({
                 icon: 'error',
                 title: 'Atención',
                 text: 'Debes Seleccionar una Forma de pago de la lista.',
             })
+
         }
 
-    }   /* End Function */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+    //   let xe = ck.val();
+
+      
+    //   console.log('Estado: ', xe);
+      
+      // Para modificar un estado:
+      // status.innerText = 'offline';
+    }
+    console.log(itemSelec);
+}
+
+
+
+
 
 
 

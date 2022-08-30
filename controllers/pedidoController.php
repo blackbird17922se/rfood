@@ -37,13 +37,18 @@ switch ($_POST['funcion']) {
                 $cantidad = $prod->cantidad;
 
                 while($cantidad != 0){
-                    $sql = "INSERT INTO det_pedido(det_cant,id_det_prod,id_det_pedido) 
-                        VALUES(
+                    $sql = 
+                        "INSERT INTO det_pedido(
+                            det_cant,
+                            id_det_prod,
+                            id_det_pedido, 
+                            cant_cuenta_dividida
+                        )VALUES(
                             '$cantidad',
                             '$prod->id_prod',
-                            '$idPedido'      
-                        )
-                    ";
+                            '$idPedido',
+                            '$cantidad'      
+                        )";
                     $conexion->exec($sql);
                     $cantidad = 0;
                 }
