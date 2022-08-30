@@ -23,42 +23,52 @@ $(document).ready(function () {
         // idMesa = IDMESA;
 
         $.post(FACTORDEN_CTRL, { funcion, ID_ORDEN, ID_MESA }, (response) => {
-            //  console.log(response);
-            const PEDIDOS = JSON.parse(response);
-            let templateS = '';
-            let total = 0;
-
-            PEDIDOS.forEach(pedido => {
-
-                // console.log("cant: " + pedido.cantidad);
-
-                arreglo.push(pedido.idItem);
+            console.log(response);
+             console.log("cargarDetallesOrden responde: " + response);
+             if (response == 0) {
+                console.log("no hay mas item");
+                return 1;
                 
-                let datosItem = {
-                    "idItem": pedido.idItem,
-                    "subtotal": pedido.subtotal
+             } else {
+                console.log("carga items");
+                const PEDIDOS = JSON.parse(response);
+                let templateS = '';
+                let total = 0;
 
-                }
+                PEDIDOS.forEach(pedido => {
 
-                itemsPedidoBorr.push(datosItem)
+                    // console.log("cant: " + pedido.cantidad);
 
-                templateS += `${pedido.template}'`;
+                    arreglo.push(pedido.idItem);
+                    
+                    let datosItem = {
+                        "idItem": pedido.idItem,
+                        "subtotal": pedido.subtotal
 
-                total += pedido.subtotal
+                    }
 
-                totalS = total;
-                $('#total').html(total.toFixed(0));
-            });
-            $('#tbody_items_orden').html(templateS);
+                    itemsPedidoBorr.push(datosItem)
+
+                    templateS += `${pedido.template}'`;
+
+                    total += pedido.subtotal
+
+                    totalS = total;
+                    $('#total').html(total.toFixed(0));
+                });
+                $('#tbody_items_orden').html(templateS);
+                
+             }
+            
         })
 
         // console.log(arreglo);
         // console.log(itemsPedidoBorr);
 
-        templateTitulo = `
-            <span id="tituloDetalle">Detalle de la Orden ${ID_ORDEN}</span>
-        `;
-        $('#tituloDetalle').html(templateTitulo);
+        // templateTitulo = `
+        //     <span id="tituloDetalle">Detalle de la Orden ${ID_ORDEN}</span>
+        // `;
+        // $('#tituloDetalle').html(templateTitulo);
     }
 
 
@@ -266,7 +276,8 @@ $(document).ready(function () {
             } else {
                 console.log("row no checkeada");
             }
-        }
+
+        }   /* Fin recorrido tabla */
 
 
         let funcion = 2;
@@ -285,6 +296,31 @@ $(document).ready(function () {
         if (formaPago != 0) {
             $.post(FACTORDEN_CTRL, { funcion, total, ID_ORDEN, formaPago, json }, (response) => {
                 console.log(response);
+                if(cargarDetallesOrden() == 1){
+                    /* Cambiar estado de la orden a Pagado */
+                    funcion = 9;
+                    $.post(PEDIDO_CTRLR, { funcion, idOrdSel }, (response) => {
+                        console.log(response);
+
+                        /* Si no es un domicilio... Desbloquear mesa*/
+                        if (mesa != -1) {
+                            funcion = 11;
+                            $.post(PEDIDO_CTRLR, { funcion, mesa }, () => {
+                                // cargarMesas();
+                            });
+                        }else{
+                            // listarDomiciliosCaja();
+                        }
+                    });
+               
+
+console.log("No hay mas items");
+                }
+                ;
+                // const tableRows = document.querySelectorAll('#tb_items_orden tr.rowt');
+                // let ltb = tableRows.length - 1;
+                // console.log(ltb);
+
             });
         } else {
             Swal.fire({

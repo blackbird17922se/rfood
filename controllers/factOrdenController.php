@@ -43,7 +43,7 @@ switch ($_POST['funcion']) {
                 );
             }
 
-            $subtotal = $precio * $cantidad;
+            $subtotal = $precio * $cant_ct_div;
 
 
             $cant = "       
@@ -96,8 +96,16 @@ switch ($_POST['funcion']) {
                 'cant_ct_div' => $cant_ct_div
             );
         }
-        $jsonstring = json_encode($json);
-        echo $jsonstring;
+
+        if(empty($json)){
+            echo 0;
+
+        }else{
+
+            $jsonstring = json_encode($json);
+            echo $jsonstring;
+        }
+
 
     break;
 
@@ -215,14 +223,16 @@ switch ($_POST['funcion']) {
                 foreach ($caja->objetos as $it) {
 
                     if ($it->cant_ct_div != 0) {
-                        echo 'no cero, aun hay item sin pagar en la ct div';
-                    
+                        /* Aun hay items sin pagar en ese pedido por lo tanto
+                        enviar respuesta 1 para q recarge la tabla con items
+                        pendientes*/
+                        echo $response = 1;
 
                     }else{
                         /* Cambiar el estado de ese item perteneciente a la orden
                         en cuestion a "pagado" */
                         $caja->cambiarEstadoPagoItemPedido($idOrd, $idProd);
-                        echo 'pagado total';
+                        // echo 'pagado total';
 
                     }
                 }
