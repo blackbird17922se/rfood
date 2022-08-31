@@ -49,10 +49,18 @@ class Caja{
     */
     function cargarItemsPedidoSinPago($idPedido){
         $sql = 
-            "SELECT * 
-             FROM det_pedido 
-             WHERE id_det_pedido = :idPedido
-             AND prod_pagado = 0";
+            "SELECT
+                id_det,
+                det_cant,
+                id_det_prod,
+                id_det_pedido,
+                prod_pagado,
+                cant_cuenta_dividida,
+                p.id_mesa
+            FROM det_pedido 
+            INNER JOIN pedido p ON p.id_pedido = det_pedido.id_det_pedido
+            WHERE id_det_pedido = :idPedido
+            AND prod_pagado = 0";
         $query = $this->acceso->prepare($sql);
         $query->execute([
             ':idPedido' => $idPedido
@@ -64,7 +72,8 @@ class Caja{
     /* Consulytar el nombre del producto */
     function ConsultarNomProducts($idProd){
 
-        $sql = "SELECT producto.nombre as nom, present.nom AS presnom, prod_pres, precio 
+        $sql = "SELECT producto.nombre as nom,
+         present.nom AS presnom, prod_pres, precio 
         FROM producto 
         JOIN present ON prod_pres = id_present
         WHERE id_prod = :idProd";

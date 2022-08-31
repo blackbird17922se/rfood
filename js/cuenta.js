@@ -294,12 +294,19 @@ $(document).ready(function () {
 
             
         if (formaPago != 0) {
+
+            /* Facturar la orden */
             $.post(FACTORDEN_CTRL, { funcion, total, ID_ORDEN, formaPago, json }, (response) => {
                 console.log(response);
-                if(cargarDetallesOrden() == 1){
+                console.log(ID_ORDEN);
+
+                /* Si responde 0 significa que ya no hay mas items
+                 por cancelar. */
+                if(cargarDetallesOrden() == 0){
+                    console.log("No hay mas items");
                     /* Cambiar estado de la orden a Pagado */
                     funcion = 9;
-                    $.post(PEDIDO_CTRLR, { funcion, idOrdSel }, (response) => {
+                    $.post(PEDIDO_CTRLR, { funcion, ID_ORDEN }, (response) => {
                         console.log(response);
 
                         /* Si no es un domicilio... Desbloquear mesa*/
@@ -314,9 +321,10 @@ $(document).ready(function () {
                     });
                
 
-console.log("No hay mas items");
-                }
-                ;
+
+                }else{
+                    console.log("hay mas items");
+                };
                 // const tableRows = document.querySelectorAll('#tb_items_orden tr.rowt');
                 // let ltb = tableRows.length - 1;
                 // console.log(ltb);
