@@ -2,52 +2,55 @@ $(document).ready(function () {
 
     const FACTORDEN_CTRL = '../controllers/factOrdenController.php';
     const ID_ORDEN        = $('#itemId').val();
+    const PEDIDO_CTRLR = '../controllers/pedidoController.php';
     var arreglo = [];
-    var itemsPedidoBorr = [];
+    // var itemsPedidoBorr = [];
+    var ID_MESA = 0;
+    var funcion = 0;
 
+    cargarMesaPedido();
     cargarDetallesOrden();
 
+
+    /* Carga la mesa de ese pedido */
+    function cargarMesaPedido(){
+        funcion = 3;
+        $.post(FACTORDEN_CTRL, { funcion, ID_ORDEN}, (response) => {
+            ID_MESA = response;
+        })
+    }
+
+
     function cargarDetallesOrden(){
-        // console.log('domm');
-
-        // const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        // const ID = $(ELEM).attr('idDom');
-        const ID_MESA = -1;
-
-        // $('#idMesaSelect').val(IDMESA);
-        // $('#idOrdenSelect').val(ID);
-
-        //  console.log('ORD'+ID + ' IDMESA'+IDMESA);
         funcion = 1;
-        // idOrdenSel = ID;
-        // idMesa = IDMESA;
 
         $.post(FACTORDEN_CTRL, { funcion, ID_ORDEN, ID_MESA }, (response) => {
-            console.log(response);
-             console.log("cargarDetallesOrden responde: " + response);
+            // console.log(response);
+            //  console.log("cargarDetallesOrden responde: " + response);
              if (response == 0) {
                 console.log("no hay mas item");
+                
+                location.href ='caja.php';
                 return 1;
                 
              } else {
-                console.log("carga items");
+                // console.log("carga items");
+                console.log("la mesa es vv " + ID_MESA);
                 const PEDIDOS = JSON.parse(response);
                 let templateS = '';
                 let total = 0;
 
                 PEDIDOS.forEach(pedido => {
 
-                    // console.log("cant: " + pedido.cantidad);
-
-                    arreglo.push(pedido.idItem);
+                    // arreglo.push(pedido.idItem);
                     
-                    let datosItem = {
-                        "idItem": pedido.idItem,
-                        "subtotal": pedido.subtotal
+                    // let datosItem = {
+                    //     "idItem": pedido.idItem,
+                    //     "subtotal": pedido.subtotal
 
-                    }
+                    // }
 
-                    itemsPedidoBorr.push(datosItem)
+                    // itemsPedidoBorr.push(datosItem)
 
                     templateS += `${pedido.template}'`;
 
@@ -56,9 +59,8 @@ $(document).ready(function () {
                     totalS = total;
                     $('#total').html(total.toFixed(0));
                 });
-                $('#tbody_items_orden').html(templateS);
-                
-             }
+                $('#tbody_items_orden').html(templateS); 
+            }
             
         })
 
@@ -99,39 +101,6 @@ $(document).ready(function () {
         // console.log(subtotal);
     }
 
-//     $('#tb_items_orden tbody').on('change', '.quantity',function(e){
-//         console.log("cambioo");
-
-//     })
-
-//     $('#tb_items_orden tbody').off('click', '.btn-plus, .btn-minus').on('click', '.btn-plus, .btn-minus', function(e) {
-//         const idItem = $(this).attr('iditem');
-
-//         console.log(idItem);
-//         let cant = $("#id_cant_item_"+idItem).val();
-
-// console.log(cant + " cambio2" + idItem );
-// nuevalect(idItem);
-//     })
-
-    // function nuevalect(idItem){
-    //     let cant = $("#id_cant_item_"+idItem).val();
-
-    //     console.log("nueva cant" + cant);
-
-    // }
-
-   
-    // $('#ck-dividir-cuenta').change(function() {
-
-    // })
-
-    // $('.btn-plus').on('click', function(e) {
-    //     console.log("cambio3");
-    // })
-
-
-
 
     /* AL MARCAR DIVIDIR CUENTA */
     $('#ck-dividir-cuenta').change(function() {
@@ -145,42 +114,10 @@ $(document).ready(function () {
         } else {
             $(".ck-item-pedido").prop("disabled", true);
             $(".ck-item-pedido").prop("checked", true);
+            cargarDetallesOrden();
         }
-
-        
-
     });
 
-
-
-    // $('#tb_items_orden tbody').off('click','.tre').on('click','.tre',function(){
-    //     let prodId = $(this).attr('pIdItem');
-
-    //     /* obtener el indice del objeto cuya idProd  sea ugual a proId
-    //     con esa posicion eliminar */
-
-    //         if ($(this).attr('seleccionado') == "ce") {
-    //         alert('The name attribute exists');
-
-    //         $(this).removeAttr('seleccionado');
-    //         $(this).addClass('deselect');
-    //         console.log(itemsPedido);
-
-
-    //         itemsPedido.forEach(p => {
-    //             console.log("I es: " + p.idItem);
-    //             console.log("S es: " + p.subtotal);
-    //             if (p.idItem == prodId) {
-
-    //                 console.log("aqui eta!!");
-    //             }
-    //         })
-    //     }
-    //     else {
-    //         alert('The name attribute does not exist');
-    //     }
-    //     console.log('ddssrrrrrr');
-    // })
 
 
     $('#px').on('click', function(e) {
@@ -189,44 +126,7 @@ $(document).ready(function () {
 
     })
 
-
-    $('#tb_items_orden tbody').on('click', '.ck-item-pedido', function(e) {
-
-        console.log("ck-item-pedido");
-
-        
-        // if ($(this)[0].checked) {
-        //     // $(".ck-item-pedido").prop("disabled", false);
-        //     console.log("ch");
-            
-        // } else {
-        //     // $(".ck-item-pedido").prop("disabled", true);
-        //     // $(".ck-item-pedido").prop("checked", true);
-        //     console.log("no ch");
-        // }
-
-        // const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
-
-        // const input = $(e.target).closest('.input-group').find('input');
-        // const inputPrecio = $(e.target).closest('.input-group').find('.inputprecio');
-        // const inputIdItem = $(e.target).closest('.input-group').find('.inputiditem');
-
-        // if (input.is('input')) {
-        //     input[0][isNegative ? 'stepDown' : 'stepUp']()
-        // }
-        
-        // let cantidad = $(input).val()
-        // let precio   = $(inputPrecio).val()
-        // let idItem   = $(inputIdItem).val()
-
-        // calcularSubtotal(idItem,cantidad, precio);
-    });
-
-
-
-
-
-
+    
 
     function recorreTabla(){
 
@@ -303,7 +203,8 @@ $(document).ready(function () {
                 /* Si responde 0 significa que ya no hay mas items
                  por cancelar. */
                 if(cargarDetallesOrden() == 0){
-                    console.log("No hay mas items");
+                    console.log("No hay mas items 2");
+
                     /* Cambiar estado de la orden a Pagado */
                     funcion = 9;
                     $.post(PEDIDO_CTRLR, { funcion, ID_ORDEN }, (response) => {
@@ -319,6 +220,7 @@ $(document).ready(function () {
                             // listarDomiciliosCaja();
                         }
                     });
+                    
                
 
 
@@ -339,6 +241,9 @@ $(document).ready(function () {
         }
 
     }   /* End Function */
+
+
+
 
 
 

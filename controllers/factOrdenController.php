@@ -10,9 +10,11 @@ switch ($_POST['funcion']) {
      como los item de dicha orden y demas*/
     case 1:
         $idPedido = $_POST['ID_ORDEN'];
-        // $idMesa = $_POST['ID_MESA'];
-        /* pedidos con entrega pendiente */
-        // $caja->cargarDatosPedido($idPedido);
+        $idMesa = $_POST['ID_MESA'];
+
+        /* Carga los items realizados en ese pedido
+        que aun no se han pagado 
+        */
         $caja->cargarItemsPedidoSinPago($idPedido);
         $json = array();
         $jsonC = array();
@@ -22,16 +24,19 @@ switch ($_POST['funcion']) {
         $nomPresent = "";
         $cantidad = 0;
         $precio = 0;
+
         // $total="";
 
         foreach ($caja->objetos as $objeto) {
             $jsonP = [];
             $jsonC = [];
             $idDetProd = $objeto->id_det_prod;
+            // $idMesa = $objeto->id_mesa;
 
             /* Consultar nombre platillo */
             $caja->ConsultarNomProducts($idDetProd);
             foreach ($caja->objetos as $objn) {
+                
 
                 $jsonP[] = array(
                     $nomProduct = $objn->nom,
@@ -87,7 +92,7 @@ switch ($_POST['funcion']) {
 
             $json[] = array(
                 'idPedido' => $objeto->id_det_pedido,
-                // 'idMesa' => $idMesa,
+                'idMesa' => $idMesa,
                 'prods' => $jsonP,
                 'template' => $template,
                 'subtotal' => $subtotal,
@@ -98,6 +103,13 @@ switch ($_POST['funcion']) {
         }
 
         if(empty($json)){
+
+            $caja->cambiarEstPagado($idPedido);
+            /* Liberar mesa */
+            if($idMesa != -1){
+                $caja->desBloquearMesa($idMesa);
+            }
+
             echo 0;
 
         }else{
@@ -250,6 +262,17 @@ switch ($_POST['funcion']) {
             echo $error->getMessage();
         }
         
+
+    break;
+
+    case 3:
+        $idMesa = 0;
+
+        $caja->cargarMesaOrden($_POST['ID_ORDEN']);
+        foreach ($caja->objetos as $obj) {
+            $idMesa = $obj -> id_mesa;
+        }
+        echo $idMesa;
 
     break;
 

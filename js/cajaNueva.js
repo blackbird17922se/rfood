@@ -9,7 +9,7 @@ $(document).ready(function () {
     var btnDividirCuenta = document.getElementById("btn_dividir_cuenta");
 
     const CAJA_CONTROLLER = '../controllers/cajaController.php';
-    const PEDIDO_CTRLR = '../controllers/pedidoController.php';
+    
 
     $(".select2").select2({
         placeholder: "Seleccione una opcion",
@@ -62,7 +62,7 @@ $(document).ready(function () {
                 if (tieneOrden == 1) {
                     tempButtons = `
 
-                        <button class='selItem btn btn-sm btn-primary' type="button" data-toggle="modal" data-target="#verOrdenCaja">
+                        <button class='selItem btn btn-sm btn-primary' type="button" idOrden="${idOrden}">
                             <i class='fas fa-plus-square mr-2'></i>Seleccionar
                         </button>
 
@@ -138,59 +138,66 @@ $(document).ready(function () {
         // console.log('selecc pedido');
 
         const ELEM   = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID     = $(ELEM).attr('idOrden');
-        const IDMESA = $(ELEM).attr('mesaId');
-        const NOM_MESA = $(ELEM).attr('mesaNom');
+        var ID     = $(ELEM).attr('idOrden');
 
-        $('#idMesaSelect').val(IDMESA);
-        $('#idOrdenSelect').val(ID);
+        console.log("es " + ID);
+
+        window.location.href ='dividirCuenta.php' + "?id=" + ID;
+
+        // const ELEM   = $(this)[0].activeElement.parentElement.parentElement.parentElement;
+        // const ID     = $(ELEM).attr('idOrden');
+        // const IDMESA = $(ELEM).attr('mesaId');
+        // const NOM_MESA = $(ELEM).attr('mesaNom');
+
+        // $('#idMesaSelect').val(IDMESA);
+        // $('#idOrdenSelect').val(ID);
         
 
-        // console.log('ORD'+ID + ' IDMESA'+IDMESA);
-        funcion = 5;
-        // idOrdenSel   = ID;
-        // idMesa       = IDMESA;
+        // // console.log('ORD'+ID + ' IDMESA'+IDMESA);
+        // funcion = 5;
+        // // idOrdenSel   = ID;
+        // // idMesa       = IDMESA;
 
-        /* Carga los items que aun no se han pagado que contiene esa orden */
-        $.post(CAJA_CONTROLLER, { funcion, ID, IDMESA }, (response) => {
-            // console.log(response);
-            const PEDIDOS = JSON.parse(response);
-            let templateS = '';
-            let total = 0;
+        // /* Carga los items que aun no se han pagado que contiene esa orden */
+        // $.post(CAJA_CONTROLLER, { funcion, ID, IDMESA }, (response) => {
+        //     // console.log(response);
+        //     const PEDIDOS = JSON.parse(response);
+        //     let templateS = '';
+        //     let total = 0;
             
 
-            PEDIDOS.forEach(pedido => {
+        //     PEDIDOS.forEach(pedido => {
 
-                templateS += `${pedido.template}'`;
-                console.log(pedido.idItem);
-                arreglo.push(pedido.idItem);
+        //         templateS += `${pedido.template}'`;
+        //         console.log(pedido.idItem);
+        //         arreglo.push(pedido.idItem);
 
-                let datosItem = {
-                    "idItem": pedido.idItem,
-                    "subtotal": pedido.subtotal
+        //         let datosItem = {
+        //             "idItem": pedido.idItem,
+        //             "subtotal": pedido.subtotal
 
-                }
+        //         }
 
-                itemsPedido.push(datosItem)
-                // itemsPedido.push(subtotal = pedido.subtotal)
+        //         itemsPedido.push(datosItem)
+        //         // itemsPedido.push(subtotal = pedido.subtotal)
 
-                // itemsPedido.idItem = pedido.idItem;
-                // itemsPedido.subtotal = pedido.subtotal;
+        //         // itemsPedido.idItem = pedido.idItem;
+        //         // itemsPedido.subtotal = pedido.subtotal;
 
-                total += pedido.subtotal
+        //         total += pedido.subtotal
 
-                totalS = total;
-                $('#total').html(total.toFixed(0));
-            });
-            $('#lista-compra').html(templateS);
+        //         totalS = total;
+        //         $('#total').html(total.toFixed(0));
+        //     });
+        //     $('#lista-compra').html(templateS);
 
-            templateTitulo = `
-                <span id="tituloDetalle">Detalle de la Orden en mesa ${NOM_MESA}</span>
-            `;
-            $('#tituloDetalle').html(templateTitulo);
-            // console.log(arreglo);
+        //     templateTitulo = `
+        //         <span id="tituloDetalle">Detalle de la Orden en mesa ${NOM_MESA}</span>
+        //     `;
+        //     $('#tituloDetalle').html(templateTitulo);
+        //     // console.log(arreglo);
             
-        })
+        // })
     });
 
     /* Cargar los datos y costos de ese domicilio */

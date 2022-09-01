@@ -161,12 +161,12 @@ class Pedido
     }
 
 
-    /* Desbloquear la mesa */
-    public function desBloquearMesa($id_mesa){
-        $sql = "UPDATE mesa SET disponible = 1 WHERE id_mesa=:id_mesa";
-        $query = $this->acceso->prepare($sql);
-        $query->execute(array(':id_mesa' => $id_mesa));
-    }
+    // /* Desbloquear la mesa */
+    // public function desBloquearMesa($id_mesa){
+    //     $sql = "UPDATE mesa SET disponible = 1 WHERE id_mesa=:id_mesa";
+    //     $query = $this->acceso->prepare($sql);
+    //     $query->execute(array(':id_mesa' => $id_mesa));
+    // }
 
     public function editarCantItem($idOrden,$idItem,$itemCant){
         $sql = 

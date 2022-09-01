@@ -33,6 +33,26 @@ class Caja{
         
     }
 
+
+    function cargarMesaOrden($idOrden){
+
+        $sql = 
+            "SELECT id_mesa
+             FROM pedido
+
+             WHERE id_pedido = :idOrden";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([
+            ':idOrden' => $idOrden
+        ]);
+        $this->objetos=$query->fetchall();
+        return $this->objetos;
+
+    }
+
+
+
+
     function cargarDatosPedido($idPedido){
         $sql = "SELECT * FROM det_pedido WHERE id_det_pedido = :idPedido";
         $query = $this->acceso->prepare($sql);
@@ -55,10 +75,8 @@ class Caja{
                 id_det_prod,
                 id_det_pedido,
                 prod_pagado,
-                cant_cuenta_dividida,
-                p.id_mesa
+                cant_cuenta_dividida
             FROM det_pedido 
-            INNER JOIN pedido p ON p.id_pedido = det_pedido.id_det_pedido
             WHERE id_det_pedido = :idPedido
             AND prod_pagado = 0";
         $query = $this->acceso->prepare($sql);
@@ -68,6 +86,30 @@ class Caja{
         $this->objetos=$query->fetchall();
         return $this->objetos;
     }
+
+
+
+    // function cargarItemsPedidoSinPago($idPedido){
+    //     $sql = 
+    //         "SELECT
+    //             id_det,
+    //             det_cant,
+    //             id_det_prod,
+    //             id_det_pedido,
+    //             prod_pagado,
+    //             cant_cuenta_dividida
+    //             --,p.id_mesa
+    //         FROM det_pedido 
+    //         --INNER JOIN pedido p ON p.id_pedido = det_pedido.id_det_pedido
+    //         WHERE id_det_pedido = :idPedido
+    //         AND prod_pagado = 0";
+    //     $query = $this->acceso->prepare($sql);
+    //     $query->execute([
+    //         ':idPedido' => $idPedido
+    //     ]);
+    //     $this->objetos=$query->fetchall();
+    //     return $this->objetos;
+    // }
 
     /* Consulytar el nombre del producto */
     function ConsultarNomProducts($idProd){
@@ -342,6 +384,28 @@ class Caja{
         $this->objetos=$query->fetchall();
         return $this->objetos;
 
+    }
+
+
+
+
+    /* Desbloquear la mesa */
+    public function desBloquearMesa($id_mesa){
+        $sql = "UPDATE mesa SET disponible = 1 WHERE id_mesa=:id_mesa";
+        $query = $this->acceso->prepare($sql);
+        $query->execute(array(':id_mesa' => $id_mesa));
+    }
+
+
+    
+    function cambiarEstPagado($idOrden)
+    {
+        $sql = "UPDATE pedido SET pagado = 1
+        WHERE id_pedido = :idPedido";
+        $query = $this->acceso->prepare($sql);
+        $query->execute([
+            ':idPedido' => $idOrden
+        ]);
     }
 
 
