@@ -146,8 +146,12 @@ switch ($_POST['funcion']) {
     case 12:
 
         $fecha     = $_POST['fecha'];
-        $formaPago = $_POST['formaPago'];
-        $cajero    = $_POST['cajero'];
+        $formaPago = intval($_POST['formaPago']);
+        $cajero    = intval($_POST['cajero']);
+
+        // if($cajero == null){
+        //     $cajero=0;
+        // }
 
 
         if ($fecha == null) {

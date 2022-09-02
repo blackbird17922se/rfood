@@ -11,21 +11,22 @@ $(document).ready(function () {
 
 
     listarCajeros();
+    // VV(fecha,formaPago,cajero);
     listarVentaDia(fecha,formaPago,cajero);
     
 
     $(".select2").select2();
 
     /* listarVentaDia Consola */
-    VV();
+    
     function VV(fecha,formaPago,cajero){
 
         funcion = 12;
-        $.post(VENTA_CTRLR,{funcion,fecha},(response)=>{
+        $.post(VENTA_CTRLR,{funcion,fecha,formaPago,cajero},(response)=>{
             console.log('vv rwsp: '+response);
         })
 
-        listarVentaDia(fecha,formaPago,cajero)
+        // listarVentaDia(fecha,formaPago,cajero)
     }
 
 
@@ -75,7 +76,7 @@ $(document).ready(function () {
     function listarCajeros(){
         funcion = 9;
         $.post(USUARIO_CTRL,{funcion},(response)=>{
-            console.log(response);
+            // console.log(response);
             const CAJEROS = JSON.parse(response);
 
             let optDefault = `<option selected="selected" value="${0}">Todos</option>`;
@@ -98,10 +99,11 @@ $(document).ready(function () {
     /* ******************************** CARGAR DATOS TABLA ******************************** */
     /* Listar las ventas del dia */
     function listarVentaDia(fecha,formaPago,cajero) {
+        // console.log("vvv del diaaaaaaaaaaaaa");
         let funcion = 12;
 
-        console.log("formaPago " + formaPago);
-        console.log("cajero " + cajero);
+        // console.log("formaPago " + formaPago);
+        // console.log("cajero " + cajero);
 
         datatable = $('#tablaVentaDiaGeneral').DataTable({
 
@@ -118,12 +120,29 @@ $(document).ready(function () {
                     cajero:    cajero
                 }
             },
-            "columns": [
 
-                { "data": "id_venta" },
-                { "data": "total" }
-                
-            ],
+        "columns": [
+
+            { "data": "id_venta" },
+            { "data": "total" },
+            { "data": "vendedor" },
+            {
+                "data": "imageUrl",
+                "render": function (data, type, row) {
+                    if (row.vendedor == 'No existen datos') {
+
+                        return '';
+                    }
+                    else {
+                        return `
+                            <button class=" btn btn-transp-dis"><img src="../public/icons/printx32.png" alt=""></i></button>
+                            <button class="ver btn btn-transp" type="button" data-toggle="modal" data-target="#vista-venta"><img src="../public/icons/dprint-prvx32.png" alt=""></button>
+                            <button class=" btn btn-transp-dis"><img src="../public/icons/delete_32.png" alt=""></button>
+                        `;
+                    }
+                }
+            },
+        ],
 
             language: espanol
         });

@@ -214,9 +214,9 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2)) {
                                                         <tr>
                                                             <th>Codigo</th>
                                                             <th>Fecha</th>
-                                                            <!-- <th>Total</th>
+                                                            <th>Total</th>
                                                             <th>Vendedor</th>
-                                                            <th>Acción</th> -->
+                                                            <th>Acción</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody></tbody>

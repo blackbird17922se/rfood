@@ -19,7 +19,7 @@ $(document).ready(function () {
     function cargarMesaPedido(){
         funcion = 3;
         $.post(FACTORDEN_CTRL, { funcion, ID_ORDEN}, (response) => {
-            console.log(response);
+            // console.log(response);
             const MESA = JSON.parse(response);
             MESA.forEach(dato => {
                 ID_MESA=dato.idMesa;
@@ -44,7 +44,7 @@ $(document).ready(function () {
         funcion = 1;
 
         $.post(FACTORDEN_CTRL, { funcion, ID_ORDEN, ID_MESA }, (response) => {
-            console.log(response);
+            // console.log(response);
             //  console.log("cargarDetallesOrden responde: " + response);
              if (response == 0) {
                 console.log("no hay mas item");
@@ -54,7 +54,7 @@ $(document).ready(function () {
                 
              } else {
                 // console.log("carga items");
-                console.log("la mesa es vv " + ID_MESA);
+                // console.log("la mesa es vv " + ID_MESA);
                 const PEDIDOS = JSON.parse(response);
                 let templateS = '';
                 let total = 0;
