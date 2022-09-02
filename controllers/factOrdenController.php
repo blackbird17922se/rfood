@@ -266,13 +266,17 @@ switch ($_POST['funcion']) {
     break;
 
     case 3:
-        $idMesa = 0;
+        //$idMesa = 0;
 
         $caja->cargarMesaOrden($_POST['ID_ORDEN']);
         foreach ($caja->objetos as $obj) {
-            $idMesa = $obj -> id_mesa;
+            $json[] = array(
+                'idMesa' => $obj -> id_mesa,
+                'nomMesa'  => $obj -> nom
+            );
         }
-        echo $idMesa;
+        $jsonstring = json_encode($json);
+        echo $jsonstring;
 
     break;
 

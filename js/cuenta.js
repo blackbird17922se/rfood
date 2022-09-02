@@ -10,14 +10,33 @@ $(document).ready(function () {
 
     cargarMesaPedido();
     cargarDetallesOrden();
+    $(".select2").select2({
+        placeholder: "Forma de Pago",
+    });
 
 
     /* Carga la mesa de ese pedido */
     function cargarMesaPedido(){
         funcion = 3;
         $.post(FACTORDEN_CTRL, { funcion, ID_ORDEN}, (response) => {
-            ID_MESA = response;
+            console.log(response);
+            const MESA = JSON.parse(response);
+            MESA.forEach(dato => {
+                ID_MESA=dato.idMesa;
+
+                templateTitulo = `
+                    <span id="tituloDetalle">Detalle de la Orden ${ID_ORDEN} en la Mesa ${dato.nomMesa}</span>`;
+
+                    $('#tituloDetalle').html(templateTitulo);
+                // $('#totalDia').html(dato.venta_dia);
+            })
+
+            // ID_MESA = response;
         })
+
+                // templateTitulo = `
+        //     <span id="tituloDetalle">Detalle de la Orden ${ID_ORDEN}</span>
+        // `;
     }
 
 
@@ -25,7 +44,7 @@ $(document).ready(function () {
         funcion = 1;
 
         $.post(FACTORDEN_CTRL, { funcion, ID_ORDEN, ID_MESA }, (response) => {
-            // console.log(response);
+            console.log(response);
             //  console.log("cargarDetallesOrden responde: " + response);
              if (response == 0) {
                 console.log("no hay mas item");
@@ -42,16 +61,6 @@ $(document).ready(function () {
 
                 PEDIDOS.forEach(pedido => {
 
-                    // arreglo.push(pedido.idItem);
-                    
-                    // let datosItem = {
-                    //     "idItem": pedido.idItem,
-                    //     "subtotal": pedido.subtotal
-
-                    // }
-
-                    // itemsPedidoBorr.push(datosItem)
-
                     templateS += `${pedido.template}'`;
 
                     total += pedido.subtotal
@@ -61,16 +70,7 @@ $(document).ready(function () {
                 });
                 $('#tbody_items_orden').html(templateS); 
             }
-            
         })
-
-        // console.log(arreglo);
-        // console.log(itemsPedidoBorr);
-
-        // templateTitulo = `
-        //     <span id="tituloDetalle">Detalle de la Orden ${ID_ORDEN}</span>
-        // `;
-        // $('#tituloDetalle').html(templateTitulo);
     }
 
 
@@ -126,7 +126,7 @@ $(document).ready(function () {
 
     })
 
-    
+
 
     function recorreTabla(){
 
@@ -187,7 +187,8 @@ $(document).ready(function () {
         let json = JSON.stringify(itemSelec)
         /* Variables de prueba */
         let total=1;
-        let formaPago = 1;
+        // let formaPago = 1;
+        let formaPago = $('#formaPago').val();
 
         // console.log("Arr que se le pasa: ");
         // console.log(json);

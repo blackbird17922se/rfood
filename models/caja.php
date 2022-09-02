@@ -37,9 +37,12 @@ class Caja{
     function cargarMesaOrden($idOrden){
 
         $sql = 
-            "SELECT id_mesa
+            "SELECT 
+                pedido.id_mesa,
+                mesa.nom
              FROM pedido
-
+             INNER JOIN mesa 
+                ON mesa.id_mesa = pedido.id_mesa
              WHERE id_pedido = :idOrden";
         $query = $this->acceso->prepare($sql);
         $query->execute([

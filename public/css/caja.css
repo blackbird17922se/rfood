@@ -66,15 +66,27 @@
     font-weight: unset;
   }
 
-  #verOrdenCaja input.form-check-input{
+  #tb_items_orden input.form-check-input{
     width: 20px;
     height: 20px;
     margin: 0;
   }
 
-  #verOrdenCaja input.form-check-input+label{
+  #tb_items_orden input.form-check-input+label{
     margin-left: 30px;
   }
+
+
+  #ck-dividir-cnt-cont input.form-check-input{
+    width: 20px;
+    height: 20px;
+    margin: 0;
+  }
+
+  #ck-dividir-cnt-cont input.form-check-input+label{
+    margin-left: 30px;
+  }
+
 
   /*resalto de cada fila*/
   .caja tbody tr:nth-child(even) {
@@ -87,7 +99,35 @@
 
 
   
-  
+  #cards-cuentas{
+    /* margin-bottom: 10px; */
+    margin-top: 10px;
+    /* background-color: #1c741c; */
+  }
+  #cards-cuentas .info-box{
+    background-color: #ff6a00;
+    /* font-size: 32px; */
+    min-height: 65px;
+  }
+
+  #cards-cuentas .info-box .info-box-text{
+    font-size: 21px;
+  }
+
+  #cards-cuentas .info-box .info-box-number{
+    font-size: 30px
+
+  }
+
+  #cards-cuentas .info-box-text.text-left {
+    margin-right: 20px;
+  }
+
+  #cards-cuentas .info-box-text.text-left.sp-ingreso {
+    /* margin-right: 30px; */
+    /* margin-block: 30px; */
+    /* margin-left: 10px; */
+  }
   
   
   

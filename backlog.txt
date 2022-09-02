@@ -12,6 +12,11 @@ Build 4.5.0
 y en la otra instancia efectuo un pedido en la misma mesa genera dipicidad deordene
 en una mesa
 
+-arreglar problema no crea venta
+-cuadrar tema total con check
+-incorporar hibrido de ni cket entinces no leer filas
+-bloquear botones +- cuando check no esta habilitado
+
 --------------------------------------- OK ---------------------------------------
 - hacer seguimiento  a controldarr factcuenta porque el primer prod lo itera 2 veces.
 - al iterar en uno de los items, consultar la cantidad original de la orden

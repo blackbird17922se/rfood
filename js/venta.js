@@ -17,8 +17,8 @@ $(document).ready(function () {
     $(".select2").select2();
 
     /* listarVentaDia Consola */
-    // VV();
-    function VV(){
+    VV();
+    function VV(fecha,formaPago,cajero){
 
         funcion = 12;
         $.post(VENTA_CTRLR,{funcion,fecha},(response)=>{
@@ -121,30 +121,38 @@ $(document).ready(function () {
             "columns": [
 
                 { "data": "id_venta" },
-                { "data": "total" },
-                { "data": "vendedor" },
-                {
-                    "data": "imageUrl",
-                    "render": function (data, type, row) {
-                        if (row.vendedor == 'No existen datos') {
-
-                            return '';
-                        }
-                        else {
-                            return `
-                                <button class=" btn btn-transp-dis"><img src="../public/icons/printx32.png" alt=""></i></button>
-                                <button class="ver btn btn-transp" type="button" data-toggle="modal" data-target="#vista-venta"><img src="../public/icons/dprint-prvx32.png" alt=""></button>
-                                <button class=" btn btn-transp-dis"><img src="../public/icons/delete_32.png" alt=""></button>
-                            `;
-                        }
-                    }
-                },
+                { "data": "total" }
+                
             ],
 
             language: espanol
         });
         
-        calcularTotal(fecha,formaPago,cajero);
+        // calcularTotal(fecha,formaPago,cajero);
+
+
+        // "columns": [
+
+        //     { "data": "id_venta" },
+        //     { "data": "total" },
+        //     { "data": "vendedor" },
+        //     {
+        //         "data": "imageUrl",
+        //         "render": function (data, type, row) {
+        //             if (row.vendedor == 'No existen datos') {
+
+        //                 return '';
+        //             }
+        //             else {
+        //                 return `
+        //                     <button class=" btn btn-transp-dis"><img src="../public/icons/printx32.png" alt=""></i></button>
+        //                     <button class="ver btn btn-transp" type="button" data-toggle="modal" data-target="#vista-venta"><img src="../public/icons/dprint-prvx32.png" alt=""></button>
+        //                     <button class=" btn btn-transp-dis"><img src="../public/icons/delete_32.png" alt=""></button>
+        //                 `;
+        //             }
+        //         }
+        //     },
+        // ],
          
     }
 
@@ -282,16 +290,16 @@ $(document).ready(function () {
 
 
     /* Total */
-    function calcularTotal(fecha,formaPago,cajero){
-        funcion = 6;
-        $.post(VENTA_CTRLR,{funcion,fecha,formaPago,cajero},(response) => {
-            console.log("calculo total"+response);
-            const totales = JSON.parse(response);
-            totales.forEach(total => {
-                $('#totalDia').html(total.venta_dia);
-            })
-        })
-    }
+    // function calcularTotal(fecha,formaPago,cajero){
+    //     funcion = 6;
+    //     $.post(VENTA_CTRLR,{funcion,fecha,formaPago,cajero},(response) => {
+    //         console.log("calculo total"+response);
+    //         const totales = JSON.parse(response);
+    //         totales.forEach(total => {
+    //             $('#totalDia').html(total.venta_dia);
+    //         })
+    //     })
+    // }
 
     function calcularTotalGeneral(){
         funcion = 7;
