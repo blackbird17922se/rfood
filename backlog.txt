@@ -6,35 +6,37 @@
 //////////////////
 Build 4.5.0
 //////////////////
+
+* Verificar descuento inv de cuando el sistema acaba un lote y empieza con otro
+-incorporar hibrido de ni cket entinces no leer filas
+-bloquear botones +- cuando check no esta habilitado
+-cuadrar tema calcular total general cuando la cuenta es diviida
+!cajero no puede cerrar session
+- verificar funcionalidad correcta Domicilios
+
+--------------------------------------- OK ---------------------------------------
 * Implementar dividir cuenta.
+- hacer seguimiento  a controldarr factcuenta porque el primer prod lo itera 2 veces.
+- al iterar en uno de los items, consultar la cantidad original de la orden
+-arreglar problema no crea venta
+
+//////////////////////////////////// EN COLA //////////////////////////////////////////////////////////////////
 
 * al parecer si tengo 2 instancias de orden, ejectuo el pedido en la mesa X
 y en la otra instancia efectuo un pedido en la misma mesa genera dipicidad deordene
 en una mesa
 
--arreglar problema no crea venta
--cuadrar tema total con check
--incorporar hibrido de ni cket entinces no leer filas
--bloquear botones +- cuando check no esta habilitado
-
---------------------------------------- OK ---------------------------------------
-- hacer seguimiento  a controldarr factcuenta porque el primer prod lo itera 2 veces.
-- al iterar en uno de los items, consultar la cantidad original de la orden
-
-//////////////////////////////////// EN COLA //////////////////////////////////////////////////////////////////
-
-!cajero no puede cerrar session
 * en lote prod arreglar el editar y eliminar, guiese con sfarma
 * arreglar en ventas, cuando cambio de venta diaria a general y luego regreso a dia entonces id_venta se pierde. guiese con sfarma creando un evento al boton q pasa a venas dias y destruyendo la tabla generales
 * caso mesa 7
-* El enrredado problema q tatiana dice
-* Verificar descuento inv de cuando el sistema acaba un lote y empieza con otro
 
 * El sistema debe recargar la tabla donde se presenta los elementos en los modulos de
     _Pedidos
     _Por recoger
     _Caja
     Lo ideal es que solo refresque el div tabla.
+
+* fecha vencimiento lotes debe ser obligatoria
 
 ▶️ Aclarar como va a ser el tema del IVA
 

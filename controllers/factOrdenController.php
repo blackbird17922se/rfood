@@ -127,24 +127,24 @@ switch ($_POST['funcion']) {
         session_start();
 
         // $itemSelec = $_POST['itemSelec'];
-        $itemSelec = json_decode($_POST['json']);
-        $totalVenta = $_POST['total'];
-        $idOrd = $_POST['ID_ORDEN'];
-        $formaPago = $_POST['formaPago'];
-        $idPedido = $idOrd;
-        $vendedor = $_SESSION['usuario'];
+        $itemSelec  = json_decode($_POST['json']);
+        $totalVenta = intval( $_POST['total'] );
+        $idOrd      = intval( $_POST['ID_ORDEN'] );
+        $formaPago  = intval( $_POST['formaPago'] );
+        $idPedido   = intval( $idOrd );
+        $vendedor   = intval( $_SESSION['usuario'] );
 
         $cantPedido = 0;
         $cantIngred = 0;
         $totalStock = 0;
-        $response = 0;
+        $response   = 0;
         $totalIngred = 0;
-        $cantidad = 0;
+        $cantidad   = 0;
         $cantOriginal = 0;
 
         date_default_timezone_set('America/Bogota');
         $fecha = date('Y-m-d H:i:s');
-        $caja->crearVenta($totalVenta, $formaPago, $fecha, $vendedor, $idOrd);
+        $caja -> crearVenta($totalVenta, $formaPago, $fecha, $vendedor, $idOrd);
 
         /* obtener id de la venta */
         $caja->ultimaVenta();
@@ -158,12 +158,12 @@ switch ($_POST['funcion']) {
             $conexion = $db->pdo;
             $conexion->beginTransaction();
 
-            foreach ($itemSelec as $item) {
+            foreach ($itemSelec as $item) {             /* iterar sobre un item del pedido */
 
-                $cantidad = intval( $item->cantidad ); 
-                $idProd = intval( $item->idItem );
+                $cantidad     = intval( $item->cantidad ); /* cantidad del item */
+                $idProd       = intval( $item->idItem );
                 $totalIngCant = 0;
-                $precio = intval( $item->precio);
+                $precio       = intval( $item->precio);
                 $cantOriginal = intval( $item->cantOriginal);
 
 
@@ -179,7 +179,7 @@ switch ($_POST['funcion']) {
                 if ($caja->objetos != null) {
 
                     foreach ($caja->objetos as $ingred) {
-                        $ih = $ingred->id_ingr;
+                        $ih = $ingred->id_ingr;     /* id_igrediente */
 
                         $ingCant = $ingred->cant_ingr;   //Cantidad del ingrediente
 
@@ -213,7 +213,7 @@ switch ($_POST['funcion']) {
                                     y debe eliminar ese lote y consumir los productos del siguiente lote*/
                                 if ($totalIngCant > $lote->stock) {
                                     $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
-                                    $cantidad -= $lote->stock;
+                                    // $cantidad -= $lote->stock;
                                 }
                             }
                         } else {
