@@ -222,6 +222,7 @@ class Venta{
                 id_orden, 
                 formpago,
                 mesa.nom AS nom_mesa, 
+                fecha,
                 CONCAT(mesero.nom,' ',mesero.ape) AS nom_mesero
             FROM venta
             INNER JOIN pedido

@@ -69,7 +69,6 @@ switch ($_POST['funcion']) {
                     <input type='hidden' value='$precio' class='inputprecio'>
                     <input type='hidden' value='$idDetProd' class='inputiditem'>
                     <input type='hidden' value='$cantidad' class='inputcantoriginal'>
-                    <input type='hidden' id='inputsubtotal-$idDetProd' value='$subtotal' class='inputsubtotal'>
 
                 </div>
             ";
@@ -128,21 +127,24 @@ switch ($_POST['funcion']) {
         session_start();
 
         $itemSelec  = json_decode($_POST['json']);
+        $totalVenta = intval( $_POST['total'] );
         $idOrd      = intval( $_POST['ID_ORDEN'] );
+        $formaPago  = intval( $_POST['formaPago'] );
+        $idPedido   = intval( $idOrd );
+        $vendedor   = intval( $_SESSION['usuario'] );
+
+        // $cantPedido = 0;
+        // $cantIngred = 0;
+        // $totalStock = 0;
         $response   = 0;
+        // $totalIngred = 0;
         $cantidad   = 0;
         $idProd     = 0;
+        // $cantOriginal = 0;
 
         date_default_timezone_set('America/Bogota');
         $fecha = date('Y-m-d H:i:s');
-
-        $caja -> crearVenta(
-            intval( $_POST['totalVenta'] ),
-            intval( $_POST['formaPago'] ),
-            $fecha,
-            intval( $_SESSION['usuario'] ),
-            $idOrd
-        );
+        $caja -> crearVenta($totalVenta, $formaPago, $fecha, $vendedor, $idOrd);
 
         /* obtener id de la venta */
         $caja->ultimaVenta();
@@ -158,9 +160,11 @@ switch ($_POST['funcion']) {
 
             foreach ($itemSelec as $item) {             /* iterar sobre un item del pedido */
 
-                $cantidad = intval( $item->cantidad ); /* cantidad del item */
-                $idProd   = intval( $item->idItem );
-                $precio   = intval( $item->precio);
+                $cantidad     = intval( $item->cantidad ); /* cantidad del item */
+                $idProd       = intval( $item->idItem );
+                // $totalIngCant = 0;
+                $precio       = intval( $item->precio);
+                // $cantOriginal = intval( $item->cantOriginal);
 
 
                 /* Consultar ingredientes */
@@ -177,7 +181,11 @@ switch ($_POST['funcion']) {
                     foreach ($caja->objetos as $ingred) {
 
                         $ingCant2 = $ingred->cant_ingr;   //Contador Cantidad del ingrediente X que conforma ese item
-                        $itemCant = $cantidad;            // Contador Cantidad de ese item (2 cafes o 1 hamb...)
+                        $itemCant = $cantidad;  /* Contador Cantidad de ese item (2 cafes o 1 hamb...) */
+
+                        // $idIngrediente = $ingred->id_ingr;     /* id_igrediente */
+                        // $ingCant = $ingred->cant_ingr;   //Cantidad del ingrediente
+                        // $totalIngCant = $cantidad * $ingCant;
 
 
                         /* Descontar productos */
@@ -195,7 +203,9 @@ switch ($_POST['funcion']) {
     
                                 $lote = $query->fetchall();
     
-                                /** CUANDO HAY INGREDIENTES DEL ITEM EN EL INVENTARIO */
+                                /**
+                                 * CUANDO HAY INGREDIENTES DEL ITEM EN EL INVENTARIO
+                                */
                                 if ($lote != null) {
                                     foreach ($lote as $lote) {
                                         switch ($ingCant2) {
@@ -213,8 +223,32 @@ switch ($_POST['funcion']) {
                                                 $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
                                                 $ingCant2-= $lote->stock;
                                             break;
+                                            
+                                            
+                                            default:
+                                                # code...
+                                                break;
                                         }
+                                        // if ($ingCant2< $lote->stock) {
+                                        //     $conexion->exec("UPDATE inv_lote SET stock = stock - '$ingCant2' WHERE id_lote = '$lote->id_lote'");
+                                        //     $ingCant2 = 0;
+                                        // }
+    
+                                        // /* ingred->cant pedida es igual a la ingred->cant en el stock */
+                                        // if ($ingCant2== $lote->stock) {
+                                        //     $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
+                                        //     $ingCant2 = 0;
+                                        // }
+    
+                                        //                                 /* Cuaando la ingred->cant pedida es superior a la ingred->cant del stock de un lote
+                                        //     y debe eliminar ese lote y consumir los productos del siguiente lote*/
+                                        // if ($ingCant2> $lote->stock) {
+                                        //     $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
+                                        //     $ingCant2-= $lote->stock;
+                                        // }
                                     }
+    
+    
                                 } else {
                                     /* Cuando no hay ingreds en el inv agragar a descuadre */
                                     $conexion->exec("INSERT INTO inv_descuadre(id_venta,fecha_venta,id_ingred,cantidad) VALUES ('$idVenta','$fecha','$ingred->id_ingr','$ingCant2')");
@@ -248,6 +282,8 @@ switch ($_POST['funcion']) {
                         /* Cambiar el estado de ese item perteneciente a la orden
                         en cuestion a "pagado" */
                         $caja->cambiarEstadoPagoItemPedido($idOrd, $idProd);
+                        // echo 'pagado total';
+
                     }
                 }
 
@@ -255,7 +291,9 @@ switch ($_POST['funcion']) {
             echo $response = 0;
 
             $conexion->commit();
-            
+
+            ///////////////////////////
+
         } catch (Exception $error) {
             $conexion->rollBack();
             // $caja->borrar($idVenta);

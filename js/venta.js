@@ -231,6 +231,7 @@ $(document).ready(function () {
      * Datos como mesero,cocinero,mesa y observaciones de la orden
     */
     function listarDetalleVenta(datos, id) {
+        let formaPago = 0;
         funcion = 2
         $.post(VENTA_CTRLR, { funcion, id }, (response) => {
             // console.log(response);
@@ -238,28 +239,26 @@ $(document).ready(function () {
 
 
             encargados.forEach(encargado => {
-                // console.log(encargado.observ);
-                $('#mesero').html(encargado.mesero);
-                // $('#coc_lider').html(encargado.cocineroLider);
-                $('#mesa').html(encargado.mesa);
-                // $('#observCli').html(encargado.observ);
 
-                let formaPago = encargado.formpago;
-                /* Evaluar que tipo de pago es */
+                $('#mesero').html(encargado.mesero);
+                $('#fecha').html(encargado.fecha);
+                $('#mesa').html(encargado.mesa);
+
+                formaPago = parseInt(encargado.formpago);
 
                 switch (formaPago) {
-                    case '1':
+                    case 1:
                         formaPago = 'Efectivo'
                         break;
 
-                    case '2':
+                    case 2:
                         formaPago = 'Tarjeta'
                         break;
-                    case '3':
+                    case 3:
                         formaPago = 'Nequi'
                         break;
 
-                    case '4':
+                    case 4:
                         formaPago = 'Daviplata'
                         break;
 
@@ -275,7 +274,7 @@ $(document).ready(function () {
         // console.log('detalle vent'+id);
 
         $('#codigo_venta').html(datos.id_venta);
-        $('#fecha').html(datos.fecha);
+        // $('#fecha').html(datos.fecha);
         $('#cajero').html(datos.vendedor);
         $('#total').html(datos.total);
         $.post('../controllers/ventaProductoController.php', { funcion, id }, (response) => {

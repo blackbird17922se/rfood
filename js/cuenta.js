@@ -3,18 +3,16 @@ $(document).ready(function () {
     const FACTORDEN_CTRL = '../controllers/factOrdenController.php';
     const ID_ORDEN        = $('#itemId').val();
     const PEDIDO_CTRLR = '../controllers/pedidoController.php';
-    var arreglo = [];
-    // var itemsPedidoBorr = [];
     var ID_MESA = 0;
     var funcion = 0;
+    var totalVenta = 0;
 
     cargarMesaPedido();
     cargarDetallesOrden();
     $(".select2").select2({
         placeholder: "Forma de Pago",
     });
-
-
+    
     /* Carga la mesa de ese pedido */
     function cargarMesaPedido(){
         funcion = 3;
@@ -65,12 +63,14 @@ $(document).ready(function () {
 
                     total += pedido.subtotal
 
-                    totalS = total;
+                    totalVenta = total;
+                    // totalS = total;
                     $('#total').html(total.toFixed(0));
                 });
                 $('#tbody_items_orden').html(templateS); 
             }
         })
+        calcularTotal()
     }
 
 
@@ -92,13 +92,14 @@ $(document).ready(function () {
         let idItem   = $(inputIdItem).val()
 
         calcularSubtotal(idItem,cantidad, precio);
+        calcularTotal()
     });
 
 
     function calcularSubtotal(idItem, cantidad, precio){
         let subtotal = cantidad * precio;
         $('#td-subtotal-' + idItem).html(subtotal);
-        // console.log(subtotal);
+        $('#inputsubtotal-' + idItem).val(subtotal);
     }
 
 
@@ -197,7 +198,7 @@ $(document).ready(function () {
         if (formaPago != 0) {
 
             /* Facturar la orden */
-            $.post(FACTORDEN_CTRL, { funcion, total, ID_ORDEN, formaPago, json }, (response) => {
+            $.post(FACTORDEN_CTRL, { funcion, totalVenta, ID_ORDEN, formaPago, json }, (response) => {
                 console.log(response);
                 console.log(ID_ORDEN);
 
@@ -242,6 +243,37 @@ $(document).ready(function () {
         }
 
     }   /* End Function */
+
+
+
+    /************************************* CALCULAR TOTAL ******************************/ 
+    function calcularTotal(){
+        totalVenta= 0;
+
+        const tableRows = document.querySelectorAll('#tb_items_orden tr.rowt');
+        
+        for(let i=0; i<tableRows.length; i++) {
+            const row = tableRows[i];
+            const tdPrecio = row.querySelector('.inputsubtotal');
+
+            const ck = row.querySelector('.ck-item-pedido');
+            precio = parseInt($(tdPrecio).val());
+            if ($(ck)[0].checked) {
+                totalVenta += precio;    
+            }
+            
+        }   /* Fin recorrido tabla */
+        // console.log("total venta: "+totalVenta);
+        $('#total').html(totalVenta);
+    }   /* End Function */
+
+
+
+    /* Hacer calculo cuando los check de los items cambia */
+    $('#tb_items_orden tbody').on('click', '.ck-item-pedido', function(e) {
+        // console.log("ck-item-pedido");
+        calcularTotal()
+    });
 
 
 

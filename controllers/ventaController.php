@@ -35,11 +35,10 @@ switch ($_POST['funcion']) {
         foreach ($venta->objetos as $objeto) {
 
             $json[] = array(
-                "mesero"        => $objeto->nom_mesero,
-                // "cocineroLider" => $objeto->nom_cocinero,
-                'mesa'          => $objeto->nom_mesa,
-                'formpago'          => $objeto->formpago,
-                // "observ"        => $objeto->observ
+                "mesero"   => $objeto->nom_mesero,
+                "fecha"    => $objeto->fecha,
+                'mesa'     => $objeto->nom_mesa,
+                'formpago' => $objeto->formpago
             );
         }
         $jsonstring = json_encode($json);
