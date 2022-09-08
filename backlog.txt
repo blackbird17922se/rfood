@@ -7,12 +7,13 @@
 Build 4.5.1.1
 //////////////////
 
-* reparar calculo del vuelto.
-* arreglar total en G. Ventas, no esta calculando el total
+
 * bloquear botones +- cuando check no esta habilitado
 * cuando se reliaza la venta, el check dividir c queda marcado, pero los check de los items se bloquean
 
 --------------------------------------- OK ---------------------------------------
+* arreglar total en G. Ventas, no esta calculando el total
+* reparar calculo del vuelto.
 * cuadrar tema calcular total general cuando la cuenta es dividida
 * Verificar descuento inv de cuando el sistema acaba un lote y empieza con otro
 * Implementar dividir cuenta.

@@ -74,7 +74,6 @@ $(document).ready(function () {
     }
 
 
-
     /* Evento que controla el input de cantidad y sus flechas */
     $(document).on('click', '.btn-plus, .btn-minus', function(e) {
         const isNegative = $(e.target).closest('.btn-minus').is('.btn-minus');
@@ -121,10 +120,120 @@ $(document).ready(function () {
 
 
 
-    $('#px').on('click', function(e) {
-        // console.log("px");
-        recorreTabla()
+    $('#btn-realiza-venta').on('click', function(e) {
+        // recorreTabla()
 
+        
+
+        let itemSelec = []
+
+        let cantidad = 0;
+        let idItem = 0;
+        let precio = 0;
+        let cantOriginal = 0;
+        let datosItem = [];
+        
+        const tableRows = document.querySelectorAll('#tb_items_orden tr.rowt');
+        
+        // Recorremos las filas que tengan el class="row"
+        // así obviamos la cabecera
+        for(let i=0; i<tableRows.length; i++) {
+            const row = tableRows[i];
+            const tdPrecio = row.querySelector('.inputprecio');
+            const tdCantidad = row.querySelector('.quantity');
+            const ck = row.querySelector('.ck-item-pedido');
+            const inputiditem = row.querySelector('.inputiditem');
+            const inputcantoriginal = row.querySelector('.inputcantoriginal');
+
+            cantidad = $(tdCantidad).val();
+            idItem = $(inputiditem).val();
+            precio = $(tdPrecio).val();
+            cantOriginal = $(inputcantoriginal).val();
+
+            /* Si esta check debe insertar ese item al arreglo */
+            if ($(ck)[0].checked) {
+                console.log("row Checkeada");
+
+                datosItem = {
+                    "idItem": idItem,
+                    "cantidad": cantidad,
+                    "precio": precio,
+                    "cantOriginal": cantOriginal,
+                }
+
+                // console.log("Datitems:");
+                // console.log(datosItem);
+
+                /* Agrega ese row al array de items */
+                itemSelec.push(datosItem)
+
+            } else {
+                console.log("row no checkeada");
+            }
+
+        }   /* Fin recorrido tabla */
+
+
+        let funcion = 2;
+
+        // console.log("Arr antes de stringif: ");
+        // console.log(itemSelec);
+        let json = JSON.stringify(itemSelec)
+        /* Variables de prueba */
+        let total=1;
+        // let formaPago = 1;
+        let formaPago = $('#formaPago').val();
+
+        // console.log("Arr que se le pasa: ");
+        // console.log(json);
+
+            
+        if (formaPago != 0) {
+
+            /* Facturar la orden */
+            $.post(FACTORDEN_CTRL, { funcion, totalVenta, ID_ORDEN, formaPago, json }, (response) => {
+                console.log(response);
+                console.log(ID_ORDEN);
+
+                /* Si responde 0 significa que ya no hay mas items
+                 por cancelar. */
+                if(cargarDetallesOrden() == 0){
+                    console.log("No hay mas items 2");
+
+                    /* Cambiar estado de la orden a Pagado */
+                    funcion = 9;
+                    $.post(PEDIDO_CTRLR, { funcion, ID_ORDEN }, (response) => {
+                        console.log(response);
+
+                        /* Si no es un domicilio... Desbloquear mesa*/
+                        if (mesa != -1) {
+                            funcion = 11;
+                            $.post(PEDIDO_CTRLR, { funcion, mesa }, () => {
+                                // cargarMesas();
+                            });
+                        }else{
+                            // listarDomiciliosCaja();
+                        }
+                    });
+                    
+               
+
+
+                }else{
+                    console.log("hay mas items");
+                };
+                // const tableRows = document.querySelectorAll('#tb_items_orden tr.rowt');
+                // let ltb = tableRows.length - 1;
+                // console.log(ltb);
+
+            });
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Atención',
+                text: 'Debes Seleccionar una Forma de pago de la lista.',
+            })
+        }
     })
 
 
@@ -265,7 +374,29 @@ $(document).ready(function () {
         }   /* Fin recorrido tabla */
         // console.log("total venta: "+totalVenta);
         $('#total').html(totalVenta);
-    }   /* End Function */
+    }
+    /***********************************************************************************/ 
+
+
+    /************************************* CALCULAR VUELTO ******************************/ 
+    $('#pago').keyup((e) => {
+        console.log("pagoo");
+        calcularVuelto()
+    });
+
+
+    function calcularVuelto() {
+        let vuelto = 0;
+        let pago = 0;
+
+        pago = $('#pago').val();
+        vuelto = pago - totalVenta;
+        if (vuelto < 0) {
+            vuelto = 0
+        }
+        $('#vuelto').html(vuelto);
+    }
+    /***********************************************************************************/ 
 
 
 
@@ -274,6 +405,7 @@ $(document).ready(function () {
         // console.log("ck-item-pedido");
         calcularTotal()
     });
+
 
 
 

@@ -37,6 +37,8 @@ $(document).ready(function () {
         datatable.destroy();
         fecha = $(this).val();
         listarVentaDia(fecha,formaPago,cajero)
+        calcularTotal(fecha,formaPago,cajero);
+        
     })
 
 
@@ -45,6 +47,7 @@ $(document).ready(function () {
         datatable.destroy();
         cajero = $(this).val();
         listarVentaDia(fecha,formaPago,cajero)
+        calcularTotal(fecha,formaPago,cajero);
     });
 
 
@@ -53,6 +56,7 @@ $(document).ready(function () {
         datatable.destroy();
         formaPago = $(this).val();
         listarVentaDia(fecha,formaPago,cajero)
+        calcularTotal(fecha,formaPago,cajero)
     });
 
     /* ********************************************************************************************** */
@@ -147,31 +151,7 @@ $(document).ready(function () {
             language: espanol
         });
         
-        // calcularTotal(fecha,formaPago,cajero);
-
-
-        // "columns": [
-
-        //     { "data": "id_venta" },
-        //     { "data": "total" },
-        //     { "data": "vendedor" },
-        //     {
-        //         "data": "imageUrl",
-        //         "render": function (data, type, row) {
-        //             if (row.vendedor == 'No existen datos') {
-
-        //                 return '';
-        //             }
-        //             else {
-        //                 return `
-        //                     <button class=" btn btn-transp-dis"><img src="../public/icons/printx32.png" alt=""></i></button>
-        //                     <button class="ver btn btn-transp" type="button" data-toggle="modal" data-target="#vista-venta"><img src="../public/icons/dprint-prvx32.png" alt=""></button>
-        //                     <button class=" btn btn-transp-dis"><img src="../public/icons/delete_32.png" alt=""></button>
-        //                 `;
-        //             }
-        //         }
-        //     },
-        // ],
+        calcularTotal(fecha,formaPago,cajero);
          
     }
 
@@ -417,6 +397,22 @@ $(document).ready(function () {
             window.open('../pdf/pdf-' + id + '.pdf', '_blank');
         });
     });
+
+
+    function calcularTotal(fecha,formaPago,cajero){
+        console.log("Calcular Total forma pago:" + fecha);
+        console.log("Calcular Total forma pago:" + formaPago);
+        console.log("Calcular Total forma pago:" + cajero);
+
+        funcion = 6;
+        $.post(VENTA_CTRLR,{funcion,fecha,formaPago,cajero},(response) => {
+            console.log(response);
+            const totales = JSON.parse(response);
+            totales.forEach(total => {
+                $('#totalDia').html(total.venta_dia);
+            })
+        })
+    }
 
 
 

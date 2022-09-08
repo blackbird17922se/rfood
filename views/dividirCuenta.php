@@ -53,7 +53,7 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
                             <div class="col-md-4">
                                 <div class="info-box mb-3 bg-info">
                                     <span class="info-box-text text-left ">VUELTO</span>
-                                    <span class="info-box-number" id="vuelto"></span>
+                                    <span class="info-box-number" id="vuelto">0</span>
        
                                 </div>
                             </div>
@@ -90,7 +90,7 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
 
 
                             <div class="col-md-4 col-sm-12">
-                                <a href="#" class="btn btn-success" id="px">Realizar venta</a>
+                                <a href="#" class="btn btn-success" id="btn-realiza-venta">Realizar venta</a>
                             </div>
 
                         </div>

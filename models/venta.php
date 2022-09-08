@@ -262,14 +262,14 @@ class Venta{
                         FROM venta 
                         JOIN usuario ON vendedor = id_usu";
 
-        $condFecha  = " WHERE DATE(fecha) = DATE(:fecha)";
-        $condCajero = " AND vendedor = :vendedor";
-        $condFPago  = " AND formpago = :formaPago";
+        // $condFecha  = " WHERE DATE(fecha) = DATE(:fecha)";
+        // $condCajero = " AND vendedor = :vendedor";
+        // $condFPago  = " AND formpago = :formaPago";
 
-        $order      = " ORDER BY id_venta ASC";
+        // $order      = " ORDER BY id_venta ASC";
 
 
-        return $this->cargarDatosVenta($fecha, $formaPago, $cajero, $select, $condFecha, $condCajero, $condFPago, $order);
+        return $this->cargarDatosVenta($fecha, $formaPago, $cajero, $select);
 
     }
 
@@ -277,12 +277,12 @@ class Venta{
     function calcularTotalDia($fecha, $formaPago, $cajero){
 
         $select     = "SELECT SUM(total) as venta_dia FROM `venta`";
-        $condFecha  = " WHERE DATE(fecha) = DATE(:fecha)";
-        $condCajero = " AND vendedor = :vendedor";
-        $condFPago  = " AND formpago = :formaPago";
-        $order      = " ORDER BY id_venta ASC";
+        // $condFecha  = " WHERE DATE(fecha) = DATE(:fecha)";
+        // $condCajero = " AND vendedor = :vendedor";
+        // $condFPago  = " AND formpago = :formaPago";
+        // $order      = " ORDER BY id_venta ASC";
 
-        return $this->cargarDatosVenta($fecha, $formaPago, $cajero, $select, $condFecha, $condCajero, $condFPago, $order);
+        return $this->cargarDatosVenta($fecha, $formaPago, $cajero, $select);
     }
 
 
@@ -368,33 +368,70 @@ class Venta{
     // }
 
 
-    function cargarDatosVenta($fecha, $formaPago, $cajero, $select, $condFecha, $condCajero, $condFPago, $order){
+    function cargarDatosVenta($fecha, $formaPago, $cajero, $select){
 
         $sql = "";
 
         if ($cajero == 0 && $formaPago == 0) {
-            $sql = $select.$condFecha.$order;
+            // $sql = $select.$condFecha.$order;
+
+            $sql = $select."
+                WHERE DATE(fecha) = DATE(:fecha) 
+                ORDER BY id_venta ASC
+            ";
+
+
             $query = $this->acceso->prepare($sql);
             $query->execute(array(
                 ':fecha' =>  $fecha
             ));
+
         } elseif ($cajero == 0 && $formaPago != 0) {
-            $sql = $select.$condFecha.$condFPago.$order;
+            // $sql = $select.$condFecha.$condFPago.$order;
+
+            $sql = $select."
+                WHERE DATE(fecha) = DATE(:fecha) 
+                AND formpago = :formaPago
+                ORDER BY id_venta ASC
+            ";
+
+
             $query = $this->acceso->prepare($sql);
             $query->execute(array(
                 ':fecha' =>  $fecha,
                 ':formaPago' => $formaPago
             ));
+
         } elseif ($cajero != 0 && $formaPago != 0) {
-            $sql = $select.$condFecha.$condCajero.$condFPago.$order;
+
+            // $sql = $select.$condFecha.$condCajero.$condFPago.$order;
+
+            $sql = $select."
+                WHERE DATE(fecha) = DATE(:fecha) 
+                AND vendedor = :vendedor
+                AND formpago = :formaPago
+                ORDER BY id_venta ASC
+            ";
+
+
             $query = $this->acceso->prepare($sql);
             $query->execute(array(
                 ':fecha' =>  $fecha,
                 ':formaPago' => $formaPago,
                 ':vendedor' =>  $cajero
             ));
+
         } elseif ($cajero != 0 && $formaPago == 0) {
-            $sql = $select.$condFecha.$condCajero.$order;
+
+            // $sql = $select.$condFecha.$condCajero.$order;
+
+            $sql = $select."
+                WHERE DATE(fecha) = DATE(:fecha) 
+                AND vendedor = :vendedor
+                ORDER BY id_venta ASC
+            ";
+
+
             $query = $this->acceso->prepare($sql);
             $query->execute(array(
                 ':fecha' =>  $fecha,
@@ -406,6 +443,49 @@ class Venta{
         return $this->objetos;
 
     }
+
+
+
+
+
+    // function cargarDatosVenta($fecha, $formaPago, $cajero, $select, $condFecha, $condCajero, $condFPago, $order){
+
+    //     $sql = "";
+
+    //     if ($cajero == 0 && $formaPago == 0) {
+    //         $sql = $select.$condFecha.$order;
+    //         $query = $this->acceso->prepare($sql);
+    //         $query->execute(array(
+    //             ':fecha' =>  $fecha
+    //         ));
+    //     } elseif ($cajero == 0 && $formaPago != 0) {
+    //         $sql = $select.$condFecha.$condFPago.$order;
+    //         $query = $this->acceso->prepare($sql);
+    //         $query->execute(array(
+    //             ':fecha' =>  $fecha,
+    //             ':formaPago' => $formaPago
+    //         ));
+    //     } elseif ($cajero != 0 && $formaPago != 0) {
+    //         $sql = $select.$condFecha.$condCajero.$condFPago.$order;
+    //         $query = $this->acceso->prepare($sql);
+    //         $query->execute(array(
+    //             ':fecha' =>  $fecha,
+    //             ':formaPago' => $formaPago,
+    //             ':vendedor' =>  $cajero
+    //         ));
+    //     } elseif ($cajero != 0 && $formaPago == 0) {
+    //         $sql = $select.$condFecha.$condCajero.$order;
+    //         $query = $this->acceso->prepare($sql);
+    //         $query->execute(array(
+    //             ':fecha' =>  $fecha,
+    //             ':vendedor' =>  $cajero
+    //         ));
+    //     }
+
+    //     $this->objetos=$query->fetchall();
+    //     return $this->objetos;
+
+    // }
     
 
 }

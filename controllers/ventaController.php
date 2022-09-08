@@ -110,17 +110,20 @@ switch ($_POST['funcion']) {
     // break;
 
     case 6:
+        $fecha = $_POST['fecha'];
 
-        if ($_POST['fecha'] == null) {
-
+        if ($fecha == null) {
             date_default_timezone_set('America/Bogota');
-            $fechaN = date('Y-m-d');
-            $total = $venta->calcularTotalDia($fechaN, $_POST['formaPago'], $_POST['cajero']);
-
-        } else {
-            $total = $venta->calcularTotalDia($_POST['fecha'], $_POST['formaPago'], $_POST['cajero']);
+            $fecha = date('Y-m-d');
         }
-        $jsonstring = json_encode($total);
+
+        $jsonstring = json_encode(
+            $venta -> calcularTotalDia(
+                $fecha, 
+                intval($_POST['formaPago']), 
+                intval($_POST['cajero'])
+            )
+        );
         echo $jsonstring;
 
     break;
@@ -136,10 +139,15 @@ switch ($_POST['funcion']) {
 
 
     // case 11:
-    //     $fecha = $_POST['selected'];
-    //     echo $fecha;
-    // break;
+    //     date_default_timezone_set('America/Bogota');
+    //     $fechaN = date('Y-m-d');
 
+    //     $total = $venta->calcularTotalDia($fechaN, $_POST['formaPago'], $idUsu);
+
+    //     $jsonstring = json_encode($total);
+    //     echo $jsonstring;
+
+    // break;
 
     /* Listar las ventas del dia */
     case 12:
