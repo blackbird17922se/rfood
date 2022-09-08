@@ -9,125 +9,130 @@
     text-align: center;
     margin: 0 0 20px 0;
     background: url(../img/dimension.png);
-  }
+}
   
-  .logo_cp {
-    text-align: center;
-    margin-bottom: 10px;
-    margin-top: 20px;
-    margin-left:30px ;
-    margin-right: 40px;
-  }
-  
-  .logo_cp img {
-    width: 100px;
-    height: 100px;
-  }
-  .nombre_farmacia {
-    font-size: 18px;
-    color: #1c741c;
-  }
-  .datos_cp {
-    font-weight: bold;
-    color: rgb(0, 0, 0);
-  }
-  .datos_cp span {
-    color: #1c741c;
-    text-align: right;
-    width: 150px;
-    margin-right: 100px;
-    display: inline-block;
-    font-size: 20px;
-  
-  }
-  
-  .correo {
-    color: rgb(58, 77, 138);
-    text-decoration: underline;
-  }
-  /*TABLA DE caja*/
-  .caja * {
-    position: relative;
-  }
-  
-  /*encabezado morado*/
-  .caja thead tr {
-    height: 60px;
-    /* background: #9B9B9B; */
-  }
-  
-  
-  /*encabezado producto blancas*/
-  .caja th{
-  
-    font-size: 18px;
-    color: #fff;
-    line-height: 1.2;
-    font-weight: unset;
-  }
+.logo_cp {
+  text-align: center;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-left:30px ;
+  margin-right: 40px;
+}
 
-  #tb_items_orden input.form-check-input{
-    width: 20px;
-    height: 20px;
-    margin: 0;
-  }
+.logo_cp img {
+  width: 100px;
+  height: 100px;
+}
+.nombre_farmacia {
+  font-size: 18px;
+  color: #1c741c;
+}
+.datos_cp {
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+}
+.datos_cp span {
+  color: #1c741c;
+  text-align: right;
+  width: 150px;
+  margin-right: 100px;
+  display: inline-block;
+  font-size: 20px;
 
-  #tb_items_orden input.form-check-input+label{
-    margin-left: 30px;
-  }
+}
+
+.correo {
+  color: rgb(58, 77, 138);
+  text-decoration: underline;
+}
+/*TABLA DE caja*/
+.caja * {
+  position: relative;
+}
+
+/*encabezado morado*/
+.caja thead tr {
+  height: 60px;
+  /* background: #9B9B9B; */
+}
 
 
-  #ck-dividir-cnt-cont input.form-check-input{
-    width: 20px;
-    height: 20px;
-    margin: 0;
-  }
+/*encabezado producto blancas*/
+.caja th{
 
-  #ck-dividir-cnt-cont input.form-check-input+label{
-    margin-left: 30px;
-  }
+  font-size: 18px;
+  color: #fff;
+  line-height: 1.2;
+  font-weight: unset;
+}
+
+#tb_items_orden input.form-check-input{
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+
+#tb_items_orden input.form-check-input+label{
+  margin-left: 30px;
+}
 
 
-  /*resalto de cada fila*/
-  .caja tbody tr:nth-child(even) {
-    /* background-color: #f5f5f5; */
-  }
+#ck-dividir-cnt-cont input.form-check-input{
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
 
-  .caja .deselect {
-    background: #1c741c;
-  }
+#ck-dividir-cnt-cont input.form-check-input+label{
+  margin-left: 30px;
+}
 
 
-  
-  #cards-cuentas{
-    /* margin-bottom: 10px; */
-    margin-top: 10px;
-    /* background-color: #1c741c; */
-  }
-  #cards-cuentas .info-box{
-    background-color: #ff6a00;
-    /* font-size: 32px; */
-    min-height: 65px;
-  }
+/*resalto de cada fila*/
+.caja tbody tr:nth-child(even) {
+  /* background-color: #f5f5f5; */
+}
 
-  #cards-cuentas .info-box .info-box-text{
-    font-size: 21px;
-  }
+.deselect {
+  background: #1c741c;
+}
 
-  #cards-cuentas .info-box .info-box-number{
-    font-size: 30px
 
-  }
 
-  #cards-cuentas .info-box-text.text-left {
-    margin-right: 20px;
-  }
+#cards-cuentas{
+  /* margin-bottom: 10px; */
+  margin-top: 10px;
+  /* background-color: #1c741c; */
+}
+#cards-cuentas .info-box{
+  background-color: #ff6a00;
+  /* font-size: 32px; */
+  min-height: 65px;
+}
 
-  #cards-cuentas .info-box-text.text-left.sp-ingreso {
-    /* margin-right: 30px; */
-    /* margin-block: 30px; */
-    /* margin-left: 10px; */
-  }
+#cards-cuentas .info-box .info-box-text{
+  font-size: 21px;
+}
+
+#cards-cuentas .info-box .info-box-number{
+  font-size: 30px
+
+}
+
+#cards-cuentas .info-box-text.text-left {
+  margin-right: 20px;
+}
+
+#cards-cuentas .info-box-text.text-left.sp-ingreso {
+  /* margin-right: 30px; */
+  /* margin-block: 30px; */
+  /* margin-left: 10px; */
+}
+
+#tb_items_orden #tbody_items_orden .input-group.inline-group.forse .form-control[readonly]{
+  background-color: #404040;
+  cursor: default;
+}
   
   
   

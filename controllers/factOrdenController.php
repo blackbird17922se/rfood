@@ -54,14 +54,14 @@ switch ($_POST['funcion']) {
             $cant = "       
                 <div class='input-group inline-group forse'>
                     <div class='input-group-prepend'>
-                        <button class='btn btn-outline-secondary btn-minus' iditem='$idDetProd'>
+                        <button class='btn btn-outline-secondary btn-minus' iditem='$idDetProd' disabled>
                             <i class='fa fa-minus'></i>
                         </button>
                     </div>
-                    <input class='form-control quantity' min='1' max='$cant_ct_div' iditem='$idDetProd' id='id_cant_item_$idDetProd' value='$cant_ct_div' type='number'>
+                    <input class='form-control quantity' min='1' max='$cant_ct_div' iditem='$idDetProd' id='id_cant_item_$idDetProd' value='$cant_ct_div' type='number' readonly>
                     <div class='input-group-append'>
                     <div class='input-group-append'>
-                        <button class='btn btn-outline-secondary btn-plus' iditem='$idDetProd'>
+                        <button class='btn btn-outline-secondary btn-plus' iditem='$idDetProd' disabled>
                             <i class='fa fa-plus'></i>
                         </button>
                     </div>

@@ -178,60 +178,38 @@ $(document).ready(function () {
             /* Facturar la orden */
             $.post(FACTORDEN_CTRL, { funcion, totalVenta, ID_ORDEN, formaPago, json }, (response) => {
 
-                Swal.fire({
-                    title: 'Venta Realizada',
-                    text: "¿Desea imprimir recibo?",
-                    icon: 'success',
-                    showCancelButton: true,
-                    confirmButtonText: 'Imprimir',
-                    cancelButtonText: 'Cancelar',
-                    reverseButtons: true
-                }).then((result) => {
-                    if (result.value) {
+                /* Si responde 0 significa que ya no hay mas items
+                 por cancelar. */
+                if(cargarDetallesOrden() == 0){
+                    // console.log("No hay mas items 2");
 
-                        // let funcion = "ultimaVenta";
-                        // $.post(CAJA_CONTROLLER, { funcion }, (response) => {
-                        //     console.log(response);
+                    /* Cambiar estado de la orden a Pagado */
+                    funcion = 9;
+                    $.post(PEDIDO_CTRLR, { funcion, ID_ORDEN }, (response) => {
+                        console.log(response);
+
+                        /* Si no es un domicilio... Desbloquear mesa*/
+                        if (mesa != -1) {
+                            funcion = 11;
+                            $.post(PEDIDO_CTRLR, { funcion, mesa }, () => {
+                                // cargarMesas();
+                            });
+                        }else{
+                            // listarDomiciliosCaja();
+                        }
+                    });
+                    
+               
 
 
-                        //     $.ajax({
-                        //         url: 'ticket.php',
-                        //         type: 'POST',
-                        //         success: function (resp) {
-                        //             if (resp == 1) {
-                        //                 alert('imprime..');
-                        //                 vaciarTabla();
-                        //             } else {
-                        //                 alert('error..');
-                        //                 vaciarTabla()
-                        //             }
-                        //         }
-                        //     })
-                        // });
-                        console.log("selecciono imprimir");
-                        cargarDetallesOrden()
+                }else{
+                    console.log("hay mas items");
+                };
+                // const tableRows = document.querySelectorAll('#tb_items_orden tr.rowt');
+                // let ltb = tableRows.length - 1;
+                // console.log(ltb);
 
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        console.log("selecciono no imprimir");
-
-                        // $.ajax({
-                        //     url: 'ticketc.php',
-                        //     type: 'POST',
-                        //     success: function (resp) {
-                        //         if (resp == 1) {
-                        //             alert('abre..');
-                        //             vaciarTabla();
-                        //         } else {
-                        //             // alert('error..');
-                        //             vaciarTabla()
-                        //         }
-                        //     }
-                        // })
-                        cargarDetallesOrden()
-                    }
-                });
             });
-            $("#ck-dividir-cuenta").prop("checked", false);
         } else {
             Swal.fire({
                 icon: 'error',
@@ -239,6 +217,8 @@ $(document).ready(function () {
                 text: 'Debes Seleccionar una Forma de pago de la lista.',
             })
         }
+
+        $("#ck-dividir-cuenta").prop("checked", false);
     })
     /***********************************************************************************/ 
 

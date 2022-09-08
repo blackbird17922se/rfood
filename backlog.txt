@@ -4,14 +4,12 @@
 
 --------------------------------------- Milestone 4 ----------------------------------------
 //////////////////
-Build 4.5.1.1
+Build 4.5
 //////////////////
 
-
-* bloquear botones +- cuando check no esta habilitado
-* cuando se reliaza la venta, el check dividir c queda marcado, pero los check de los items se bloquean
-
 --------------------------------------- OK ---------------------------------------
+* cuando se reliaza la venta, el check dividir c queda marcado, pero los check de los items se bloquean
+* bloquear botones +- cuando check no esta habilitado
 * arreglar total en G. Ventas, no esta calculando el total
 * reparar calculo del vuelto.
 * cuadrar tema calcular total general cuando la cuenta es dividida
