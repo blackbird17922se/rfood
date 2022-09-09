@@ -25,10 +25,10 @@ switch ($_POST['funcion']) {
 
     break;
 
-    /* Cargar los Detalles y costos de ese pedido */
+    /* Cargar los Detalles y costos del Domicilio */
     case 5:
-        $idPedido = $_POST['ID'];
-        $idMesa = $_POST['IDMESA'];
+        $idPedido = $_POST['ID_ORDEN'];
+        $idMesa = -1;
         /* pedidos con entrega pendiente */
         // $caja->cargarDatosPedido($idPedido);
         $caja->cargarItemsPedidoSinPago($idPedido);
@@ -88,9 +88,15 @@ switch ($_POST['funcion']) {
                 'idItem' => $idDetProd
             );
         }
-        $jsonstring = json_encode($json);
-        echo $jsonstring;
 
+        /////
+        if(empty($json)){
+            $caja->cambiarEstPagado($idPedido);
+            echo 0;
+        }else{
+            $jsonstring = json_encode($json);
+            echo $jsonstring;
+        }
     break;
     
 

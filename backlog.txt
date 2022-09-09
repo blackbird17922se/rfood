@@ -5,22 +5,22 @@
 --------------------------------------- Milestone 4 ----------------------------------------
 ///////////////////////////////// Build 4.6 ///////////////////////////////////////////
 
-    * !cajero no puede cerrar session
     * verificar funcionalidad correcta Domicilios
-    * en Nueva orden no elimina del localstarage el item al ir al carrito y dale eliminar
-    * si en Nueva orden, le doy en "agregar al carrito" pero por algun motivo me equivoque y deseo cambiar la cantidad
-        deberia 'desbloquearse' al darle click en los +/-
-    * al parecer si tengo 2 instancias de orden, ejectuo el pedido en la mesa X
-        y en la otra instancia efectuo un pedido en la misma mesa genera dipicidad deordene
-        en una mesa
+        - VERIFICAR funcionamiento inventario
     * caso mesa 7
 
 --------------------------------------- OK ---------------------------------------
+    * !cajero no puede cerrar session
 
 
 //////////////////////////////////// EN COLA //////////////////////////////////////////////////////////////////
+* en Nueva orden no elimina del localstarage el item al ir al carrito y dale eliminar
+* si en Nueva orden, le doy en "agregar al carrito" pero por algun motivo me equivoque y deseo cambiar la cantidad
+    deberia 'desbloquearse' al darle click en los +/-
 
-
+* al parecer si tengo 2 instancias de orden, ejectuo el pedido en la mesa X
+    y en la otra instancia efectuo un pedido en la misma mesa genera dipicidad deordene
+    en una mesa
 * en lote prod arreglar el editar y eliminar, guiese con sfarma
 * arreglar en ventas, cuando cambio de venta diaria a general y luego regreso a dia entonces id_venta se pierde. 
     guiese con sfarma creando un evento al boton q pasa a venas dias y destruyendo la tabla generales
@@ -40,6 +40,10 @@
 * impresion factura
 
 * impresion venta dia
+
+* domicilio puede tener opciones de 
+    -marcar entregado.
+    -ver el costo total
 
 
 

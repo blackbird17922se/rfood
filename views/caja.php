@@ -88,15 +88,6 @@ if (!empty($_SESSION['rol'] == 1 || $_SESSION['rol'] == 2 || $_SESSION['rol'] ==
 
                             </div>
 
-                            <div class="col-md-4 col-sm-12">
-                            <button id="btn_dividir_cuenta" class="btn btn-warning">Dividir Cuenta</button>
-                                <!-- <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="ck-dividir-cuenta">
-                                    <label class="form-check-label" for="ck-dividir-cuenta">
-                                        Dividir Cuenta
-                                    </label>
-                                </div> -->
-                            </div>
 
                             <div class="col-md-4 col-sm-12">
                                 <a href="#" class="btn btn-success" id="procesar-compra">Realizar venta</a>

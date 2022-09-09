@@ -110,9 +110,7 @@ switch ($_POST['funcion']) {
             if($idMesa != -1){
                 $caja->desBloquearMesa($idMesa);
             }
-
             echo 0;
-
         }else{
 
             $jsonstring = json_encode($json);

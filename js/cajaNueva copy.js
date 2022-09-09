@@ -9,8 +9,7 @@ $(document).ready(function () {
     var btnDividirCuenta = document.getElementById("btn_dividir_cuenta");
 
     const CAJA_CONTROLLER = '../controllers/cajaController.php';
-    const FACTORDEN_CTRL = '../controllers/factOrdenController.php';
-    const PEDIDO_CTRLR = '../controllers/pedidoController.php';
+    
 
     $(".select2").select2({
         placeholder: "Seleccione una opcion",
@@ -136,6 +135,7 @@ $(document).ready(function () {
 
     /* Cargar los datos y costos de ese pedido */
     $(document).off('click', '.selItem').on('click', '.selItem', (e) => {
+        // console.log('selecc pedido');
 
         const ELEM   = $(this)[0].activeElement.parentElement.parentElement.parentElement;
         var ID     = $(ELEM).attr('idOrden');
@@ -143,36 +143,46 @@ $(document).ready(function () {
         console.log("es " + ID);
 
         window.location.href ='dividirCuenta.php' + "?id=" + ID;
-    });
 
-    /* Cargar los datos y costos de ese domicilio */
-    $(document).off('click', '.selDomicilio').on('click', '.selDomicilio', (e) => {
-        // console.log('domm');
-
-        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
-        const ID = $(ELEM).attr('idDom');
-        // const IDMESA = -1;
+        // const ELEM   = $(this)[0].activeElement.parentElement.parentElement.parentElement;
+        // const ID     = $(ELEM).attr('idOrden');
+        // const IDMESA = $(ELEM).attr('mesaId');
+        // const NOM_MESA = $(ELEM).attr('mesaNom');
 
         // $('#idMesaSelect').val(IDMESA);
-        $('#idOrdenSelect').val(ID);
-
-        //  console.log('ORD'+ID + ' IDMESA'+IDMESA);
-        // funcion = 5;
-        // idOrdenSel = ID;
-        // idMesa = IDMESA;
-
-        cargarDetallesDomicilio(ID)
+        // $('#idOrdenSelect').val(ID);
         
 
+        // // console.log('ORD'+ID + ' IDMESA'+IDMESA);
+        // funcion = 5;
+        // // idOrdenSel   = ID;
+        // // idMesa       = IDMESA;
+
+        // /* Carga los items que aun no se han pagado que contiene esa orden */
         // $.post(CAJA_CONTROLLER, { funcion, ID, IDMESA }, (response) => {
-        //      console.log(response);
+        //     // console.log(response);
         //     const PEDIDOS = JSON.parse(response);
         //     let templateS = '';
         //     let total = 0;
+            
 
         //     PEDIDOS.forEach(pedido => {
 
         //         templateS += `${pedido.template}'`;
+        //         console.log(pedido.idItem);
+        //         arreglo.push(pedido.idItem);
+
+        //         let datosItem = {
+        //             "idItem": pedido.idItem,
+        //             "subtotal": pedido.subtotal
+
+        //         }
+
+        //         itemsPedido.push(datosItem)
+        //         // itemsPedido.push(subtotal = pedido.subtotal)
+
+        //         // itemsPedido.idItem = pedido.idItem;
+        //         // itemsPedido.subtotal = pedido.subtotal;
 
         //         total += pedido.subtotal
 
@@ -180,12 +190,54 @@ $(document).ready(function () {
         //         $('#total').html(total.toFixed(0));
         //     });
         //     $('#lista-compra').html(templateS);
-        // })
 
-        // templateTitulo = `
-        //     <span id="tituloDetalle">Detalle del domicilio ${ID}</span>
-        // `;
-        // $('#tituloDetalle').html(templateTitulo);
+        //     templateTitulo = `
+        //         <span id="tituloDetalle">Detalle de la Orden en mesa ${NOM_MESA}</span>
+        //     `;
+        //     $('#tituloDetalle').html(templateTitulo);
+        //     // console.log(arreglo);
+            
+        // })
+    });
+
+    /* Cargar los datos y costos de ese domicilio */
+    $(document).off('click', '.selDomicilio').on('click', '.selDomicilio', (e) => {
+        console.log('domm');
+
+        const ELEM = $(this)[0].activeElement.parentElement.parentElement.parentElement;
+        const ID = $(ELEM).attr('idDom');
+        const IDMESA = -1;
+
+        $('#idMesaSelect').val(IDMESA);
+        $('#idOrdenSelect').val(ID);
+
+         console.log('ORD'+ID + ' IDMESA'+IDMESA);
+        funcion = 5;
+        idOrdenSel = ID;
+        idMesa = IDMESA;
+
+        $.post(CAJA_CONTROLLER, { funcion, ID, IDMESA }, (response) => {
+             console.log(response);
+            const PEDIDOS = JSON.parse(response);
+            let templateS = '';
+            let total = 0;
+
+            PEDIDOS.forEach(pedido => {
+
+                templateS += `${pedido.template}'`;
+
+                total += pedido.subtotal
+
+                totalS = total;
+                $('#total').html(total.toFixed(0));
+            });
+            $('#lista-compra').html(templateS);
+        })
+
+        templateTitulo = `
+            <span id="tituloDetalle">Detalle del domicilio ${ID}</span>
+        `;
+        $('#tituloDetalle').html(templateTitulo);
 
     });
 
@@ -209,98 +261,152 @@ $(document).ready(function () {
         $('#pago').val('');
     }
 
-
-
-
-    /* ´----------PROCESA DOMICILIO-------- */
+    /* ´------------------ */
     $(document).on('click', '#procesar-compra', (e) => {
+        // console.log('ncompra');
 
+        // funcion = 6;
 
-        ///////////OLD
-        funcion = 6;
-
-        let mesa  =    -1;
+        let IDMESA      = $('#idMesaSelect').val();
         let idOrdSel  = $('#idOrdenSelect').val();
         let formaPago = $('#formaPago').val();
         let total     = $('#total').get(0).textContent;
+        let itemSelec = [];
 
-        console.log('idOrdSelSelect: ' + idOrdSel + ' -- idMesaSelect' + mesa);
+        console.log('idOrdSelSelect: ' + idOrdSel + ' -- idMesaSelect' + IDMESA);
+
+        console.log(arreglo);
+        arreglo.forEach(item =>{
+            console.log(item);
+            let isChecked = $('#ck-'+item)[0].checked;
+
+            if(isChecked){
+                itemSelec.push(item);
+            }
+
+            console.log(isChecked);
+        })
+        
+        console.log(itemSelec);
+        formaPago = 1;
+        funcion = 11;
+
 
         if (formaPago != 0) {
-            $.post(CAJA_CONTROLLER, { funcion, total, idOrdSel, formaPago }, (response) => {
+            $.post(CAJA_CONTROLLER, { funcion, total, idOrdSel, formaPago, itemSelec }, (response) => {
                 console.log(response);
 
-                /* Cambiar estado de la orden a Pagado */
-                funcion = 9;
-                $.post(PEDIDO_CTRLR, { funcion, idOrdSel }, (response) => {
+                /* cARGAR LA TABLA CON LOS ITEMS RESTANTES */
+                funcion = 5;
+                // idOrdenSel   = ID;
+                // idMesa       = IDMESA;
+                let ID =idOrdSel;
+
+                /* Carga los items que aun no se han pagado que contiene esa orden */
+                $.post(CAJA_CONTROLLER, { funcion, ID, IDMESA }, (response) => {
                     console.log(response);
+                    const PEDIDOS = JSON.parse(response);
+                    let templateS = '';
+                    let total = 0;
 
-                    /* Si no es un domicilio... Desbloquear mesa*/
-                    if (mesa != -1) {
-                        funcion = 11;
-                        $.post(PEDIDO_CTRLR, { funcion, mesa }, () => {
-                            cargarMesas();
-                        });
-                    }else{
-                        listarDomiciliosCaja();
-                    }
-                });
-            });
+                    PEDIDOS.forEach(pedido => {
 
-            $('#verOrdenCaja').modal('hide');
+                        templateS += `${pedido.template}'`;
+                        console.log(pedido.idItem);
+                        arreglo.push(pedido.idItem);
 
-            Swal.fire({
-                title: 'Venta Realizada',
-                text: "¿Desea imprimir recibo?",
-                icon: 'success',
-                showCancelButton: true,
-                confirmButtonText: 'Imprimir',
-                cancelButtonText: 'Cancelar',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.value) {
+                        total += pedido.subtotal
 
-                    let funcion = "ultimaVenta";
-                    $.post(CAJA_CONTROLLER, { funcion }, (response) => {
-                        console.log(response);
-
-
-                        $.ajax({
-                            url: 'ticket.php',
-                            type: 'POST',
-                            success: function (resp) {
-                                if (resp == 1) {
-                                    alert('imprime..');
-                                    vaciarTabla();
-                                } else {
-                                    alert('error..');
-                                    vaciarTabla()
-                                }
-                            }
-                        })
+                        totalS = total;
+                        $('#total').html(total.toFixed(0));
                     });
+                    $('#lista-compra').html(templateS);
+
+                    // templateTitulo = `
+                    //     <span id="tituloDetalle">Detalle de la Orden en mesa ${}</span>
+                    // `;
+                    // $('#tituloDetalle').html(templateTitulo);
+                    console.log(arreglo);
+                })
 
 
-                    console.log("selecciono imprimir");
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    console.log("selecciono no imprimir");
-
-                    $.ajax({
-                        url: 'ticketc.php',
-                        type: 'POST',
-                        success: function (resp) {
-                            if (resp == 1) {
-                                alert('abre..');
-                                vaciarTabla();
-                            } else {
-                                // alert('error..');
-                                vaciarTabla()
-                            }
-                        }
-                    })
-                    vaciarTabla()
-                }
             });
+
+                ////////////////////////////////////////////
+            // $.post(CAJA_CONTROLLER, { funcion, total, idOrdSel, formaPago }, (response) => {
+            //     console.log(response);
+
+            //     /* Cambiar estado de la orden a Pagado */
+            //     funcion = 9;
+            //     $.post(PEDIDO_CTRLR, { funcion, idOrdSel }, (response) => {
+            //         console.log(response);
+
+            //         /* Si no es un domicilio... Desbloquear mesa*/
+            //         if (mesa != -1) {
+            //             funcion = 11;
+            //             $.post(PEDIDO_CTRLR, { funcion, mesa }, () => {
+            //                 cargarMesas();
+            //             });
+            //         }else{
+            //             listarDomiciliosCaja();
+            //         }
+            //     });
+            // });
+
+            // $('#verOrdenCaja').modal('hide');
+
+            // Swal.fire({
+            //     title: 'Venta Realizada',
+            //     text: "¿Desea imprimir recibo?",
+            //     icon: 'success',
+            //     showCancelButton: true,
+            //     confirmButtonText: 'Imprimir',
+            //     cancelButtonText: 'Cancelar',
+            //     reverseButtons: true
+            // }).then((result) => {
+            //     if (result.value) {
+
+            //         let funcion = "ultimaVenta";
+            //         $.post(CAJA_CONTROLLER, { funcion }, (response) => {
+            //             console.log(response);
+
+
+            //             $.ajax({
+            //                 url: 'ticket.php',
+            //                 type: 'POST',
+            //                 success: function (resp) {
+            //                     if (resp == 1) {
+            //                         alert('imprime..');
+            //                         vaciarTabla();
+            //                     } else {
+            //                         alert('error..');
+            //                         vaciarTabla()
+            //                     }
+            //                 }
+            //             })
+            //         });
+
+
+            //         console.log("selecciono imprimir");
+            //     } else if (result.dismiss === Swal.DismissReason.cancel) {
+            //         console.log("selecciono no imprimir");
+
+            //         $.ajax({
+            //             url: 'ticketc.php',
+            //             type: 'POST',
+            //             success: function (resp) {
+            //                 if (resp == 1) {
+            //                     alert('abre..');
+            //                     vaciarTabla();
+            //                 } else {
+            //                     // alert('error..');
+            //                     vaciarTabla()
+            //                 }
+            //             }
+            //         })
+            //         vaciarTabla()
+            //     }
+            // });
 
         } else {
             Swal.fire({
@@ -313,9 +419,6 @@ $(document).ready(function () {
 
 
 
-        ///////////////FNOLD
-
-       
     });
     /* jajajajaj
     text: 'Debes Seleccionar una Forma de pago de la lista. ¡no se admite pago en especie!',
@@ -473,34 +576,6 @@ $(document).ready(function () {
     //     // }
 
     // });
-
-
-    function cargarDetallesDomicilio(ID_ORDEN){
-        funcion = 5;
-        // let IDMESA = -1;
-
-        $.post(CAJA_CONTROLLER, { funcion, ID_ORDEN}, (response) => {
-            console.log(response);
-            const PEDIDOS = JSON.parse(response);
-            let templateS = '';
-            let total = 0;
-
-            PEDIDOS.forEach(pedido => {
-
-                templateS += `${pedido.template}'`;
-
-                total += pedido.subtotal
-
-                totalS = total;
-                $('#total').html(total.toFixed(0));
-            });
-            $('#lista-compra').html(templateS);
-        })
-        // calcularTotal()
-
-        templateTitulo = `<span id="tituloDetalle">Detalle del domicilio ${ID_ORDEN}</span>`;
-        $('#tituloDetalle').html(templateTitulo);
-    }
 
 
     
