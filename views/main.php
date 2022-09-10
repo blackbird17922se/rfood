@@ -27,24 +27,37 @@ if(!empty($_SESSION['rol'])){
             <div class="col-sm-10">
               
               <h1>RFood</h1>
-              <p>DsD RFood para Windows Server 2003</p>
+              <p>DsD RFood para Windows XP</p>
               <!-- Num version princip,Numero cuando hay nuevos cambios,Año,mes,dia,hora -->
-              <p><i><b>RFood Milestone 4</b> <br> Version de pruebas.Build 4.3.2.220501-</i></p>
+              <p><i><b>RFood Milestone 4</b> <br> Version de pruebas.Build 4.6.2.220910-</i></p>
               <p>Copyright &copy; 2020-2022 DsD Desarrollos Dinámicos</p>
               <br>
               <p>Se autoriza el uso de este producto a:</p>
               <p><i>UnRapidin</i></p>
               <p><i>Id. Del producto: 32644-072-01808804</i></p>
               <br>
+
+
               <h4>Novedades</h4>
+              <h5>09/09/2022 (Build 4.6.2.220910-)</h5>
+              <p>
+                * Permite filtar por forma de pago en el cierre de caja ademas de mejoras en la interfaz. <br>
+                * (PLUS) Permite filtar por fecha, forma de pago y cajero en la Gestion de Ventas del dia. <br>
+                * Incorpora Dividir Cuenta. <br>
+                * Corrige fallos en el descuento de ingredientes del inventario. <br>
+                * Soluciona fallo en el sector de memoria 0x01452f que no permitia cerrar sesion al rol Cajero. <br>
+                * Soluciona fallos en descuento inventario y venta con Domicilios. <br>
+              </p>
+              
+
+              <h4>Anteriores Mejoras</h4>
+
               <h5>01/05/2022 (Build 4.3.2.220501-)</h5>
               <p>
                 * Permite ver las ventas del dia que al usuario seleccione. <br>
                 * Incorpora ventas por dia y generales. <br>
               </p>
-              
 
-              <h4>Anteriores Mejoras</h4>
               <h5>17/04/2022 (Build 4.2.220417-)</h5>
               <p>
                 * Corrige la falla que no permitía ver las ventas del día. <br>

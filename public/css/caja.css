@@ -87,6 +87,10 @@
   margin-left: 30px;
 }
 
+/* Color checkbox */
+#tb_items_orden input[type="checkbox"] {
+  accent-color: #37cf25;
+  }
 
 /*resalto de cada fila*/
 .caja tbody tr:nth-child(even) {

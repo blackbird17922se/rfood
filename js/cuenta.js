@@ -94,7 +94,7 @@ $(document).ready(function () {
         calcularTotal()
     });
 
-
+    
     function calcularSubtotal(idItem, cantidad, precio){
         let subtotal = cantidad * precio;
         $('#td-subtotal-' + idItem).html(subtotal);

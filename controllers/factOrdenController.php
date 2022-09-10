@@ -220,8 +220,8 @@ switch ($_POST['funcion']) {
                                 }
                             }
                             $itemCant -= 1;
-
                         }   /* fin iteracion cantidad de cada item */
+
                     }
 
                 }   /* Fin cuando item tiene ingredientes */
