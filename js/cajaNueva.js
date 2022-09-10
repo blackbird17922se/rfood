@@ -229,22 +229,7 @@ $(document).ready(function () {
         if (formaPago != 0) {
             $.post(CAJA_CONTROLLER, { funcion, total, idOrdSel, formaPago }, (response) => {
                 console.log(response);
-
-                /* Cambiar estado de la orden a Pagado */
-                funcion = 9;
-                $.post(PEDIDO_CTRLR, { funcion, idOrdSel }, (response) => {
-                    console.log(response);
-
-                    /* Si no es un domicilio... Desbloquear mesa*/
-                    if (mesa != -1) {
-                        funcion = 11;
-                        $.post(PEDIDO_CTRLR, { funcion, mesa }, () => {
-                            cargarMesas();
-                        });
-                    }else{
-                        listarDomiciliosCaja();
-                    }
-                });
+                listarDomiciliosCaja();
             });
 
             $('#verOrdenCaja').modal('hide');

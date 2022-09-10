@@ -103,22 +103,29 @@ switch ($_POST['funcion']) {
     case 6:
         session_start();
 
-        $totalVenta = $_POST['total'];
-        $idOrd = $_POST['idOrdSel'];
-        $formaPago = $_POST['formaPago'];
-        $idPedido = $idOrd;
-        $vendedor = $_SESSION['usuario'];
-
-        $cantPedido = 0;
-        $cantIngred = 0;
-        $totalStock = 0;
-        $response = 0;
-        $totalIngred = 0;
-        $cantidad = 0;
+        $idOrd      = intval( $_POST['idOrdSel'] );
+        $idPedido   = $idOrd;
+        $response   = 0;
+        $cantidad   = 0;
+        $idProd     = 0;
+        // $cantPedido = 0;
+        // $cantIngred = 0;
+        // $totalStock = 0;
+        // $response = 0;
+        // $totalIngred = 0;
 
         date_default_timezone_set('America/Bogota');
         $fecha = date('Y-m-d H:i:s');
-        $caja->crearVenta($totalVenta, $formaPago, $fecha, $vendedor, $idOrd);
+
+        $caja -> crearVenta(
+            intval( $_POST['total'] ),
+            intval( $_POST['formaPago'] ),
+            $fecha,
+            intval( $_SESSION['usuario'] ),
+            $idOrd
+        );
+
+        // $caja->crearVenta($totalVenta, $formaPago, $fecha, $vendedor, $idOrd);
 
         /* obtener id de la venta */
         $caja->ultimaVenta();
@@ -136,90 +143,97 @@ switch ($_POST['funcion']) {
             /* Consultar los detalles de ese pedido para conocer la cantidad */
             $caja->cargarDatosPedido($idOrd);
 
-            foreach ($caja->objetos as $detalle) {
+            foreach ($caja->objetos as $detalle) {  // Iterar producto por producto
 
-                $cantidad = $detalle->det_cant; //Cantidad del plato solicitado
-                $cantidad2 = $detalle->det_cant;
-                $idProd = $detalle->id_det_prod;
-                $totalIngCant = 0;
+                $cantidad = intval( $detalle->det_cant ); //Cantidad del plato solicitado
+                $idProd = intval( $detalle->id_det_prod ); // Id Plato
+                // $cantidad2 = intval( $detalle->det_cant );
+                // $totalIngCant = 0;
 
-                while ($cantidad2 > 0) {
+                
+                /* Consultar ingredientes */
+                $caja->listarIngredsItem($idProd);
 
-                    /* Consultar ingredientes */
-                    $caja->listarIngredsItem($detalle->id_det_prod);
+                /**
+                 * CUANDO EL PRODUCTO O ITEM DE CARTA TIENE INGREDIENTES
+                 * Procede a descontar los ingredientes del inventario
+                 * se añade esta condicion dado a que hay items que
+                 * no tienen ingredientes del inv (como la cervezaa)
+                 */
+                if ($caja->objetos != null) {
 
-                    /**
-                     * CUANDO EL PRODUCTO O ITEM DE CARTA TIENE INGREDIENTES
-                     * Procede a descontar los ingredientes del inventario
-                     * se añade esta condicion dado a que hay items que
-                     * no tienen ingredientes del inv (como la cervezaa)
-                     */
-                    if ($caja->objetos != null) {
-
-                        foreach ($caja->objetos as $ingred) {
-                            $ih = $ingred->id_ingr;
-
-                            $ingCant = $ingred->cant_ingr;   //Cantidad del ingrediente
-
-                            $totalIngCant = $cantidad * $ingCant;
-
-                            /* Descontar productos */
-                            /* seleccionael lote mas proximo a vencer */
-                            $sql = "SELECT * FROM inv_lote WHERE vencim = (SELECT MIN(vencim) FROM inv_lote WHERE lote_id_prod = :id) AND lote_id_prod = :id";
-                            $query = $conexion->prepare($sql);
-                            $query->execute(array(
-                                ':id' => $ingred->id_ingr
-                            ));
-
-                            $lote = $query->fetchall();
-
-                            /**
-                             * CUANDO HAY INGREDIENTES DEL ITEM EN EL INVENTARIO
-                             */
-                            if ($lote != null) {
-                                foreach ($lote as $lote) {
-                                    if ($totalIngCant < $lote->stock) {
-                                        $conexion->exec("UPDATE inv_lote SET stock = stock - '$totalIngCant' WHERE id_lote = '$lote->id_lote'");
-                                    }
-
-                                    /* ingred->cant pedida es igual a la ingred->cant en el stock */
-                                    if ($totalIngCant == $lote->stock) {
-                                        $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
-                                    }
-
-                                    /* Cuaando la ingred->cant pedida es superior a la ingred->cant del stock de un lote
-                                        y debe eliminar ese lote y consumir los productos del siguiente lote*/
-                                    if ($totalIngCant > $lote->stock) {
-                                        $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
-                                        $cantidad -= $lote->stock;
-                                    }
-                                    --$cantidad2;
-                                }
-                            } else {
-                                $conexion->exec("INSERT INTO inv_descuadre(id_venta,fecha_venta,id_ingred,cantidad) VALUES ('$idVenta','$fecha','$ih','$totalIngCant')");
-                                $cantidad2 = 0;
-                            }
-                        }
-                    } else {
-                        //agredet regular
+                    foreach ($caja->objetos as $ingred) {
                         
-                        $cantidad2 = 0;
+                        $itemCantCont = $cantidad;            // Contador Cantidad de ese item (2 cafes o 1 hamb...)
+                        $ingCantCont  = $ingred->cant_ingr;   //Contador Cantidad del ingrediente X que conforma ese item
+
+                        while($itemCantCont != 0){
+
+                            $ingCantCont = $ingred->cant_ingr;   //Cantidad del ingrediente
+                       
+                            while($ingCantCont != 0){
+
+                                /* seleccionael lote mas proximo a vencer */
+                                $sql = "SELECT id_lote, stock  FROM inv_lote WHERE vencim = (SELECT MIN(vencim) FROM inv_lote WHERE lote_id_prod = :id) AND lote_id_prod = :id";
+                                $query = $conexion->prepare($sql);
+                                $query->execute(array(
+                                    ':id' => $ingred->id_ingr
+                                ));
+
+                                $lote = $query->fetchall();
+
+                                /** CUANDO HAY INGREDIENTES DEL ITEM EN EL INVENTARIO */
+                                if ($lote != null) {
+                                    foreach ($lote as $lote) {
+                                        switch ($ingCantCont) {
+                                            case $ingCantCont < $lote->stock:
+                                                $conexion->exec("UPDATE inv_lote SET stock = stock - '$ingCantCont' WHERE id_lote = '$lote->id_lote'");
+                                                $ingCantCont = 0;
+                                            break;
+        
+                                            case $ingCantCont == $lote->stock:
+                                                $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
+                                                $ingCantCont = 0;
+                                            break;
+        
+                                            case $ingCantCont> $lote->stock:
+                                                $conexion->exec("DELETE FROM inv_lote WHERE id_lote = '$lote->id_lote'");
+                                                $ingCantCont -= $lote->stock;
+                                            break;
+                                        }
+                                    }
+                                } else {
+                                    /* Cuando no hay ingreds en el inv agragar a descuadre */
+                                    $conexion->exec("INSERT INTO inv_descuadre(id_venta,fecha_venta,id_ingred,cantidad) VALUES ('$idVenta','$fecha','$ingred->id_ingr','$ingCantCont')");
+                                    $ingCantCont = 0;
+                                }   
+                            }
+                            $itemCantCont -= 1;
+                        } /* fin iteracion cantidad de cada item */
+
                     }
 
-                }
+                } /* Fin cuando item tiene ingredientes */
+
+                
                 $caja->agregarDetVenta($cantidad, $idProd, $idVenta);
                 $precio = 0;
+
                 // $caja->consultarDatosProducto($idProd);
                 $caja->consultarPrecio($idProd);
                 foreach ($caja->objetos as $objPr) {
                     $precio = $objPr->precio;
                 }
+
                 $subtotal = $cantidad * $precio;
+
                 $caja->insertRegVenta($precio, $cantidad, $subtotal, $idProd, $idVenta);
                 /* venta_prod(precio,cant,subtotal,prod_id_prod,venta_id_venta)  */
-            }
+            }   /* Fin iteracion producto sobre producto */
+            
+            $caja->cambiarEstPagado($idOrd);
             echo $response = 0;
-
+            // $conexion->rollBack();
             $conexion->commit();
 
 
