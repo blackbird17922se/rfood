@@ -361,9 +361,6 @@ class Caja{
             ':idPedido' => $idOrd,
             ':item' => $item
         ]);
-        $this->objetos=$query->fetchall();
-        return $this->objetos;
-
     }
 
 
@@ -379,8 +376,6 @@ class Caja{
             ':item' => $item,
             ':cantidad' => $cantidad
         ]);
-        $this->objetos=$query->fetchall();
-        return $this->objetos;
     }
 
     function evaluarCantidadRestante($idOrd, $item){
