@@ -42,12 +42,14 @@ switch ($_POST['funcion']) {
                             det_cant,
                             id_det_prod,
                             id_det_pedido, 
-                            cant_cuenta_dividida
+                            cant_cuenta_dividida,
+                            prod_pagado
                         )VALUES(
                             '$cantidad',
                             '$prod->id_prod',
                             '$idPedido',
-                            '$cantidad'      
+                            '$cantidad',
+                            0     
                         )";
                     $conexion->exec($sql);
                     $cantidad = 0;
