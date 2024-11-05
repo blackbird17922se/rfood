@@ -1,6 +1,7 @@
 # RFood
 
 RFood es un software de gestión diseñado para restaurantes, que permite la administración eficiente de pedidos, domicilios y caja. Esta aplicación es ideal para restaurantes que buscan optimizar su flujo de trabajo y mejorar la experiencia del cliente.
+La aplicación se encuentra en proceso de migracion a Java con Spring Booo
 
 ## Características
 
