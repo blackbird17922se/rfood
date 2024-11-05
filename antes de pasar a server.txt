@@ -1,3 +1,0 @@
-- ojo con el archivo conexion
-- nav.php: 
-if($urlActual != 'fox17922.000webhostapp.com/views/resum_venta_dia.php'){
