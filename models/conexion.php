@@ -3,7 +3,7 @@ class Conexion{
    private $servidor = "localhost";
 
    // private $db = "id12935461_rfood";
-   private $db = "sfarmm";
+   private $db = "rfood";
 
    private $puerto = 3306;
    private $charset = "utf8";
@@ -11,7 +11,7 @@ class Conexion{
    // private $usuario="id12935461_root";
    private $usuario="root";
 
-   // private $password="Blackbird92!";
+   
    private $password="";
 
    public $pdo = null;
